@@ -1,0 +1,24 @@
+{
+  "name": "org.mediaimpact.dashboard",
+  "description": "",
+  "version": "1.0.0",
+  "dependencies": {
+    "babel-plugin-transform-react-jsx": "^6.8.0",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "bower": "^1.6.5",
+    "grunt": "~1.0.1",
+    "grunt-babel": "^6.0.0",
+    "grunt-bower": "0.21.1",
+    "grunt-contrib-clean": "~1.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "~1.0.0",
+    "grunt-contrib-cssmin": "^1.0.1",
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-contrib-uglify": "~1.0.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-filerev": "^2.3.1",
+    "grunt-usemin": "^3.1.1",
+    "load-grunt-tasks": "~3.5.0"
+  }
+}
