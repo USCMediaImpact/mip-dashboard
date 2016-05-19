@@ -7,7 +7,7 @@ module.exports = function (grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		app: 'app',
-		dist: 'static',
+		dist: 'dist/static',
 		bower: {
 			all: {
 				dest: '<%= app %>/',
@@ -66,6 +66,11 @@ module.exports = function (grunt) {
 					cwd: '<%= app %>/',
 					src: ['i18n/**', 'fonts/**', '**/*.html', 'images/**', '!**/*.scss'],
 					dest: '<%= dist %>/'
+				}, {
+					expand: true,
+					cwd: '',
+					src: ['app.yaml'],
+					dest: 'dist'
 				}]
 			}
 		},
@@ -168,7 +173,7 @@ module.exports = function (grunt) {
 	});
 
 	grunt.registerTask('debug', ['bower', 'sass', 'babel']);
-	grunt.registerTask('release', ['debug', 'clean:dist', 'useminPrepare', 'copy:dist', 'concat', 'cssmin', 'uglify', 'filerev', 'usemin']);
+	grunt.registerTask('release', ['debug', 'clean:dist', 'useminPrepare', 'copy:dist', 'concat', 'cssmin', 'uglify', 'filerev', 'usemin', 'copy']);
 	grunt.registerTask('default', ['debug']);
 
 };
