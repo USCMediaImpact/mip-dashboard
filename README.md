@@ -20,3 +20,6 @@ you can run google cloud command to test the compiled static website after you r
 ###Others
 1. we have replace underscore by lodash see more [here](https://lodash.com/docs)
 2. This project deployed to google app engine with python. the dashboard.py is to read index.html and send this file to response to mock a static website.
+
+###Deploy
+use `gcloud preview app deploy dist/app.yaml`
