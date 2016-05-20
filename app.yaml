@@ -1,5 +1,4 @@
 application: mip-dashboard
-version: 1
 runtime: python27
 api_version: 1
 threadsafe: false
@@ -10,5 +9,23 @@ handlers:
   static_files: favicon.ico
   upload: favicon\.ico
 
-- url: /
-  static_dir: static
+- url: /css
+  static_dir: css
+
+- url: /fonts
+  static_dir: fonts
+
+- url: /scripts
+  static_dir: scripts
+
+- url: /.*
+  script: dashboard.app
+# [END handlers]
+
+# [START libraries]
+libraries:
+- name: webapp2
+  version: latest
+- name: jinja2
+  version: latest
+# [END libraries]
