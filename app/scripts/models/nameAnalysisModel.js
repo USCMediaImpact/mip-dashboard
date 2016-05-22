@@ -1,7 +1,7 @@
 window.NameAnalysisModel = Backbone.Model.extend({
-    idAttribute: 'Name',
+    idAttribute: 'name',
     defaults: {
-        'Name': null,
-        'Quantity': 0
+        'name': null,
+        'quantity': 0
     }
 });

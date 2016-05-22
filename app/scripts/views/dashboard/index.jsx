@@ -21,46 +21,63 @@ window.DashboardView = React.createBackboneClass({
 		});
 	},
 	componentDidUpdate: function () {
-		if ($('#chartContainer').size() > 0 ) {
-			var data = this.getCollection();
-			$('#chartContainer').highcharts({
-				chart: {
-					plotBackgroundColor: null,
-					plotBorderWidth: null,
-					plotShadow: false,
-					type: 'pie'
-				},
-				title: {
-					text: 'USA Name Usage. January, 2015 to May, 2015'
-				},
-				tooltip: {
-					pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-				},
-				plotOptions: {
-					pie: {
-						allowPointSelect: true,
-						cursor: 'pointer',
-						dataLabels: {
-							enabled: true,
-							format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-							style: {
-								color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-							},
-							connectorColor: 'silver'
-						}
+		if (this.state.showChart) {
+			var data = this.getCollection(),
+				chartData = data.map(function (i) {
+					return {
+						name: i.get('name'),
+						y: i.get('quantity')
 					}
-				},
-				series: [{
-					name: 'QTY',
-					data: data.map(function (i) {
-						return {
-							name: i.get('Name'),
-							y: i.get('Quantity')
+				});
+			if (this.chart) {
+				this.chart.series[0].setData(chartData);
+			} else {
+
+				this.chart = $('#chartContainer').highcharts({
+					chart: {
+						plotBackgroundColor: null,
+						plotBorderWidth: null,
+						plotShadow: false,
+						type: 'pie'
+					},
+					title: {
+						text: 'USA Name Usage. January, 2015 to May, 2015'
+					},
+					tooltip: {
+						pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+					},
+					plotOptions: {
+						pie: {
+							allowPointSelect: true,
+							cursor: 'pointer',
+							dataLabels: {
+								enabled: true,
+								format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+								style: {
+									color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+								},
+								connectorColor: 'silver'
+							}
 						}
-					})
-				}]
-			});
+					},
+					series: [{
+						name: 'QTY',
+						data: chartData
+					}]
+				});
+			}
 		}
+	},
+	componentWillUnmount: function () {
+        this.chart && this.chart.destroy && this.chart.destroy();
+    },
+	onLoadFromMysql: function(){
+		var self = this;
+		this.getCollection().fetchFromMySql();
+	},
+	onLoadFromBigQuery: function(){
+		var self = this;
+		this.getCollection().fetchFromBigQuery();
 	},
 	onChangeView: function(e){
 		this.setState({
@@ -79,9 +96,9 @@ window.DashboardView = React.createBackboneClass({
 				<tbody>
 					{data.map(function(item){
 						return (
-							<tr key={item.get('Name')}>
-								<td>{item.get('Name')}</td>
-								<td>{item.get('Quantity')}</td>
+							<tr key={item.get('name')}>
+								<td>{item.get('name')}</td>
+								<td>{item.get('quantity')}</td>
 							</tr>
 		          		);
 					})}
@@ -100,8 +117,14 @@ window.DashboardView = React.createBackboneClass({
 		return(
 			<div className="row">
 				<div className="small-12">
+					<button className="button" onClick={this.onLoadFromMysql}>
+						Load Data From MySql
+					</button>
+					<button className="button" onClick={this.onLoadFromBigQuery}>
+						Load Data From BigQuery
+					</button>
 					<button className="button float-right" onClick={this.onChangeView}>
-					Show {showChart ? 'Table' : 'Chart'}
+						Show {showChart ? 'Table' : 'Chart'}
 					</button>
 				</div>
 				<div className="small-12">
