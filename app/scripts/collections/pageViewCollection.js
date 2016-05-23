@@ -1,5 +1,5 @@
-window.NameAnalysisCollection = Backbone.Collection.extend({
-	model: NameAnalysisModel,
+window.PageViewCollection = Backbone.Collection.extend({
+	model: PageViewModel,
 	urlRoot: 'report',
 	fetchFromMySql: function (opts) {
 		var model = this,

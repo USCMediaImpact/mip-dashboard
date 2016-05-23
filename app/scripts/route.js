@@ -3,7 +3,7 @@ window.AppRouter = Backbone.Router.extend({
 		'*actions': 'defaultAction'
 	},
 	defaultAction: function () {
-		var list = new NameAnalysisCollection();
+		var list = new PageViewCollection();
 		list.fetchFromMySql().done(function(){
 			Topic.publish('loadView', DashboardView, {
 				collection: list

@@ -23,45 +23,47 @@ window.DashboardView = React.createBackboneClass({
 	componentDidUpdate: function () {
 		if (this.state.showChart) {
 			var data = this.getCollection(),
+				categories = data.map(function(i){
+					return i.get('date');
+				}),
 				chartData = data.map(function (i) {
 					return {
-						name: i.get('name'),
-						y: i.get('quantity')
+						//name: moment(i.get('date'), 'MMMM DD, YYYY').toDate(),
+						name: i.get('date'),
+						y: i.get('pageView')
 					}
 				});
-			if (this.chart) {
+			if (this.chart && this.chart.series) {
 				this.chart.series[0].setData(chartData);
 			} else {
-
 				this.chart = $('#chartContainer').highcharts({
 					chart: {
 						plotBackgroundColor: null,
 						plotBorderWidth: null,
 						plotShadow: false,
-						type: 'pie'
+						type: 'spline'
 					},
 					title: {
-						text: 'USA Name Usage. January, 2015 to May, 2015'
+						text: 'Page View. Apr, 2016'
 					},
-					tooltip: {
-						pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-					},
+			        xAxis: {
+			            categories: categories
+			        },
+			        yAxis: {
+			            title: {
+			                text: 'Page View'
+			            },
+			            min: 0
+			        },
 					plotOptions: {
-						pie: {
-							allowPointSelect: true,
-							cursor: 'pointer',
-							dataLabels: {
-								enabled: true,
-								format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-								style: {
-									color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-								},
-								connectorColor: 'silver'
-							}
-						}
-					},
+			            spline: {
+			                marker: {
+			                    enabled: true
+			                }
+			            }
+			        },
 					series: [{
-						name: 'QTY',
+						name: 'page view',
 						data: chartData
 					}]
 				});
@@ -89,16 +91,16 @@ window.DashboardView = React.createBackboneClass({
 			<table class="stack">
 				<thead>
 					<tr>
-						<td>Name</td>
-						<td>Qty</td>
+						<td>Date</td>
+						<td>Page View</td>
 					</tr>
 				</thead>
 				<tbody>
 					{data.map(function(item){
 						return (
-							<tr key={item.get('name')}>
-								<td>{item.get('name')}</td>
-								<td>{item.get('quantity')}</td>
+							<tr key={item.get('date')}>
+								<td>{item.get('date')}</td>
+								<td>{item.get('pageView')}</td>
 							</tr>
 		          		);
 					})}
