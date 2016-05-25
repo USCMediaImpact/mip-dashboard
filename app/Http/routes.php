@@ -37,11 +37,16 @@ Route::get('/mysql/{type}', function ($type) {
 	        'category' => $chartCategories,
 	        'type' => 'chart'
 	    ]);
+    }else{
+    	$tablePv = array_map(function($row) {
+		    return array('date' => $row->date, 'pv' => $row->pv);
+		}, $pv);
+    	return view('table', [
+	        'pv' => $tablePv,
+	        'type' => 'table'
+	    ]);
     }
-    return view('table', [
-        'pv' => $pv,
-        'type' => 'table'
-    ]);
+    
 });
 
 Route::get('/bigquery/{type}', function ($type) {
@@ -85,10 +90,7 @@ Route::get('/bigquery/{type}', function ($type) {
 	    ]);
     }else{
     	foreach ($rows as $row) {
-    		$rowData = new Object();
-	    	$rowData['date'] = $row['f']['0']['v'];
-	    	$rowData['pv'] = (int)$row['f']['1']['v'];
-	    	$tablePv[] = $rowData;
+	    	$tablePv[] = array('date' => $row['f']['0']['v'], 'pv' => (int)$row['f']['1']['v']);
 		}
 		return view('table', [
 	        'pv' => $tablePv,

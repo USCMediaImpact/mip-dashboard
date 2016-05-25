@@ -11,8 +11,8 @@
         <tbody>
             @foreach ($pv as $row)
             <tr>
-                <td>{{ $row->date }}</td>
-                <td>{{ $row->pv }}</td>
+                <td>{{ $row['date'] }}</td>
+                <td>{{ $row['pv'] }}</td>
             </tr>
             @endforeach
         </tbody>
