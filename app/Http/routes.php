@@ -41,8 +41,9 @@ Route::get('/mysql/{type}', function ($type) {
 });
 
 Route::get('/bigquery', function () {
-	$projectID = 'mip-dashboard';
-    $query_str = "SELECT ". 
+	$timeout = 1000;
+	$projectID = 'tonal-studio-119521';
+    $queryString = "SELECT ". 
 		"  date, ". 
 		"  SUM(IF(Hit_Type='PAGE', 1, NULL)) AS Pageviews ". 
 		"FROM ( ". 
@@ -55,19 +56,23 @@ Route::get('/bigquery', function () {
 		"ORDER BY ". 
 		"  date";
 
-    $query = new Google_Service_Bigquery_QueryRequest();
-    $query->setQuery($query_str);
+    $client = new Google_Client();
+    $client->useApplicationDefaultCredentials();
+    $client->addScope(Google_Service_Bigquery::BIGQUERY);
+    $bigquery = new Google_Service_Bigquery($client);
 
-    $result = $this->bigqueryService->jobs->query($projectID, $query);
-        
-        $fields = $result->getSchema()->getFields();
-        $rows = $result->getRows();
-
-        dump($fields);
-        foreach ($rows as $row) {
-            dump($row->getF());
-        }
-
+    $request = new Google_Service_Bigquery_QueryRequest();
+    $request->setQuery($queryString);
+    $request->setTimeoutMs($timeout);
+    $response = $bigquery->jobs->query($projectId, $request);
+    if (!$response->getJobComplete()) {
+        return;
+    }
+    $pv = $response->getRows() ? $response->getRows() : array();
+	return view('debug', [
+        'pv' => $pv,
+        'type' => 'table'
+    ]);
   //   if($type == 'chart'){
   //   	$chartPv = array_map(function($row) {
 		//     return array('name' => $row->date, 'y' => $row->pv);
