@@ -11,6 +11,7 @@
     <!-- endbuild -->
     <script src="{{ asset('scripts/vendor/amcharts/amcharts.js') }}"></script>
     <script src="{{ asset('scripts/vendor/amcharts/serial.js') }}"></script>
+    <script src="{{ asset('scripts/vendor/amcharts/themes/light.js') }}"></script>
     <script>
         @yield('script')
     </script>
