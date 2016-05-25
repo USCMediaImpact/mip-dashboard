@@ -19,6 +19,10 @@ Route::get('mysql', function () {
 	return redirect('mysql/table');
 });
 
+Route::get('bigquery', function () {
+	return redirect('bigquery/table');
+});
+
 Route::get('/mysql/{type}', function ($type) {
     $pv = DB::select('select date, pv from page_views');
     if($type == 'chart'){
@@ -66,7 +70,7 @@ Route::get('/bigquery/{type}', function ($type) {
     $rows = $response->getRows() ? $response->getRows() : array();
 	$pv = array();
     foreach ($rows as $row) {
-    	$pv[] = array('date' => $row['f'][0]['v'], 'pv' => $row['f'][1]['v']);
+    	$pv[] = array('date' => $row['f']['0']['v'], 'pv' => $row['f']['1']['v']);
 	}
 
 	if($type == 'chart'){
