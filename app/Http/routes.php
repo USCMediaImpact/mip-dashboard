@@ -86,7 +86,7 @@ Route::get('/bigquery/{type}', function ($type) {
     }else{
     	$index = 0;
     	foreach ($rows as $row) {
-	    	$tablePv[$index] = array('date' => $row['f']['0']['v'], 'pv' => (int)$row['f']['1']['v']);
+	    	$tablePv[] = array($index => array('date' => $row['f']['0']['v'], 'pv' => (int)$row['f']['1']['v']));
 	    	$index++;
 		}
 		return view('table', [
