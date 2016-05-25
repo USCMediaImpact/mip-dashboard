@@ -32,12 +32,13 @@ skip_files:
         - ^(.*/)?node_modules.*$
         - ^(.*/)?_ide_helper\.php$
         - ^(.*/)?\.DS_Store$
-        - /tests
-        - /database
-        - /vendor/phpunit
-        - /vendor/fzaninotto/faker
-        - /vendor/mockery/mockery
-        - /vendor/phpspec/phpspec
+        - ^(tests/.*)
+        - ^(database/.*)
+        - ^(vendor/phpunit/.*)
+        - ^(vendor/fzaninotto/faker/.*)
+        - ^(vendor/mockery/mockery/.*)
+        - ^(vendor/phpspec/phpspec/.*)
+        - ^(\.git/.*)
 
 env_variables:
         GAE_SKIP_GCS_INIT: false
