@@ -30,3 +30,9 @@ _debug.json
 tmp
 .tmp
 dist
+
+/vendor
+/node_modules
+Homestead.yaml
+Homestead.json
+.env
