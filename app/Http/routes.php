@@ -84,11 +84,11 @@ Route::get('/bigquery/{type}', function ($type) {
 	        'type' => 'chart'
 	    ]);
     }else{
-    	$index = 0;
     	foreach ($rows as $row) {
-	    	$tablePv[$index]['date'] = $row['f']['0']['v'];
-	    	$tablePv[$index]['pv'] = (int)$row['f']['1']['v'];
-	    	$index++;
+    		$rowData = new Object();
+	    	$rowData['date'] = $row['f']['0']['v'];
+	    	$rowData['pv'] = (int)$row['f']['1']['v'];
+	    	$tablePv[] = $rowData;
 		}
 		return view('table', [
 	        'pv' => $tablePv,
