@@ -41,9 +41,7 @@ Route::get('/mysql/{type}', function ($type) {
 });
 
 Route::get('/bigquery', function () {
-	require_once 'vendor/autoload.php';
-
-	$projectID = 'modular-robot-22';
+	$projectID = 'mip-dashboard';
     $query_str = "SELECT ". 
 		"  date, ". 
 		"  SUM(IF(Hit_Type='PAGE', 1, NULL)) AS Pageviews ". 
@@ -70,21 +68,21 @@ Route::get('/bigquery', function () {
             dump($row->getF());
         }
 
-    if($type == 'chart'){
-    	$chartPv = array_map(function($row) {
-		    return array('name' => $row->date, 'y' => $row->pv);
-		}, $pv);
-		$chartCategories = array_map(function($row){
-			return $row->date;
-		}, $pv);
-    	return view('chart', [
-	        'pv' => $chartPv,
-	        'category' => $chartCategories,
-	        'type' => 'chart'
-	    ]);
-    }
-    return view('table', [
-        'pv' => $pv,
-        'type' => 'table'
-    ]);
+  //   if($type == 'chart'){
+  //   	$chartPv = array_map(function($row) {
+		//     return array('name' => $row->date, 'y' => $row->pv);
+		// }, $pv);
+		// $chartCategories = array_map(function($row){
+		// 	return $row->date;
+		// }, $pv);
+  //   	return view('chart', [
+	 //        'pv' => $chartPv,
+	 //        'category' => $chartCategories,
+	 //        'type' => 'chart'
+	 //    ]);
+  //   }
+  //   return view('table', [
+  //       'pv' => $pv,
+  //       'type' => 'table'
+  //   ]);
 });
