@@ -74,20 +74,23 @@ Route::get('/bigquery/{type}', function ($type) {
 	}
 
 	if($type == 'chart'){
-    	$chartPv = array_map(function($row) {
-		    return array('name' => $row->date, 'y' => $row->pv);
-		}, $pv);
-		$chartCategories = array_map(function($row){
-			return $row->date;
-		}, $pv);
+		foreach ($rows as $row) {
+			$chartCategories[] = $row['f']['0']['v'];
+	    	$chartPv[] = array('name' => $row['f']['0']['v'], 'y' => $row['f']['1']['v']);
+		}
     	return view('chart', [
 	        'pv' => $chartPv,
 	        'category' => $chartCategories,
 	        'type' => 'chart'
 	    ]);
+    }else{
+    	foreach ($rows as $row) {
+	    	$tablePv[] = array('date' => $row['f']['0']['v'], 'pv' => $row['f']['1']['v']);
+		}
+		return view('table', [
+	        'pv' => $tablePv,
+	        'type' => 'table'
+	    ]);
     }
-    return view('table', [
-        'pv' => $pv,
-        'type' => 'table'
-    ]);
+    
 });
