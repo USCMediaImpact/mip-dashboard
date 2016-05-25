@@ -8,7 +8,7 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
         "shpasser/gae-support-l5": "~1.0",
-        "google/apiclient": "1.0.*@beta"
+        "google/apiclient": "~2.0@RC"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
