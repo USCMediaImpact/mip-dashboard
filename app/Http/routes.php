@@ -27,7 +27,7 @@ Route::get('/mysql/{type}', function ($type) {
     $pv = DB::select('select date, pv from page_views');
     if($type == 'chart'){
     	$chartPv = array_map(function($row) {
-		    return array('name' => $row->date, 'y' => $row->pv);
+		    return array('date' => date('Ymd', strtotime($row->date)), 'value' => $row->pv);
 		}, $pv);
 		$chartCategories = array_map(function($row){
 			return $row->date;
@@ -81,7 +81,7 @@ Route::get('/bigquery/{type}', function ($type) {
 	if($type == 'chart'){
 		foreach ($rows as $row) {
 			$chartCategories[] = $row['f']['0']['v'];
-	    	$chartPv[] = array('name' => $row['f']['0']['v'], 'y' => (int)$row['f']['1']['v']);
+	    	$chartPv[] = array('date' => $row['f']['0']['v'], 'value' => (int)$row['f']['1']['v']);
 		}
     	return view('chart', [
 	        'pv' => $chartPv,

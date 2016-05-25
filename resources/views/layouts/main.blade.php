@@ -9,6 +9,11 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/foundation.min.css') }}">
     <!-- endbuild -->
+    <script src="{{ asset('scripts/vendor/amcharts/amcharts.js') }}"></script>
+    <script src="{{ asset('scripts/vendor/amcharts/serial.js') }}"></script>
+    <script>
+        @yield('script')
+    </script>
 </head>
 <body>
     <div class="off-canvas-wrapper">
@@ -44,14 +49,10 @@
     <script src="{{ asset('scripts/vendor/sprintf.min.js') }}"></script>
     <script src="{{ asset('scripts/vendor/what-input.min.js') }}"></script>
     <script src="{{ asset('scripts/vendor/foundation.min.js') }}"></script>
-    <script src="{{ asset('scripts/vendor/highcharts.js') }}"></script>
-    <script src="{{ asset('scripts/vendor/dark-blue.js') }}"></script>
+    
     <!-- endbuild -->
     <!-- build:js scripts/site.js -->
     <script src="{{ asset('scripts/main.js') }}"></script>
-    <script>
-        @yield('script')
-    </script>
     <!-- endbuild -->
 </body>
 </html>
