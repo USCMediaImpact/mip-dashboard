@@ -64,7 +64,26 @@ Route::get('/bigquery', function () {
     $request->setQuery($queryString);
     $response = $bigquery->jobs->query($projectId, $request);
     $rows = $response->getRows() ? $response->getRows() : array();
-	return view('debug', [
-        'debug' => $rows
+	$pv = array();
+    foreach ($rows as $row) {
+    	$pv[] = array('date' => $row['f'][0]['v'], 'pv' => $row['f'][1]['v'])
+	}
+	
+	if($type == 'chart'){
+    	$chartPv = array_map(function($row) {
+		    return array('name' => $row->date, 'y' => $row->pv);
+		}, $pv);
+		$chartCategories = array_map(function($row){
+			return $row->date;
+		}, $pv);
+    	return view('chart', [
+	        'pv' => $chartPv,
+	        'category' => $chartCategories,
+	        'type' => 'chart'
+	    ]);
+    }
+    return view('table', [
+        'pv' => $pv,
+        'type' => 'table'
     ]);
 });
