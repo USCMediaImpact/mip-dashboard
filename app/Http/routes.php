@@ -76,7 +76,7 @@ Route::get('/bigquery/{type}', function ($type) {
 	if($type == 'chart'){
 		foreach ($rows as $row) {
 			$chartCategories[] = $row['f']['0']['v'];
-	    	$chartPv[] = array('name' => $row['f']['0']['v'], 'y' => $row['f']['1']['v']);
+	    	$chartPv[] = array('name' => $row['f']['0']['v'], 'y' => (int)$row['f']['1']['v']);
 		}
     	return view('chart', [
 	        'pv' => $chartPv,
@@ -84,8 +84,10 @@ Route::get('/bigquery/{type}', function ($type) {
 	        'type' => 'chart'
 	    ]);
     }else{
+    	$index = 0;
     	foreach ($rows as $row) {
-	    	$tablePv[] = array('date' => $row['f']['0']['v'], 'pv' => $row['f']['1']['v']);
+	    	$tablePv[$index] = array('date' => $row['f']['0']['v'], 'pv' => (int)$row['f']['1']['v']);
+	    	$index++;
 		}
 		return view('table', [
 	        'pv' => $tablePv,
