@@ -8,8 +8,16 @@ handlers:
           static_files: public/favicon.ico
           upload: public/favicon\.ico
 
-        - url: /build
-          static_dir: public/build
+        - url: /css
+          static_dir: public/css
+          application_readable: true
+
+        - url: /fonts
+          static_dir: public/fonts
+          application_readable: true
+
+        - url: /scripts
+          static_dir: public/scripts
           application_readable: true
 
         - url: /.*
