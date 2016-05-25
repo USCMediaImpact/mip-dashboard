@@ -41,7 +41,6 @@ Route::get('/mysql/{type}', function ($type) {
 });
 
 Route::get('/bigquery', function () {
-	$timeout = 1000;
 	$projectId = 'tonal-studio-119521';
     $queryString = "SELECT ". 
 		"  date, ". 
@@ -63,7 +62,6 @@ Route::get('/bigquery', function () {
 
     $request = new Google_Service_Bigquery_QueryRequest();
     $request->setQuery($queryString);
-    $request->setTimeoutMs($timeout);
     $response = $bigquery->jobs->query($projectId, $request);
     $rows = $response->getRows() ? $response->getRows() : array();
 	return view('debug', [
