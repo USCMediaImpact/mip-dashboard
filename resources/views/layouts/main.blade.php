@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Media Impact</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- build:css css/style.css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/foundation.min.css') }}">
+    <!-- endbuild -->
+</head>
+<body>
+    <div class="off-canvas-wrapper">
+        <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+            <div class="off-canvas position-left" id="offCanvas" data-off-canvas>
+                <!-- Close button -->
+                <button class="close-button" aria-label="Close menu" type="button" data-close>
+                  <span aria-hidden="true">&times;</span>
+                </button>
+
+                <!-- Menu -->
+                <ul class="vertical menu">
+                  <li><a href="#">Foundation</a></li>
+                  <li><a href="#">Dot</a></li>
+                  <li><a href="#">ZURB</a></li>
+                  <li><a href="#">Com</a></li>
+                  <li><a href="#">Slash</a></li>
+                  <li><a href="#">Sites</a></li>
+                </ul>
+
+            </div>
+
+            <div class="off-canvas-content" data-off-canvas-content>
+                @include('layouts.topheader')
+                @yield('content')
+            </div>
+        </div>
+    </div>
+    
+    <!-- build:js scripts/vendor.js -->
+    <script src="{{ asset('scripts/vendor/jquery.min.js') }}"></script>
+    <script src="{{ asset('scripts/vendor/moment.min.js') }}"></script>
+    <script src="{{ asset('scripts/vendor/sprintf.min.js') }}"></script>
+    <script src="{{ asset('scripts/vendor/what-input.min.js') }}"></script>
+    <script src="{{ asset('scripts/vendor/foundation.min.js') }}"></script>
+    <script src="{{ asset('scripts/vendor/highcharts.js') }}"></script>
+    <script src="{{ asset('scripts/vendor/dark-blue.js') }}"></script>
+    <!-- endbuild -->
+    <!-- build:js scripts/site.js -->
+    <script src="{{ asset('scripts/main.js') }}"></script>
+    <script>
+        @yield('script')
+    </script>
+    <!-- endbuild -->
+</body>
+</html>
