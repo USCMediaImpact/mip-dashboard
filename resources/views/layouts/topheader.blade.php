@@ -3,8 +3,8 @@
 		<div class="top-bar-left">
 			<ul class="dropdown menu" data-dropdown-menu>
 				<li class="menu-text">Media Impact Dashboard</li>
-				<li><a href="mysql">MySql</a></li>
-				<li><a href="bigquery">BigQuery</a></li>
+				<li><a href="/mysql">MySql</a></li>
+				<li><a href="/bigquery">BigQuery</a></li>
 			</ul>
 		</div>
 		<div class="top-bar-right">

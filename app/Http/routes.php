@@ -66,9 +66,9 @@ Route::get('/bigquery', function () {
     $rows = $response->getRows() ? $response->getRows() : array();
 	$pv = array();
     foreach ($rows as $row) {
-    	$pv[] = array('date' => $row['f'][0]['v'], 'pv' => $row['f'][1]['v'])
+    	$pv[] = array('date' => $row['f'][0]['v'], 'pv' => $row['f'][1]['v']);
 	}
-	
+
 	if($type == 'chart'){
     	$chartPv = array_map(function($row) {
 		    return array('name' => $row->date, 'y' => $row->pv);
