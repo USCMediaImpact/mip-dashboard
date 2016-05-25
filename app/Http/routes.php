@@ -40,7 +40,7 @@ Route::get('/mysql/{type}', function ($type) {
     ]);
 });
 
-Route::get('/bigquery', function () {
+Route::get('/bigquery/{type}', function ($type) {
 	$projectId = 'tonal-studio-119521';
     $queryString = "SELECT ". 
 		"  date, ". 
