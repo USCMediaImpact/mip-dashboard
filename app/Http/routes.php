@@ -11,91 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-	return redirect('mysql');
-});
+// Authentication routes...
+Route::get('auth/login', 'Auth\AuthController@getLogin');
+Route::post('auth/login', 'Auth\AuthController@postLogin');
+Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
-Route::get('mysql', function () {
-	return redirect('mysql/table');
-});
+// Registration routes...
+Route::get('auth/register', 'Auth\AuthController@getRegister');
+Route::post('auth/register', 'Auth\AuthController@postRegister');
 
-Route::get('bigquery', function () {
-	return redirect('bigquery/table');
-});
+// Account management routes...
+Route::get('auth/account', 'Auth\AccountController@getAccount');
+Route::get('auth/account/all', 'Auth\AccountController@loadAccount');
+Route::post('auth/account/invite', 'Auth\AccountController@invite');
 
-Route::get('/mysql/{type}', function ($type) {
-    $pv = DB::select('select date, pv from page_views');
-    if($type == 'chart'){
-    	$chartPv = array_map(function($row) {
-		    return array('date' => date('Ymd', strtotime($row->date)), 'value' => $row->pv);
-		}, $pv);
-		$chartCategories = array_map(function($row){
-			return $row->date;
-		}, $pv);
-    	return view('chart', [
-	        'pv' => $chartPv,
-	        'category' => $chartCategories,
-	        'type' => 'chart'
-	    ]);
-    }else{
-    	$tablePv = array_map(function($row) {
-		    return array('date' => $row->date, 'pv' => $row->pv);
-		}, $pv);
-    	return view('table', [
-	        'pv' => $tablePv,
-	        'type' => 'table'
-	    ]);
-    }
-    
-});
-
-Route::get('/bigquery/{type}', function ($type) {
-	$projectId = 'tonal-studio-119521';
-    $queryString = "SELECT ". 
-		"  date, ". 
-		"  SUM(IF(Hit_Type='PAGE', 1, NULL)) AS Pageviews ". 
-		"FROM ( ". 
-		"  SELECT ". 
-		"    date, ". 
-		"    hits.type AS Hit_Type ". 
-		"  FROM ( TABLE_DATE_RANGE([116430105.ga_sessions_tz_], TIMESTAMP('2016-04-01'), TIMESTAMP('2016-05-01')  ) ) ) ". 
-		"GROUP BY ". 
-		"  date ". 
-		"ORDER BY ". 
-		"  date";
-
-	$client = new Google_Client();
-	$client->useApplicationDefaultCredentials();
-	$client->addScope(Google_Service_Bigquery::BIGQUERY);
-    $bigquery = new Google_Service_Bigquery($client);
-
-    $request = new Google_Service_Bigquery_QueryRequest();
-    $request->setQuery($queryString);
-    $response = $bigquery->jobs->query($projectId, $request);
-    $rows = $response->getRows() ? $response->getRows() : array();
-	$pv = array();
-    foreach ($rows as $row) {
-    	$pv[] = array('date' => $row['f']['0']['v'], 'pv' => $row['f']['1']['v']);
-	}
-
-	if($type == 'chart'){
-		foreach ($rows as $row) {
-			$chartCategories[] = $row['f']['0']['v'];
-	    	$chartPv[] = array('date' => $row['f']['0']['v'], 'value' => (int)$row['f']['1']['v']);
-		}
-    	return view('chart', [
-	        'pv' => $chartPv,
-	        'category' => $chartCategories,
-	        'type' => 'chart'
-	    ]);
-    }else{
-    	foreach ($rows as $row) {
-	    	$tablePv[] = array('date' => $row['f']['0']['v'], 'pv' => (int)$row['f']['1']['v']);
-		}
-		return view('table', [
-	        'pv' => $tablePv,
-	        'type' => 'table'
-	    ]);
-    }
-    
-});
+// Dashboard routes...
+Route::get('/', 'DashboardController@showDataFromMySql');
+Route::get('mysql', 'DashboardController@showDataFromMySql');
+Route::get('bigquery', 'DashboardController@showDataFromBigQuery');

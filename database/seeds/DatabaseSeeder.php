@@ -14,7 +14,24 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call(UserTableSeeder::class);
+        DB::table('users')->insert([
+            'name' => 'steve.yin',
+            'email' => 'steve.yin@mediaimpactproject.org',
+            'password' => bcrypt('admin123!@#'),
+        ]);
+
+        DB::table('roles')->insert([
+            'name' => 'SuperUser'
+        ]);
+
+        DB::table('roles')->insert([
+            'name' => 'Admin'
+        ]);
+
+        $user = App\User::where('email', '=', 'steve.yin@mediaimpactproject.org')->first();
+        $role = App\Role::where('name', '=', 'SuperUser')->first();
+        $user->roles()->attach($role);
+        $user->save();
 
         Model::reguard();
     }

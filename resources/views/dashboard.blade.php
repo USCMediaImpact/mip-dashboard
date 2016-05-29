@@ -11,10 +11,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($pv as $row)
+                    @foreach ($report as $row)
                     <tr>
                         <td>{{ $row['date'] }}</td>
-                        <td>{{ $row['pv'] }}</td>
+                        <td>{{ $row['value'] }}</td>
                     </tr>
                     @endforeach
                 </tbody>

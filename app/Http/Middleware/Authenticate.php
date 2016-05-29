@@ -41,7 +41,7 @@ class Authenticate
                 return redirect()->guest('auth/login');
             }
         }
-
+        view()->share('user', $request->user());
         return $next($request);
     }
 }

@@ -22,6 +22,12 @@ class AuthController extends Controller
     */
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+    
+    /**
+     * Override the default login success redirect location
+     * @var string
+     */
+    protected $redirectPath = '/';
 
     /**
      * Create a new authentication controller instance.
