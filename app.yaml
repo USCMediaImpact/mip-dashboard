@@ -32,6 +32,7 @@ skip_files:
         - ^(.*/)?node_modules.*$
         - ^(.*/)?_ide_helper\.php$
         - ^(.*/)?\.DS_Store$
+        - ^(.*/)?\.md$
         - ^(tests/.*)
         - ^(database/.*)
         - ^(vendor/phpunit/.*)
@@ -39,6 +40,18 @@ skip_files:
         - ^(vendor/mockery/mockery/.*)
         - ^(vendor/phpspec/phpspec/.*)
         - ^(\.git/.*)
+        - ^(\.idea/.*)
+        - ^(\.phpintel/.*)
+        - ^phpunit.xml$
+        - ^phpspec.yml$
+        - ^package.json$
+        - ^gulpfile.js$
+        - ^composer.json$
+        - ^composer.lock$
+        - ^artisan$
+        - ^\.gitignore$
+        - ^\.env.production$
+        - ^\.env.local$
 
 env_variables:
         GAE_SKIP_GCS_INIT: false
