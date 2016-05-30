@@ -27,9 +27,11 @@ Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 
 // Account management routes...
-Route::get('auth/account', 'Auth\AccountController@getAccount');
+Route::get('auth/account/management', 'Auth\AccountController@showAccount');
 Route::get('auth/account/all', 'Auth\AccountController@loadAccount');
 Route::post('auth/account/invite', 'Auth\AccountController@invite');
+Route::get('auth/account/{id}', 'Auth\AccountController@getAccount');
+Route::put('auth/account', 'Auth\AccountController@editAccount');
 Route::delete('auth/account/{id}', 'Auth\AccountController@removeAccount');
 
 // Dashboard routes...

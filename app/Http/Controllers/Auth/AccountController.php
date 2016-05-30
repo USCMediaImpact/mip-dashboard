@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Mail;
 use Config;
+use DB;
 use App\User;
 use App\Role;
 
@@ -17,7 +18,7 @@ class AccountController extends Controller
         $this->middleware('auth');
     }
 
-    public function getAccount(){
+    public function showAccount(){
         $roles = Role::all();
 		return view('auth.account', [
             'roles' => $roles
@@ -81,6 +82,30 @@ class AccountController extends Controller
         });
 
         return array('success'=>true);
+    }
+
+    public function getAccount(Request $request, $userId){
+        return User::with('roles')
+            ->where('id', $userId)
+            ->first();
+    }
+
+    public function editAccount(Request $request){
+        $user = User::where('id', $request['id'])->first();
+        if($user === null){
+            return array('success'=>false, 'message' => 'user not exist');
+        }
+        $user->update([
+            'name' => $request['name']
+        ]);
+        $roles = DB::table('roles')
+            ->wherein('id', $request['role'] ?: [])
+            ->get(['id']);
+        $roles = array_map(function($row){
+            return $row->id;
+        }, $roles);
+        $user->roles()->sync($roles);
+        return array('success' => true, $user);
     }
 
     public function removeAccount(Request $request, $userId){
