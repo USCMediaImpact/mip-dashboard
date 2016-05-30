@@ -35,6 +35,7 @@ skip_files:
         - ^(.*/)?\.md$
         - ^(tests/.*)
         - ^(database/.*)
+        - ^(storage/.*)
         - ^(vendor/phpunit/.*)
         - ^(vendor/fzaninotto/faker/.*)
         - ^(vendor/mockery/mockery/.*)

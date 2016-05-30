@@ -14,7 +14,13 @@
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
+
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
+
+Route::get('auth/reset', 'Auth\PasswordController@getEmail');
+Route::post('auth/reset', 'Auth\PasswordController@postEmail');
+Route::get('auth/reset/password/{token}', 'Auth\PasswordController@getReset');
+Route::post('auth/reset/password', 'Auth\PasswordController@postReset');
 
 // Registration routes...
 Route::get('auth/register', 'Auth\AuthController@getRegister');
@@ -24,6 +30,7 @@ Route::post('auth/register', 'Auth\AuthController@postRegister');
 Route::get('auth/account', 'Auth\AccountController@getAccount');
 Route::get('auth/account/all', 'Auth\AccountController@loadAccount');
 Route::post('auth/account/invite', 'Auth\AccountController@invite');
+Route::delete('auth/account/{id}', 'Auth\AccountController@removeAccount');
 
 // Dashboard routes...
 Route::get('/', 'DashboardController@showDataFromMySql');

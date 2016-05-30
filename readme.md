@@ -17,3 +17,9 @@ $user->save();
 ```
 then run `php artisan db:seed` to add you account and role
 
+###Command Line###
++ `php artisan optimize`
++ `php artisan config:cache`
++ `php artisan route:cache`
++ `php artisan view:clear`
+These commands is been used to optimize the framework for better performance. The compiled file are stored to `bootstrap/cache/` folder. Need to manual run these command sometimes when found something wrong.

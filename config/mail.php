@@ -54,7 +54,17 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    'from' => ['address' => env('MAIL_FROM', null), 'name' => env('MAIL_FROM_NAME', null)],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Global "Sender" Address
+    |--------------------------------------------------------------------------
+    |
+    | Default Sender for all e-mails. sometimes the sender should be same as from
+    |
+    */
+    'sender' => ['address' => env('MAIL_SENDER', null), 'name' => env('MAIL_SENDER_NAME', null)],
 
     /*
     |--------------------------------------------------------------------------

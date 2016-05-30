@@ -29,3 +29,6 @@
 	position: absolute;
 	z-index: 1;
 }
+table .button, .noty_buttons .button{
+	margin-bottom: 0;
+}

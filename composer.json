@@ -8,7 +8,8 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
         "shpasser/gae-support-l5": "~1.0",
-        "google/apiclient": "~2.0@RC"
+        "google/apiclient": "~2.0@RC",
+        "guzzlehttp/guzzle": "~5.3|~6.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
