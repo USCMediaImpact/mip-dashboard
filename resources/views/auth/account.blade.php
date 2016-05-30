@@ -130,11 +130,8 @@
                     onClick: function ($noty) {
                         console.log('okay click', $noty);
                         $.ajax({
-                            url: '/auth/account/' + urserId,
-                            method: 'DELETE',
-                            data: {
-                                _token: '{!! csrf_token() !!}'
-                            }
+                            url: '/auth/account/' + urserId + '?_token={!! csrf_token() !!}',
+                            method: 'DELETE'
                         }).done(function () {
                             accountTable.ajax.reload();
                         }).always(function () {
