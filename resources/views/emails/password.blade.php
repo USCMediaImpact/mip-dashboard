@@ -84,7 +84,7 @@
 								<table style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">
 									<tr>
 										<td id="footer-pattern-logo-desktop-padding" style="padding: 0px; border-collapse: collapse; padding-top: 3px"> 
-											<img id="footer-desktop-logo" src="cid:footer-desktop-logo" alt="Media Impact logo" title="Media Impact logo" width="169" height="36" class="image_fix" />
+											<img id="footer-desktop-logo" src="https://mip-dashboard.appspot.com/images/email-log.png" alt="Media Impact logo" title="Media Impact logo" height="36" class="image_fix" />
 										</td>
 									</tr>
 								</table>
