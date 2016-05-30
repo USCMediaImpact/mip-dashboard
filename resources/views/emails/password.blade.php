@@ -3,7 +3,7 @@
 		<head>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 			<meta name="viewport" content="width=device-width, initia=l-scale=1.0, maximum-scale=1.0" />
-			<title>{{$user->email}}, welcome to Meida Impact</title>
+			<title>{{$user->email}}, Welcome to the Media Impact Project Data Repository.</title>
 		</head>
 		<body class="email" style="color: #333; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.429">
 			<table id="background-table" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f5f5f5; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">
@@ -33,10 +33,7 @@
 												Hi {{$user->email}},
 												<br />
 												<br />
-												You have request to reset your password
-												<br />
-												<br />
-												Log in now to track your xxx.
+												You have requested to reset your password.
 												<br />
 												<br />
 												This reset link is valid for only 1 hour.
@@ -60,7 +57,7 @@
 												<div style="background:#3068a2;border-collapse:collapse;border-radius:3px;padding:5px;margin:0px;background:-moz-linear-gradient(top,#4687ce 0%,#3068a2 100%);background:-webkit-linear-gradient(top,#4687ce 0%,#3068a2 100%);background:-o-linear-gradient(top,#4687ce 0%,#3068a2 100%);background:-ms-linear-gradient(top,#4687ce 0%,#3068a2 100%);background:linear-gradient(top,#4687ce 0%,#3068a2 100%)">
 													<a target="_blank" style="color:#3b73af;text-decoration:none;color:#fff;font-weight:bold;padding:6px;font-size:14px;line-height:1.429;font-family:Arial,sans-serif" 
 														href="{!! Config::get('app.host') !!}/auth/reset/password/{!! $token !!}">
-														Reset my password
+														Reset my password.
 													</a>
 												</div>
 											</td>
@@ -81,7 +78,7 @@
 					<table id="footer-pattern-container" cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">
 						<tr>
 							<td id="footer-pattern-text" class="mobile-resize-text" width="100%" style="padding: 0px; border-collapse: collapse; color: #999; font-size: 12px; line-height: 18px; font-family: Arial, sans-serif; mso-line-height-rule: exactly; mso-text-raise: 2px">
-								This message was sent by Media Impact
+								This message was sent by the Media Impact Project Data Repository.
 							</td>
 							<td id="footer-pattern-logo-desktop-container" valign="top" style="padding: 0px; border-collapse: collapse; padding-left: 20px; vertical-align: top">
 								<table style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">
