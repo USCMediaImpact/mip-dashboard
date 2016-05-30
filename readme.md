@@ -16,6 +16,7 @@ $user->roles()->attach($role);
 $user->save();
 ```
 then run `php artisan db:seed` to add you account and role
+4. Create .env file base .env.local and change to you need settings. BTW you can use `MAIL_DRIVER=log` for debug emails. do not need real email smtp service. you can check the log file in path `/storage/logs/laravel.log` to see what you send content in email.
 
 ###Command Line###
 + `php artisan optimize`
