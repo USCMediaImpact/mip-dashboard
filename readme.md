@@ -24,3 +24,20 @@ then run `php artisan db:seed` to add you account and role
 + `php artisan route:cache`
 + `php artisan view:clear`
 These commands is been used to optimize the framework for better performance. The compiled file are stored to `bootstrap/cache/` folder. Need to manual run these command sometimes when found something wrong.
+
+###Cache###
+You can use you local cache server like Memcached or Redis as you like. see more [here](https://laravel.com/docs/5.1/cache#configuration)
+these are the cache setting exmaple in the `.env` file
+```
+CACHE_DRIVER=redis
+SESSION_DRIVER=redis
+
+REDIS_HOST=127.0.0.1
+REDIS_PORT=6379
+```
+some useful Redis cache command
++ Connect to Redis `redis-cli` then you will see `127.0.0.1:6379>`
++ Test connection `ping` then you will see `PONG` if connection success
++ List all keys `keys *`
++ Another way to list all keys `scan 0`
++ Show value `get key` replace the key to what you need checked cache
