@@ -42,8 +42,8 @@
             "position": "bottom",
             "equalWidths": true,
             "useGraphSettings": true,
-            "valueAlign": "left",
-            "valueWidth": 140
+            "valueAlign": "right",
+            "valueWidth": 80
         },
         "dataProvider": {!! json_encode($report) !!},
         "valueAxes": [{
@@ -57,14 +57,16 @@
             "axisAlpha": 0,
             "gridAlpha": 0,
             "labelsEnabled": false,
-            "position": "right"
+            "position": "right",
+            offset: 100
         }, {
             "id": "hitsAxis",
             "axisAlpha": 0,
             "gridAlpha": 0,
             "inside": true,
             "position": "right",
-            "title": "Hits"
+            "title": "Hits",
+            offset: 100
         }],
         "graphs": [{
             "alphaField": "alpha",
@@ -74,7 +76,7 @@
             "legendValueText": "[[value]]",
             "title": "pv",
             "type": "column",
-            "columnWidth": 0.3,
+            "columnWidth": 0.5,
             "valueField": "pageviews",
             "valueAxis": "pageViewsAxis"
         }, {
@@ -85,7 +87,7 @@
             "bulletColor": "#FFFFFF",
             "bulletSizeField": "5",
             "dashLengthField": "dashLength",
-            "labelPosition": "right",
+            "labelPosition": "top",
             "labelText": "hits: [[value]]",
             "legendValueText": "[[value]]",
             "title": "hits",
@@ -98,6 +100,8 @@
             "bulletBorderThickness": 1,
             "dashLengthField": "dashLength",
             "legendValueText": "[[value]]",
+            "labelPosition": "bottom",
+            "labelText": "visits: [[value]]",
             "title": "Visits",
             "fillAlphas": 0,
             "valueField": "visits",
