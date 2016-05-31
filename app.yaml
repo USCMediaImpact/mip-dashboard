@@ -1,7 +1,7 @@
 application:    mip-dashboard
-version:        1
+version:        demo-2016_05_31
 runtime:        php55
-api_version:    demo
+api_version:    1
 
 handlers:
         - url: /favicon\.ico
