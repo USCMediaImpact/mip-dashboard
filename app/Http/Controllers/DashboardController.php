@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use Cache;
 use Google_Client;
 use Google_Service_Bigquery;
 use Google_Service_Bigquery_QueryRequest;
@@ -13,13 +14,15 @@ class DashboardController extends Controller{
 	/**
 	 * This controller need auth
 	 */
-//	public function __construct()
-//	{
-//	    $this->middleware('auth');
-//	}
+	public function __construct()
+	{
+	    $this->middleware('auth');
+	}
 
     public function showDashboard(){
-        $report = $this->showChartFromBigQuery();
+        $report = Cache::remember('demo_dashboard', 60 * 60, function() {
+            return $this->showDataFromBigQuery();
+        });
         return view('dashboard', ['report' => $report]);
     }
 	/**
@@ -36,42 +39,6 @@ class DashboardController extends Controller{
     }
 
     public function showDataFromBigQuery(){
-    	$projectId = 'tonal-studio-119521';
-	    $queryString = '
-			SELECT
-			  date,
-			  SUM(totals.visits) AS visits,
-			  SUM(totals.hits) AS hits,
-			  SUM(totals.pageviews) AS pageviews
-			FROM
-			  TABLE_DATE_RANGE([116430105.ga_sessions_tz_], TIMESTAMP("2016-05-01"), TIMESTAMP("2016-06-01"))
-			GROUP BY
-			  date
-			ORDER BY
-			  date';
-
-		$client = new Google_Client();
-		$client->useApplicationDefaultCredentials();
-		$client->addScope(Google_Service_Bigquery::BIGQUERY);
-	    $bigQuery = new Google_Service_Bigquery($client);
-
-	    $request = new Google_Service_Bigquery_QueryRequest();
-	    $request->setQuery($queryString);
-	    $response = $bigQuery->jobs->query($projectId, $request);
-	    $rows = $response->getRows() ?: array();
-		$report = array();
-	    foreach ($rows as $row) {
-	    	$report[] = array(
-                'date' => $row['f']['0']['v'],
-                'visits' => $row['f']['1']['v'],
-                'hits' => $row['f']['1']['v'],
-                'pageviews' => $row['f']['1']['v']
-            );
-	    }
-	    return view('dashboard', ['report' => $report]);
-	}
-
-    public function showChartFromBigQuery(){
         $projectId = 'tonal-studio-119521';
         $queryString = '
 			SELECT
