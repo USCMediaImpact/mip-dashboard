@@ -39,10 +39,11 @@
         "marginLeft": 80,
         "autoMarginOffset": 20,
         "legend": {
+            "position": "bottom",
             "equalWidths": true,
             "useGraphSettings": true,
             "valueAlign": "left",
-            "valueWidth": 120
+            "valueWidth": 140
         },
         "dataProvider": {!! json_encode($report) !!},
         "valueAxes": [{
@@ -73,6 +74,7 @@
             "legendValueText": "[[value]]",
             "title": "pv",
             "type": "column",
+            "columnWidth": 0.3,
             "valueField": "pageviews",
             "valueAxis": "pageViewsAxis"
         }, {
