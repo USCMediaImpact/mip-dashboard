@@ -19,7 +19,7 @@ class DashboardController extends Controller{
 	}
 
     public function showDashboard(){
-        $report = $this->showChartFromBigQuery();
+        $report = $this->mockChartFromBigQuery();
         return view('dashboard', ['report' => $report]);
     }
 	/**
@@ -100,8 +100,8 @@ class DashboardController extends Controller{
             $report[] = array(
                 'date' => $row['f']['0']['v'],
                 'visits' => $row['f']['1']['v'],
-                'hits' => $row['f']['1']['v'],
-                'pageviews' => $row['f']['1']['v']
+                'hits' => $row['f']['2']['v'],
+                'pageviews' => $row['f']['3']['v']
             );
         }
         return $report;

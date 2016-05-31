@@ -35,8 +35,11 @@
     var chart = AmCharts.makeChart("chartdiv", {
         "type": "serial",
         "theme": "light",
+        "marginRight": 80,
+        "marginLeft": 80,
+        "autoMarginOffset": 20,
         "legend": {
-            "equalWidths": false,
+            "equalWidths": true,
             "useGraphSettings": true,
             "valueAlign": "left",
             "valueWidth": 120
@@ -67,9 +70,8 @@
             "balloonText": "pv: [[value]]",
             "dashLengthField": "dashLength",
             "fillAlphas": 0.7,
-            "legendPeriodValueText": "pv: [[value]]",
-            "legendValueText": "pv: [[value]]",
-            "title": "page views",
+            "legendValueText": "[[value]]",
+            "title": "pv",
             "type": "column",
             "valueField": "pageviews",
             "valueAxis": "pageViewsAxis"
@@ -83,7 +85,7 @@
             "dashLengthField": "dashLength",
             "labelPosition": "right",
             "labelText": "hits: [[value]]",
-            "legendValueText": "hits: [[value]]",
+            "legendValueText": "[[value]]",
             "title": "hits",
             "fillAlphas": 0,
             "valueField": "hits",
@@ -93,7 +95,7 @@
             "bulletBorderAlpha": 1,
             "bulletBorderThickness": 1,
             "dashLengthField": "dashLength",
-            "legendValueText": "visits: [[value]]",
+            "legendValueText": "[[value]]",
             "title": "Visits",
             "fillAlphas": 0,
             "valueField": "visits",
@@ -130,19 +132,7 @@
             "gridColor": "#FFFFFF",
             "gridCount": 50
         },
-        "listeners": [{
-            "event": "changed",
-            "method": function (event) {
-                chart.cursorDataContext = event.chart.dataProvider[event.index];
-            }
-        }, {
-            "event": "rendered",
-            "method": function (event) {
-                event.chart.chartDiv.addEventListener('click', function () {
-                    console.log(chart.cursorDataContext);
-                });
-            }
-        }]
+        
     });
     </script>
 @endsection
