@@ -1,5 +1,5 @@
 application:    mip-dashboard
-version:        demo-2016_05_31
+version:        demo-20160531
 runtime:        php55
 api_version:    1
 
