@@ -35,6 +35,6 @@ Route::put('auth/account', 'Auth\AccountController@editAccount');
 Route::delete('auth/account/{id}', 'Auth\AccountController@removeAccount');
 
 // Dashboard routes...
-Route::get('/', 'DashboardController@showDataFromMySql');
-Route::get('mysql', 'DashboardController@showDataFromMySql');
-Route::get('bigquery', 'DashboardController@showDataFromBigQuery');
+Route::get('/', 'DashboardController@showDashboard');
+Route::get('chart', 'DashboardController@mockChartFromBigQuery');
+

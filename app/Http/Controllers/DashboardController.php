@@ -14,6 +14,11 @@ class DashboardController extends Controller{
 	{
 	    $this->middleware('auth');
 	}
+
+    public function showDashboard(){
+        $report = $this->showChartFromBigQuery();
+        return view('dashboard', ['report' => $report]);
+    }
 	/**
 	 * demo for load data from mysql
 	 * @return [type] [description]
@@ -29,19 +34,18 @@ class DashboardController extends Controller{
 
     public function showDataFromBigQuery(){
     	$projectId = 'tonal-studio-119521';
-	    $queryString =
-			'SELECT ' .
-			'  date, ' .
-			'  SUM(IF(Hit_Type="PAGE", 1, NULL)) AS Pageviews '.
-			'FROM ( '.
-			'  SELECT '.
-			'    date, '.
-			'    hits.type AS Hit_Type '.
-			'  FROM ( TABLE_DATE_RANGE([116430105.ga_sessions_tz_], TIMESTAMP("2016-04-01"), TIMESTAMP("2016-05-01")  ) ) ) '.
-			'GROUP BY '.
-			'  date '.
-			'ORDER BY '.
-			'  date';
+	    $queryString = '
+			SELECT
+			  date,
+			  SUM(totals.visits) AS visits,
+			  SUM(totals.hits) AS hits,
+			  SUM(totals.pageviews) AS pageviews
+			FROM
+			  TABLE_DATE_RANGE([116430105.ga_sessions_tz_], TIMESTAMP("2016-05-01"), TIMESTAMP("2016-06-01"))
+			GROUP BY
+			  date
+			ORDER BY
+			  date';
 
 		$client = new Google_Client();
 		$client->useApplicationDefaultCredentials();
@@ -54,8 +58,108 @@ class DashboardController extends Controller{
 	    $rows = $response->getRows() ?: array();
 		$report = array();
 	    foreach ($rows as $row) {
-	    	$report[] = array('date' => $row['f']['0']['v'], 'value' => $row['f']['1']['v']);
+	    	$report[] = array(
+                'date' => $row['f']['0']['v'],
+                'visits' => $row['f']['1']['v'],
+                'hits' => $row['f']['1']['v'],
+                'pageviews' => $row['f']['1']['v']
+            );
 	    }
 	    return view('dashboard', ['report' => $report]);
 	}
+
+    public function showChartFromBigQuery(){
+        $projectId = 'tonal-studio-119521';
+        $queryString = '
+			SELECT
+			  date,
+			  SUM(totals.visits) AS visits,
+			  SUM(totals.hits) AS hits,
+			  SUM(totals.pageviews) AS pageviews
+			FROM
+			  TABLE_DATE_RANGE([116430105.ga_sessions_tz_], TIMESTAMP("2016-05-01"), TIMESTAMP("2016-06-01"))
+			GROUP BY
+			  date
+			ORDER BY
+			  date';
+
+        $client = new Google_Client();
+        $client->useApplicationDefaultCredentials();
+        $client->addScope(Google_Service_Bigquery::BIGQUERY);
+        $bigQuery = new Google_Service_Bigquery($client);
+
+        $request = new Google_Service_Bigquery_QueryRequest();
+        $request->setQuery($queryString);
+        $response = $bigQuery->jobs->query($projectId, $request);
+        $rows = $response->getRows() ?: array();
+        $report = array();
+        foreach ($rows as $row) {
+            $report[] = array(
+                'date' => $row['f']['0']['v'],
+                'visits' => $row['f']['1']['v'],
+                'hits' => $row['f']['1']['v'],
+                'pageviews' => $row['f']['1']['v']
+            );
+        }
+        return $report;
+    }
+
+    public function mockChartFromBigQuery(){
+        return [
+            array(
+                'date' => '20160501',
+                'visits' => '24526',
+                'hits' => '340093',
+                'pageviews' => '66534'
+            ),
+            array(
+                'date' => '20160502',
+                'visits' => '47042',
+                'hits' => '673029',
+                'pageviews' => '128949'
+            ),
+            array(
+                'date' => '20160503',
+                'visits' => '51481',
+                'hits' => '721708',
+                'pageviews' => '138107'
+            ),
+            array(
+                'date' => '20160504',
+                'visits' => '91404',
+                'hits' => '1131268',
+                'pageviews' => '187993'
+            ),
+            array(
+                'date' => '20160505',
+                'visits' => '103058',
+                'hits' => '1170603',
+                'pageviews' => '199053'
+            ),
+            array(
+                'date' => '20160506',
+                'visits' => '41100',
+                'hits' => '590747',
+                'pageviews' => '124243'
+            ),
+            array(
+                'date' => '20160507',
+                'visits' => '29682',
+                'hits' => '379989',
+                'pageviews' => '70874'
+            ),
+            array(
+                'date' => '20160508',
+                'visits' => '37125',
+                'hits' => '453912',
+                'pageviews' => '78380'
+            ),
+            array(
+                'date' => '20160509',
+                'visits' => '48897',
+                'hits' => '671048',
+                'pageviews' => '137162'
+            )
+        ];
+    }
 }
