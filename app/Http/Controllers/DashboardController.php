@@ -13,10 +13,10 @@ class DashboardController extends Controller{
 	/**
 	 * This controller need auth
 	 */
-	public function __construct()
-	{
-	    $this->middleware('auth');
-	}
+//	public function __construct()
+//	{
+//	    $this->middleware('auth');
+//	}
 
     public function showDashboard(){
         $report = $this->showChartFromBigQuery();
