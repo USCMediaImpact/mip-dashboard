@@ -19,7 +19,7 @@ class DashboardController extends Controller{
 	}
 
     public function showDashboard(){
-        $report = $this->mockChartFromBigQuery();
+        $report = $this->showChartFromBigQuery();
         return view('dashboard', ['report' => $report]);
     }
 	/**
