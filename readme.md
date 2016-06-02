@@ -41,3 +41,7 @@ some useful Redis cache command
 + List all keys `keys *`
 + Another way to list all keys `scan 0`
 + Show value `get key` replace the key to what you need checked cache
+
+###Menu###
+Middleware `app/Http/Middleware/ParseCurrentControllerAndAction` is for get current Controller and Action will be used in menu view
+BaseController `app/Controllers/AuthenticatedBaseController` register 2 middleware: routeInfo and auth. Any need authenticate Controller can inherit from this base controller
