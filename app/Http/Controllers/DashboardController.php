@@ -25,10 +25,7 @@ class DashboardController extends Controller{
         });
         return view('dashboard', ['report' => $report]);
     }
-	/**
-	 * demo for load data from mysql
-	 * @return [type] [description]
-	 */
+
 	public function showDataFromMySql()
     {
     	$report = DB::select('select date, pv from page_views');

@@ -34,7 +34,20 @@ Route::get('auth/account/{id}', 'Auth\AccountController@getAccount');
 Route::put('auth/account', 'Auth\AccountController@editAccount');
 Route::delete('auth/account/{id}', 'Auth\AccountController@removeAccount');
 
-// Dashboard routes...
+// Demo routes...
 Route::get('/', 'DashboardController@showDashboard');
-Route::get('chart', 'DashboardController@mockChartFromBigQuery');
+
+// Main routes...
+Route::get('/reports/content', 'ReportsController@content');
+Route::get('/reports/users', 'ReportsController@users');
+Route::get('/reports/donations', 'ReportsController@donations');
+
+Route::get('/metrics/content', 'MetricsController@content');
+Route::get('/metrics/users', 'MetricsController@users');
+Route::get('/metrics/donations', 'MetricsController@donations');
+
+Route::get('/data/content', 'DataController@content');
+Route::get('/data/users', 'DataController@users');
+Route::get('/data/donations', 'DataController@donations');
+Route::get('/data/quality', 'DataController@quality');
 
