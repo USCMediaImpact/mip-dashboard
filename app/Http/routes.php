@@ -38,16 +38,16 @@ Route::delete('auth/account/{id}', 'Auth\AccountController@removeAccount');
 Route::get('/', 'DashboardController@showDashboard');
 
 // Main routes...
-Route::get('/reports/content', 'ReportsController@content');
-Route::get('/reports/users', 'ReportsController@users');
-Route::get('/reports/donations', 'ReportsController@donations');
+Route::get('/reports/content', 'ReportsController@showContent');
+Route::get('/reports/users', 'ReportsController@showUsers');
+Route::get('/reports/donations', 'ReportsController@showDonations');
 
-Route::get('/metrics/content', 'MetricsController@content');
-Route::get('/metrics/users', 'MetricsController@users');
-Route::get('/metrics/donations', 'MetricsController@donations');
+Route::get('/metrics/content', 'MetricsController@showContent');
+Route::get('/metrics/users', 'MetricsController@showUsers');
+Route::get('/metrics/donations', 'MetricsController@showDonations');
 
-Route::get('/data/content', 'DataController@content');
-Route::get('/data/users', 'DataController@users');
-Route::get('/data/donations', 'DataController@donations');
-Route::get('/data/quality', 'DataController@quality');
+Route::get('/data/content', 'DataController@showContent');
+Route::get('/data/users', 'DataController@showUsers');
+Route::get('/data/donations', 'DataController@showDonations');
+Route::get('/data/quality', 'DataController@showQuality');
 

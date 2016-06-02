@@ -7,18 +7,9 @@ use Cache;
 use Google_Client;
 use Google_Service_Bigquery;
 use Google_Service_Bigquery_QueryRequest;
-use App\User;
-use App\Http\Controllers\Controller;
 
-class DashboardController extends Controller{
-	/**
-	 * This controller need auth
-	 */
-	public function __construct()
-	{
-	    $this->middleware('auth');
-	}
-
+class DashboardController extends AuthenticatedBaseController{
+    
     public function showDashboard(){
         $report = Cache::remember('demo_dashboard', 60 * 60, function() {
             return $this->showDataFromBigQuery();

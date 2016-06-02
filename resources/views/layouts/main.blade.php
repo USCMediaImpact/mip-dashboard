@@ -17,12 +17,14 @@
 <body>
     <div class="off-canvas-wrapper" data-offcanvas>
         <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
-            <div class="off-canvas position-left" id="offCanvas" data-off-canvas>
+            @if(isset($user))
+            <div class="off-canvas position-left reveal-for-medium" id="offCanvas" data-off-canvas>
                 @include('layouts.offCanvas')
             </div>
+            @endif
             <div class="off-canvas-content" data-off-canvas-content>
                 @include('layouts.header')
-                
+                @include('layouts.menu')
                 <div class="main-content">
                     @yield('content')
                 </div>

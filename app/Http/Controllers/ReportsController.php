@@ -10,24 +10,17 @@ use Google_Service_Bigquery_QueryRequest;
 use App\User;
 use App\Http\Controllers\Controller;
 
-class ReportsController extends Controller{
-	/**
-	 * This controller need auth
-	 */
-	public function __construct()
-	{
-	    $this->middleware('auth');
-	}
+class ReportsController extends AuthenticatedBaseController{
 
-    public function content(){
+    public function showContent(){
         return view('reports.content');
     }
 
-    public function users(){
+    public function showUsers(){
         return view('reports.users');
     }
 	
-    public function donations(){
+    public function showDonations(){
         return view('reports.donations');
     }
 }
