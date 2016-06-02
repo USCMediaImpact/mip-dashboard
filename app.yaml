@@ -44,7 +44,6 @@ skip_files:
         - ^(vendor/fzaninotto/faker/.*)
         - ^(vendor/mockery/mockery/.*)
         - ^(vendor/phpspec/.*)
-        - ^(vendor/composer/.*)
         - ^(vendor/phpdocumentor/.*)
         - ^(\.git/.*)
         - ^(\.idea/.*)
