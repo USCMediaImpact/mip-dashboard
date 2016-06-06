@@ -6,7 +6,7 @@
             <form method="POST" action="/auth/reset">
                 {!! csrf_field() !!}
                 <div class="row column log-in-form">
-                    <h4 class="text-center">Forgot your password</h4>
+                    <h4 class="text-center">Forgot your password?</h4>
                     <label>Email
                         <input type="text" name="email" value="{{ old('email') }}" placeholder="somebody@example.com">
                     </label>

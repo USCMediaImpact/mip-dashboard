@@ -3,7 +3,7 @@
         <span class="show-for-small-only menu-toggle-button" data-toggle="offCanvas">
             <button class="menu-icon dark" type="button" data-toggle></button>
         </span>
-        <h1 class="top_logo">Meida Impact</h1>
+        <h1 class="top_logo">Media Impact Project: Data Repository Dashboard</h1>
     </div>
     <div class="top-bar-right hide-for-small-only">
         @if(isset($user))

@@ -34,7 +34,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
         <h5>Invite User</h5>
-        <label class="callout success">Please input you need invited user email. system will send invite email to this address</label>
+        <label class="callout success">Please input the email address of the new user. Our system will send invite email to this address.</label>
         <label class="callout alert hide"></label>
         <form>
             {!! csrf_field() !!}

@@ -3,7 +3,7 @@
 		<head>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 			<meta name="viewport" content="width=device-width, initia=l-scale=1.0, maximum-scale=1.0" />
-			<title>{{$user->email}}, welcome to Meida Impact</title>
+			<title>{{$user->email}}, Welcome to the Media Impact Project Data Repository Dashboard</title>
 		</head>
 		<body class="email" style="color: #333; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.429">
 			<table id="background-table" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f5f5f5; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">
@@ -33,10 +33,10 @@
 												Hi {{$user->email}},
 												<br />
 												<br />
-												Your administrator has set up an Media Impact account for you! Media Impact is the xxx solution for teams doing great work.
+												Your administrator has set up an MIP Data Repository Dashboard account for you! 
 												<br />
 												<br />
-												Log in now to track your xxx.
+												Log in now to view your data.
 												<br />
 												<br />
 												This invitation is valid for only 1 hour. If the invitation has expired, contact your administrator.
@@ -44,7 +44,7 @@
 												<br />
 												Cheers,
 												<br />
-												The Media Impact team
+												The Media Impact Project: Data Repository and Dashboard team
 											</p>
 										</td>
 									</tr>
@@ -81,7 +81,7 @@
 					<table id="footer-pattern-container" cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">
 						<tr>
 							<td id="footer-pattern-text" class="mobile-resize-text" width="100%" style="padding: 0px; border-collapse: collapse; color: #999; font-size: 12px; line-height: 18px; font-family: Arial, sans-serif; mso-line-height-rule: exactly; mso-text-raise: 2px">
-								This message was sent by Media Impact
+								This message was sent by Media Impact Project
 							</td>
 							<td id="footer-pattern-logo-desktop-container" valign="top" style="padding: 0px; border-collapse: collapse; padding-left: 20px; vertical-align: top">
 								<table style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">
