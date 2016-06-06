@@ -182,7 +182,7 @@
                 dialog = form.parents('.reveal');
             $.ajax({
                 url: '/auth/account',
-                method: 'PUT',
+                method: 'POST',
                 data: form.serialize()
             }).done(function (result) {
                 if (result && result.success) {

@@ -26,12 +26,19 @@ Route::post('auth/reset/password', 'Auth\PasswordController@postReset');
 Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 
+// Super Admin management routes...
+Route::get('admin/client', 'ClientController@showPage');
+Route::get('admin/client/all', 'ClientController@loadClient');
+Route::get('admin/client/{id}', 'ClientController@getClient');
+Route::post('admin/client', 'ClientController@saveClient');
+Route::delete('admin/client/{id}', 'ClientController@removeClient');
+
 // Account management routes...
 Route::get('auth/account/management', 'Auth\AccountController@showAccount');
 Route::get('auth/account/all', 'Auth\AccountController@loadAccount');
 Route::post('auth/account/invite', 'Auth\AccountController@invite');
 Route::get('auth/account/{id}', 'Auth\AccountController@getAccount');
-Route::put('auth/account', 'Auth\AccountController@editAccount');
+Route::post('auth/account', 'Auth\AccountController@editAccount');
 Route::delete('auth/account/{id}', 'Auth\AccountController@removeAccount');
 
 // Demo routes...

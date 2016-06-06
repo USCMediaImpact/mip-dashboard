@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('roles')->insert([
-            'name' => 'SuperUser'
+            'name' => 'SuperAdmin'
         ]);
 
         DB::table('roles')->insert([
@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $user = App\User::where('email', '=', 'steve.yin@mediaimpactproject.org')->first();
-        $role = App\Role::where('name', '=', 'SuperUser')->first();
+        $role = App\Role::where('name', '=', 'SuperAdmin')->first();
         $user->roles()->attach($role);
         $user->save();
 
