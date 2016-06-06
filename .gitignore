@@ -12,6 +12,7 @@
 .yardoc
 _build
 .customizer
+composer.lock
 
 bower_components
 node_modules
