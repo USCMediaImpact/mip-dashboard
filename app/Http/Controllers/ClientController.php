@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-use App\User;
-use App\Client;
+use App\Models\User;
+use App\Models\Client;
 
 class ClientController extends AuthenticatedBaseController
 {

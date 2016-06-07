@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Auth\Passwords\PasswordBroker;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Mail;
 use Config;
 use DB;
-use App\User;
-use App\Role;
+use App\Models\User;
+use App\Models\Role;
 
 class AccountController extends Controller
 {

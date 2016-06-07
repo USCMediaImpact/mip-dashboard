@@ -7,8 +7,7 @@ use Cache;
 use Google_Client;
 use Google_Service_Bigquery;
 use Google_Service_Bigquery_QueryRequest;
-use App\User;
-use App\Http\Controllers\Controller;
+use App\Models\User;
 
 class MetricsController extends AuthenticatedBaseController{
 

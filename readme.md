@@ -10,8 +10,8 @@ DB::table('users')->insert([
     'password' => bcrypt('admin123!@#'),
 ]);
 
-$user = App\User::where('email', '=', 'steve.yin@mediaimpactproject.org')->first();
-$role = App\Role::where('name', '=', 'SuperUser')->first();
+$user = App\Models\User::where('email', '=', 'steve.yin@mediaimpactproject.org')->first();
+$role = App\Models\Role::where('name', '=', 'SuperUser')->first();
 $user->roles()->attach($role);
 $user->save();
 ```

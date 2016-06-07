@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -16,6 +16,6 @@ class Client extends Model
     protected $fillable = ['name', 'website', 'code'];
 
     public function users(){
-        return $this->hasMany('User');
+        return $this->hasMany('App\Models\User');
     }
 }

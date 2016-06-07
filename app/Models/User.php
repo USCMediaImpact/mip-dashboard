@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
@@ -24,10 +24,10 @@ class User extends Model implements AuthenticatableContract,
 
     public function roles()
     {
-        return $this->belongsToMany('App\Role', 'user_role');
+        return $this->belongsToMany('App\Models\Role', 'user_role');
     }
 
     public function client(){
-        return $this->belongsTo('Client');
+        return $this->belongsTo('App\Models\Client');
     }
 }

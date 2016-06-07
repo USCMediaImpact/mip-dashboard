@@ -28,8 +28,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin'
         ]);
 
-        $user = App\User::where('email', '=', 'steve.yin@mediaimpactproject.org')->first();
-        $role = App\Role::where('name', '=', 'SuperAdmin')->first();
+        $user = App\Models\User::where('email', '=', 'steve.yin@mediaimpactproject.org')->first();
+        $role = App\Models\Role::where('name', '=', 'SuperAdmin')->first();
         $user->roles()->attach($role);
         $user->save();
 
