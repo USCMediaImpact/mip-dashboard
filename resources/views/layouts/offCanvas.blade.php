@@ -1,5 +1,16 @@
 <ul class="vertical menu">
-    <li> {{ $client['name'] }} </li> <!--- client name auto goes here -->
+    
+    @if(Session::get('client') !== null && Session::get('allClient') !== null)
+        @can('SuperAdmin')
+            <select class="clientSelector">
+                @foreach($allClient as $item)
+                <option value="{!! $item['value'] !!}" {!! $client['id'] == $item['id'] ? 'selected="selected"' : '' !!}>{{ $item['name'] }}</option>
+                @endforeach
+            </select>
+        @else
+            <li><h4>{{ $client['name'] }}</h4></li> <!--- client name auto goes here -->
+        @endcan
+    @endif
     <li><a href="{{action('ReportsController@showContent')}}"><i class="fa fa-file-text-o"></i>Reports</a></li>
     <li><a href="{{action('MetricsController@showContent')}}"><i class="fa fa-bar-chart"></i>Metrics</a></li>
     <li><a href="{{action('DataController@showContent')}}"><i class="fa fa-database"></i>Data</a></li>

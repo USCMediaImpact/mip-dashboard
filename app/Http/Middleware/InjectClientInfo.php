@@ -4,10 +4,11 @@ namespace App\Http\Middleware;
 
 use App\Models\Client;
 use View;
+use Crypt;
 use Closure;
 use Symfony\Component\HttpFoundation\Cookie;
 
-class InjectClient
+class InjectClientInfo
 {
     /**
      * Handle an incoming request.
@@ -24,10 +25,8 @@ class InjectClient
          * others use current user client info
          */
         if ($user->roles()->where('name', 'SuperAdmin')->count() > 0) {
-
             $clientId = $request->cookie('client-id');
             if ($clientId === null) {
-
                 $client = Client::first()
                     ->select(['id', 'name', 'code'])
                     ->get()->toArray()[0];
@@ -36,19 +35,29 @@ class InjectClient
                     ->select(['id', 'name', 'code'])
                     ->get()->toArray()[0];
             }
+
             $needSetCookie = true;
+            $allClient = Client::select(['id', 'name'])->get()->toArray();
+            View::share('allClient', array_map(function($row){
+                return array(
+                    'id' => $row['id'],
+                    'name' => $row['name'],
+                    'value' => Crypt::encrypt($row['id'])
+                );
+            }, $allClient));
         } else {
             $client = $user->client->first();
         }
 
         View::share('client', $client);
 
-        $request->attributes->add(['client' => $client]);
-        //dd($request);
+        $request->merge(['client' => $client]);
+
         $response = $next($request);
 
         if($needSetCookie){
-            $response->headers->setCookie(new Cookie('client-id', $client['id']));
+            $clientCookie = new Cookie('client-id', $client['id'], 0, '/', null, false, false);
+            $response->headers->setCookie($clientCookie);
         }
         return $response;
     }

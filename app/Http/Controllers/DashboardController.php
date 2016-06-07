@@ -12,8 +12,8 @@ use Google_Service_Bigquery_QueryRequest;
 
 class DashboardController extends AuthenticatedBaseController{
     
-    public function showDashboard(){
-        //dd($clientId);
+    public function showDashboard(Request $request){
+        
         $report = Cache::remember('demo_dashboard', 60 * 60, function() {
             return $this->showDataFromBigQuery();
         });

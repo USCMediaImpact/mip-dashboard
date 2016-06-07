@@ -23,6 +23,10 @@ $(function () {
 		},
 		buttons: false // an array of buttons
 	};
+	$(document).on('change', '.clientSelector', function(){
+		Cookies.set('client-id', $(this).val());
+		window.location.reload(true);
+	});
 	$(window).on('resize', function () {
 		var documentHeight = $(document).height(),
 			windowHeight = $(window).height(),

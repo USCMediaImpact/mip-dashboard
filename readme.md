@@ -45,3 +45,11 @@ some useful Redis cache command
 ###Menu###
 Middleware `app/Http/Middleware/ParseCurrentControllerAndAction` is for get current Controller and Action will be used in menu view
 BaseController `app/Controllers/AuthenticatedBaseController` register 2 middleware: routeInfo and auth. Any need authenticate Controller can inherit from this base controller
+
+###Client Info###
+Middleware `app/Http/Middleware/InjectClientInfo` is for inject user client info into request and view. you can use $client in View and use $request->input('client') to get current user client info
+For SuperAdmin will auto inject the first client. and allow SuperAdmin select client from view.
+For safe used these variable better check before use it in view
+```php
+Session::get('client') !== null
+```

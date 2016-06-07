@@ -40,6 +40,7 @@
     <script src="{{ asset('scripts/vendor/jquery.min.js') }}"></script>
     <script src="{{ asset('scripts/vendor/moment.min.js') }}"></script>
     <script src="{{ asset('scripts/vendor/sprintf.min.js') }}"></script>
+    <script src="{{ asset('scripts/vendor/cookie.js') }}"></script>
     <script src="{{ asset('scripts/vendor/what-input.min.js') }}"></script>
     <script src="{{ asset('scripts/vendor/foundation.min.js') }}"></script>
     <script src="{{ asset('scripts/vendor/jquery.dataTables.js') }}"></script>
