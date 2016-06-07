@@ -1,5 +1,5 @@
 <ul class="vertical menu">
-    <li> Client Name </li> <!--- client name auto goes here -->
+    <li> {{ $client['name'] }} </li> <!--- client name auto goes here -->
     <li><a href="{{action('ReportsController@showContent')}}"><i class="fa fa-file-text-o"></i>Reports</a></li>
     <li><a href="{{action('MetricsController@showContent')}}"><i class="fa fa-bar-chart"></i>Metrics</a></li>
     <li><a href="{{action('DataController@showContent')}}"><i class="fa fa-database"></i>Data</a></li>

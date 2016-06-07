@@ -10,5 +10,6 @@ class AuthenticatedBaseController extends Controller
     {
         $this->middleware('routeInfo');
         $this->middleware('auth');
+        $this->middleware('clientInfo');
     }
 }
