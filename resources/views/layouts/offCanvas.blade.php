@@ -1,4 +1,5 @@
 <ul class="vertical menu">
+    <li> Client Name </li> <!--- client name auto goes here -->
     <li><a href="{{action('ReportsController@showContent')}}"><i class="fa fa-file-text-o"></i>Reports</a></li>
     <li><a href="{{action('MetricsController@showContent')}}"><i class="fa fa-bar-chart"></i>Metrics</a></li>
     <li><a href="{{action('DataController@showContent')}}"><i class="fa fa-database"></i>Data</a></li>
@@ -11,3 +12,4 @@
     @endcan
     <li><a href="/auth/logout"><i class="fa fa-sign-out"></i>Logout</a></li>
 </ul>
+Powered by: <a href="http://www.mediaimpactproject.org" class="top_logo"> Media Impact Project</a>

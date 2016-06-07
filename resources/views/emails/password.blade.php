@@ -41,7 +41,7 @@
 												<br />
 												Cheers,
 												<br />
-												The Media Impact team
+												The Media Impact Project team
 											</p>
 										</td>
 									</tr>
@@ -78,7 +78,7 @@
 					<table id="footer-pattern-container" cellspacing="0" cellpadding="0" border="0" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">
 						<tr>
 							<td id="footer-pattern-text" class="mobile-resize-text" width="100%" style="padding: 0px; border-collapse: collapse; color: #999; font-size: 12px; line-height: 18px; font-family: Arial, sans-serif; mso-line-height-rule: exactly; mso-text-raise: 2px">
-								This message was sent by the Media Impact Project Data Repository.
+								This message was sent by the Media Impact Project Data Repository team automatically.
 							</td>
 							<td id="footer-pattern-logo-desktop-container" valign="top" style="padding: 0px; border-collapse: collapse; padding-left: 20px; vertical-align: top">
 								<table style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt">
