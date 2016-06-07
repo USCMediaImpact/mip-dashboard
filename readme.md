@@ -51,5 +51,5 @@ Middleware `app/Http/Middleware/InjectClientInfo` is for inject user client info
 For SuperAdmin will auto inject the first client. and allow SuperAdmin select client from view.
 For safe used these variable better check before use it in view
 ```php
-Session::get('client') !== null
+@if(isset($client))
 ```

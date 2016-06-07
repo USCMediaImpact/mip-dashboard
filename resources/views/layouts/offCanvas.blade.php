@@ -1,6 +1,5 @@
 <ul class="vertical menu">
-    
-    @if(Session::get('client') !== null && Session::get('allClient') !== null)
+    @if(isset($client) && isset($allClient))
         @can('SuperAdmin')
             <select class="clientSelector">
                 @foreach($allClient as $item)
