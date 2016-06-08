@@ -8,6 +8,7 @@ use Config;
 use DB;
 use App\Models\User;
 use App\Models\Role;
+use App\Http\Controllers\AuthenticatedBaseController;
 
 class AccountController extends AuthenticatedBaseController
 {
@@ -17,17 +18,18 @@ class AccountController extends AuthenticatedBaseController
     }
 
     public function showAccount(){
-        $roles = Role::where('name', '<>', 'SuperAdmin')->all();
+        $roles = Role::where('name', '<>', 'SuperAdmin')->get();
 		return view('auth.account', [
             'roles' => $roles
         ]);
 	}
 
     public function loadAccount(Request $request){
+        $client_id = $request->user()->client->id;
         $search = $request->input('search.value');
 
-        $total = User::count();
-        $query = User::whereRaw("1=1");
+        $total = User::where('client_id', $client_id)->count();
+        $query = User::where('client_id', $client_id);
         if($search !== null){
             $query = $query->where(function($q) use($search){
                 $q->where('email', 'like', '%'.$search.'%')
@@ -51,6 +53,8 @@ class AccountController extends AuthenticatedBaseController
     }
 
     public function invite(Request $request){
+        $client_id = $request->user()->client->id;
+
         $dbUser = User::where('email', $request['email'])->first();
         if($dbUser){
             return array('success'=>false, 'message'=>sprintf('email %s already been invited!', $dbUser->email));
@@ -58,18 +62,19 @@ class AccountController extends AuthenticatedBaseController
 
         $newUser = User::create([
             'name' => $request['name'],
-            'email' => $request['email']
+            'email' => $request['email'],
+            'client_id' => $client_id
         ]);
-
-
-        $requestRoles = $request->input('role') ?: [];
-        foreach($requestRoles as $role){
-            $dbRoleId = Role::where('id', $role)->value('id');
-            if($dbRoleId !== null){
-                $newUser->roles()->attach($dbRoleId);
-            }
-        }
         $newUser->save();
+
+        $roles = DB::table('roles')
+            ->wherein('id', $request['role'] ?: [])
+            ->where('name', '<>', 'SuperAdmin')
+            ->get(['id']);
+        $roles = array_map(function($row){
+            return $row->id;
+        }, $roles);
+        $newUser->roles()->sync($roles);
 
         $token = app('auth.password.tokens')->create($newUser);
         Mail::send('emails.welcome', [
@@ -84,13 +89,18 @@ class AccountController extends AuthenticatedBaseController
     }
 
     public function getAccount(Request $request, $userId){
+        $client_id = $request->user()->client->id;
         return User::with('roles')
             ->where('id', $userId)
+            ->where('client_id', $client_id)
             ->first();
     }
 
     public function editAccount(Request $request){
-        $user = User::where('id', $request['id'])->first();
+        $client_id = $request->user()->client->id;
+        $user = User::where('id', $request['id'])
+            ->where('client_id', $client_id)
+            ->first();
         if($user === null){
             return array('success'=>false, 'message' => 'user not exist');
         }
@@ -99,6 +109,7 @@ class AccountController extends AuthenticatedBaseController
         ]);
         $roles = DB::table('roles')
             ->wherein('id', $request['role'] ?: [])
+            ->where('name', '<>', 'SuperAdmin')
             ->get(['id']);
         $roles = array_map(function($row){
             return $row->id;
@@ -108,7 +119,11 @@ class AccountController extends AuthenticatedBaseController
     }
 
     public function removeAccount(Request $request, $userId){
-        $user = User::where('id', $userId)->first();
+        $client_id = $request->user()->client->id;
+        $user = User::where('id', $userId)
+            ->where('client_id', $client_id)
+            ->first();
+
         if($user !== null) {
             $user->roles()->detach();
             $user->delete();
