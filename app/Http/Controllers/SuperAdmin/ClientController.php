@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\SuperAdmin;
 
 use Illuminate\Http\Request;
 use DB;
-use App\Models\User;
+use App\Http\Controllers\AuthenticatedBaseController;
 use App\Models\Client;
 
 class ClientController extends AuthenticatedBaseController

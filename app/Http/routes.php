@@ -27,13 +27,20 @@ Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', 'Auth\AuthController@postRegister');
 
 // Super Admin management routes...
-Route::get('admin/client', 'ClientController@showPage');
-Route::get('admin/client/all', 'ClientController@loadClient');
-Route::get('admin/client/{id}', 'ClientController@getClient');
-Route::post('admin/client', 'ClientController@saveClient');
-Route::delete('admin/client/{id}', 'ClientController@removeClient');
+Route::get('admin/account/management', 'SuperAdmin\AccountController@showPage');
+Route::get('admin/account/all', 'SuperAdmin\AccountController@loadAccount');
+Route::post('admin/account/invite', 'SuperAdmin\AccountController@invite');
+Route::get('admin/account/{id}', 'SuperAdmin\AccountController@getAccount');
+Route::post('admin/account', 'SuperAdmin\AccountController@saveAccount');
+Route::delete('admin/account/{id}', 'SuperAdmin\AccountController@removeAccount');
 
-// Account management routes...
+Route::get('admin/client/management', 'SuperAdmin\ClientController@showPage');
+Route::get('admin/client/all', 'SuperAdmin\ClientController@loadClient');
+Route::get('admin/client/{id}', 'SuperAdmin\ClientController@getClient');
+Route::post('admin/client', 'SuperAdmin\ClientController@saveClient');
+Route::delete('admin/client/{id}', 'SuperAdmin\ClientController@removeClient');
+
+// Admin management routes...
 Route::get('auth/account/management', 'Auth\AccountController@showAccount');
 Route::get('auth/account/all', 'Auth\AccountController@loadAccount');
 Route::post('auth/account/invite', 'Auth\AccountController@invite');

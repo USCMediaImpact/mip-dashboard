@@ -19,6 +19,7 @@ class InjectClientInfo
      */
     public function handle($request, Closure $next)
     {
+        $needSetCookie = false;
         $user = $request->user();
         /**
          * if super admin client id get from cookie
@@ -47,6 +48,9 @@ class InjectClientInfo
             }, $allClient));
         } else {
             $client = $user->client->first();
+            if($client === null){
+                dd('error');
+            }
         }
 
         View::share('client', $client);

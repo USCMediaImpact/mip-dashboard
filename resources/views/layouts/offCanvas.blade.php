@@ -17,8 +17,8 @@
     <li><a href="/auth/account/management"><i class="fa fa-gear"></i>Settings</a></li>
     @endcan
     @can('SuperAdmin')
-    <li><a href="/admin/client"><i class="fa fa-gear"></i>Client Management</a></li>
-    <li><a href="/auth/account/management"><i class="fa fa-gear"></i>User Management</a></li>
+    <li><a href="/admin/client/management"><i class="fa fa-gear"></i>Client Management</a></li>
+    <li><a href="/admin/account/management"><i class="fa fa-gear"></i>User Management</a></li>
     @endcan
     <li><a href="/auth/logout"><i class="fa fa-sign-out"></i>Logout</a></li>
 </ul>
