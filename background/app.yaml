@@ -10,5 +10,5 @@ manual_scaling:
 
 handlers:
 - url: /.*
-  script: task.app
+  script: job.app
   login: admin
