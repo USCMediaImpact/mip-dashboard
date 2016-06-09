@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Cache;
+use Illuminate\Http\Request;
 use Google_Client;
 use Google_Service_Bigquery;
 use Google_Service_Bigquery_QueryRequest;
@@ -23,7 +24,8 @@ class DataController extends AuthenticatedBaseController{
         return view('data.donations');
     }
 
-    public function showQuality(){
+    public function showQuality(Request $request){
+        
         return view('data.quality');
     }
 }

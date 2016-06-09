@@ -8,9 +8,13 @@
     <!-- build:css css/style.css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/foundation.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui.structure.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui.theme.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.dataTables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/dataTables.foundation.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/noty.animate.css') }}">
+     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.comiseo.daterangepicker.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
     <!-- endbuild -->
 </head>
@@ -43,10 +47,12 @@
     <script src="{{ asset('scripts/vendor/cookie.js') }}"></script>
     <script src="{{ asset('scripts/vendor/what-input.min.js') }}"></script>
     <script src="{{ asset('scripts/vendor/foundation.min.js') }}"></script>
+    <script src="{{ asset('scripts/vendor/jquery-ui.js') }}"></script>
     <script src="{{ asset('scripts/vendor/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('scripts/vendor/dataTables.foundation.js') }}"></script>
     <script src="{{ asset('scripts/vendor/jquery.noty.packaged.js') }}"></script>
     <script src="{{ asset('scripts/vendor/noty.theme.foundation.js') }}"></script>
+    <script src="{{ asset('scripts/vendor/jquery.comiseo.daterangepicker.js') }}"></script>
     <script src="{{ asset('scripts/vendor/amcharts/amcharts.js') }}"></script>
     <script src="{{ asset('scripts/vendor/amcharts/serial.js') }}"></script>
     <script src="{{ asset('scripts/vendor/amcharts/themes/light.js') }}"></script>

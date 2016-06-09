@@ -164,6 +164,7 @@
                 layout: 'center',
                 modal: true,
                 timeout: false,
+                force: true,
                 text: '<h5 class="text-left">Comfirm</h5><p>Do you want to remove this client?</p>',
                 buttons: [{
                     addClass: 'button tiny',

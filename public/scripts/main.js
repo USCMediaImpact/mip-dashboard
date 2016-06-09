@@ -27,6 +27,7 @@ $(function () {
 		Cookies.set('client-id', $(this).val());
 		window.location.reload(true);
 	});
+	$('#dateRange').daterangepicker();
 	$(window).on('resize', function () {
 		var documentHeight = $(document).height(),
 			windowHeight = $(window).height(),
