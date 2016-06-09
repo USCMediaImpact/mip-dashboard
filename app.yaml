@@ -28,6 +28,7 @@ handlers:
           script: public/index.php
 
 skip_files:
+        - ^(background/.*)
         - ^(.*/)?#.*#$
         - ^(.*/)?.*~$
         - ^(.*/)?.*\.py[co]$

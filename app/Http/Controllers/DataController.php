@@ -25,7 +25,7 @@ class DataController extends AuthenticatedBaseController{
     }
 
     public function showQuality(Request $request){
-        
+
         return view('data.quality');
     }
 }
