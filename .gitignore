@@ -40,3 +40,5 @@ Homestead.json
 .env
 .phpintel
 .idea
+
+background/lib/*

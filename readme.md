@@ -21,6 +21,14 @@ then run `php artisan db:seed` to add you account and role
 ###Background Services###
 The Background Services deployed to Google App Engine are use corn for python. The sourcecode are in the folder `background`
 You need splited deploy these code to App Engine.
+Cause we used some 3rd library need install these library into folder `lib`
+for Mac. there have a issue for Homebrew [see more here](http://stackoverflow.com/questions/24257803/distutilsoptionerror-must-supply-either-home-or-prefix-exec-prefix-not-both)
+Create a pip config file `~/.pydistutils.cfg` with these content
+```
+[install]
+prefix=
+```
+Then run the pip install command `pip install -t lib -r requirements.txt`
 
 ###Command Line###
 + `php artisan optimize`
