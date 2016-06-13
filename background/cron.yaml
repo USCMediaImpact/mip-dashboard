@@ -2,4 +2,4 @@ cron:
 - description: daily etl job
   url: /etl/daily
   target: etl
-  schedule: every 1 minutes
+  schedule: every day 04:00

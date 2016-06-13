@@ -9,6 +9,10 @@ manual_scaling:
   instances: 1
 
 handlers:
+- url: /hive
+  static_dir: hive
+  application_readable: true
+  login: admin
 - url: /.*
   script: job.app
   login: admin
