@@ -19,11 +19,11 @@ def get_service():
 	key_file = open(key_file_location, 'rb')
 	key = key_file.read()
 	key_file.close()
-	​
+
 	credentials = SignedJwtAssertionCredentials(service_account_email, key, scope=scope)
-	​
+	
 	http = credentials.authorize(httplib2.Http())
-	​
+	
 	# Build the service object.
 	return build(api_name, api_version, http=http)
 
