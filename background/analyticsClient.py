@@ -35,6 +35,8 @@ def get_ga_result(profile_id, start_date, end_date, metrics, dimensions):
 		end_date=end_date,
 		metrics=metrics,
 		dimensions=dimensions).execute()
-   	for row in data
+
+   	for row in data :
    		result.push(data.get('rows'))
+   		
    	return result
