@@ -25,8 +25,8 @@ class DailyTaskHandler(webapp2.RequestHandler):
 
         logging.debug('KPCC bigquery result : %s' % (bg_data,))
 
-        insert_mysql(sql.data_quanlity_daily, ga_data + bg_data)
-        
+        insert_mysql(sql.data_quanlity_daily, (yesterday, '') + ga_data + bg_data)
+
         self.response.out.write('ok')
 
 app = webapp2.WSGIApplication([
