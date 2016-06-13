@@ -3,7 +3,6 @@
 import argparse
 from apiclient.discovery import build
 from oauth2client.client import SignedJwtAssertionCredentials
-​
 import httplib2
 from oauth2client import client
 from oauth2client import file
