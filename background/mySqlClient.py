@@ -1,13 +1,6 @@
 #!/usr/bin/env python
 import argparse
-import mysql.connector
-
-CONFIG = {
-  'user': 'root',
-  'host': '127.0.0.1',
-  'database': 'media_impact',
-  'raise_on_warnings': True,
-}
+import MySQLdb
 
 """
 	sql = ("INSERT INTO employees "
@@ -16,8 +9,22 @@ CONFIG = {
     data = [('Geert', 'Vanderkelen', tomorrow, 'M', date(1977, 6, 14)), ('Geert', 'Vanderkelen', tomorrow, 'M', date(1977, 6, 14))]
 """
 def insert_mysql(sql, data):
-	cnx = mysql.connector.connect(**CONFIG)
-	cursor = cnx.cursor()
+	env = os.getenv('SERVER_SOFTWARE')
+  if (env and env.startswith('Google App Engine/')):
+    # Connecting from App Engine
+    db = MySQLdb.connect(
+      unix_socket='/cloudsql/mip-dashboard:test-mip-dashboard',
+      database='media_impact',
+      user='root')
+  else:
+    # Connecting from an external network.
+    # Make sure your network is whitelisted
+    db = MySQLdb.connect(
+      host='127.0.0.1',
+      database='media_impact',
+      port=3306,
+      user='root')
+
+	cursor = db.cursor()
 	for row in data:
 		cursor.execute(sql, row)
-	cnx.close()

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
-from apiclient.discovery import build
+from googleapiclient.discovery import build
 from oauth2client.client import SignedJwtAssertionCredentials
 import httplib2
 from oauth2client import client

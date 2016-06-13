@@ -16,3 +16,7 @@ handlers:
 - url: /.*
   script: job.app
   login: admin
+
+libraries:
+- name: MySQLdb
+version: "latest"
