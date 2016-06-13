@@ -19,4 +19,4 @@ handlers:
 
 libraries:
 - name: MySQLdb
-version: "latest"
+  version: "latest"
