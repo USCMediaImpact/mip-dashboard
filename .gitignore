@@ -5,6 +5,7 @@
 *.sublime-*
 *.swp
 *.swo
+*.pyc
 .bundle
 .grunt
 .idea
