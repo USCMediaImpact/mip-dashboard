@@ -7,7 +7,7 @@ import analyticsClient
 import bigQueryClient
 import mySqlClient
 from query import hive
-from query import sql
+from query import mysql
 
 
 class DailyTaskHandler(webapp2.RequestHandler):
@@ -29,7 +29,7 @@ class DailyTaskHandler(webapp2.RequestHandler):
 
         logging.debug('KPCC bigquery result : %s' % (bg_data,))
 
-        mySqlClient.insert_mysql(sql.data_quanlity_daily, (yesterday, '') + ga_data + bg_data)
+        mySqlClient.insert_mysql(mysql.data_quanlity_daily, (yesterday, '') + ga_data + bg_data)
 
         self.response.out.write('ok')
 
