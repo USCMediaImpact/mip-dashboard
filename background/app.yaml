@@ -13,7 +13,7 @@ handlers:
     script: job.app
     login: admin
 
-  libraries:
+libraries:
   - name: MySQLdb
     version: "latest"
 
