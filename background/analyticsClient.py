@@ -9,7 +9,7 @@ from httplib2 import Http
 
 service_account_email = 'account-1@methodical-bee-111016.iam.gserviceaccount.com'
 scope = ['https://www.googleapis.com/auth/analytics.readonly']
-p12_file_location = 'mip-analytics.p12'
+p12_file_location = 'mip-analytics.pem'
 api_name = 'analytics'
 api_version = 'v3'
 
