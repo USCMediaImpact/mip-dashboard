@@ -19,7 +19,7 @@ def get_service():
 	credentials = ServiceAccountCredentials.from_p12_keyfile(
 		service_account_email, 
 		p12_file_location, 
-		'nocerts',
+		'notasecret',
 		scope)
 
 	http_auth = credentials.authorize(Http())
