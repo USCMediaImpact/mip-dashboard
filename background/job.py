@@ -23,12 +23,13 @@ class DailyTaskHandler(webapp2.RequestHandler):
 			yesterday, 
 			'ga:users',
 			'ga:date')
+
+		logging.debug('KPCC ga user: %s' % (ga_data,))
+
 		if not ga_data :
 			ga_data = ga_data[0][1]
 		else :
 			ga_data = ''
-
-		logging.debug('KPCC ga user: %s' % (ga_data,))
 		
 		hql = hive.data_quanlity.format(min_date=yesterday, max_date=yesterday)
 		bq_data = bigQueryClient.get_bq_result(hql)
