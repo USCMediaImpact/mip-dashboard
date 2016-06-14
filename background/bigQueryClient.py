@@ -20,8 +20,8 @@ def get_bq_result(sql):
 	query_data = {'query': sql}
 	query_response = query_request.query(
 		projectId=PROJECT_ID,
-		body=query_data
-	).execute()
+		body=query_data).execute()
+	
 	response = query.get('rows', [])
 	if response :
 		for row in response :

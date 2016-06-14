@@ -27,6 +27,7 @@ class DailyTaskHandler(webapp2.RequestHandler):
 			ga_data = ga_data[0][1]
 		else :
 			ga_data = ''
+
 		logging.debug('KPCC ga user: %s' % (ga_data,))
 		
 		hql = hive.data_quanlity.format(min_date=yesterday, max_date=yesterday)
