@@ -8,7 +8,7 @@ from oauth2client.client import GoogleCredentials
 
 API_NAME = 'bigquery'
 API_VERSION = 'v2'
-PROJECT_ID = 'mip-dashboard'
+PROJECT_ID = 'tonal-studio-119521'
 
 def get_services():
 	credentials = GoogleCredentials.get_application_default()
