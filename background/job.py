@@ -1,9 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 import logging
 import webapp2
 from datetime import datetime
-from date import datetime
+from datetime import date
 import analyticsClient
 import bigQueryClient
 import mySqlClient
