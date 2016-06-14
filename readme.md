@@ -65,3 +65,6 @@ For safe used these variable better check before use it in view
 ```php
 @if(isset($client))
 ```
+
+###Other Tools###
+Google Analytics Query Tools https://ga-dev-tools.appspot.com/query-explorer/
