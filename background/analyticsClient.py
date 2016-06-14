@@ -2,6 +2,7 @@
 
 import argparse
 import sys
+import os
 
 from apiclient.discovery import build
 from oauth2client.service_account import ServiceAccountCredentials
@@ -9,8 +10,9 @@ from httplib2 import Http
 
 service_account_email = 'account-1@methodical-bee-111016.iam.gserviceaccount.com'
 scope = ['https://www.googleapis.com/auth/analytics.readonly']
-p12_file_location = 'mip-analytics.p12'
+p12_file_location = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'mip-analytics.p12')
 api_name = 'analytics'
+
 api_version = 'v3'
 
 def get_service():
