@@ -44,3 +44,4 @@ Homestead.json
 background/lib/*
 background/env/*
 *.p12
+*.pem
