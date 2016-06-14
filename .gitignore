@@ -42,4 +42,5 @@ Homestead.json
 .idea
 
 background/lib/*
+background/env/*
 *.p12
