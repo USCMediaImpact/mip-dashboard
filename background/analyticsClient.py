@@ -5,23 +5,31 @@ import sys
 import os
 
 from apiclient.discovery import build
+from oauth2client.client import GoogleCredentials
+
 from oauth2client.service_account import ServiceAccountCredentials
 from httplib2 import Http
 
-service_account_email = 'account-1@methodical-bee-111016.iam.gserviceaccount.com'
-scope = ['https://www.googleapis.com/auth/analytics.readonly']
-p12_file_location = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'mip-analytics.p12')
-api_name = 'analytics'
-api_version = 'v3'
+SCOPE = ['https://www.googleapis.com/auth/analytics.readonly']
+API_NAME = 'analytics'
+API_VERSION = 'v3'
+#for local debug
+SERVICE_ACCOUNT_EMAIL = 'account-1@methodical-bee-111016.iam.gserviceaccount.com'
+P12_FILE_LOCATION = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'mip-analytics.p12')
+
 
 def get_service():
-	credentials = ServiceAccountCredentials.from_p12_keyfile(
-		service_account_email, 
-		p12_file_location, 
-		'notasecret',
-		scope)
-	return build(api_name, api_version, credentials=credentials)
-	http_auth = credentials.authorize(Http())
+	env = os.getenv('SERVER_SOFTWARE')
+  	if (env and env.startswith('Google App Engine/')):
+		credentials = GoogleCredentials.get_application_default()
+	else:
+		credentials = ServiceAccountCredentials.from_p12_keyfile(
+			SERVICE_ACCOUNT_EMAIL, 
+			P12_FILE_LOCATION, 
+			'notasecret',
+			SCOPE)
+		
+	return build(API_NAME, API_VERSION, credentials=credentials)
 
 	# Build the service object.
 	return build(api_name, api_version, http=http_auth)
