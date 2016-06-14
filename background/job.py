@@ -21,11 +21,12 @@ class DailyTaskHandler(webapp2.RequestHandler):
         ga_data = analyticsClient.get_ga_result('104512889', 
         	yesterday, 
         	yesterday, 
-        	'ga:users')
+        	'ga:users',
+		'ga:day')
         
         logging.debug('KPCC ga user: %s' % (ga_data,))
         
-        bg_data = bigQueryClient.get_bg_result(hive.data_quanlity.format(
+	bg_data = bigQueryClient.get_bg_result(hive.data_quanlity.format(
         	min_date=yesterday, 
         	max_date=yesterday))
 
