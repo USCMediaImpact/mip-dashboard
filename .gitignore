@@ -45,3 +45,4 @@ background/lib/*
 background/env/*
 *.p12
 *.pem
+background/mip-analytics.json

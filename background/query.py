@@ -84,14 +84,23 @@ class mysql:
 		'''`date`,`events`,`ga_users`,`mip_users`,`user_variance`,`identified_emailsubscribers`,`known_emailsubscribers`, '''
 		'''`total_database_emails`,`identified_newemailsubscribers`,`email_newsletter_clicks`,`eloqua_email_newsletter_clicks`,`email_newsletter_clicks_variance`, '''
 		'''`identified_donors`,`known_donors`,`eloqua_known_donors`,`donors_variance`,`total_known_donors`,`total_known__unique_email`) '''
-		'''VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ''')
+		'''VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
+		'''ON DUPLICATE KEY UPDATE `date`=%s, `events`=%s, `ga_users`=%s, `mip_users`=%s, `user_variance`=%s, `identified_emailsubscribers`=%s, `known_emailsubscribers`=%s,  '''
+		'''`total_database_emails`=%s, `identified_newemailsubscribers`=%s, `email_newsletter_clicks`=%s, `eloqua_email_newsletter_clicks`=%s, `email_newsletter_clicks_variance`=%s, '''
+		'''`identified_donors`=%s, `known_donors`=%s, `eloqua_known_donors`=%s, `donors_variance`=%s, `total_known_donors`=%s, `total_known__unique_email`=%s''')
 	data_quanlity_weekly = ('''INSERT INTO `daily_data_quanlity`( '''
-	'''`date`,`events`,`ga_users`,`mip_users`,`user_variance`,`identified_emailsubscribers`,`known_emailsubscribers`, '''
-	'''`total_database_emails`,`identified_newemailsubscribers`,`email_newsletter_clicks`,`eloqua_email_newsletter_clicks`,`email_newsletter_clicks_variance`, '''
-	'''`identified_donors`,`known_donors`,`eloqua_known_donors`,`donors_variance`,`total_known_donors`,`total_known__unique_email`) '''
-	'''VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ''')
+		'''`date`,`events`,`ga_users`,`mip_users`,`user_variance`,`identified_emailsubscribers`,`known_emailsubscribers`, '''
+		'''`total_database_emails`,`identified_newemailsubscribers`,`email_newsletter_clicks`,`eloqua_email_newsletter_clicks`,`email_newsletter_clicks_variance`, '''
+		'''`identified_donors`,`known_donors`,`eloqua_known_donors`,`donors_variance`,`total_known_donors`,`total_known__unique_email`) '''
+		'''VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
+		'''ON DUPLICATE KEY UPDATE `date`=%s, `events`=%s, `ga_users`=%s, `mip_users`=%s, `user_variance`=%s, `identified_emailsubscribers`=%s, `known_emailsubscribers`=%s,  '''
+		'''`total_database_emails`=%s, `identified_newemailsubscribers`=%s, `email_newsletter_clicks`=%s, `eloqua_email_newsletter_clicks`=%s, `email_newsletter_clicks_variance`=%s, '''
+		'''`identified_donors`=%s, `known_donors`=%s, `eloqua_known_donors`=%s, `donors_variance`=%s, `total_known_donors`=%s, `total_known__unique_email`=%s''')
 	data_quanlity_monthly = ('''INSERT INTO `daily_data_quanlity`( '''
-	'''`date`,`events`,`ga_users`,`mip_users`,`user_variance`,`identified_emailsubscribers`,`known_emailsubscribers`, '''
-	'''`total_database_emails`,`identified_newemailsubscribers`,`email_newsletter_clicks`,`eloqua_email_newsletter_clicks`,`email_newsletter_clicks_variance`, '''
-	'''`identified_donors`,`known_donors`,`eloqua_known_donors`,`donors_variance`,`total_known_donors`,`total_known__unique_email`) '''
-	'''VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) ''')
+		'''`date`,`events`,`ga_users`,`mip_users`,`user_variance`,`identified_emailsubscribers`,`known_emailsubscribers`, '''
+		'''`total_database_emails`,`identified_newemailsubscribers`,`email_newsletter_clicks`,`eloqua_email_newsletter_clicks`,`email_newsletter_clicks_variance`, '''
+		'''`identified_donors`,`known_donors`,`eloqua_known_donors`,`donors_variance`,`total_known_donors`,`total_known__unique_email`) '''
+		'''VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
+		'''ON DUPLICATE KEY UPDATE `date`=%s, `events`=%s, `ga_users`=%s, `mip_users`=%s, `user_variance`=%s, `identified_emailsubscribers`=%s, `known_emailsubscribers`=%s,  '''
+		'''`total_database_emails`=%s, `identified_newemailsubscribers`=%s, `email_newsletter_clicks`=%s, `eloqua_email_newsletter_clicks`=%s, `email_newsletter_clicks_variance`=%s, '''
+		'''`identified_donors`=%s, `known_donors`=%s, `eloqua_known_donors`=%s, `donors_variance`=%s, `total_known_donors`=%s, `total_known__unique_email`=%s''')

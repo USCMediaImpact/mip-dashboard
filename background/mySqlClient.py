@@ -27,4 +27,4 @@ def insert_mysql(sql, data):
 
 	cursor = db.cursor()
 	for row in data:
-		cursor.execute(sql, row)
+		cursor.execute(sql, row)	
