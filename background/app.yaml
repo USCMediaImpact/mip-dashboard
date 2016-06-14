@@ -19,4 +19,4 @@ libraries:
 
 skip_files:
   - ^(env/.*)
-  - ^(.*/)?\.pyc$
+  - ^(.*/)?.*\.py[co]$
