@@ -12,14 +12,13 @@ service_account_email = 'account-1@methodical-bee-111016.iam.gserviceaccount.com
 scope = ['https://www.googleapis.com/auth/analytics.readonly']
 p12_file_location = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'mip-analytics.p12')
 api_name = 'analytics'
-
-api_version = 'v3'
+api_version = 'v4'
 
 def get_service():
 	credentials = ServiceAccountCredentials.from_p12_keyfile(
 		service_account_email, 
 		p12_file_location, 
-		'nocerts',
+		'notasecret',
 		scope)
 
 	http_auth = credentials.authorize(Http())
@@ -33,12 +32,7 @@ def get_ga_result(profile_id, start_date, end_date, metrics, dimensions):
 		start_date=start_date,
 		end_date=end_date,
 		metrics=metrics,
-		dimensions=dimensions,
-		#sort='-ga:visits',
-		#filters='ga:medium==organic',
-		#start_index='1',
-		#max_results='25'
-		).execute()
+		dimensions=dimensions).execute()
 
 	result = []
 	response = query.get('rows', [])

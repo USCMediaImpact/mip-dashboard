@@ -21,8 +21,7 @@ class DailyTaskHandler(webapp2.RequestHandler):
         ga_data = analyticsClient.get_ga_result('104512889', 
         	yesterday, 
         	yesterday, 
-        	'ga:users', 
-        	'ga:date')
+        	'ga:users')
         
         logging.debug('KPCC ga user: %s' % (ga_data,))
         
