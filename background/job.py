@@ -5,6 +5,7 @@ import logging
 import webapp2
 from datetime import datetime
 from datetime import date
+from datetime import timedelta
 import analyticsClient
 import bigQueryClient
 import mySqlClient
