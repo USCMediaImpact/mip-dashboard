@@ -25,8 +25,7 @@ def get_service():
 	return build(api_name, api_version, http=http)
 
 def get_ga_result(profile_id, start_date, end_date, metrics, dimensions):
-	result = []
-   	data = get_service().data().ga().get(
+   	query = get_service().data().ga().get(
 		ids='ga:' + profile_id,
 		start_date=start_date,
 		end_date=end_date,
@@ -36,10 +35,12 @@ def get_ga_result(profile_id, start_date, end_date, metrics, dimensions):
       	#filters='ga:medium==organic',
       	#start_index='1',
       	#max_results='25'
-      ).execute()
+		).execute()
 
-    if data.get('rows', []):
-	   	for row in data.get('rows') :
-	   		result.push(row)
+   	result = []
+   	response = query.get('rows', [])
+   	if response:
+   		for row in response:
+   			result.push(row)
 
    	return result
