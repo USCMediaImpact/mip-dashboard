@@ -9,10 +9,13 @@ manual_scaling:
   instances: 1
 
 handlers:
-- url: /.*
-  script: job.app
-  login: admin
+  - url: /.*
+    script: job.app
+    login: admin
 
-libraries:
-- name: MySQLdb
-  version: "latest"
+  libraries:
+  - name: MySQLdb
+    version: "latest"
+
+skip_files:
+  - ^(env/.*)

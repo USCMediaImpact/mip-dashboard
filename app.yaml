@@ -4,61 +4,61 @@ runtime:        php55
 api_version:    1
 
 handlers:
-        - url: /favicon\.ico
-          static_files: public/favicon.ico
-          upload: public/favicon\.ico
+	- url: /favicon\.ico
+		static_files: public/favicon.ico
+		upload: public/favicon\.ico
 
-        - url: /css
-          static_dir: public/css
-          application_readable: true
+	- url: /css
+		static_dir: public/css
+		application_readable: true
 
-        - url: /fonts
-          static_dir: public/fonts
-          application_readable: true
+	- url: /fonts
+		static_dir: public/fonts
+		application_readable: true
 
-        - url: /scripts
-          static_dir: public/scripts
-          application_readable: true
+	- url: /scripts
+		static_dir: public/scripts
+		application_readable: true
 
-        - url: /images
-          static_dir: public/images
-          application_readable: true
+	- url: /images
+		static_dir: public/images
+		application_readable: true
 
-        - url: /.*
-          script: public/index.php
+	- url: /.*
+		script: public/index.php
 
 skip_files:
-        - ^(background/.*)
-        - ^(.*/)?#.*#$
-        - ^(.*/)?.*~$
-        - ^(.*/)?.*\.py[co]$
-        - ^(.*/)?.*/RCS/.*$
-        - ^(.*/)?\.(?!env).*$
-        - ^(.*/)?node_modules.*$
-        - ^(.*/)?_ide_helper\.php$
-        - ^(.*/)?\.DS_Store$
-        - ^(.*/)?\.md$
-        - ^(tests/.*)
-        - ^(database/.*)
-        - ^(storage/.*)
-        - ^(vendor/phpunit/.*)
-        - ^(vendor/fzaninotto/faker/.*)
-        - ^(vendor/mockery/mockery/.*)
-        - ^(vendor/phpspec/.*)
-        - ^(vendor/phpdocumentor/.*)
-        - ^(\.git/.*)
-        - ^(\.idea/.*)
-        - ^(\.phpintel/.*)
-        - ^phpunit.xml$
-        - ^phpspec.yml$
-        - ^package.json$
-        - ^gulpfile.js$
-        - ^composer.json$
-        - ^composer.lock$
-        - ^artisan$
-        - ^\.gitignore$
-        - ^\.env.production$
-        - ^\.env.local$
+	- ^(background/.*)
+	- ^(.*/)?#.*#$
+	- ^(.*/)?.*~$
+	- ^(.*/)?.*\.py[co]$
+	- ^(.*/)?.*/RCS/.*$
+	- ^(.*/)?\.(?!env).*$
+	- ^(.*/)?node_modules.*$
+	- ^(.*/)?_ide_helper\.php$
+	- ^(.*/)?\.DS_Store$
+	- ^(.*/)?\.md$
+	- ^(tests/.*)
+	- ^(database/.*)
+	- ^(storage/.*)
+	- ^(vendor/phpunit/.*)
+	- ^(vendor/fzaninotto/faker/.*)
+	- ^(vendor/mockery/mockery/.*)
+	- ^(vendor/phpspec/.*)
+	- ^(vendor/phpdocumentor/.*)
+	- ^(\.git/.*)
+	- ^(\.idea/.*)
+	- ^(\.phpintel/.*)
+	- ^phpunit.xml$
+	- ^phpspec.yml$
+	- ^package.json$
+	- ^gulpfile.js$
+	- ^composer.json$
+	- ^composer.lock$
+	- ^artisan$
+	- ^\.gitignore$
+	- ^\.env.production$
+	- ^\.env.local$
 
 env_variables:
-        GAE_SKIP_GCS_INIT: false
+	GAE_SKIP_GCS_INIT: false
