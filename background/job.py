@@ -3,6 +3,7 @@
 import logging
 import webapp2
 from datetime import datetime
+from date import datetime
 import analyticsClient
 import bigQueryClient
 import mySqlClient
