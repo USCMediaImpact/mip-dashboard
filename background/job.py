@@ -43,7 +43,13 @@ def _run_custom(min_date, max_date, dimensions):
 	bq_data = bigQueryClient.get_bq_result(hql)
 
 	logging.debug('bigquery result : %s' % (bq_data,))
-
+	if not bq_data :
+		bq_data = bq_data[0]
+	else :
+		bq_data = (0,)
+		for i in range(14) :
+			bq_data += (0,)
+	
 	sql_data = (min_date, '') + (ga_data, ) + bq_data
 
 	logging.debug('need insert mysql data : %s' % (sql_data,))
@@ -80,7 +86,7 @@ class MonthlyTaskHandler(webapp2.RequestHandler):
 
 		self.response.out.write('ok')
 
-class DailyTaskHandler(webapp2.RequestHandler):
+class CurrentDayTaskHandler(webapp2.RequestHandler):
 	def get(self):
 		today = date.today().strftime('%Y-%m-%d')
 		_run_custom(today, today, 'daily')

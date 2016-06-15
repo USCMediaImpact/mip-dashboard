@@ -22,9 +22,9 @@ def get_bq_result(sql):
 		projectId=PROJECT_ID,
 		body=query_data).execute()
 	
-	response = query.get('rows', [])
-	if response :
-		for row in response :
+	data = query_response.get('rows', [])
+	if data :
+		for row in data :
 			dataRow = ()
 			for field in row['f'] :
 				dataRow += (field['v'],)
