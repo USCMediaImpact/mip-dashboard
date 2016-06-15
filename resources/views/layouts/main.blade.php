@@ -27,13 +27,13 @@
             </div>
             @endif
             <div class="off-canvas-content" data-off-canvas-content>
-                <form id="main-form">
+                
                 @include('layouts.header')
                 @include('layouts.menu')
                 <div class="main-content">
                     @yield('content')
                 </div>
-                </form>
+                
                 @include('layouts.footer')
             </div>
         </div>
