@@ -3,6 +3,7 @@
 import argparse
 import logging
 import uuid
+import time
 from apiclient.discovery import build
 from googleapiclient.errors import HttpError
 from oauth2client.client import GoogleCredentials
@@ -17,7 +18,8 @@ def get_services():
 	return build(API_NAME, API_VERSION, credentials=credentials)
 
 def get_bq_result(sql):
-	query_request = get_services().jobs()
+	bigquery = get_services()
+	query_request = bigquery.jobs()
 	job_id = uuid.uuid4()
 	job_data = {
 		'jobReference': {
