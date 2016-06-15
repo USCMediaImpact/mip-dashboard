@@ -19,15 +19,20 @@ $(function () {
 		maxVisible: 5, // you can set max visible notification for dismissQueue true option,
 		killer: false, // for close all notifications before show
 		closeWith: ['click'], // ['click', 'button', 'hover', 'backdrop'] // backdrop click will close all notifications
-		callback: {
-		},
+		callback: {},
 		buttons: false // an array of buttons
 	};
-	$(document).on('change', '.clientSelector', function(){
+	$(document).on('change', '.clientSelector', function () {
 		Cookies.set('client-id', $(this).val());
 		window.location.reload(true);
 	});
-	$('#dateRange').daterangepicker();
+	$('#dateRange').daterangepicker({
+		change: function (event, el) {
+			console.log(el.instance.getRange());
+			var range = el.instance.getRange();
+			$(document).trigger('dateChange.mip-dashboard', [moment(range.start), moment(range.end)]);
+		},
+	});
 	$(window).on('resize', function () {
 		var documentHeight = $(document).height(),
 			windowHeight = $(window).height(),

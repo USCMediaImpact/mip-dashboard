@@ -1,7 +1,10 @@
 @extends('layouts.main')
 
 @section('content')
-	@if (count($report) > 0)
+	@if ($have_data)
+		<form id="form_data_quality" method="GET">
+		<input type="hidden" name="min_date" value="{{ date('Y-m-d', $min_date) }}" />
+		<input type="hidden" name="max_date" value="{{ date('Y-m-d', $max_date) }}" />
 		<div class="table-scroll" style="margin: 20px 10px;">
 	        <table class="tiny hover" style="width: 2000px !important;">
 	            <thead>
@@ -57,15 +60,33 @@
 	            </tbody>
 	        </table>
 	    </div>
+	    </form>
     @else
 		<div class="small-12 column">
 	        <div>Data Quality Comming soon.</div>
 	    </div>
 	@endif
+
 @endsection
 
 @section('script')
     <script>
-		
+		$(function(){
+			var min_date = $('[name="min_date"]').val(),
+				max_date = $('[name="max_date"]').val();
+			console.log(min_date, max_date);
+			if(min_date && max_date){
+				$('#dateRange').daterangepicker("setRange", {
+					start: moment(min_date).toDate(),
+					end: moment(max_date).toDate()
+				});
+			}
+			$(document).on('dateChange.mip-dashboard', function(event, beginDate, endDate){
+				console.log(beginDate, endDate);
+				$('[name="min_date"]').val(beginDate.format('YYYY-MM-DD'));
+				$('[name="max_date"]').val(endDate.format('YYYY-MM-DD'));
+				$('#form_data_quality')[0].submit();
+			});
+		})
     </script>
 @endsection
