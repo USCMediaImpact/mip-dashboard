@@ -61,6 +61,13 @@ def _run_custom(min_date, max_date, dimensions):
 	logging.debug('run :\n' + DIMESIONS[dimensions][1] % sql_data)
 	mySqlClient.insert_mysql(DIMESIONS[dimensions][1], [sql_data])
 
+def add_months(sourcedate, months):
+	month = sourcedate.month - 1 + months
+	year = int(sourcedate.year + month / 12 )
+	month = month % 12 + 1
+	day = min(sourcedate.day,calendar.monthrange(year,month)[1])
+	return date(year,month,day)
+
 class DailyTaskHandler(webapp2.RequestHandler):
 	def get(self):
 		yesterday = (date.today() - timedelta(1)).strftime('%Y-%m-%d')
@@ -118,6 +125,48 @@ class CurrentMonthTaskHandler(webapp2.RequestHandler):
 
 		self.response.out.write('ok')
 
+class HistoryTaskHandler(webapp2.RequestHandler):
+	def get(self):
+		min_date = date(2016, 1, 1)
+		max_date = date(2016, 6, 15)
+		#every day history
+		day_count = (max_date - min_date).days
+		for single_date in (min_date + timedelta(n) for n in range(day_count)):
+			try:
+				_run_custom(single_date.strftime('%Y-%m-%d'), single_date.strftime('%Y-%m-%d'), 'daily')
+			except:
+				logging.debug('run daily history %s failed' % (single_date.strftime('%Y-%m-%d'), ))
+
+		#every week history
+		min_week = min_date - timedelta(min_date.weekday() + 1)
+		max_week = min_week + timedelta(6)
+		while True:
+			try:
+				_run_custom(min_week.strftime('%Y-%m-%d'), max_week.strftime('%Y-%m-%d'), 'weekly')
+			except:
+				logging.debug('run weekly history %s failed' % (min_week.strftime('%Y-%m-%d'), ))
+
+			if max_week > max_date :
+				break
+			min_week += timedelta(7)
+			max_week += timedelta(7)
+		
+		#every month history
+		min_month = date(min_date.year, min_date.month, 1)
+		max_month = add_months(min_month, 1) - timedelta(1)
+		while True:
+			try:
+				_run_custom(min_month.strftime('%Y-%m-%d'), max_month.strftime('%Y-%m-%d'), 'monthly')
+			except:
+				logging.debug('run monthly history %s failed' % (single_date.strftime('%Y-%m-%d'), ))
+
+			if max_month > max_date :
+				break
+			min_month = add_months(min_month, 1)
+			max_month = add_months(min_month, 1) - timedelta(1)
+		
+		self.response.out.write('ok')
+
 app = webapp2.WSGIApplication([
 	('/etl/daily', DailyTaskHandler),
 	('/etl/weekly', WeeklyTaskHandler),
@@ -125,4 +174,5 @@ app = webapp2.WSGIApplication([
 	('/etl/current/day', CurrentDayTaskHandler),
 	('/etl/current/week', CurrentWeekTaskHandler),
 	('/etl/current/month', CurrentMonthTaskHandler),
+	('/etl/history', HistoryTaskHandler),
 ], debug=True)

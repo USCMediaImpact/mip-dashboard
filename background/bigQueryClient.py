@@ -17,7 +17,8 @@ def get_services():
 	return build(API_NAME, API_VERSION, credentials=credentials)
 
 def get_bq_result(sql):
-	query_request = get_services().jobs()
+	bigquery = get_services()
+	query_request = bigquery.jobs()
 	job_id = uuid.uuid4()
 	job_data = {
 		'jobReference': {
