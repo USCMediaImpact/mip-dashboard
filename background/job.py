@@ -128,7 +128,7 @@ class CurrentMonthTaskHandler(webapp2.RequestHandler):
 
 class HistoryTaskHandler(webapp2.RequestHandler):
 	def get(self):
-		min_date = date(2016, 1, 1)
+		min_date = date(2016, 4, 2)
 		max_date = date(2016, 6, 15)
 		#every day history
 		day_count = (max_date - min_date).days
