@@ -20,35 +20,35 @@ def get_bq_result(sql):
 	query_request = get_services().jobs()
 	job_id = uuid.uuid4()
 	job_data = {
-        'jobReference': {
-            'projectId': PROJECT_ID,
-            'job_id': str(uuid.uuid4())
-        },
-        'configuration': {
-            'query': {
-                'query': sql,
-                'priority': 'INTERACTIVE'
-            }
-        }
-    }
-    #insert new query job
-    job = bigquery.jobs().insert(
-        projectId=PROJECT_ID,
-        body=job_data).execute(num_retries=NUM_RETRIES)
+		'jobReference': {
+			'projectId': PROJECT_ID,
+			'job_id': str(uuid.uuid4())
+		},
+		'configuration': {
+			'query': {
+				'query': sql,
+				'priority': 'INTERACTIVE'
+			}
+		}
+	}
+	#insert new query job
+	job = bigquery.jobs().insert(
+		projectId=PROJECT_ID,
+		body=job_data).execute(num_retries=NUM_RETRIES)
 
-    #query job status
-    job_request = bigquery.jobs().get(
-        projectId=job['jobReference']['projectId'],
-        jobId=job['jobReference']['jobId'])
+	#query job status
+	job_request = bigquery.jobs().get(
+		projectId=job['jobReference']['projectId'],
+		jobId=job['jobReference']['jobId'])
 
-    while True:
-        job_status = job_request.execute(num_retries=2)
+	while True:
+		job_status = job_request.execute(num_retries=2)
 
-        if job_status['status']['state'] == 'DONE':
-            if 'errorResult' in job_status['status']:
-                raise RuntimeError(job_status['status']['errorResult'])
+		if job_status['status']['state'] == 'DONE':
+			if 'errorResult' in job_status['status']:
+				raise RuntimeError(job_status['status']['errorResult'])
 			logging.debug('big query job done')
-            break
+			break
 
 		time.sleep(1)
 
@@ -56,11 +56,11 @@ def get_bq_result(sql):
 	page_token = None
 	result = []
 	while True:
-	    page = bigquery.jobs().getQueryResults(
-	            pageToken=page_token,
+		page = bigquery.jobs().getQueryResults(
+				pageToken=page_token,
 				**job['jobReference']).execute(num_retries=2)
 
-	    data = page.get('rows', [])
+		data = page.get('rows', [])
 		if data :
 			for row in data :
 				dataRow = ()
@@ -68,8 +68,8 @@ def get_bq_result(sql):
 					dataRow += (field['v'],)
 				result.append(dataRow)
 
-	    page_token = page.get('pageToken')
-	        if not page_token:
-	            break
+		page_token = page.get('pageToken')
+			if not page_token:
+				break
 	
 	return result
