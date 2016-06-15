@@ -69,7 +69,7 @@ def get_bq_result(sql):
 				result.append(dataRow)
 
 		page_token = page.get('pageToken')
-			if not page_token:
-				break
+		if not page_token:
+			break
 	
 	return result
