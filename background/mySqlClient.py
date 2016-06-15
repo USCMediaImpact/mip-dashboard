@@ -30,5 +30,5 @@ def insert_mysql(sql, data):
 	for row in data:
 		cursor.execute(sql, row)
 	db.commit()
-    cursor.close()
-    db.close()
+	cursor.close()
+	db.close()
