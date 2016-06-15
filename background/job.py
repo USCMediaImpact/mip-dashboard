@@ -68,9 +68,9 @@ class DailyTaskHandler(webapp2.RequestHandler):
 
 class WeeklyTaskHandler(webapp2.RequestHandler):
 	def get(self):
-		today = date.today() - timedelta(1)
-		day_of_week = today.weekday() # index from 0
-		max_date = date.today() - timedelta(day_of_week + 2)
+		yesterday = date.today() - timedelta(1)
+		day_of_week = yesterday.weekday() # index from 0
+		max_date = yesterday - timedelta(day_of_week + 2)
 		min_date = (max_date - timedelta(6)).strftime('%Y-%m-%d')
 		max_date = max_date.strftime('%Y-%m-%d')
 
