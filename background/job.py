@@ -54,10 +54,11 @@ def _run_custom(min_date, max_date, dimensions):
 		for i in range(14) :
 			bq_data += (0,)
 	
-	sql_data = (min_date, '') + (ga_data, ) + bq_data
-	sql_data += sql_data
-	logging.debug('need insert mysql data : %s' % (sql_data,))
-
+	sql_data = ('',) + (ga_data, ) + bq_data
+	sql_data = (min_date, ) + sql_data + sql_data
+	logging.debug('excute sql: %s' % (DIMESIONS[dimensions][1],))
+	logging.debug('insert mysql data: %s' % (sql_data,))
+	logging.debug('run :\n' + DIMESIONS[dimensions][1] % sql_data)
 	mySqlClient.insert_mysql(DIMESIONS[dimensions][1], sql_data)
 
 class DailyTaskHandler(webapp2.RequestHandler):
