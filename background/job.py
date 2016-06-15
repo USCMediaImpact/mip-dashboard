@@ -32,7 +32,7 @@ def _run_custom(min_date, max_date, dimensions):
 
 	logging.debug('ga user: %s' % (ga_data,))
 
-	if not ga_data :
+	if ga_data :
 		ga_data = ga_data[0][1]
 	else :
 		ga_data = '0'
@@ -46,7 +46,8 @@ def _run_custom(min_date, max_date, dimensions):
 	bq_data = bigQueryClient.get_bq_result(hql)
 
 	logging.debug('bigquery result : %s' % (bq_data,))
-	if not bq_data :
+	
+	if bq_data :
 		bq_data = bq_data[0]
 	else :
 		bq_data = (0,)
