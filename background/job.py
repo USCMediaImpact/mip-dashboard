@@ -21,7 +21,7 @@ DIMESIONS = {
 KPPC_GA_ID = '104512889'
 
 def _run_custom(min_date, max_date, dimensions):
-	logging.debug(dimensions + ' corn job is running at' + unicode(datetime.now()) + ' for ' + min_date + ' to ' + max_date)
+	logging.debug(dimensions + ' corn job is running at ' + unicode(datetime.now()) + ' from ' + min_date + ' to ' + max_date)
 
 	ga_data = analyticsClient.get_ga_result(
 		KPPC_GA_ID, 
@@ -59,7 +59,7 @@ def _run_custom(min_date, max_date, dimensions):
 	logging.debug('excute sql: %s' % (DIMESIONS[dimensions][1],))
 	logging.debug('insert mysql data: %s' % (sql_data,))
 	logging.debug('run :\n' + DIMESIONS[dimensions][1] % sql_data)
-	mySqlClient.insert_mysql(DIMESIONS[dimensions][1], sql_data)
+	mySqlClient.insert_mysql(DIMESIONS[dimensions][1], [sql_data])
 
 class DailyTaskHandler(webapp2.RequestHandler):
 	def get(self):
