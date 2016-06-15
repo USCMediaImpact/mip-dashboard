@@ -46,7 +46,7 @@ def _run_custom(min_date, max_date, dimensions):
 	bq_data = bigQueryClient.get_bq_result(hql)
 
 	logging.debug('bigquery result : %s' % (bq_data,))
-	
+
 	if bq_data :
 		bq_data = bq_data[0]
 	else :
@@ -55,10 +55,10 @@ def _run_custom(min_date, max_date, dimensions):
 			bq_data += (0,)
 	
 	sql_data = (min_date, '') + (ga_data, ) + bq_data
-
+	sql_data += sqldata
 	logging.debug('need insert mysql data : %s' % (sql_data,))
 
-	mySqlClient.insert_mysql(DIMESIONS[dimensions][1], sql_data + sql_data)
+	mySqlClient.insert_mysql(DIMESIONS[dimensions][1], sql_data)
 
 class DailyTaskHandler(webapp2.RequestHandler):
 	def get(self):
