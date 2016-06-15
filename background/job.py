@@ -134,18 +134,22 @@ class HistoryTaskHandler(webapp2.RequestHandler):
 		day_count = (max_date - min_date).days
 		for single_date in (min_date + timedelta(n) for n in range(day_count)):
 			try:
+				logging.info('run daily history %s', single_date.strftime('%Y-%m-%d'))
 				_run_custom(single_date.strftime('%Y-%m-%d'), single_date.strftime('%Y-%m-%d'), 'daily')
+				logging.info('success')
 			except:
-				logging.debug('run daily history %s failed' % (single_date.strftime('%Y-%m-%d'), ))
+				logging.error('faild')
 
 		#every week history
 		min_week = min_date - timedelta(min_date.weekday() + 1)
 		max_week = min_week + timedelta(6)
 		while True:
 			try:
+				logging.info('run weekly history from %s to %s', min_week.strftime('%Y-%m-%d'), max_week.strftime('%Y-%m-%d'))
 				_run_custom(min_week.strftime('%Y-%m-%d'), max_week.strftime('%Y-%m-%d'), 'weekly')
+				logging.info('success')
 			except:
-				logging.debug('run weekly history %s failed' % (min_week.strftime('%Y-%m-%d'), ))
+				logging.error('faild')
 
 			if max_week > max_date :
 				break
@@ -157,15 +161,18 @@ class HistoryTaskHandler(webapp2.RequestHandler):
 		max_month = add_months(min_month, 1) - timedelta(1)
 		while True:
 			try:
+				logging.info('run monthly history from %s to %s', min_month.strftime('%Y-%m-%d'), max_month.strftime('%Y-%m-%d'))
 				_run_custom(min_month.strftime('%Y-%m-%d'), max_month.strftime('%Y-%m-%d'), 'monthly')
+				logging.info('success')
 			except:
-				logging.debug('run monthly history %s failed' % (single_date.strftime('%Y-%m-%d'), ))
+				logging.error('faild')
 
 			if max_month > max_date :
 				break
 			min_month = add_months(min_month, 1)
 			max_month = add_months(min_month, 1) - timedelta(1)
 		
+		logging.info('run history job finished')
 		self.response.out.write('ok')
 
 app = webapp2.WSGIApplication([
