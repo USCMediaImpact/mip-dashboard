@@ -40,6 +40,9 @@ def _run_custom(min_date, max_date, dimensions):
 	logging.debug('ga user: %s' % (ga_data,))
 
 	hql = hive.data_quanlity.format(min_date=min_date, max_date=max_date)
+
+	logging.debug('big query: %s', hql)
+
 	bq_data = bigQueryClient.get_bq_result(hql)
 
 	logging.debug('bigquery result : %s' % (bq_data,))

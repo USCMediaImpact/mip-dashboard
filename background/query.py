@@ -1,8 +1,6 @@
 class hive:
 	data_quanlity = (
 		'''SELECT '''
-		'''  --SCPR GA Users from google analysis \n'''
-		'''  '' AS GA_Users, '''
 		'''  --MIP KPCC GTM Users \n'''
 		'''  EXACT_COUNT_DISTINCT(cid) AS MIP_Users, '''
 		'''  --(MIP KPCC GTM Users - SCPR GA Users ) / SCPR GA  Users \n'''
