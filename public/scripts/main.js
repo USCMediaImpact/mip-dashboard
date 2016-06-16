@@ -33,6 +33,12 @@ $(function () {
 			$(document).trigger('dateChange.mip-dashboard', [moment(range.start), moment(range.end)]);
 		},
 	});
+	$('select').select2({
+		minimumResultsForSearch: Infinity,
+		change: function(data){
+			console.log('select change', data);
+		}
+	});
 	$(window).on('resize', function () {
 		var documentHeight = $(document).height(),
 			windowHeight = $(window).height(),

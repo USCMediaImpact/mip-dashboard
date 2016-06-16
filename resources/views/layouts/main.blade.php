@@ -14,7 +14,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.dataTables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/dataTables.foundation.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/noty.animate.css') }}">
-     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.comiseo.daterangepicker.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/noty.animate.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/select2.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
     <!-- endbuild -->
 </head>
@@ -54,6 +55,7 @@
     <script src="{{ asset('scripts/vendor/dataTables.foundation.js') }}"></script>
     <script src="{{ asset('scripts/vendor/jquery.noty.packaged.js') }}"></script>
     <script src="{{ asset('scripts/vendor/noty.theme.foundation.js') }}"></script>
+    <script src="{{ asset('scripts/vendor/select2.full.min.js') }}"></script>
     <script src="{{ asset('scripts/vendor/jquery.comiseo.daterangepicker.js') }}"></script>
     <script src="{{ asset('scripts/vendor/amcharts/amcharts.js') }}"></script>
     <script src="{{ asset('scripts/vendor/amcharts/serial.js') }}"></script>

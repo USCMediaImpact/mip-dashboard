@@ -26,7 +26,7 @@ class DataController extends AuthenticatedBaseController{
     }
 
     public function showQuality(Request $request){
-        $group = in_array($request['group'], ['daily', 'weekly', 'monthly']) ? $request['group'] : 'daily';
+        $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'daily';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
         $client_id = $request['client.id'];
@@ -48,7 +48,8 @@ class DataController extends AuthenticatedBaseController{
             'report' => $report,
             'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
             'max_date' => mktime(0, 0, 0, $max_date['month'], $max_date['day'], $max_date['year']),
-            'group' => $group
+            'group' => $group,
+            'displayGroupName' => self::$groupDisplay[$group]
         ]);
     }
 }

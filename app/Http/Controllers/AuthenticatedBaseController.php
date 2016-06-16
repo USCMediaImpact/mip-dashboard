@@ -12,4 +12,10 @@ class AuthenticatedBaseController extends Controller
         $this->middleware('auth');
         $this->middleware('clientInfo');
     }
+
+    protected static $groupDisplay = [
+        'daily' => 'By Date',
+        'weekly' => 'By Week',
+        'monthly' => 'By Month',
+    ];
 }
