@@ -59,6 +59,7 @@ skip_files:
   - ^\.gitignore$
   - ^\.env.production$
   - ^\.env.local$
+  - vendor/symfony/finder/Tests/.*
 
 env_variables:
   GAE_SKIP_GCS_INIT: false
