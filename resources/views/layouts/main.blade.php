@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui.theme.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.dataTables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/dataTables.foundation.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/noty.animate.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.comiseo.daterangepicker.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/noty.animate.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/select2.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
