@@ -14,9 +14,9 @@ from query import hive
 from query import mysql
 
 DIMESIONS = {
-	'daily': ('ga:date', mysql.data_quanlity_daily),
-	'weekly': ('ga:week', mysql.data_quanlity_weekly),
-	'monthly': ('ga:month', mysql.data_quanlity_monthly),
+	'daily': ('ga:date', mysql.data_quality_daily),
+	'weekly': ('ga:week', mysql.data_quality_weekly),
+	'monthly': ('ga:month', mysql.data_quality_monthly),
 }
 
 KPPC_GA_ID = '104512889'
@@ -40,7 +40,7 @@ def _run_custom(min_date, max_date, dimensions):
 	
 	logging.debug('ga user: %s' % (ga_data,))
 
-	hql = hive.data_quanlity.format(min_date=min_date, max_date=max_date)
+	hql = hive.data_quality.format(min_date=min_date, max_date=max_date)
 
 	logging.debug('big query: %s', hql)
 
