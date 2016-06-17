@@ -16,9 +16,3 @@ cron:
   target: etl
   schedule: 1 of month 00:30
   timezone: America/Los_Angeles
-
-- description: history etl job
-  url: /etl/history
-  target: etl
-  schedule: 1 of 2016 00:30
-  timezone: America/Los_Angeles
