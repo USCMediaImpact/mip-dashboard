@@ -4,7 +4,7 @@ cron:
   target: etl
   schedule: every day 04:30
   timezone: America/Los_Angeles
-  retry_parameters:
+  retry-parameters:
     min_backoff_seconds: 60
     max_doublings: 5
 
