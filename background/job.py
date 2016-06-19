@@ -19,13 +19,14 @@ DIMESIONS = {
 	'monthly': ('ga:month', mysql.data_quality_monthly),
 }
 
-KPPC_GA_ID = '104512889'
+KPCC_GA_ID = '104512889'
+KPCC_CLIENT_ID = 1
 
 def _run_custom(min_date, max_date, dimensions):
 	logging.debug(dimensions + ' corn job is running at ' + unicode(datetime.now()) + ' from ' + min_date + ' to ' + max_date)
 
 	ga_data = analyticsClient.get_ga_result(
-		KPPC_GA_ID, 
+		KPCC_GA_ID, 
 		min_date, 
 		max_date, 
 		'ga:users',
@@ -55,7 +56,7 @@ def _run_custom(min_date, max_date, dimensions):
 		for i in range(14) :
 			bq_data += (0,)
 	
-	sql_data = ('',) + (ga_data, ) + bq_data
+	sql_data = ('',) + (ga_data, ) + bq_data + (KPCC_CLIENT_ID,)
 	sql_data = (min_date, ) + sql_data + sql_data
 	logging.debug('excute sql: %s' % (DIMESIONS[dimensions][1],))
 	logging.debug('insert mysql data: %s' % (sql_data,))
