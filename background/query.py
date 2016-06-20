@@ -75,8 +75,8 @@ class hive:
 		'''    hits.eventInfo.eventCategory AS ec, '''
 		'''    hits.eventInfo.eventAction AS ea, '''
 		'''    IF(hits.customDimensions.index = 19, hits.customDimensions.value, NULL) AS cd19_value '''
-		'''  FROM ( TABLE_DATE_RANGE([116430105.ga_sessions_], TIMESTAMP('{min_date}'), TIMESTAMP('{max_date}') )) ) ''')
-
+		'''  FROM ( TABLE_DATE_RANGE([116460309.ga_sessions_], TIMESTAMP('{min_date}'), TIMESTAMP('{max_date}') )) ) ''')
+ 
 class mysql:
 	data_quality_daily = ('''INSERT INTO `data_quality_daily`( '''
 		'''`date`,`events`,`ga_users`,`mip_users`,`user_variance`,`identified_emailsubscribers`,`known_emailsubscribers`, '''
