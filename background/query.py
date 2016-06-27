@@ -1,12 +1,12 @@
 class mysql:
 	data_users = ('''INSERT INTO `data_users_{dimension}`( '''
 		''' `date`, `client_id`, `totalmembersthisweek`, `kpi_totalmembersknowntomip`, `cametositethroughemail`, `kpi_totalemailsubscribersknowntomip`, `kpi_percentknownsubswhocame`, `kpi_newemailsubscribers`, `totaldonorsthisweek`, `kpi_totaldonorsknowntomip`, `duplicated_memberspluscamethroughemailplusdonors`, `unduplicated_totaluserskpi`, `duplicated_database_memberspluscamethroughemailplusdonors`, `unduplicated_database_totaluserskpi` '''
-		''') VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
+		''') VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
 		''' ON DUPLICATE KEY UPDATE '''
 		''' `totalmembersthisweek` = %s, `kpi_totalmembersknowntomip` = %s, `cametositethroughemail` = %s, `kpi_totalemailsubscribersknowntomip` = %s, `kpi_percentknownsubswhocame` = %s, `kpi_newemailsubscribers` = %s, `totaldonorsthisweek` = %s, `kpi_totaldonorsknowntomip` = %s, `duplicated_memberspluscamethroughemailplusdonors` = %s, `unduplicated_totaluserskpi` = %s, `duplicated_database_memberspluscamethroughemailplusdonors` = %s, `unduplicated_database_totaluserskpi` = %s''')
-	data_stories = ('''INSERT INTO `data_stories`( '''
-		'''`path_md5`, `client_id`, `page_path`,`pageviews`,`scroll_start`,`scroll_25`,`scroll_50`,`scroll_75`,`scroll_100`,`scroll_supplemental`,`scroll_end`,`time_15`,`time_30`,`time_45`,`time_60`,`time_75`,`time_90`,`comments`,`emails`,`tweets`,`facebook_recommendations`,`related_clicks`'''
-		''') VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
+	data_stories = ('''INSERT INTO `data_stories_{dimension}`( '''
+		'''`date`, `path_md5`, `client_id`, `page_path`,`pageviews`,`scroll_start`,`scroll_25`,`scroll_50`,`scroll_75`,`scroll_100`,`scroll_supplemental`,`scroll_end`,`time_15`,`time_30`,`time_45`,`time_60`,`time_75`,`time_90`,`comments`,`emails`,`tweets`,`facebook_recommendations`,`related_clicks`'''
+		''') VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
 		''' ON DUPLICATE KEY UPDATE '''
 		'''`page_path` = %s, `pageviews` = %s, `scroll_start` = %s, `scroll_25` = %s, `scroll_50` = %s, `scroll_75` = %s, `scroll_100` = %s, `scroll_supplemental` = %s, `scroll_end` = %s, `time_15` = %s, `time_30` = %s, `time_45` = %s, `time_60` = %s, `time_75` = %s, `time_90` = %s, `comments` = %s, `emails` = %s, `tweets` = %s, `facebook_recommendations` = %s, `related_clicks` = %s''')
 	data_quality = ('''INSERT INTO `data_quality_{dimension}`( '''
