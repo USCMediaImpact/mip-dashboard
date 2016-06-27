@@ -46,6 +46,7 @@ class SettingController extends AuthenticatedBaseController
             'enable_sync' => $request['enable_sync'] ? DB::raw(1) : DB::raw(0),
             'values' => json_encode([
                 'ga_id' => $request['ga_id'],
+                'bq_id' => $request['bq_id'],
                 'bq_dataContent' => $request['bq_dataContent'],
                 'bq_data_users' => $request['bq_data_users'],
                 'bq_data_quality' => $request['bq_data_quality']

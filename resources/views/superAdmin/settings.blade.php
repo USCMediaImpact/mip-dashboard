@@ -22,6 +22,11 @@
                             <input name="ga_id" type="text" placeholder="" value="{!! array_key_exists('ga_id', $values) ? $values['ga_id'] : '' !!}">
                         </label>
                     </div>
+                    <div class="medium-3 columns">
+                        <label>Big Query PID: 
+                            <input name="bq_id" type="text" placeholder="" value="{!! array_key_exists('bq_id', $values) ? $values['bq_id'] : '' !!}">
+                        </label>
+                    </div>
                     <div class="medium-2 columns text-center">
                         <button class="button success">Save</button>
                     </div>
