@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
+    <form action="">
     <div class="row">
         <div class="small-12 column">
             <div class="table-wrapper">
@@ -16,7 +17,7 @@
                             <td>Name</td>
                             <td>Code</td>
                             <td>WebSite</td>
-                            <td>Date</td>
+                            <td>Create Date</td>
                             <td>Action</td>
                         </tr>
                     </thead>
@@ -98,10 +99,11 @@
             }, {
                 'targets': 4,
                 'bSortable': false,
-                'width': 80,
+                'width': 120,
                 'render': function (data, type, row) {
                     return '<button class="btnEdit tiny button" clientId="' + row.id + '">Edit</button>' + 
-                        '<button class="btnRemove tiny button" clientId="' + row.id + '">Remove</button>';
+                        '<button class="btnRemove tiny button" clientId="' + row.id + '">Remove</button>' +
+                        '<a class="tiny button" href="setting/' + row.id + '">Set</button>';
                 }
             }]
         });

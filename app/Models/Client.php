@@ -18,4 +18,8 @@ class Client extends Model
     public function users(){
         return $this->hasMany('App\Models\User');
     }
+    
+    public function setting(){
+        return $this->hasOne('App\Models\Setting');
+    }
 }

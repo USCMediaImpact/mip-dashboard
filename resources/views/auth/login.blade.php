@@ -6,7 +6,7 @@
             <form method="POST" action="/auth/login">
                 {!! csrf_field() !!}
                 <div class="row column log-in-form">
-                    <h4 class="text-center">Log in with your email account</h4>
+                    <h4 class="text-center">Media Impact Project: <br />Login to View Your Data Dashboard</h4>
                     <label>Email
                         <input type="text" name="email" value="{{ old('email') }}" placeholder="somebody@example.com">
                     </label>
