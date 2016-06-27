@@ -13,11 +13,7 @@ use Google_Service_Bigquery_QueryRequest;
 class DashboardController extends AuthenticatedBaseController{
     
     public function showDashboard(Request $request){
-        
-        $report = Cache::remember('demo_dashboard', 60 * 60, function() {
-            return $this->showDataFromBigQuery();
-        });
-        return view('dashboard', ['report' => $report]);
+        return redirect('/data/users');
     }
 
 	public function showDataFromMySql()

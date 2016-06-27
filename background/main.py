@@ -7,73 +7,12 @@ from datetime import datetime
 from datetime import date
 from datetime import timedelta
 import calendar
-import analyticsClient
-import bigQueryClient
-import mySqlClient
-from query import hive
-from query import mysql
-
-DIMESIONS = {
-	'daily': ('ga:date', mysql.data_quality_daily),
-	'weekly': ('ga:week', mysql.data_quality_weekly),
-	'monthly': ('ga:month', mysql.data_quality_monthly),
-}
-
-KPCC_GA_ID = '104512889'
-KPCC_CLIENT_ID = 1
-
-def _run_custom(min_date, max_date, dimensions):
-	logging.debug(dimensions + ' corn job is running at ' + unicode(datetime.now()) + ' from ' + min_date + ' to ' + max_date)
-
-	ga_data = analyticsClient.get_ga_result(
-		KPCC_GA_ID, 
-		min_date, 
-		max_date, 
-		'ga:users',
-		DIMESIONS[dimensions][0])
-
-	logging.debug('ga user: %s' % (ga_data,))
-
-	if ga_data :
-		ga_data = ga_data[0][1]
-	else :
-		ga_data = '0'
-	
-	logging.debug('ga user: %s' % (ga_data,))
-
-	hql = hive.data_quality.format(min_date=min_date, max_date=max_date)
-
-	logging.debug('big query: %s', hql)
-
-	bq_data = bigQueryClient.get_bq_result(hql)
-
-	logging.debug('bigquery result : %s' % (bq_data,))
-
-	if bq_data :
-		bq_data = bq_data[0]
-	else :
-		bq_data = (0,)
-		for i in range(14) :
-			bq_data += (0,)
-	
-	sql_data = ('',) + (ga_data, ) + bq_data + (KPCC_CLIENT_ID,)
-	sql_data = (min_date, ) + sql_data + sql_data
-	logging.debug('excute sql: %s' % (DIMESIONS[dimensions][1],))
-	logging.debug('insert mysql data: %s' % (sql_data,))
-	logging.debug('run :\n' + DIMESIONS[dimensions][1] % sql_data)
-	mySqlClient.insert_mysql(DIMESIONS[dimensions][1], [sql_data])
-
-def add_months(sourcedate, months):
-	month = sourcedate.month - 1 + months
-	year = int(sourcedate.year + month / 12 )
-	month = month % 12 + 1
-	day = min(sourcedate.day,calendar.monthrange(year,month)[1])
-	return date(year,month,day)
+import job
 
 class DailyTaskHandler(webapp2.RequestHandler):
 	def get(self):
 		yesterday = (date.today() - timedelta(1)).strftime('%Y-%m-%d')
-		_run_custom(yesterday, yesterday, 'daily')
+		job.run(yesterday, yesterday, 'daily')
 		self.response.out.write('ok')
 
 class WeeklyTaskHandler(webapp2.RequestHandler):
@@ -84,7 +23,7 @@ class WeeklyTaskHandler(webapp2.RequestHandler):
 		min_date = (max_date - timedelta(6)).strftime('%Y-%m-%d')
 		max_date = max_date.strftime('%Y-%m-%d')
 
-		_run_custom(min_date, max_date, 'weekly')
+		job.run(min_date, max_date, 'weekly')
 
 		self.response.out.write('ok')
 
@@ -96,34 +35,7 @@ class MonthlyTaskHandler(webapp2.RequestHandler):
 		min_date = date(max_date.year, max_date.month, 1).strftime('%Y-%m-%d')
 		max_date = max_date.strftime('%Y-%m-%d')
 
-		_run_custom(min_date, max_date, 'monthly')
-
-		self.response.out.write('ok')
-
-class CurrentDayTaskHandler(webapp2.RequestHandler):
-	def get(self):
-		today = date.today().strftime('%Y-%m-%d')
-		_run_custom(today, today, 'daily')
-		self.response.out.write('ok')
-
-class CurrentWeekTaskHandler(webapp2.RequestHandler):
-	def get(self):
-		today = date.today()
-		day_of_week = today.weekday() # index from 0
-		max_date = today.strftime('%Y-%m-%d')
-		min_date = (today - timedelta(day_of_week + 1)).strftime('%Y-%m-%d')
-
-		_run_custom(min_date, max_date, 'weekly')
-
-		self.response.out.write('ok')
-
-class CurrentMonthTaskHandler(webapp2.RequestHandler):
-	def get(self):
-		today = date.today()
-		min_date = date(today.year, today.month, 1).strftime('%Y-%m-%d')
-		max_date = today.strftime('%Y-%m-%d')
-
-		_run_custom(min_date, max_date, 'monthly')
+		job.run(min_date, max_date, 'monthly')
 
 		self.response.out.write('ok')
 
@@ -136,7 +48,7 @@ class HistoryTaskHandler(webapp2.RequestHandler):
 		for single_date in (min_date + timedelta(n) for n in range(day_count)):
 			try:
 				logging.info('run daily history %s', single_date.strftime('%Y-%m-%d'))
-				_run_custom(single_date.strftime('%Y-%m-%d'), single_date.strftime('%Y-%m-%d'), 'daily')
+				job.run(single_date.strftime('%Y-%m-%d'), single_date.strftime('%Y-%m-%d'), 'daily')
 				logging.info('success')
 			except:
 				logging.error('faild')
@@ -147,7 +59,7 @@ class HistoryTaskHandler(webapp2.RequestHandler):
 		while True:
 			try:
 				logging.info('run weekly history from %s to %s', min_week.strftime('%Y-%m-%d'), max_week.strftime('%Y-%m-%d'))
-				_run_custom(min_week.strftime('%Y-%m-%d'), max_week.strftime('%Y-%m-%d'), 'weekly')
+				job.run(min_week.strftime('%Y-%m-%d'), max_week.strftime('%Y-%m-%d'), 'weekly')
 				logging.info('success')
 			except:
 				logging.error('faild')
@@ -163,7 +75,7 @@ class HistoryTaskHandler(webapp2.RequestHandler):
 		while True:
 			try:
 				logging.info('run monthly history from %s to %s', min_month.strftime('%Y-%m-%d'), max_month.strftime('%Y-%m-%d'))
-				_run_custom(min_month.strftime('%Y-%m-%d'), max_month.strftime('%Y-%m-%d'), 'monthly')
+				job.run(min_month.strftime('%Y-%m-%d'), max_month.strftime('%Y-%m-%d'), 'monthly')
 				logging.info('success')
 			except:
 				logging.error('faild')
@@ -180,8 +92,5 @@ app = webapp2.WSGIApplication([
 	('/etl/daily', DailyTaskHandler),
 	('/etl/weekly', WeeklyTaskHandler),
 	('/etl/monthly', MonthlyTaskHandler),
-	('/etl/current/day', CurrentDayTaskHandler),
-	('/etl/current/week', CurrentWeekTaskHandler),
-	('/etl/current/month', CurrentMonthTaskHandler),
 	('/etl/history', HistoryTaskHandler),
 ], debug=True)

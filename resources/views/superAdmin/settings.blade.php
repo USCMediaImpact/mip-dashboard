@@ -32,18 +32,42 @@
                     </div>
                 </div>
                 <ul class="tabs" data-tabs id="setting-tabs">
-                    <li class="tabs-title is-active"><a href="#data_content" aria-selected="true">Data Content</a></li>
-                    <li class="tabs-title"><a href="#data_users" aria-selected="true">Data Users</a></li>
+                    <li class="tabs-title is-active"><a href="#data_users" aria-selected="true">Data Users</a></li>
+                    <li class="tabs-title"><a href="#bq_data_stories" aria-selected="true">Data Stories</a></li>
                     <li class="tabs-title"><a href="#data_quality" aria-selected="true">Data Quality</a></li>
                 </ul>
                 <div class="tabs-content" data-tabs-content="setting-tabs">
-                    <div class="tabs-panel is-active" id="data_content">
-                        <textarea name="bq_dataContent">{!! array_key_exists('bq_dataContent', $values) ? $values['bq_dataContent'] : '' !!}</textarea>
-                    </div>
-                    <div class="tabs-panel" id="data_users">
+                    <div class="tabs-panel is-active" id="data_users">
+                        <div class="row">
+                            <div class="columns small-12 text-right">
+                                <input name="data_users_dimension[]" value="daily" {{array_key_exists('data_users_dimension', $values) && in_array('daily', $values['data_users_dimension']) ? 'checked':''}} id="data_users_dimension_daily" type="checkbox"><label for="data_users_dimension_daily">Daily</label>
+                                <input name="data_users_dimension[]" value="weekly" {{array_key_exists('data_users_dimension', $values) && in_array('weekly', $values['data_users_dimension']) ? 'checked':''}} id="data_users_dimension_weekly" type="checkbox"><label for="data_users_dimension_weekly">Weekly</label>
+                                <input name="data_users_dimension[]" value="monthly" {{array_key_exists('data_users_dimension', $values) && in_array('monthly', $values['data_users_dimension']) ? 'checked':''}} id="data_users_dimension_monthly" type="checkbox"><label for="data_users_dimension_monthly">Monthly</label>
+                            </div>
+                        </div>
+                        
                         <textarea name="bq_data_users">{!! array_key_exists('bq_data_users', $values) ? $values['bq_data_users'] : '' !!}</textarea>
                     </div>
+                    <div class="tabs-panel" id="bq_data_stories">
+                        <div class="row">
+                            <div class="columns small-12 text-right">
+                                <input name="data_stories_dimension[]" value="daily" {{array_key_exists('data_stories_dimension', $values) && in_array('daily', $values['data_stories_dimension']) ? 'checked':''}} id="data_stories_dimension_daily" type="checkbox"><label for="data_stories_dimension_daily">Daily</label>
+                                <input name="data_stories_dimension[]" value="weekly" {{array_key_exists('data_stories_dimension', $values) && in_array('weekly', $values['data_stories_dimension']) ? 'checked':''}} id="data_stories_dimension_weekly" type="checkbox"><label for="data_stories_dimension_weekly">Weekly</label>
+                                <input name="data_stories_dimension[]" value="monthly" {{array_key_exists('data_stories_dimension', $values) && in_array('monthly', $values['data_stories_dimension']) ? 'checked':''}} id="data_stories_dimension_monthly" type="checkbox"><label for="data_stories_dimension_monthly">Monthly</label>
+                            </div>
+                        </div>
+
+                        <textarea name="bq_data_stories">{!! array_key_exists('bq_data_stories', $values) ? $values['bq_data_stories'] : '' !!}</textarea>
+                    </div>
                     <div class="tabs-panel" id="data_quality">
+                        <div class="row">
+                            <div class="columns small-12 text-right">
+                                <input name="data_quality_dimension[]" value="daily" {{array_key_exists('data_quality_dimension', $values) && in_array('daily', $values['data_quality_dimension']) ? 'checked':''}} id="data_quality_dimension_daily" type="checkbox"><label for="data_quality_dimension_daily">Daily</label>
+                                <input name="data_quality_dimension[]" value="weekly" {{array_key_exists('data_quality_dimension', $values) && in_array('weekly', $values['data_quality_dimension']) ? 'checked':''}} id="data_quality_dimension_weekly" type="checkbox"><label for="data_quality_dimension_weekly">Weekly</label>
+                                <input name="data_quality_dimension[]" value="monthly" {{array_key_exists('data_quality_dimension', $values) && in_array('monthly', $values['data_quality_dimension']) ? 'checked':''}} id="data_quality_dimension_monthly" type="checkbox"><label for="data_quality_dimension_monthly">Monthly</label>
+                            </div>
+                        </div>
+
                         <textarea name="bq_data_quality">{!! array_key_exists('bq_data_quality', $values) ? $values['bq_data_quality'] : '' !!}</textarea>
                     </div>
                     

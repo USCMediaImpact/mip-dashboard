@@ -6,9 +6,6 @@
         <h1 class="top_logo">Media Impact Project: Data Repository Dashboard</h1>
     </div>
     <div class="top-bar-right hide-for-small-only">
-        @if(isset($user))
-        <span class="welcome">Welcome {{$user->name}}</span>
-        <a class="button tiny" href="/auth/logout">Logout</a>
-        @endif
+        <a>support</a>
     </div>
 </div>

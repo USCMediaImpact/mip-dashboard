@@ -47,8 +47,11 @@ class SettingController extends AuthenticatedBaseController
             'values' => json_encode([
                 'ga_id' => $request['ga_id'],
                 'bq_id' => $request['bq_id'],
-                'bq_dataContent' => $request['bq_dataContent'],
+                'data_users_dimension' =>  $request['data_users_dimension'],
                 'bq_data_users' => $request['bq_data_users'],
+                'data_stories_dimension' =>  $request['data_stories_dimension'],
+                'bq_data_stories' => $request['bq_data_stories'],
+                'data_quality_dimension' =>  $request['data_quality_dimension'],
                 'bq_data_quality' => $request['bq_data_quality']
             ])
         ];
