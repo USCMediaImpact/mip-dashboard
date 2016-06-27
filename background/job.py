@@ -1,8 +1,4 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
 import logging
-import webapp2
 from datetime import datetime
 from datetime import date
 from datetime import timedelta
@@ -10,58 +6,15 @@ import calendar
 import analyticsClient
 import bigQueryClient
 import mySqlClient
-from query import hive
 from query import mysql
+import json
+import hashlib
 
 DIMESIONS = {
-	'daily': ('ga:date', mysql.data_quality_daily),
-	'weekly': ('ga:week', mysql.data_quality_weekly),
-	'monthly': ('ga:month', mysql.data_quality_monthly),
+	'daily': 'ga:date',
+	'weekly': 'ga:week',
+	'monthly': 'ga:month',
 }
-
-KPCC_GA_ID = '104512889'
-KPCC_CLIENT_ID = 1
-
-def _run_custom(min_date, max_date, dimensions):
-	logging.debug(dimensions + ' corn job is running at ' + unicode(datetime.now()) + ' from ' + min_date + ' to ' + max_date)
-
-	ga_data = analyticsClient.get_ga_result(
-		KPCC_GA_ID, 
-		min_date, 
-		max_date, 
-		'ga:users',
-		DIMESIONS[dimensions][0])
-
-	logging.debug('ga user: %s' % (ga_data,))
-
-	if ga_data :
-		ga_data = ga_data[0][1]
-	else :
-		ga_data = '0'
-	
-	logging.debug('ga user: %s' % (ga_data,))
-
-	hql = hive.data_quality.format(min_date=min_date, max_date=max_date)
-
-	logging.debug('big query: %s', hql)
-
-	bq_data = bigQueryClient.get_bq_result(hql)
-
-	logging.debug('bigquery result : %s' % (bq_data,))
-
-	if bq_data :
-		bq_data = bq_data[0]
-	else :
-		bq_data = (0,)
-		for i in range(14) :
-			bq_data += (0,)
-	
-	sql_data = ('',) + (ga_data, ) + bq_data + (KPCC_CLIENT_ID,)
-	sql_data = (min_date, ) + sql_data + sql_data
-	logging.debug('excute sql: %s' % (DIMESIONS[dimensions][1],))
-	logging.debug('insert mysql data: %s' % (sql_data,))
-	logging.debug('run :\n' + DIMESIONS[dimensions][1] % sql_data)
-	mySqlClient.insert_mysql(DIMESIONS[dimensions][1], [sql_data])
 
 def add_months(sourcedate, months):
 	month = sourcedate.month - 1 + months
@@ -70,118 +23,146 @@ def add_months(sourcedate, months):
 	day = min(sourcedate.day,calendar.monthrange(year,month)[1])
 	return date(year,month,day)
 
-class DailyTaskHandler(webapp2.RequestHandler):
-	def get(self):
-		yesterday = (date.today() - timedelta(1)).strftime('%Y-%m-%d')
-		_run_custom(yesterday, yesterday, 'daily')
-		self.response.out.write('ok')
-
-class WeeklyTaskHandler(webapp2.RequestHandler):
-	def get(self):
-		yesterday = date.today() - timedelta(1)
-		day_of_week = yesterday.weekday() # index from 0
-		max_date = yesterday - timedelta(day_of_week + 2)
-		min_date = (max_date - timedelta(6)).strftime('%Y-%m-%d')
-		max_date = max_date.strftime('%Y-%m-%d')
-
-		_run_custom(min_date, max_date, 'weekly')
-
-		self.response.out.write('ok')
-
-class MonthlyTaskHandler(webapp2.RequestHandler):
-	def get(self):
-		today = date.today()
-		this_month = date(today.year, today.month, 1)
-		max_date = this_month - timedelta(1)
-		min_date = date(max_date.year, max_date.month, 1).strftime('%Y-%m-%d')
-		max_date = max_date.strftime('%Y-%m-%d')
-
-		_run_custom(min_date, max_date, 'monthly')
-
-		self.response.out.write('ok')
-
-class CurrentDayTaskHandler(webapp2.RequestHandler):
-	def get(self):
-		today = date.today().strftime('%Y-%m-%d')
-		_run_custom(today, today, 'daily')
-		self.response.out.write('ok')
-
-class CurrentWeekTaskHandler(webapp2.RequestHandler):
-	def get(self):
-		today = date.today()
-		day_of_week = today.weekday() # index from 0
-		max_date = today.strftime('%Y-%m-%d')
-		min_date = (today - timedelta(day_of_week + 1)).strftime('%Y-%m-%d')
-
-		_run_custom(min_date, max_date, 'weekly')
-
-		self.response.out.write('ok')
-
-class CurrentMonthTaskHandler(webapp2.RequestHandler):
-	def get(self):
-		today = date.today()
-		min_date = date(today.year, today.month, 1).strftime('%Y-%m-%d')
-		max_date = today.strftime('%Y-%m-%d')
-
-		_run_custom(min_date, max_date, 'monthly')
-
-		self.response.out.write('ok')
-
-class HistoryTaskHandler(webapp2.RequestHandler):
-	def get(self):
-		min_date = date(2016, 4, 2)
-		max_date = date(2016, 6, 15)
-		#every day history
-		day_count = (max_date - min_date).days
-		for single_date in (min_date + timedelta(n) for n in range(day_count)):
-			try:
-				logging.info('run daily history %s', single_date.strftime('%Y-%m-%d'))
-				_run_custom(single_date.strftime('%Y-%m-%d'), single_date.strftime('%Y-%m-%d'), 'daily')
-				logging.info('success')
-			except:
-				logging.error('faild')
-
-		#every week history
-		min_week = min_date - timedelta(min_date.weekday() + 1)
-		max_week = min_week + timedelta(6)
-		while True:
-			try:
-				logging.info('run weekly history from %s to %s', min_week.strftime('%Y-%m-%d'), max_week.strftime('%Y-%m-%d'))
-				_run_custom(min_week.strftime('%Y-%m-%d'), max_week.strftime('%Y-%m-%d'), 'weekly')
-				logging.info('success')
-			except:
-				logging.error('faild')
-
-			if max_week > max_date :
-				break
-			min_week += timedelta(7)
-			max_week += timedelta(7)
+def run(min_date, max_date, dimension):
+	logging.debug(dimension + ' corn job is running at ' + unicode(datetime.now()) + ' from ' + min_date + ' to ' + max_date)
+	client_settings = mySqlClient.query_client_settings()
+	
+	for client in client_settings:
 		
-		#every month history
-		min_month = date(min_date.year, min_date.month, 1)
-		max_month = add_months(min_month, 1) - timedelta(1)
-		while True:
-			try:
-				logging.info('run monthly history from %s to %s', min_month.strftime('%Y-%m-%d'), max_month.strftime('%Y-%m-%d'))
-				_run_custom(min_month.strftime('%Y-%m-%d'), max_month.strftime('%Y-%m-%d'), 'monthly')
-				logging.info('success')
-			except:
-				logging.error('faild')
+		clientId = client[0]
+		setting = json.loads(client[1])
 
-			if max_month > max_date :
-				break
-			min_month = add_months(min_month, 1)
-			max_month = add_months(min_month, 1) - timedelta(1)
-		
-		logging.info('run history job finished')
-		self.response.out.write('ok')
+		notTotallySuccess = False
 
-app = webapp2.WSGIApplication([
-	('/etl/daily', DailyTaskHandler),
-	('/etl/weekly', WeeklyTaskHandler),
-	('/etl/monthly', MonthlyTaskHandler),
-	('/etl/current/day', CurrentDayTaskHandler),
-	('/etl/current/week', CurrentWeekTaskHandler),
-	('/etl/current/month', CurrentMonthTaskHandler),
-	('/etl/history', HistoryTaskHandler),
-], debug=True)
+		#query for data_users
+		try:
+			logging.debug(setting['data_users_dimension'])
+			if dimension in setting['data_users_dimension']:
+				_run_data_users(clientId, setting, min_date, max_date, dimension)
+		except Exception:
+			logging.error('run data users failed', exc_info=True)
+			notTotallySuccess = True
+
+		#query for data_stories
+		try:
+			if dimension in setting['data_stories_dimension']:
+				_run_data_stories(clientId, setting, min_date, max_date, dimension)
+		except Exception:
+			logging.error('run data stories failed', exc_info=True)
+			notTotallySuccess = True
+
+		#query for data_quality
+		try:
+			if dimension in setting['data_quality_dimension']:
+				_run_data_quality(clientId, setting, min_date, max_date, dimension)
+		except Exception:
+			logging.error('run data quality failed', exc_info=True)
+			notTotallySuccess = True
+
+	if notTotallySuccess :
+		raise Exception('missing failed!')
+
+def _run_data_users(client_id, setting, min_date, max_date, dimension):
+	logging.debug('run data user job')
+	parse_min_date = datetime.strptime(min_date, '%Y-%m-%d')
+	parse_max_date = datetime.strptime(min_date, '%Y-%m-%d')
+	if dimension == 'dialy':
+		prev_min_date = parse_min_date - timedelta(1)
+		prev_max_date = parse_max_date - timedelta(1)
+	elif dimension == 'weekly':
+		prev_min_date = parse_min_date - timedelta(7)
+		prev_max_date = parse_max_date - timedelta(7)
+	elif dimension == 'monthly':
+		prev_min_date = add_months(parse_min_date, -1)
+		prev_max_date = date(parse_max_date.year, parse_max_date.month, 1) - timedelta(1)
+	else:
+		prev_min_date = parse_min_date - timedelta(1)
+		prev_max_date = parse_max_date - timedelta(1)
+
+	prev_min_date = prev_min_date.strftime('%Y-%m-%d')
+	prev_max_date = prev_max_date.strftime('%Y-%m-%d')
+
+	hql = setting['bq_data_users'].format(prev_min_date=prev_min_date, min_date=min_date, prev_max_date=prev_max_date, max_date=max_date)
+
+	logging.debug('big query: %s', hql)
+
+	bq_data = bigQueryClient.get_bq_result(hql, setting['bq_id'])
+	if bq_data:
+		bq_data = bq_data[0]
+	else:
+		bq_data = (0,)
+		for i in range(11) :
+			bq_data += (0,)
+
+	logging.debug('bigquery result : %s' % (bq_data,))
+
+	sql = mysql.data_users.format(dimension=dimension)
+	sql_data = (min_date, client_id) + bq_data + bq_data
+
+	logging.debug('excute sql: %s' % (sql,))
+	logging.debug('insert mysql data: %s' % (sql_data,))
+
+	mySqlClient.insert_mysql(sql, [sql_data])
+
+def _run_data_stories(client_id, setting, min_date, max_date, dimesion):
+	hql = setting['bq_data_stories']
+
+	logging.debug('big query: %s', hql)
+
+	bq_data = bigQueryClient.get_bq_result(hql, setting['bq_id'])
+
+	logging.debug('bigquery result : %s' % (bq_data,))
+
+	md5 = hashlib.md5()
+	md5.update(bq_data[0])
+	path_md5 = md5.hexdigest()
+
+	sql = mysql.data_stories.format(dimension=dimension)
+	sql_data = (path_md5, client_id) + bq_data + bq_data
+
+	logging.debug('excute sql: %s' % (sql,))
+	logging.debug('insert mysql data: %s' % (sql_data,))
+
+	mySqlClient.insert_mysql(sql, [sql_data])
+
+def _run_data_quality(client_id, setting, min_date, max_date, dimension):
+	logging.debug(clientId + '\n' + setting)
+
+	ga_data = analyticsClient.get_ga_result(
+		setting['ga_id'], 
+		min_date, 
+		max_date, 
+		'ga:users',
+		DIMESIONS[dimension])
+
+	logging.debug('ga user: %s' % (ga_data,))
+
+	if ga_data :
+		ga_data = ga_data[0][1]
+	else :
+		ga_data = '0'
+
+	logging.debug('ga user: %s' % (ga_data,))
+
+	hql = setting['bq_data_quality'].format(min_date=min_date, max_date=max_date)
+
+	logging.debug('big query: %s', hql)
+
+	bq_data = bigQueryClient.get_bq_result(hql, setting['bq_id'])
+
+	logging.debug('bigquery result : %s' % (bq_data,))
+
+	# if bq_data :
+	# 	bq_data = bq_data[0]
+	# else :
+	# 	bq_data = (0,)
+	# 	for i in range(14) :
+	# 		bq_data += (0,)
+	
+	sql = mysql.data_quality.format(dimension=dimension)
+	sql_data = (min_date, client_id, '', ga_data) + bq_data + ('', ga_data) + bq_data
+	
+	logging.debug('excute sql: %s' % sql)
+	logging.debug('insert mysql data: %s' % (sql_data,))
+
+	mySqlClient.insert_mysql(sql, [sql_data])

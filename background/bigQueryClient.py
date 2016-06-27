@@ -10,20 +10,19 @@ from oauth2client.client import GoogleCredentials
 
 API_NAME = 'bigquery'
 API_VERSION = 'v2'
-PROJECT_ID = 'tonal-studio-119521'
 NUM_RETRIES = 5
 
 def get_services():
 	credentials = GoogleCredentials.get_application_default()
 	return build(API_NAME, API_VERSION, credentials=credentials)
 
-def get_bq_result(sql):
+def get_bq_result(sql, pid):
 	bigquery = get_services()
 	query_request = bigquery.jobs()
 	job_id = uuid.uuid4()
 	job_data = {
 		'jobReference': {
-			'projectId': PROJECT_ID,
+			'projectId': pid,
 			'job_id': str(uuid.uuid4())
 		},
 		'configuration': {
@@ -35,7 +34,7 @@ def get_bq_result(sql):
 	}
 	#insert new query job
 	job = bigquery.jobs().insert(
-		projectId=PROJECT_ID,
+		projectId=pid,
 		body=job_data).execute(num_retries=NUM_RETRIES)
 
 	#query job status
