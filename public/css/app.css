@@ -1,4 +1,11 @@
 .off-canvas { background: #4d5158 }
+.off-canvas .left-power-by{
+	position: fixed;
+	bottom: 5px;
+	width: 80%;
+	left: 10px;
+	color: white;
+}
 .top-bar-title { height: 26px; position: relative; }
 .top-bar-right .button { margin: 0; }
 .menu-toggle-button { float: left; margin-right: 8px; }
@@ -6,7 +13,7 @@
 .welcome { font-size: 12px; line-height: 1; }
 .main-content { margin-top: 15px; }
 .log-in-form { border: 1px solid #cacaca; padding: 1rem !important; border-radius: 3px; margin-top: 20%; }
-.footer { background-color: #292c2f; text-align: center; font-size: 1.2rem; padding: 1rem; }
+.footer { background-color: #292c2f; text-align: center; font-size: 1.2rem; padding: 1rem; margin-top: 20px;}
 .footer .inline-list a { display: inline-block; width: 2rem; height: 2rem; background-color: #33383b; border-radius: 2px; font-size: 1.5rem; color: #fff; text-align: center; line-height: 35px; margin: 0 3px 0 0; }
 .footer .contact { list-style-type: none; margin: 0; text-align: left; color: #fff; }
 .footer .contact li { margin-bottom: 2rem; }
@@ -37,6 +44,7 @@ table.tiny tfoot th,
 table.tiny thead td,
 table.tiny thead th { padding: .25rem .3rem .3rem; font-size: 12px; }
 
+.tabs-panel textarea{ margin-bottom: 0}
 
 .comiseo-daterangepicker-triggerbutton{
 	position: relative; top: 15px; right: 10px; font-size: 12px;

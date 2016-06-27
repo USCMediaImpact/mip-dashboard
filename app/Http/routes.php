@@ -40,6 +40,9 @@ Route::get('admin/client/{id}', 'SuperAdmin\ClientController@getClient');
 Route::post('admin/client', 'SuperAdmin\ClientController@saveClient');
 Route::delete('admin/client/{id}', 'SuperAdmin\ClientController@removeClient');
 
+Route::get('admin/client/setting/{id}', 'SuperAdmin\SettingController@showPage');
+Route::post('admin/client/setting', 'SuperAdmin\SettingController@save');
+
 // Admin management routes...
 Route::get('auth/account/management', 'Auth\AccountController@showAccount');
 Route::get('auth/account/all', 'Auth\AccountController@loadAccount');

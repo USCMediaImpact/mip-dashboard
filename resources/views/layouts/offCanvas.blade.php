@@ -22,4 +22,6 @@
     @endcan
     <li><a href="/auth/logout"><i class="fa fa-sign-out"></i>Logout</a></li>
 </ul>
-Powered by: <a href="http://www.mediaimpactproject.org" class="top_logo"> Media Impact Project</a>
+<div class="left-power-by">
+    Powered by: <a href="http://www.mediaimpactproject.org" class="top_logo"> Media Impact Project</a>
+</div>
