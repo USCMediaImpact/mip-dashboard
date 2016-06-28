@@ -11,7 +11,7 @@ class Setting extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['enable_sync', 'values'];
+    protected $fillable = ['client_id', 'enable_sync', 'values'];
 
     public function client(){
         return $this->belongsTo('App\Models\Client');
