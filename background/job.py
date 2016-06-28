@@ -104,30 +104,32 @@ def _run_data_users(client_id, setting, min_date, max_date, dimension):
 
 	mySqlClient.insert_mysql(sql, [sql_data])
 
-def _run_data_stories(client_id, setting, min_date, max_date, dimesion):
-	hql = setting['bq_data_stories']
+def _run_data_stories(client_id, setting, min_date, max_date, dimension):
+	logging.debug(setting['bq_data_stories'])
+	hql = setting['bq_data_stories'].format(min_date=min_date, max_date=max_date)
 
 	logging.debug('big query: %s', hql)
 
 	bq_data = bigQueryClient.get_bq_result(hql, setting['bq_id'])
 
-	logging.debug('bigquery result : %s' % (bq_data,))
+	logging.debug('bigquery result : %s' % len(bq_data))
 
-	md5 = hashlib.md5()
-	md5.update(bq_data[0])
-	path_md5 = md5.hexdigest()
+	if len(bq_data) > 0 :
+		sql = mysql.data_stories.format(dimension=dimension)
+		sql_data = []
+		md5 = hashlib.md5()
+		for row in bq_data:
+			md5.update(row[0])
+			path_md5 = md5.hexdigest()
+			sql_data.append((min_date, path_md5, client_id) + row + row)
 
-	sql = mysql.data_stories.format(dimension=dimension)
-	sql_data = (path_md5, client_id) + bq_data + bq_data
+		logging.debug('excute sql: %s' % (sql,))
+		logging.debug('insert mysql data: %s' % (sql_data[0],))
 
-	logging.debug('excute sql: %s' % (sql,))
-	logging.debug('insert mysql data: %s' % (sql_data,))
-
-	mySqlClient.insert_mysql(sql, [sql_data])
+		mySqlClient.insert_mysql(sql, sql_data)
 
 def _run_data_quality(client_id, setting, min_date, max_date, dimension):
-	logging.debug(clientId + '\n' + setting)
-
+	logging.debug('run ga with %s for client %s' % (client_id, setting['ga_id']))
 	ga_data = analyticsClient.get_ga_result(
 		setting['ga_id'], 
 		min_date, 
@@ -152,12 +154,12 @@ def _run_data_quality(client_id, setting, min_date, max_date, dimension):
 
 	logging.debug('bigquery result : %s' % (bq_data,))
 
-	# if bq_data :
-	# 	bq_data = bq_data[0]
-	# else :
-	# 	bq_data = (0,)
-	# 	for i in range(14) :
-	# 		bq_data += (0,)
+	if bq_data :
+		bq_data = bq_data[0]
+	else :
+		bq_data = (0,)
+		for i in range(14) :
+			bq_data += (0,)
 	
 	sql = mysql.data_quality.format(dimension=dimension)
 	sql_data = (min_date, client_id, '', ga_data) + bq_data + ('', ga_data) + bq_data

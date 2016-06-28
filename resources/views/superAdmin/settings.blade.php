@@ -40,9 +40,7 @@
                     <div class="tabs-panel is-active" id="data_users">
                         <div class="row">
                             <div class="columns small-12 text-right">
-                                <input name="data_users_dimension[]" value="daily" {{array_key_exists('data_users_dimension', $values) && in_array('daily', $values['data_users_dimension']) ? 'checked':''}} id="data_users_dimension_daily" type="checkbox"><label for="data_users_dimension_daily">Daily</label>
-                                <input name="data_users_dimension[]" value="weekly" {{array_key_exists('data_users_dimension', $values) && in_array('weekly', $values['data_users_dimension']) ? 'checked':''}} id="data_users_dimension_weekly" type="checkbox"><label for="data_users_dimension_weekly">Weekly</label>
-                                <input name="data_users_dimension[]" value="monthly" {{array_key_exists('data_users_dimension', $values) && in_array('monthly', $values['data_users_dimension']) ? 'checked':''}} id="data_users_dimension_monthly" type="checkbox"><label for="data_users_dimension_monthly">Monthly</label>
+                                @include('layouts/checkbox', ['name'=>'data_users_dimension', 'keys'=>['daily', 'weekly', 'monthly'], 'values'=>$values])
                             </div>
                         </div>
                         
@@ -51,9 +49,7 @@
                     <div class="tabs-panel" id="bq_data_stories">
                         <div class="row">
                             <div class="columns small-12 text-right">
-                                <input name="data_stories_dimension[]" value="daily" {{array_key_exists('data_stories_dimension', $values) && in_array('daily', $values['data_stories_dimension']) ? 'checked':''}} id="data_stories_dimension_daily" type="checkbox"><label for="data_stories_dimension_daily">Daily</label>
-                                <input name="data_stories_dimension[]" value="weekly" {{array_key_exists('data_stories_dimension', $values) && in_array('weekly', $values['data_stories_dimension']) ? 'checked':''}} id="data_stories_dimension_weekly" type="checkbox"><label for="data_stories_dimension_weekly">Weekly</label>
-                                <input name="data_stories_dimension[]" value="monthly" {{array_key_exists('data_stories_dimension', $values) && in_array('monthly', $values['data_stories_dimension']) ? 'checked':''}} id="data_stories_dimension_monthly" type="checkbox"><label for="data_stories_dimension_monthly">Monthly</label>
+                                @include('layouts/checkbox', ['name'=>'data_stories_dimension', 'keys'=>['daily', 'weekly', 'monthly'], 'values'=>$values])
                             </div>
                         </div>
 
@@ -62,9 +58,7 @@
                     <div class="tabs-panel" id="data_quality">
                         <div class="row">
                             <div class="columns small-12 text-right">
-                                <input name="data_quality_dimension[]" value="daily" {{array_key_exists('data_quality_dimension', $values) && in_array('daily', $values['data_quality_dimension']) ? 'checked':''}} id="data_quality_dimension_daily" type="checkbox"><label for="data_quality_dimension_daily">Daily</label>
-                                <input name="data_quality_dimension[]" value="weekly" {{array_key_exists('data_quality_dimension', $values) && in_array('weekly', $values['data_quality_dimension']) ? 'checked':''}} id="data_quality_dimension_weekly" type="checkbox"><label for="data_quality_dimension_weekly">Weekly</label>
-                                <input name="data_quality_dimension[]" value="monthly" {{array_key_exists('data_quality_dimension', $values) && in_array('monthly', $values['data_quality_dimension']) ? 'checked':''}} id="data_quality_dimension_monthly" type="checkbox"><label for="data_quality_dimension_monthly">Monthly</label>
+                                @include('layouts/checkbox', ['name'=>'data_quality_dimension', 'keys'=>['daily', 'weekly', 'monthly'], 'values'=>$values])
                             </div>
                         </div>
 
