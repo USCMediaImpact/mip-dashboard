@@ -87,12 +87,13 @@
                                         <div class="row align-middle">
                                             <div class="small-3 columns">
                                                 <label class="middle">DataTable
-                                                    <input type="text" name="bq_prepare[0][title]" value="" />
+                                                    <input type="text" name="bq_prepare[0][table]" value="" />
+                                                    
                                                 </label>
                                             </div>
                                             <div class="small-7 columns">
                                                 <label class="middle">Description
-                                                    <input type="text" name="bq_prepare[0][table]" value="" />
+                                                    <input type="text" name="bq_prepare[0][title]" value="" />
                                                 </label>
                                             </div>
                                             <div class="small-2 columns">
