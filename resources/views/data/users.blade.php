@@ -114,7 +114,7 @@
 	    </form>
     @else
 		<div class="small-12 column">
-	        <div>Data Users Comming soon.</div>
+	        <div>Data Users Coming soon.</div>
 	    </div>
 	@endif
 @endsection

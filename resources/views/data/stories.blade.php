@@ -136,7 +136,7 @@
 	    </form>
     @else
 		<div class="small-12 column">
-	        <div>Data Quality Comming soon.</div>
+	        <div>Data Quality Coming soon.</div>
 	    </div>
 	@endif
 
