@@ -60,7 +60,10 @@ class SettingController extends AuthenticatedBaseController
                 'data_stories_dimension' =>  $request['data_stories_dimension'],
                 'bq_data_stories' => $request['bq_data_stories'],
                 'data_quality_dimension' =>  $request['data_quality_dimension'],
-                'bq_data_quality' => $request['bq_data_quality'],
+                'bq_data_quality_t1' => $request['bq_data_quality_t1'],
+                'bq_data_quality_t2' => $request['bq_data_quality_t2'],
+                'bq_data_quality_t3' => $request['bq_data_quality_t3'],
+                'bq_data_quality_t4' => $request['bq_data_quality_t4'],
             ])
         ];
         if($setting === null) {

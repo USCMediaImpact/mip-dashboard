@@ -129,8 +129,18 @@
                                 @include('layouts/checkbox', ['name'=>'data_quality_dimension', 'keys'=>['daily', 'weekly', 'monthly'], 'values'=>$values])
                             </div>
                         </div>
-
-                        <textarea name="bq_data_quality">{!! array_key_exists('bq_data_quality', $values) ? $values['bq_data_quality'] : '' !!}</textarea>
+                        <label for="bq_data_quality_t1"> T1</label>
+                        <textarea id="bq_data_quality_t1" name="bq_data_quality_t1">{!! array_key_exists('bq_data_quality_t1', $values) ? $values['bq_data_quality_t1'] : '' !!}</textarea>
+                        
+                        <label for="bq_data_quality_t2"> T2</label>
+                        <textarea id="bq_data_quality_t2" name="bq_data_quality_t2">{!! array_key_exists('bq_data_quality_t2', $values) ? $values['bq_data_quality_t2'] : '' !!}</textarea>
+                        
+                        <label for="bq_data_quality_t3"> T3</label>
+                        <textarea id="bq_data_quality_t3" name="bq_data_quality_t3">{!! array_key_exists('bq_data_quality_t3', $values) ? $values['bq_data_quality_t3'] : '' !!}</textarea>
+                        
+                        <label for="bq_data_quality_t4"> T4</label>
+                        <textarea id="bq_data_quality_t4" name="bq_data_quality_t4">{!! array_key_exists('bq_data_quality_t4', $values) ? $values['bq_data_quality_t4'] : '' !!}</textarea>
+                        
                     </div>
                 </div>
             </div>

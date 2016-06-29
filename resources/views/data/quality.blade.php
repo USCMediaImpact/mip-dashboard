@@ -15,6 +15,24 @@
 						@include('widgets.resultGroup')
 					</div>
 				</div>
+				<table class="tiny hover">
+					<tr>
+						<th rowspan="3">Google Analytics vs MIP GTM</th>
+					</tr>
+					<tr>
+						<th rowspan="3">Users </th>
+					</tr>
+					<tr>
+						<th>SCPR GA Users</th>
+						<th>MIP KPCC GTM Users</th>
+						<th>Variance</th>
+					</tr>
+					<tr>
+						<td>{{ number_format($row['ga_users']) }}</td>
+	                    <td>{{ number_format($row['mip_users']) }}</td>
+	                    <td>{{ number_format(($row['mip_users'] - $row['ga_users']) / $row['ga_users'], 2) }}</td>
+					</tr>
+				</table>
 				<div class="table-scroll">
 					<table class="tiny hover" style="width: 2000px !important;">
 			            <thead>
