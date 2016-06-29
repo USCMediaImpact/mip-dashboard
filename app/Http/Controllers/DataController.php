@@ -11,14 +11,39 @@ use Google_Service_Bigquery_QueryRequest;
 use App\Models\User;
 
 class DataController extends AuthenticatedBaseController{
-
+    
     public function showContent(){
 
         return view('data.content');
     }
 
-    public function showUsers(){
-        return view('data.users');
+    public function showUsers(Request $request){
+        $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
+        $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
+        $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
+        $client_id = $request['client.id'];
+
+        $query = DB::table('data_users_' . $group)
+            ->select('date', 'totalmembersthisweek', 'kpi_totalmembersknowntomip', 'cametositethroughemail', 'kpi_totalemailsubscribersknowntomip', 'kpi_percentknownsubswhocame', 'kpi_newemailsubscribers', 'totaldonorsthisweek', 'kpi_totaldonorsknowntomip', 'duplicated_memberspluscamethroughemailplusdonors', 'unduplicated_totaluserskpi', 'duplicated_database_memberspluscamethroughemailplusdonors', 'unduplicated_database_totaluserskpi')
+            ->where('client_id', $client_id);
+
+        $count = $query->count();
+        $report = $query->where('date', '<=', $max_date['year'] . '-' . $max_date['month'] . '-' . $max_date['day'])
+            ->where('date', '>=', $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day'])
+            ->orderBy('date', 'desc')
+            ->get();
+        $report = array_map(function($row){
+            return get_object_vars($row);
+        }, $report);
+
+        return view('data.users', [
+            'have_data' => $count > 0,
+            'report' => $report,
+            'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
+            'max_date' => mktime(0, 0, 0, $max_date['month'], $max_date['day'], $max_date['year']),
+            'group' => $group,
+            'displayGroupName' => self::$groupDisplay[$group]
+        ]);
     }
 	
     public function showDonations(){
@@ -26,7 +51,7 @@ class DataController extends AuthenticatedBaseController{
     }
 
     public function showQuality(Request $request){
-        $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'daily';
+        $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
         $client_id = $request['client.id'];
