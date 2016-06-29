@@ -66,5 +66,6 @@ Route::get('/metrics/donations', 'MetricsController@showDonations');
 Route::get('/data/content', 'DataController@showContent');
 Route::get('/data/users', 'DataController@showUsers');
 Route::get('/data/donations', 'DataController@showDonations');
+Route::get('/data/stories', 'DataController@showStories');
 Route::match(['get', 'post'], '/data/quality', 'DataController@showQuality');
 

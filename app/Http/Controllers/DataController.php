@@ -45,9 +45,65 @@ class DataController extends AuthenticatedBaseController{
             'displayGroupName' => self::$groupDisplay[$group]
         ]);
     }
-	
-    public function showDonations(){
-        return view('data.donations');
+
+    public function showDonations(Request $request){
+        $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
+        $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
+        $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
+        $client_id = $request['client.id'];
+
+        $query = DB::table('data_stories_' . $group)
+            ->select('date', 'page_path', 'pageviews', 'scroll_start', 'scroll_25', 'scroll_50', 'scroll_75', 'scroll_100', 'scroll_supplemental', 'scroll_end', 'time_15', 'time_30', 'time_45', 'time_60', 'time_75', 'time_90', 'comments', 'emails', 'tweets', 'facebook_recommendations', 'related_clicks' )
+            ->where('client_id', $client_id)
+            ->limit(10);
+
+        $count = $query->count();
+        $report = $query->where('date', '<=', $max_date['year'] . '-' . $max_date['month'] . '-' . $max_date['day'])
+            ->where('date', '>=', $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day'])
+            ->orderBy('date', 'desc')
+            ->get();
+        $report = array_map(function($row){
+            return get_object_vars($row);
+        }, $report);
+
+        return view('data.donations', [
+            'have_data' => $count > 0,
+            'report' => $report,
+            'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
+            'max_date' => mktime(0, 0, 0, $max_date['month'], $max_date['day'], $max_date['year']),
+            'group' => $group,
+            'displayGroupName' => self::$groupDisplay[$group]
+        ]);
+    }
+
+    public function showStories(Request $request){
+        $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
+        $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
+        $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
+        $client_id = $request['client.id'];
+
+        $query = DB::table('data_stories_' . $group)
+            ->select('date', 'page_path', 'pageviews', 'scroll_start', 'scroll_25', 'scroll_50', 'scroll_75', 'scroll_100', 'scroll_supplemental', 'scroll_end', 'time_15', 'time_30', 'time_45', 'time_60', 'time_75', 'time_90', 'comments', 'emails', 'tweets', 'facebook_recommendations', 'related_clicks' )
+            ->where('client_id', $client_id)
+            ->limit(10);
+
+        $count = $query->count();
+        $report = $query->where('date', '<=', $max_date['year'] . '-' . $max_date['month'] . '-' . $max_date['day'])
+            ->where('date', '>=', $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day'])
+            ->orderBy('date', 'desc')
+            ->get();
+        $report = array_map(function($row){
+            return get_object_vars($row);
+        }, $report);
+
+        return view('data.stories', [
+            'have_data' => $count > 0,
+            'report' => $report,
+            'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
+            'max_date' => mktime(0, 0, 0, $max_date['month'], $max_date['day'], $max_date['year']),
+            'group' => $group,
+            'displayGroupName' => self::$groupDisplay[$group]
+        ]);
     }
 
     public function showQuality(Request $request){
