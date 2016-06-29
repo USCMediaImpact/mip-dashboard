@@ -9,96 +9,28 @@
 			<div class="column small-12">
 				<div class="top-bar">
 					<div class="top-bar-left">
-						{{$displayGroupName}} <small>with Data from MailChimp and Eventbrite</small>
+						Weekly Story Performance<br>
+						<small>with Data from MIP Google Tag Manager </small>
 					</div>
 					<div class="top-bar-right">
 						@include('widgets.resultGroup')
 					</div>
 				</div>
-				<table class="tiny hover">
-					<thead>
-						<tr>
-							<th>ARTICLE SUMMARY  - TOTALS ALL ARTICLES</th>
-						</tr>
-						<tr>
-							<td></td>
-						</tr>
-					</thead>
-				</table>
-				<table class="tiny hover">
-					<thead>
-						<tr>
-							<th>ARTICLE SUMMARY - PERCENTAGES ALL ARTICLES</th>
-						</tr>
-						<tr>
-							<td></td>
-						</tr>
-					</thead>
-				</table>
-				<table class="tiny hover">
-					<thead>
-						<tr>
-							<th>MEDIANS - ONLY ARTICLES ABOVE 500 PV</th>
-						</tr>
-						<tr>
-							<td></td>
-						</tr>
-					</thead>
-				</table>
 				<div class="table-scroll">
+				<p>Scroll Depth</p>
 					<table class="tiny hover" style="width: 2000px !important;">
 			            <thead>
 			            	<tr>
 			            		<th rowspan="3">Week of</th>
 			                    <th rowspan="3">URL</th>
 			                    <th rowspan="3">Total Pageviews</th>
-			            		<th colspan="7">SCROLL DEPTH</th>
-			            		<th colspan="6">TIME ON ARTICLE (seconds)</th>
-			            		<th colspan="8">USER INTERACTIONS</th>
-			            	</tr>
-			            	<tr>
-			            		<th></th>
-			            		<th colspan="4"></th>
-			            		<th></th>
-			            		<th></th>
-
-			            		<th></th>
-			            		<th></th>
-			            		<th></th>
-			            		<th></th>
-			            		<th></th>
-			            		<th></th>
-
-			            		<th></th>
-			            		<th colspan="3">Shares</th>
-			            		<th></th>
-			            		<th></th>
-								<th colspan="2">Related Content</th>
-			            	</tr>
-			                <tr>
 			                    <th>Started scrolling</th>
 			                    <th>25%</th>
 			                    <th>50%</th>
 			                    <th>75%</th>
 			                    <th>100%</th>
 			                    <th>Related content</th>
-			                    <th>End of page</th>
-
-			                    <th>15s</th>
-			                    <th>30s</th>
-			                    <th>45s</th>
-			                    <th>60s</th>
-			                    <th>75s</th>
-			                    <th>90s</th>
-
-			                    <th>Comments</th>
-			                    <th>Email</th>
-			                    <th>Tweet</th>
-			                    <th>Facebook Rec.</th>
-			                    <th>Total</th>
-			                    <th>Share rate on total pageviews</th>
-			                    <th>Related Content clicks</th>
-			                    <th>Click-through rate on pageviews with related content scroll depth</th>
+			                    <th>End of page</th> 
 			                </tr>
 			            </thead>
 			            <tbody>
@@ -116,6 +48,35 @@
 								<td>{{ number_format($row['scroll_100']) }}</td>
 								<td>{{ number_format($row['scroll_supplemental']) }}</td>
 								<td>{{ number_format($row['scroll_end']) }}</td>
+			                </tr>
+			                @endforeach
+			            </tbody>
+			        </table>
+				</div>
+				<div class="table-scroll">
+				<p>Time on Article</p>
+					<table class="tiny hover" style="width: 2000px !important;">
+			            <thead>
+			            	<tr>
+			            		<th rowspan="3">Week of</th>
+			                    <th rowspan="3">Article</th>
+			                    <th rowspan="3">Total Page Views</th>
+								<th>15 seconds</th>
+			                    <th>30 seconds</th>
+			                    <th>45 seconds</th>
+			                    <th>60 seconds</th>
+			                    <th>75 seconds</th>
+			                    <th>90 seconds</th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                @foreach ($report as $row)
+			                <tr>
+			                    <td>{{ date('Y-m-d', strtotime($row['date'])) }}</td>
+			                    <td>{{ $row['events'] }}</td>
+			                    <td>{{ $row['page_path'] }}</td>
+			                    <td>{{ number_format($row['pageviews']) }}</td>
+								
 								{{-- time on article --}}
 								<td>{{ number_format($row['time_15']) }}</td>
 								<td>{{ number_format($row['time_30']) }}</td>
@@ -123,6 +84,37 @@
 								<td>{{ number_format($row['time_60']) }}</td>
 								<td>{{ number_format($row['time_75']) }}</td>
 								<td>{{ number_format($row['time_90']) }}</td>
+								
+			                </tr>
+			                @endforeach
+			            </tbody>
+			        </table>
+				</div>
+				<div class="table-scroll"> 
+				<p>User Interactions</p>
+					<table class="tiny hover" style="width: 2000px !important;">
+			            <thead>
+			            	<tr>
+			            		<th rowspan="3">Week of</th>
+			                    <th rowspan="3">URL</th>
+			                    <th rowspan="3">Total Pageviews</th>
+			                    <th>Comments</th>
+			                    <th>Email Shares</th>
+			                    <th>Tweets</th>
+			                    <th>Facebook Shares</th>
+			                    <th>Total Shares</th>
+			                    <th>Share Rate</th>
+			                    <th>Related Content Clicks</th>
+			                    <th>Click Rate</th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                @foreach ($report as $row)
+			                <tr>
+			                    <td>{{ date('Y-m-d', strtotime($row['date'])) }}</td>
+			                    <td>{{ $row['events'] }}</td>
+			                    <td>{{ $row['page_path'] }}</td>
+			                    <td>{{ number_format($row['pageviews']) }}</td>
 								{{-- user interactions--}}
 								<td>{{ number_format($row['comments']) }}</td>
 								<td>{{ number_format($row['emails']) }}</td>
@@ -137,6 +129,7 @@
 			            </tbody>
 			        </table>
 				</div>
+				
 			</div>
 		</div>
 		
