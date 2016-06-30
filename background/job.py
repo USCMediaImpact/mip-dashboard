@@ -23,7 +23,7 @@ def add_months(sourcedate, months):
 	day = min(sourcedate.day,calendar.monthrange(year,month)[1])
 	return date(year,month,day)
 
-def format_hive(sql, min_daet, max_date, dimension):
+def format_hive(sql, min_date, max_date, dimension):
 	parse_min_date = datetime.strptime(min_date, '%Y-%m-%d')
 	parse_max_date = datetime.strptime(min_date, '%Y-%m-%d')
 	if dimension == 'dialy':
@@ -57,7 +57,7 @@ def run(min_date, max_date, dimension):
 
 		try:
 			logging.debug('run prepare')
-			_run_prepare(clientId, setting, min_date, max_date)
+			_run_prepare(clientId, setting, min_date, max_date, dimension)
 		except Exception:
 			logging.error('run prepare failed', exc_info=True)
 			notTotallySuccess = True
