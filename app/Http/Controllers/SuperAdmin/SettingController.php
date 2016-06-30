@@ -64,6 +64,7 @@ class SettingController extends AuthenticatedBaseController
                 'bq_data_quality_t2' => $request['bq_data_quality_t2'],
                 'bq_data_quality_t3' => $request['bq_data_quality_t3'],
                 'bq_data_quality_t4' => $request['bq_data_quality_t4'],
+                'bq_data_quality_t5' => $request['bq_data_quality_t5'],
             ])
         ];
         if($setting === null) {

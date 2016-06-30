@@ -112,7 +112,7 @@ class DataController extends AuthenticatedBaseController{
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
         $client_id = $request['client.id'];
         $query = DB::table('data_quality_' . $group)
-            ->select('date', 'events', 'ga_users', 'mip_users', 'user_variance', 'identified_emailsubscribers', 'known_emailsubscribers', 'total_database_emails', 'identified_newemailsubscribers', 'email_newsletter_clicks', 'eloqua_email_newsletter_clicks', 'email_newsletter_clicks_variance', 'identified_donors', 'known_donors', 'eloqua_known_donors', 'donors_variance', 'total_known_donors', 'total_known__unique_email')
+            ->select('date', 'client_id', 'ga_users', 'mip_users', 'subscribedandcamethroughemail', 'camethroughemailforfirsttime', 'camethroughemailagain', 'total_cametositethroughemail', 'subscribedandcamethroughemail2', 'subscribedonly', 'kpi_newemailsubscribers', 'kpi_newemailsubscribers2', 'camethroughemailforfirsttime2', 'camethroughemailagain2', 'subscriberswhodidnotcomethroughemail', 'kpi_totalemailsubscribersknowntomip', 'kpi_percentknownsubswhocame', 'newdonors', 'donatedagain', 'totaldonorsthisweek', 'newdonors2', 'donatedagain2', 'databasedonorswhodidnotdonatethisweek', 'kpi_totaldonorsknowntomip', 'kpi_percentknowndonorswhodonated', 'newlogins', 'loggedinagain', 'totalloginsthisweek', 'newlogins2', 'loggedinagain2', 'databasememberswhodidnotloginthisweek', 'kpi_totalmembersknowntomip', 'kpi_percentknownmemberswhologgedin')
             ->where('client_id', $client_id);
 
         $count = $query->count();

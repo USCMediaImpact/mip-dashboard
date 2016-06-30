@@ -15,6 +15,7 @@
 						@include('widgets.resultGroup')
 					</div>
 				</div>
+				<br />
 				<table class="tiny hover">
 					<tr>
 						<th>Week of</th>
@@ -38,57 +39,89 @@
 					@endforeach
 				</table>
 
-				<div class="table-scroll">
-					<table class="tiny hover" style="width: 2000px !important;">
-			            <thead>
-			            	<tr>
-			            		<th rowspan="4">Date</th>
-			                    <th colspan="13">EMAIL NEWSLETTER SUBSCRIBERS</th>
-			            	</tr>
-			            	<tr>
-			            		<th colspan="4">How many e-mail subscribers came to the site this week?</th>
-			            		<th colspan="3">How many new subscribers subscribed to an e-mail newsletter this week?</th>
-			            		<th colspan="5">How many e-mail newsletter subscribers are now known to MIP as of this week?</th>
-			            		<th></th>
-			            	</tr>
-			            	<tr>
-			            		<th> Number of users this week who BOTH subscribed to an e-mail newsletter AND came to the site through an e-mail  </th>
-			            		<th> Number of users who came to the site through an e-mail this week for the first time since MIP started collecting data  </th>
-			            		<th> Number of e-mail subscribers already in MIP database and who came to the site this week </th>
-			            		<th> Total number of users who came to the site through an email this week </th>
-			            		<th> Number of users this week who BOTH subscribed to an e-mail newsletter AND came to the site through an e-mail  </th>
-			            		<th> Number of users this week who subscribed to an e-mail newsletter  </th>
-			            		<th> KPI: Number of new subscribers this week </th>
-			            		<th> Number of new subscribers this week </th>
-			            		<th> Number of users who came to the site through an e-mail this week for the first time since MIP started collecting data  </th>
-			            		<th> Number of e-mail subscribers already in MIP database and who came to the site this week </th>
-			            		<th> Number of e-mail subscribers already in MIP database and who came to the site this week </th>
-			            		<th> KPI: Total number of e-mail subscribers known to MIP </th>
-			            		<th> KPI: Percent of e-mail subscribers known to MIP who came to the site through an e-mail this week </th>
-			            	</tr>
-			            </thead>
-			            <tbody>
-			                @foreach ($report as $row)
-			                <tr>
-			                    <td>{{ date('Y-m-d', strtotime($row['date'])) }}</td>
-			                    <td>{{ number_format($row['identified_emailsubscribers']) }}</td>
-			                    <td>{{ $row['known_emailsubscribers'] }}</td>
-			                    <td>{{ $row['total_database_emails'] }}</td>
-			                    <td>{{ $row['identified_newemailsubscribers'] }}</td>
-			                    <td>{{ $row['email_newsletter_clicks'] }}</td>
-			                    <td>{{ $row['eloqua_email_newsletter_clicks'] }}</td>
-			                    <td>{{ $row['email_newsletter_clicks_variance'] }}</td>
-			                    <td>{{ $row['identified_donors'] }}</td>
-			                    <td>{{ $row['known_donors'] }}</td>
-			                    <td>{{ $row['eloqua_known_donors'] }}</td>
-			                    <td>{{ $row['donors_variance'] }}</td>
-			                    <td>{{ $row['total_known_donors'] }}</td>
-			                    <td>{{ $row['total_known__unique_email'] }}</td>
-			                </tr>
-			                @endforeach
-			            </tbody>
-			        </table>
-				</div>
+				<table class="tiny hover">
+		            <thead>
+		            	<tr>
+		            		<th rowspan="4">Date</th>
+		                    <th colspan="13">EMAIL NEWSLETTER SUBSCRIBERS</th>
+		            	</tr>
+		            	<tr>
+		            		<th colspan="4">How many e-mail subscribers came to the site this week?</th>
+		            		<th colspan="3">How many new subscribers subscribed to an e-mail newsletter this week?</th>
+		            		<th colspan="5">How many e-mail newsletter subscribers are now known to MIP as of this week?</th>
+		            		<th></th>
+		            	</tr>
+		            	<tr>
+		            		<th> Number of users this week who BOTH subscribed to an e-mail newsletter AND came to the site through an e-mail  </th>
+		            		<th> Number of users who came to the site through an e-mail this week for the first time since MIP started collecting data  </th>
+		            		<th> Number of e-mail subscribers already in MIP database and who came to the site this week </th>
+		            		<th> Total number of users who came to the site through an email this week </th>
+		            		<th> Number of users this week who BOTH subscribed to an e-mail newsletter AND came to the site through an e-mail  </th>
+		            		<th> Number of users this week who subscribed to an e-mail newsletter  </th>
+		            		<th> KPI: Number of new subscribers this week </th>
+		            		<th> Number of new subscribers this week </th>
+		            		<th> Number of users who came to the site through an e-mail this week for the first time since MIP started collecting data  </th>
+		            		<th> Number of e-mail subscribers already in MIP database and who came to the site this week </th>
+		            		<th> Number of e-mail subscribers already in MIP database and who came to the site this week </th>
+		            		<th> KPI: Total number of e-mail subscribers known to MIP </th>
+		            		<th> KPI: Percent of e-mail subscribers known to MIP who came to the site through an e-mail this week </th>
+		            	</tr>
+		            </thead>
+		            <tbody>
+		                @foreach ($report as $row)
+		                <tr>
+		                    <td>{{ date('Y-m-d', strtotime($row['date'])) }}</td>
+		                    {{-- How many e-mail subscribers came to the site this week? --}}
+		                    <td>{{ number_format($row['subscribedandcamethroughemail']) }}</td>
+		                    <td>{{ number_format($row['camethroughemailforfirsttime']) }}</td>
+		                    <td>{{ number_format($row['camethroughemailagain']) }}</td>
+		                    <td>{{ number_format($row['total_cametositethroughemail']) }}</td>
+							{{-- How many new subscribers subscribed to an e-mail newsletter this week? --}}
+		                    <td>{{ number_format($row['subscriberswhodidnotcomethroughemail']) }}</td>
+		                    <td>{{ number_format($row['kpi_totalemailsubscribersknowntomip']) }}</td>
+		                    <td>{{ number_format($row['kpi_percentknownsubswhocame']) }}</td>
+		                    {{--  --}}
+		                    <td>{{ number_format($row['newdonors']) }}</td>
+		                    <td>{{ number_format($row['donatedagain']) }}</td>
+		                    <td>{{ number_format($row['totaldonorsthisweek']) }}</td>
+		                    <td>{{ number_format($row['databasedonorswhodidnotdonatethisweek']) }}</td>
+		                    <td>{{ number_format($row['kpi_totaldonorsknowntomip']) }}</td>
+		                    <td>{{ number_format($row['kpi_percentknowndonorswhodonated']) }}</td>
+		                </tr>
+		                @endforeach
+		            </tbody>
+		        </table>
+
+		        <table class="tiny hover">
+					<tr>
+						<th rowspan="2">Week of</th>
+						<th colspan="3">How many users donated on the site this week?</th>
+						<th colspan="5">How many donors are now known to MIP as of this week?</th>
+					</tr>
+					<tr>
+						<th> Number of users who donated on the site this week for the first time since MIP started collecting data  </th>
+						<th> Number of users already in MIP database and who donated on the site this week </th>
+						<th> Total number of users who donated on the site this week </th>
+						<th> Number of users who donated on the site this week for the first time since MIP started collecting data  </th>
+						<th> Number of users already in MIP database and who donated on the site this week </th>
+						<th> Number of donors in the database but who didn't donate on the site this week </th>
+						<th> KPI: Total number of donors known to MIP </th>
+						<th> KPI:  Percent of donors known to MIP who donated on the site this week </th>
+					</tr>
+					@foreach ($report as $row)
+					<tr>
+						<td>{{ date('Y-m-d', strtotime($row['date'])) }}</td>
+						<td>{{ number_format($row['newlogins']) }}</td>
+						<td>{{ number_format($row['loggedinagain']) }}</td>
+						<td>{{ number_format($row['totalloginsthisweek']) }}</td>
+						<td>{{ number_format($row['newlogins2']) }}</td>
+						<td>{{ number_format($row['loggedinagain2']) }}</td>
+						<td>{{ number_format($row['databasememberswhodidnotloginthisweek']) }}</td>
+						<td>{{ number_format($row['kpi_totalmembersknowntomip']) }}</td>
+						<td>{{ number_format($row['kpi_percentknownmemberswhologgedin']) }}</td>
+					</tr>
+					@endforeach
+				</table>
 			</div>
 		</div>
 		
