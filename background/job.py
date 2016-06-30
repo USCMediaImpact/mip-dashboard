@@ -62,6 +62,12 @@ def run(min_date, max_date, dimension):
 	if notTotallySuccess :
 		raise Exception('missing failed!')
 
+def _run_prepare(client_id, setting, min_date, max_date):
+	for perpare in setting['bq_prepare']:
+		if prepare['table'] && prepare['sql']:
+			hive = preapre['sql'].format(min_date = min_date, max_date = maxdate)
+			
+
 def _run_data_users(client_id, setting, min_date, max_date, dimension):
 	logging.debug('run data user job')
 	parse_min_date = datetime.strptime(min_date, '%Y-%m-%d')
