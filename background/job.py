@@ -96,7 +96,7 @@ def _run_prepare(client_id, setting, min_date, max_date, dimension):
 			hive = format_hive(prepare['sql'], min_date, max_date, dimension)
 			info = prepare['table'].split('.')
 			if len(info) != 2:
-				logging.error('table %s missing' % (preapre['table'], ))
+				logging.error('table %s missing' % (prepare['table'], ))
 				continue
 			logging.debug('begin update table %s %s \n%s' % (info[0], info[1], hive))
 			bigQueryClient.insert_from_query(hive, setting['bq_id'], info[0], info[1])
