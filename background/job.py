@@ -71,9 +71,9 @@ def run(min_date, max_date, dimension):
 		raise Exception('missing failed!')
 
 def _run_prepare(client_id, setting, min_date, max_date):
-	for perpare in setting['bq_prepare']:
+	for prepare in setting['bq_prepare']:
 		if 'table' in prepare and 'sql' in prepare and prepare['table'] is not None:
-			hive = preapre['sql'].format(min_date = min_date, max_date = maxdate)
+			hive = prepare['sql'].format(min_date = min_date, max_date = maxdate)
 			info = prepare['table'].split('.')
 			if len(info) != 2:
 				logging.error('table %s missing' % (preapre['table'], ))
