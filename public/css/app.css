@@ -43,6 +43,7 @@ table.tiny tfoot td,
 table.tiny tfoot th,
 table.tiny thead td,
 table.tiny thead th { padding: .25rem .3rem .3rem; font-size: 12px; }
+table caption{text-align: left;}
 
 .tabs-panel textarea{ margin-bottom: 0}
 

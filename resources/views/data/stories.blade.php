@@ -17,8 +17,20 @@
 					</div>
 				</div>
 				<div class="table-scroll">
-				<p>Scroll Depth</p>
-					<table class="tiny hover" style="width: 2000px !important;">
+					<table class="tiny hover">
+						<caption>Scroll Depth</caption>
+						<colgroup>
+							<col style="width: 120px;" />
+							<col style="width: 360px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+						</colgroup>
 			            <thead>
 			            	<tr>
 			            		<th rowspan="3">Week of</th>
@@ -37,7 +49,6 @@
 			                @foreach ($report as $row)
 			                <tr>
 			                    <td>{{ date('Y-m-d', strtotime($row['date'])) }}</td>
-			                    <td>{{ $row['events'] }}</td>
 			                    <td>{{ $row['page_path'] }}</td>
 			                    <td>{{ number_format($row['pageviews']) }}</td>
 								{{-- scroll depth --}}
@@ -54,8 +65,19 @@
 			        </table>
 				</div>
 				<div class="table-scroll">
-				<p>Time on Article</p>
-					<table class="tiny hover" style="width: 2000px !important;">
+					<table class="tiny hover">
+						<caption>Time on Article</caption>
+						<colgroup>
+							<col style="width: 120px;" />
+							<col style="width: 360px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+						</colgroup>
 			            <thead>
 			            	<tr>
 			            		<th rowspan="3">Week of</th>
@@ -73,10 +95,8 @@
 			                @foreach ($report as $row)
 			                <tr>
 			                    <td>{{ date('Y-m-d', strtotime($row['date'])) }}</td>
-			                    <td>{{ $row['events'] }}</td>
-			                    <td>{{ $row['page_path'] }}</td>
-			                    <td>{{ number_format($row['pageviews']) }}</td>
-								
+			                    <td data-tooltip title="{{ $row['page_path'] }}">{{ $row['page_path'] }}</td>
+			                    <td>{{ number_format($row['pageviews']) }}</td>								
 								{{-- time on article --}}
 								<td>{{ number_format($row['time_15']) }}</td>
 								<td>{{ number_format($row['time_30']) }}</td>
@@ -91,8 +111,21 @@
 			        </table>
 				</div>
 				<div class="table-scroll"> 
-				<p>User Interactions</p>
-					<table class="tiny hover" style="width: 2000px !important;">
+					<table class="tiny hover">
+						<caption>User Interactions</caption>
+						<colgroup>
+							<col style="width: 120px;" />
+							<col style="width: 360px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+							<col style="width: 120px;" />
+						</colgroup>
 			            <thead>
 			            	<tr>
 			            		<th rowspan="3">Week of</th>
@@ -112,7 +145,6 @@
 			                @foreach ($report as $row)
 			                <tr>
 			                    <td>{{ date('Y-m-d', strtotime($row['date'])) }}</td>
-			                    <td>{{ $row['events'] }}</td>
 			                    <td>{{ $row['page_path'] }}</td>
 			                    <td>{{ number_format($row['pageviews']) }}</td>
 								{{-- user interactions--}}
