@@ -23,6 +23,27 @@ def add_months(sourcedate, months):
 	day = min(sourcedate.day,calendar.monthrange(year,month)[1])
 	return date(year,month,day)
 
+def format_hive(sql, min_daet, max_date, dimension):
+	parse_min_date = datetime.strptime(min_date, '%Y-%m-%d')
+	parse_max_date = datetime.strptime(min_date, '%Y-%m-%d')
+	if dimension == 'dialy':
+		prev_min_date = parse_min_date - timedelta(1)
+		prev_max_date = parse_max_date - timedelta(1)
+	elif dimension == 'weekly':
+		prev_min_date = parse_min_date - timedelta(7)
+		prev_max_date = parse_max_date - timedelta(7)
+	elif dimension == 'monthly':
+		prev_min_date = add_months(parse_min_date, -1)
+		prev_max_date = date(parse_max_date.year, parse_max_date.month, 1) - timedelta(1)
+	else:
+		prev_min_date = parse_min_date - timedelta(1)
+		prev_max_date = parse_max_date - timedelta(1)
+
+	prev_min_date = prev_min_date.strftime('%Y-%m-%d')
+	prev_max_date = prev_max_date.strftime('%Y-%m-%d')
+
+	return sql.format(min_date=min_date, max_date=max_date, prev_min_date=prev_min_date, prev_max_date=prev_max_date)
+
 def run(min_date, max_date, dimension):
 	logging.debug(dimension + ' corn job is running at ' + unicode(datetime.now()) + ' from ' + min_date + ' to ' + max_date)
 	client_settings = mySqlClient.query_client_settings()
@@ -34,7 +55,6 @@ def run(min_date, max_date, dimension):
 
 		notTotallySuccess = False
 
-		
 		try:
 			logging.debug('run prepare')
 			_run_prepare(clientId, setting, min_date, max_date)
@@ -82,25 +102,8 @@ def _run_prepare(client_id, setting, min_date, max_date):
 
 def _run_data_users(client_id, setting, min_date, max_date, dimension):
 	logging.debug('run data user job')
-	parse_min_date = datetime.strptime(min_date, '%Y-%m-%d')
-	parse_max_date = datetime.strptime(min_date, '%Y-%m-%d')
-	if dimension == 'dialy':
-		prev_min_date = parse_min_date - timedelta(1)
-		prev_max_date = parse_max_date - timedelta(1)
-	elif dimension == 'weekly':
-		prev_min_date = parse_min_date - timedelta(7)
-		prev_max_date = parse_max_date - timedelta(7)
-	elif dimension == 'monthly':
-		prev_min_date = add_months(parse_min_date, -1)
-		prev_max_date = date(parse_max_date.year, parse_max_date.month, 1) - timedelta(1)
-	else:
-		prev_min_date = parse_min_date - timedelta(1)
-		prev_max_date = parse_max_date - timedelta(1)
-
-	prev_min_date = prev_min_date.strftime('%Y-%m-%d')
-	prev_max_date = prev_max_date.strftime('%Y-%m-%d')
-
-	hql = setting['bq_data_users'].format(prev_min_date=prev_min_date, min_date=min_date, prev_max_date=prev_max_date, max_date=max_date)
+	
+	hql = format_hive(setting['bq_data_users'], min_date, max_date, dimension)
 
 	logging.debug('big query: %s', hql)
 
@@ -124,7 +127,8 @@ def _run_data_users(client_id, setting, min_date, max_date, dimension):
 
 def _run_data_stories(client_id, setting, min_date, max_date, dimension):
 	logging.debug(setting['bq_data_stories'])
-	hql = setting['bq_data_stories'].format(min_date=min_date, max_date=max_date)
+	
+	hql = format_hive(setting['bq_data_stories'], min_date, max_date, dimension)
 
 	logging.debug('big query: %s', hql)
 
@@ -164,23 +168,16 @@ def _run_data_quality(client_id, setting, min_date, max_date, dimension):
 
 	logging.debug('ga user: %s' % (ga_data,))
 
-	hql = setting['bq_data_quality'].format(min_date=min_date, max_date=max_date)
+	bq_data = ()
+	for key in range(1,5):
+		hql = setting['bq_data_quality_t' + key].format(min_date=min_date, max_date=max_date)
+		logging.debug('big query: %s', hql)
+		data = bigQueryClient.get_bq_result(hql, setting['bq_id'])
+		logging.debug('bigquery result : %s' % (data,))
+		bq_data += data[0]
 
-	logging.debug('big query: %s', hql)
-
-	bq_data = bigQueryClient.get_bq_result(hql, setting['bq_id'])
-
-	logging.debug('bigquery result : %s' % (bq_data,))
-
-	if bq_data :
-		bq_data = bq_data[0]
-	else :
-		bq_data = (0,)
-		for i in range(14) :
-			bq_data += (0,)
-	
 	sql = mysql.data_quality.format(dimension=dimension)
-	sql_data = (min_date, client_id, '', ga_data) + bq_data + ('', ga_data) + bq_data
+	sql_data = (min_date, client_id, ga_data) + bq_data + (ga_data, ) + bq_data
 	
 	logging.debug('excute sql: %s' % sql)
 	logging.debug('insert mysql data: %s' % (sql_data,))
