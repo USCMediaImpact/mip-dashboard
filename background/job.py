@@ -90,10 +90,10 @@ def run(min_date, max_date, dimension):
 	if notTotallySuccess :
 		raise Exception('missing failed!')
 
-def _run_prepare(client_id, setting, min_date, max_date):
+def _run_prepare(client_id, setting, min_date, max_date, dimension):
 	for prepare in setting['bq_prepare']:
 		if 'table' in prepare and 'sql' in prepare and prepare['table'] is not None:
-			hive = prepare['sql'].format(min_date = min_date, max_date = max_date)
+			hive = format_hive(prepare['sql'], min_date, max_date, dimension)
 			info = prepare['table'].split('.')
 			if len(info) != 2:
 				logging.error('table %s missing' % (preapre['table'], ))
@@ -170,7 +170,7 @@ def _run_data_quality(client_id, setting, min_date, max_date, dimension):
 
 	bq_data = ()
 	for key in range(1,5):
-		hql = setting['bq_data_quality_t' + key].format(min_date=min_date, max_date=max_date)
+		hql = format_hive(setting['bq_data_quality_t' + key], min_date, max_date, dimension)
 		logging.debug('big query: %s', hql)
 		data = bigQueryClient.get_bq_result(hql, setting['bq_id'])
 		logging.debug('bigquery result : %s' % (data,))
