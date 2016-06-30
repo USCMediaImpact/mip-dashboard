@@ -111,8 +111,8 @@ class DataController extends AuthenticatedBaseController{
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
         $client_id = $request['client.id'];
-        $query = DB::table('data_quality_' . $group)
-            ->select('date', 'client_id', 'ga_users', 'mip_users', 'subscribedandcamethroughemail', 'camethroughemailforfirsttime', 'camethroughemailagain', 'total_cametositethroughemail', 'subscribedandcamethroughemail2', 'subscribedonly', 'kpi_newemailsubscribers', 'kpi_newemailsubscribers2', 'camethroughemailforfirsttime2', 'camethroughemailagain2', 'subscriberswhodidnotcomethroughemail', 'kpi_totalemailsubscribersknowntomip', 'kpi_percentknownsubswhocame', 'newdonors', 'donatedagain', 'totaldonorsthisweek', 'newdonors2', 'donatedagain2', 'databasedonorswhodidnotdonatethisweek', 'kpi_totaldonorsknowntomip', 'kpi_percentknowndonorswhodonated', 'newlogins', 'loggedinagain', 'totalloginsthisweek', 'newlogins2', 'loggedinagain2', 'databasememberswhodidnotloginthisweek', 'kpi_totalmembersknowntomip', 'kpi_percentknownmemberswhologgedin')
+        $query = DB::table('data_quality_new_' . $group)
+            ->select('date','client_id','ga_users','mip_users','subscribedandcamethroughemail','camethroughemailforfirsttime','camethroughemailagain','total_cametositethroughemail','subscribedandcamethroughemail2','subscribedonly','kpi_newemailsubscribers','kpi_newemailsubscribers2','camethroughemailforfirsttime2','camethroughemailagain2','subscriberswhodidnotcomethroughemail','kpi_totalemailsubscribersknowntomip','kpi_percentknownsubswhocame','newdonors','donatedagain','totaldonorsthisweek','newdonors2','donatedagain2','databasedonorswhodidnotdonatethisweek','kpi_totaldonorsknowntomip','kpi_percentknowndonorswhodonated','newlogins','loggedinagain','totalloginsthisweek','newlogins2','loggedinagain2','databasememberswhodidnotloginthisweek','kpi_totalmembersknowntomip','kpi_percentknownmemberswhologgedin','email_newsletter_clicks','totoldonorsthisweek')
             ->where('client_id', $client_id);
 
         $count = $query->count();
