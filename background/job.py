@@ -98,6 +98,7 @@ def _run_prepare(client_id, setting, min_date, max_date, dimension):
 			if len(info) != 2:
 				logging.error('table %s missing' % (preapre['table'], ))
 				continue
+			logging.debug('begin update table %s %s \n%s' % (info[0], info[1], hive))
 			bigQueryClient.insert_from_query(hive, setting['bq_id'], info[0], info[1])
 
 def _run_data_users(client_id, setting, min_date, max_date, dimension):
