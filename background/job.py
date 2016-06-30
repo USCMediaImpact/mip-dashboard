@@ -170,7 +170,7 @@ def _run_data_quality(client_id, setting, min_date, max_date, dimension):
 	logging.debug('ga user: %s' % (ga_data,))
 
 	bq_data = ()
-	for key in range(1,5):
+	for key in range(1,6):
 		hql = format_hive(setting['bq_data_quality_t%s' % (key, )], min_date, max_date, dimension)
 		logging.debug('big query: %s', hql)
 		data = bigQueryClient.get_bq_result(hql, setting['bq_id'])
