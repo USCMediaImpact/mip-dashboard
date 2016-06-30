@@ -80,12 +80,12 @@ def run(min_date, max_date, dimension):
 		# 	notTotallySuccess = True
 
 		#query for data_quality
-		try:
-			if dimension in setting['data_quality_dimension']:
-				_run_data_quality(clientId, setting, min_date, max_date, dimension)
-		except Exception:
-			logging.error('run data quality failed', exc_info=True)
-			notTotallySuccess = True
+		# try:
+		# 	if dimension in setting['data_quality_dimension']:
+		# 		_run_data_quality(clientId, setting, min_date, max_date, dimension)
+		# except Exception:
+		# 	logging.error('run data quality failed', exc_info=True)
+		# 	notTotallySuccess = True
 
 	if notTotallySuccess :
 		raise Exception('missing failed!')
