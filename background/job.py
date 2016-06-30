@@ -64,9 +64,13 @@ def run(min_date, max_date, dimension):
 
 def _run_prepare(client_id, setting, min_date, max_date):
 	for perpare in setting['bq_prepare']:
-		if prepare['table'] && prepare['sql']:
+		if 'table' in prepare and 'sql' in prepare and prepare['table'] is not None:
 			hive = preapre['sql'].format(min_date = min_date, max_date = maxdate)
-			
+			info = prepare['table'].split('.')
+			if len(info) != 2:
+				logging.error('table %s missing' % (preapre['table'], ))
+				continue
+			bigQueryClient.insert_from_query(hive, setting['bq_id'], info[0], info[1])
 
 def _run_data_users(client_id, setting, min_date, max_date, dimension):
 	logging.debug('run data user job')
