@@ -34,6 +34,14 @@ def run(min_date, max_date, dimension):
 
 		notTotallySuccess = False
 
+		
+		try:
+			logging.debug('run prepare')
+			_run_prepare(clientId, setting, min_date, max_date)
+		except Exception:
+			logging.error('run prepare failed', exc_info=True)
+			notTotallySuccess = True
+
 		#query for data_users
 		try:
 			logging.debug(setting['data_users_dimension'])

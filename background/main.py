@@ -41,8 +41,8 @@ class MonthlyTaskHandler(webapp2.RequestHandler):
 
 class HistoryTaskHandler(webapp2.RequestHandler):
 	def get(self):
-		min_date = date(2016, 4, 2)
-		max_date = date(2016, 6, 15)
+		min_date = date(2016, 4, 17)
+		max_date = date(2016, 6, 30)
 		#every day history
 		day_count = (max_date - min_date).days
 		for single_date in (min_date + timedelta(n) for n in range(day_count)):
@@ -89,8 +89,8 @@ class HistoryTaskHandler(webapp2.RequestHandler):
 		self.response.out.write('ok')
 
 app = webapp2.WSGIApplication([
-	('/etl/daily', DailyTaskHandler),
+	# ('/etl/daily', DailyTaskHandler),
 	('/etl/weekly', WeeklyTaskHandler),
-	('/etl/monthly', MonthlyTaskHandler),
+	# ('/etl/monthly', MonthlyTaskHandler),
 	('/etl/history', HistoryTaskHandler),
 ], debug=True)
