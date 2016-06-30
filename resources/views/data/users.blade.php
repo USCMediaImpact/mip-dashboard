@@ -15,8 +15,15 @@
 						@include('widgets.resultGroup')
 					</div>
 				</div>
+				<br />
 				<div class="table-scroll">
-					<table class="tiny hover" style="width: 2000px !important;">
+					<table class="tiny hover">
+						<colgroup>
+							<col style="width: 120px" />
+							<col style="width: 120px" />
+							<col style="width: 120px" />
+							<col style="width: 120px" />
+						</colgroup>
 			            <thead>
 			            	<tr>
 			            		<th rowspan="4">week of</th>
@@ -44,7 +51,14 @@
 			        </table>
 				</div>
 				<div class="table-scroll">
-					<table class="tiny hover" style="width: 2000px !important;">
+					<table class="tiny hover">
+						<colgroup>
+							<col style="width: 120px" />
+							<col style="width: 120px" />
+							<col style="width: 120px" />
+							<col style="width: 120px" />
+							<col style="width: 120px" />
+						</colgroup>
 			            <thead>
 			            	<tr>
 			            		<th rowspan="2">week of</th>
@@ -73,7 +87,13 @@
 			        </table>
 				</div>
 				<div class="table-scroll">
-					<table class="tiny hover" style="width: 2000px !important;">
+					<table class="tiny hover">
+						<colgroup>
+							<col style="width: 120px" />
+							<col style="width: 120px" />
+							<col style="width: 120px" />
+							<col style="width: 120px" />
+						</colgroup>
 			            <thead>
 			            	<tr>
 			            		<th rowspan="2">week of</th>
@@ -89,16 +109,6 @@
 			                @foreach ($report as $row)
 			                <tr>
 			                    <td>{{ date('Y-m-d', strtotime($row['date'])) }}</td>
-			                    {{-- newsletter --}}
-			                    <td>{{ number_format($row['cametositethroughemail']) }}</td>
-			                    <td>{{ number_format($row['kpi_totalemailsubscribersknowntomip']) }}</td>
-			                    <td>{{ number_format($row['kpi_percentknownsubswhocame'], 2) }}</td>
-			                    <td>{{ number_format($row['kpi_newemailsubscribers']) }}</td>
-			                    {{-- member --}}
-			                   	<td>{{ number_format($row['totalmembersthisweek']) }}</td>
-			                   	<td>{{ number_format($row['kpi_totalmembersknowntomip']) }}</td>
-			                   	<td>{{ number_format($row['kpi_totalmembersknowntomip'] / $row['totalmembersthisweek'], 2) }}</td>
-			                   	<td></td>
 			                   	{{-- donors --}}
 			                   	<td>{{ number_format($row['totaldonorsthisweek']) }}</td>
 			                   	<td>{{ number_format($row['kpi_totaldonorsknowntomip']) }}</td>
@@ -108,7 +118,7 @@
 			                @endforeach
 			            </tbody>
 			        </table>
-				</div>
+		        </div>
 			</div>
 		</div>
 	    </form>
