@@ -9,7 +9,7 @@
 			<div class="column small-12">
 				<div class="top-bar">
 					<div class="top-bar-left">
-						{{$displayGroupName}} <small>with Data from MailChimp and Eventbrite</small>
+						{{$displayGroupName}} @include('widgets.datafrom')
 					</div>
 					<div class="top-bar-right">
 						@include('widgets.resultGroup')
@@ -17,7 +17,7 @@
 				</div>
 				<br />
 				<div class="table-scroll">
-					<table class="tiny hover">
+					<table class="report tiny hover">
 						<colgroup>
 							<col style="width: 120px" />
 							<col style="width: 120px" />
@@ -52,7 +52,7 @@
 				</div>
 				
 				<div class="table-scroll">
-					<table class="tiny hover">
+					<table class="report tiny hover">
 						<colgroup>
 							<col style="width: 120px" />
 							<col style="width: 120px" />
@@ -122,7 +122,7 @@
 			        </table>
 		        </div>
 				<div class="table-scroll">
-			        <table class="tiny hover">
+			        <table class="report tiny hover">
 			        	<colgroup>
 							<col style="width: 120px" />
 							<col style="width: 120px" />
@@ -167,7 +167,7 @@
 					</table>
 				</div>
 				<div class="table-scroll">
-					<table class="tiny hover">
+					<table class="report tiny hover">
 						<colgroup>
 							<col style="width: 120px" />
 							<col style="width: 120px" />
@@ -198,7 +198,7 @@
 					</table>
 				</div>
 				<div class="table-scroll">
-					<table class="tiny hover">
+					<table class="report tiny hover">
 						<colgroup>
 							<col style="width: 120px" />
 							<col style="width: 120px" />

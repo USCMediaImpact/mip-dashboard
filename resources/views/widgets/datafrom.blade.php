@@ -1,0 +1,1 @@
+<small>with Data from MIP <i class="fa mailchimp"></i>Google Tag Manager <i class="fa tagmanager"></i></small>

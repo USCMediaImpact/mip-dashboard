@@ -38,14 +38,15 @@
 .tabs-title.active > * { background: #e6e6e6; }
 .table-wrapper { position: relative; }
 .table-wrapper .table-toolbar { position: absolute; z-index: 1; }
-table .button, .noty_buttons .button { margin-bottom: 0; }
-table.tiny tbody td, table.tiny tbody th { padding: .25rem .3rem .3rem; font-size: 12px; }
-table.tiny tfoot td, table.tiny tfoot th, table.tiny thead td, table.tiny thead th { padding: .25rem .3rem .3rem; font-size: 12px; }
-table caption { text-align: left; }
-table th{background: #5f5e5f; color: #fff;}
-table tbody tr{background: #c4d2dc;}
-table tbody tr:nth-child(even){background: #f4f4f4;}
-table.hover tbody tr:hover{background: #b8b8b8 !important;}
+table.report .button, .noty_buttons .button { margin-bottom: 0; }
+table.report.tiny tbody td, table.report.tiny tbody th { padding: .25rem .3rem .3rem; font-size: 12px; }
+table.report.tiny tfoot td, table.report.tiny tfoot th, table.report.tiny thead td, table.report.tiny thead th { padding: .25rem .3rem .3rem; font-size: 12px; }
+table.report caption { text-align: left; }
+table.report th{background: #5f5e5f; color: #fff;}
+table.report tbody tr{background: #c4d2dc; }
+table.report tbody tr:nth-child(even){background: #f4f4f4;}
+table.report.hover tbody tr:hover{background: #b8b8b8 !important;}
+table.report tbody tr td{height: 60px;}
 .tabs-panel textarea { margin-bottom: 0 }
 .comiseo-daterangepicker-triggerbutton { position: relative; top: 15px; right: 10px; font-size: 12px; }
 .comiseo-daterangepicker { font-size: 12px; }
@@ -55,4 +56,22 @@ table.hover tbody tr:hover{background: #b8b8b8 !important;}
 .report-tabs{background: #ebebeb; border: none;}
 .report-tabs .tabs-title.active > *{background: #fff;}
 .report-tabs .tabs-title, .report-tabs .tabs-title a{height: 60px; line-height: 60px;}
-.report-tabs .tabs-title > a{padding: 0 1.25rem; font-size: 18px; color: #6a6a6a;}
+.report-tabs .tabs-title > a{padding: 0 1.25rem; font-size: 18px; color: #6a6a6a; border-right: solid 1px #dbdbdb;}
+.report-tabs .tabs-title:first-child{margin-left: 60px; border-left: solid 1px #dbdbdb;}
+i.mailchimp{
+	background-image: url('/images/mailchimp.svg');
+	width: 24px;
+	height: 24px;
+	position: relative;
+	top: 6px;
+	margin: 0 5px;
+}
+i.tagmanager{
+	background-image: url('/images/tagmanager.png');
+	background-size: 24px 24px;
+	width: 24px;
+	height: 24px;
+	position: relative;
+	top: 6px;
+	margin: 0 5px;
+}

@@ -9,15 +9,15 @@
 			<div class="column small-12">
 				<div class="top-bar">
 					<div class="top-bar-left">
-						Weekly Story Performance<br>
-						<small>with Data from MIP Google Tag Manager </small>
+						{{$displayGroupName}} Story Performance
+						@include('widgets.datafrom')
 					</div>
 					<div class="top-bar-right">
 						@include('widgets.resultGroup')
 					</div>
 				</div>
 				<div class="table-scroll">
-					<table class="tiny hover">
+					<table class="report tiny hover">
 						<caption>Scroll Depth</caption>
 						<colgroup>
 							<col style="width: 120px;" />
@@ -65,7 +65,7 @@
 			        </table>
 				</div>
 				<div class="table-scroll">
-					<table class="tiny hover">
+					<table class="report tiny hover">
 						<caption>Time on Article</caption>
 						<colgroup>
 							<col style="width: 120px;" />
@@ -111,7 +111,7 @@
 			        </table>
 				</div>
 				<div class="table-scroll"> 
-					<table class="tiny hover">
+					<table class="report tiny hover">
 						<caption>User Interactions</caption>
 						<colgroup>
 							<col style="width: 120px;" />
