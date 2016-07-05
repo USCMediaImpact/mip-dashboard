@@ -143,6 +143,9 @@
 
                         <label for="bq_data_quality_t5"> T5</label>
                         <textarea id="bq_data_quality_t5" name="bq_data_quality_t5">{!! array_key_exists('bq_data_quality_t5', $values) ? $values['bq_data_quality_t5'] : '' !!}</textarea>
+
+                        <label for="bq_data_quality_t6"> T6</label>
+                        <textarea id="bq_data_quality_t6" name="bq_data_quality_t6">{!! array_key_exists('bq_data_quality_t6', $values) ? $values['bq_data_quality_t6'] : '' !!}</textarea>
                         
                     </div>
                 </div>

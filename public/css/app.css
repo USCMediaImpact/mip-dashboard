@@ -5,6 +5,11 @@
 .off-canvas a i { margin-right: 10px !important; font-size: 1.5rem; }
 .off-canvas .client_title { display: block; height: 60px; line-height: 60px; background: #212121; color: white; font-size: 18px; padding-left: 20px; }
 .off-canvas.position-left{width: 320px;}
+.off-canvas .menu.vertical > li:hover , .off-canvas .menu.vertical > li:active,
+.off-canvas .menu.vertical > li:hover a, .off-canvas .menu.vertical > li:active a{
+	background: #335678;
+	color: #fff;
+}
 .position-left.reveal-for-medium ~ .off-canvas-content{margin-left: 320px;}
 .top-bar-title { height: 26px; position: relative; }
 .top-bar-right .button { margin: 0; }
@@ -37,6 +42,10 @@ table .button, .noty_buttons .button { margin-bottom: 0; }
 table.tiny tbody td, table.tiny tbody th { padding: .25rem .3rem .3rem; font-size: 12px; }
 table.tiny tfoot td, table.tiny tfoot th, table.tiny thead td, table.tiny thead th { padding: .25rem .3rem .3rem; font-size: 12px; }
 table caption { text-align: left; }
+table th{background: #5f5e5f; color: #fff;}
+table tbody tr{background: #c4d2dc;}
+table tbody tr:nth-child(even){background: #f4f4f4;}
+table.hover tbody tr:hover{background: #b8b8b8 !important;}
 .tabs-panel textarea { margin-bottom: 0 }
 .comiseo-daterangepicker-triggerbutton { position: relative; top: 15px; right: 10px; font-size: 12px; }
 .comiseo-daterangepicker { font-size: 12px; }
