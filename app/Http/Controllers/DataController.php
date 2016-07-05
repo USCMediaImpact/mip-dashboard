@@ -21,7 +21,7 @@ class DataController extends AuthenticatedBaseController{
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
-        $client_id = $request['client.id'];
+        $client_id = $request['client']['id'];
 
         $query = DB::table('data_users_' . $group)
             ->select('date', 'totalmembersthisweek', 'kpi_totalmembersknowntomip', 'cametositethroughemail', 'kpi_totalemailsubscribersknowntomip', 'kpi_percentknownsubswhocame', 'kpi_newemailsubscribers', 'totaldonorsthisweek', 'kpi_totaldonorsknowntomip', 'duplicated_memberspluscamethroughemailplusdonors', 'unduplicated_totaluserskpi', 'duplicated_database_memberspluscamethroughemailplusdonors', 'unduplicated_database_totaluserskpi')
@@ -50,7 +50,7 @@ class DataController extends AuthenticatedBaseController{
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
-        $client_id = $request['client.id'];
+        $client_id = $request['client']['id'];
 
         $query = DB::table('data_stories_' . $group)
             ->select('date', 'page_path', 'pageviews', 'scroll_start', 'scroll_25', 'scroll_50', 'scroll_75', 'scroll_100', 'scroll_supplemental', 'scroll_end', 'time_15', 'time_30', 'time_45', 'time_60', 'time_75', 'time_90', 'comments', 'emails', 'tweets', 'facebook_recommendations', 'related_clicks' )
@@ -80,7 +80,7 @@ class DataController extends AuthenticatedBaseController{
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
-        $client_id = $request['client.id'];
+        $client_id = $request['client']['id'];
 
         $query = DB::table('data_stories_' . $group)
             ->select('date', 'page_path', 'pageviews', 'scroll_start', 'scroll_25', 'scroll_50', 'scroll_75', 'scroll_100', 'scroll_supplemental', 'scroll_end', 'time_15', 'time_30', 'time_45', 'time_60', 'time_75', 'time_90', 'comments', 'emails', 'tweets', 'facebook_recommendations', 'related_clicks' )
@@ -110,7 +110,8 @@ class DataController extends AuthenticatedBaseController{
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
-        $client_id = $request['client.id'];
+        $client_id = $request['client']['id'];
+
         $query = DB::table('data_quality_new_' . $group)
             ->select('date','client_id','ga_users','mip_users','subscribedandcamethroughemail','camethroughemailforfirsttime','camethroughemailagain','total_cametositethroughemail','subscribedandcamethroughemail2','subscribedonly','kpi_newemailsubscribers','kpi_newemailsubscribers2','camethroughemailforfirsttime2','camethroughemailagain2','subscriberswhodidnotcomethroughemail','kpi_totalemailsubscribersknowntomip','kpi_percentknownsubswhocame','newdonors','donatedagain','totaldonorsthisweek','newdonors2','donatedagain2','databasedonorswhodidnotdonatethisweek','kpi_totaldonorsknowntomip','kpi_percentknowndonorswhodonated','newlogins','loggedinagain','totalloginsthisweek','newlogins2','loggedinagain2','databasememberswhodidnotloginthisweek','kpi_totalmembersknowntomip','kpi_percentknownmemberswhologgedin','email_newsletter_clicks','totoldonorsthisweek')
             ->where('client_id', $client_id);

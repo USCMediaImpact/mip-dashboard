@@ -1,11 +1,11 @@
-.off-canvas { background: #4d5158 }
-.off-canvas .left-power-by{
-	position: fixed;
-	bottom: 5px;
-	width: 80%;
-	left: 10px;
-	color: white;
-}
+.off-canvas { background: #414141 }
+.off-canvas .left-power-by { position: fixed; bottom: 5px; width: 80%; left: 10px; color: white; }
+.off-canvas li { line-height: 4; }
+.off-canvas a { color: #a9a9a9; font-size: 1rem; }
+.off-canvas a i { margin-right: 10px !important; font-size: 1.5rem; }
+.off-canvas .client_title { display: block; height: 60px; line-height: 60px; background: #212121; color: white; font-size: 18px; padding-left: 20px; }
+.off-canvas.position-left{width: 320px;}
+.position-left.reveal-for-medium ~ .off-canvas-content{margin-left: 320px;}
 .top-bar-title { height: 26px; position: relative; }
 .top-bar-right .button { margin: 0; }
 .menu-toggle-button { float: left; margin-right: 8px; }
@@ -13,13 +13,13 @@
 .welcome { font-size: 12px; line-height: 1; }
 .main-content { margin-top: 15px; }
 .log-in-form { border: 1px solid #cacaca; padding: 1rem !important; border-radius: 3px; margin-top: 20%; }
-.footer { background-color: #292c2f; text-align: center; font-size: 1.2rem; padding: 1rem; margin-top: 20px;}
+.footer { background-color: #292c2f; text-align: center; font-size: 1.2rem; padding: 1rem; margin-top: 20px; }
 .footer .inline-list a { display: inline-block; width: 2rem; height: 2rem; background-color: #33383b; border-radius: 2px; font-size: 1.5rem; color: #fff; text-align: center; line-height: 35px; margin: 0 3px 0 0; }
 .footer .contact { list-style-type: none; margin: 0; text-align: left; color: #fff; }
 .footer .contact li { margin-bottom: 2rem; }
 .footer .contact li p { padding-left: 5rem; }
 .footer .contact i { position: absolute; background-color: #33383b; color: #fff; font-size: 2rem; border-radius: 50%; line-height: 1; margin: 0 0 0 -4rem; vertical-align: middle; padding: .25em .45em; }
-.footer .copywrite { color: #8f9296; font-size: 0.875rem; margin: 0 0 1rem 0; text-align: right;}
+.footer .copywrite { color: #8f9296; font-size: 0.875rem; margin: 0 0 1rem 0; text-align: right; }
 .footer .about { color: #92999f; font-size: 0.875rem; margin: 0 0 1rem 0; }
 .footer .footer-links a { list-style: none; font-weight: normal; color: #fff; padding: 3rem 0 2rem; margin: 0; font-size: 0.875rem; }
 .footer .footer-links a::after { content: "•"; padding: 0 0.2rem 0 0.4rem; }
@@ -30,33 +30,20 @@
 	.footer .contact { text-align: left; }
 	.footer .contact > i { margin-right: 1rem; }
 }
-.tabs-title.active > *{
-	background: #e6e6e6;
-}
+.tabs-title.active > * { background: #e6e6e6; }
 .table-wrapper { position: relative; }
 .table-wrapper .table-toolbar { position: absolute; z-index: 1; }
-table .button,
-.noty_buttons .button { margin-bottom: 0; }
-table.tiny tbody td,
-table.tiny tbody th { padding: .25rem .3rem .3rem; font-size: 12px; }
-table.tiny tfoot td,
-table.tiny tfoot th,
-table.tiny thead td,
-table.tiny thead th { padding: .25rem .3rem .3rem; font-size: 12px; }
-table caption{text-align: left;}
-
-.tabs-panel textarea{ margin-bottom: 0}
-
-.comiseo-daterangepicker-triggerbutton{
-	position: relative; top: 15px; right: 10px; font-size: 12px;
-}
-.comiseo-daterangepicker{
-	font-size: 12px;
-}
-.comiseo-daterangepicker-presets, .comiseo-daterangepicker-calendar{
-	height: auto !important;
-}
-.comiseo-daterangepicker-presets .ui-menu .ui-state-focus,
-.comiseo-daterangepicker-presets .ui-menu .ui-state-active {
-	font-weight: 200 !important;
-}
+table .button, .noty_buttons .button { margin-bottom: 0; }
+table.tiny tbody td, table.tiny tbody th { padding: .25rem .3rem .3rem; font-size: 12px; }
+table.tiny tfoot td, table.tiny tfoot th, table.tiny thead td, table.tiny thead th { padding: .25rem .3rem .3rem; font-size: 12px; }
+table caption { text-align: left; }
+.tabs-panel textarea { margin-bottom: 0 }
+.comiseo-daterangepicker-triggerbutton { position: relative; top: 15px; right: 10px; font-size: 12px; }
+.comiseo-daterangepicker { font-size: 12px; }
+.comiseo-daterangepicker-presets, .comiseo-daterangepicker-calendar { height: auto !important; }
+.comiseo-daterangepicker-presets .ui-menu .ui-state-focus, .comiseo-daterangepicker-presets .ui-menu .ui-state-active { font-weight: 200 !important; }
+.comiseo-daterangepicker-triggerbutton.ui-button { border: none; background: none; text-align: right; color: #6a6a6a; position: absolute;}
+.report-tabs{background: #ebebeb; border: none;}
+.report-tabs .tabs-title.active > *{background: #fff;}
+.report-tabs .tabs-title, .report-tabs .tabs-title a{height: 60px; line-height: 60px;}
+.report-tabs .tabs-title > a{padding: 0 1.25rem; font-size: 18px; color: #6a6a6a;}

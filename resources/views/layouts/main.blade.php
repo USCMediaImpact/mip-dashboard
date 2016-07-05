@@ -29,7 +29,7 @@
             @endif
             <div class="off-canvas-content" data-off-canvas-content>
                 
-                @include('layouts.header')
+                {{-- @include('layouts.header') --}}
                 @include('layouts.menu')
                 <div class="main-content">
                     @yield('content')
