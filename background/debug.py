@@ -100,3 +100,5 @@ def run_history():
 	# 	max_month = add_months(min_month, 1) - timedelta(1)
 
 	logging.info('run history job finished')
+
+unite_test()
