@@ -4,19 +4,15 @@
 .off-canvas a { color: #a9a9a9; font-size: 1rem; }
 .off-canvas a i { margin-right: 10px !important; font-size: 1.5rem; }
 .off-canvas .client_title { display: block; height: 60px; line-height: 60px; background: #212121; color: white; font-size: 18px; padding-left: 20px; }
-.off-canvas.position-left{width: 320px;}
-.off-canvas .menu.vertical > li:hover , .off-canvas .menu.vertical > li:active,
-.off-canvas .menu.vertical > li:hover a, .off-canvas .menu.vertical > li:active a{
-	background: #335678;
-	color: #fff;
-}
-.position-left.reveal-for-medium ~ .off-canvas-content{margin-left: 320px;}
+.off-canvas.position-left { width: 320px; }
+.off-canvas .menu.vertical > li:hover, .off-canvas .menu.vertical > li:active, .off-canvas .menu.vertical > li:hover a, .off-canvas .menu.vertical > li:active a { background: #335678; color: #fff; }
+.position-left.reveal-for-medium ~ .off-canvas-content { margin-left: 320px; }
 .top-bar-title { height: 26px; position: relative; }
 .top-bar-right .button { margin: 0; }
 .menu-toggle-button { float: left; margin-right: 8px; }
 .top_logo { background: url('/images/logo.png') no-repeat; background-size: cover; width: 190px; font-size: 0; height: 32px; float: left; vertical-align: top; margin-top: -4px; }
 .welcome { font-size: 12px; line-height: 1; }
-.main-content { margin-top: 15px; }
+.main-content { margin-top: 15px; padding: 10px 30px;}
 .log-in-form { border: 1px solid #cacaca; padding: 1rem !important; border-radius: 3px; margin-top: 20%; }
 .footer { background-color: #292c2f; text-align: center; font-size: 1.2rem; padding: 1rem; margin-top: 20px; }
 .footer .inline-list a { display: inline-block; width: 2rem; height: 2rem; background-color: #33383b; border-radius: 2px; font-size: 1.5rem; color: #fff; text-align: center; line-height: 35px; margin: 0 3px 0 0; }
@@ -36,42 +32,40 @@
 	.footer .contact > i { margin-right: 1rem; }
 }
 .tabs-title.active > * { background: #e6e6e6; }
+.panel{border: solid 1px #ebebeb; padding: 80px 20px 20px; position: relative;}
+.panel .top-bar{
+	position: absolute;
+left: 0;
+right: 0;
+width: 100%;
+top: 0;
+height: 60px;
+line-height: 60px;
+padding: 0 10px;
+}
+.title{color: #424242;}
+.sub-title{color: #767474; margin-top: -10px;}
 .table-wrapper { position: relative; }
 .table-wrapper .table-toolbar { position: absolute; z-index: 1; }
 table.report .button, .noty_buttons .button { margin-bottom: 0; }
 table.report.tiny tbody td, table.report.tiny tbody th { padding: .25rem .3rem .3rem; font-size: 12px; }
 table.report.tiny tfoot td, table.report.tiny tfoot th, table.report.tiny thead td, table.report.tiny thead th { padding: .25rem .3rem .3rem; font-size: 12px; }
 table.report caption { text-align: left; }
-table.report th{background: #5f5e5f; color: #fff;}
-table.report tbody tr{background: #c4d2dc; }
-table.report tbody tr:nth-child(even){background: #f4f4f4;}
-table.report.hover tbody tr:hover{background: #b8b8b8 !important;}
-table.report tbody tr td{height: 60px;}
+table.report th { background: #5f5e5f; color: #fff; }
+table.report tbody tr { background: #c4d2dc; }
+table.report tbody tr:nth-child(even) { background: #f4f4f4; }
+table.report.hover tbody tr:hover { background: #b8b8b8 !important; }
+table.report tbody tr td { height: 60px; }
 .tabs-panel textarea { margin-bottom: 0 }
 .comiseo-daterangepicker-triggerbutton { position: relative; top: 15px; right: 10px; font-size: 12px; }
 .comiseo-daterangepicker { font-size: 12px; }
 .comiseo-daterangepicker-presets, .comiseo-daterangepicker-calendar { height: auto !important; }
 .comiseo-daterangepicker-presets .ui-menu .ui-state-focus, .comiseo-daterangepicker-presets .ui-menu .ui-state-active { font-weight: 200 !important; }
-.comiseo-daterangepicker-triggerbutton.ui-button { border: none; background: none; text-align: right; color: #6a6a6a; position: absolute;}
-.report-tabs{background: #ebebeb; border: none;}
-.report-tabs .tabs-title.active > *{background: #fff;}
-.report-tabs .tabs-title, .report-tabs .tabs-title a{height: 60px; line-height: 60px;}
-.report-tabs .tabs-title > a{padding: 0 1.25rem; font-size: 18px; color: #6a6a6a; border-right: solid 1px #dbdbdb;}
-.report-tabs .tabs-title:first-child{margin-left: 60px; border-left: solid 1px #dbdbdb;}
-i.mailchimp{
-	background-image: url('/images/mailchimp.svg');
-	width: 24px;
-	height: 24px;
-	position: relative;
-	top: 6px;
-	margin: 0 5px;
-}
-i.tagmanager{
-	background-image: url('/images/tagmanager.png');
-	background-size: 24px 24px;
-	width: 24px;
-	height: 24px;
-	position: relative;
-	top: 6px;
-	margin: 0 5px;
-}
+.comiseo-daterangepicker-triggerbutton.ui-button { border: none; background: none; color: #6a6a6a; position: relative; right: -2px; float: right; min-width: auto;}
+.report-tabs { background: #ebebeb; border: none; }
+.report-tabs .tabs-title.active > * { background: #fff; }
+.report-tabs .tabs-title, .report-tabs .tabs-title a { height: 60px; line-height: 60px; }
+.report-tabs .tabs-title > a { padding: 0 1.25rem; font-size: 18px; color: #6a6a6a; border-right: solid 1px #dbdbdb; }
+.report-tabs .tabs-title:first-child { margin-left: 60px; border-left: solid 1px #dbdbdb; }
+i.mailchimp { background-image: url('/images/mailchimp.svg'); width: 24px; height: 24px; position: relative; top: 6px; margin: 0 5px; }
+i.tagmanager { background-image: url('/images/tagmanager.png'); background-size: 24px 24px; width: 24px; height: 24px; position: relative; top: 6px; margin: 0 5px; }

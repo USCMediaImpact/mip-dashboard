@@ -29,15 +29,18 @@ $(function () {
 	$('#dateRange').daterangepicker({
 		change: function (event, el) {
 			console.log(el.instance.getRange());
-			var range = el.instance.getRange();
-			$(document).trigger('dateChange.mip-dashboard', [moment(range.start), moment(range.end)]);
+			var range = el.instance.getRange(),
+				min_date = moment(range.start),
+				max_date = moment(range.end);
+			$('input[name="min_date"]').val(min_date.format('YYYY-MM-DD'));
+			$('input[name="max_date"]').val(min_date.format('YYYY-MM-DD'));
+			//$(document).trigger('dateChange.mip-dashboard', [min_date, max_date]);
+			$(this).parents('form')[0].submit();
 		},
 	});
 	$('select').select2({
 		minimumResultsForSearch: Infinity,
-		change: function(data){
-			console.log('select change', data);
-		}
+		change: function (data) {}
 	});
 	$(window).on('resize', function () {
 		var documentHeight = $(document).height(),

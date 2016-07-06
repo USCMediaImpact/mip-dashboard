@@ -55,29 +55,29 @@ def run(min_date, max_date, dimension):
 
 		notTotallySuccess = False
 
-		# try:
-		# 	logging.debug('run prepare')
-		# 	_run_prepare(clientId, setting, min_date, max_date, dimension)
-		# except Exception:
-		# 	logging.error('run prepare failed', exc_info=True)
-		# 	notTotallySuccess = True
+		try:
+			logging.debug('run prepare')
+			_run_prepare(clientId, setting, min_date, max_date, dimension)
+		except Exception:
+			logging.error('run prepare failed', exc_info=True)
+			notTotallySuccess = True
 
 		#query for data_users
-		# try:
-		# 	logging.debug(setting['data_users_dimension'])
-		# 	if dimension in setting['data_users_dimension']:
-		# 		_run_data_users(clientId, setting, min_date, max_date, dimension)
-		# except Exception:
-		# 	logging.error('run data users failed', exc_info=True)
-		# 	notTotallySuccess = True
+		try:
+			logging.debug(setting['data_users_dimension'])
+			if dimension in setting['data_users_dimension']:
+				_run_data_users(clientId, setting, min_date, max_date, dimension)
+		except Exception:
+			logging.error('run data users failed', exc_info=True)
+			notTotallySuccess = True
 
 		#query for data_stories
-		# try:
-		# 	if dimension in setting['data_stories_dimension']:
-		# 		_run_data_stories(clientId, setting, min_date, max_date, dimension)
-		# except Exception:
-		# 	logging.error('run data stories failed', exc_info=True)
-		# 	notTotallySuccess = True
+		try:
+			if dimension in setting['data_stories_dimension']:
+				_run_data_stories(clientId, setting, min_date, max_date, dimension)
+		except Exception:
+			logging.error('run data stories failed', exc_info=True)
+			notTotallySuccess = True
 
 		#query for data_quality
 		try:

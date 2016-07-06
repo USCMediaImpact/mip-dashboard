@@ -5,8 +5,5 @@
         <a href="{{ action($controller . '@' . $key) }}">{{$value}}</a>
     </li>
     @endforeach
-    <li class="tabs-title float-right">
-		<input id="dateRange" name="date_range" />
-    </li>
 </ul>
 @endif
