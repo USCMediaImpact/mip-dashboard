@@ -78,8 +78,11 @@ class DataController extends AuthenticatedBaseController{
 
     public function showStories(Request $request){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
-        $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
-        $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
+        $current_week_sunday = mktime(0,0,0,date('m'),date('d') - date('N', time()),date('Y'));
+        $last_week_begin = $current_week_sunday - 60 * 60 * 24 * 7;
+        $last_week_end = $current_week_sunday - 60 * 60 * 24 * 1;
+        $max_date = date_parse($request['max_date'] ?: date('Y-m-d', $last_week_end));
+        $min_date = date_parse($request['min_date'] ?: date('Y-m-d', $last_week_begin));
         $client_id = $request['client']['id'];
 
         $query = DB::table('data_stories_' . $group)
