@@ -1,267 +1,126 @@
+@inject('formatter', 'App\Helpers\FormatterHelper')
 @extends('layouts.main')
 
 @section('content')
 	@if ($have_data)
-		<form id="form_data_quality" method="GET">
-		<input type="hidden" name="min_date" value="{{ date('Y-m-d', $min_date) }}" />
-		<input type="hidden" name="max_date" value="{{ date('Y-m-d', $max_date) }}" />
-		<div class="row">
+		<form id="form_data_quality" method="POST">
+		<?php echo csrf_field(); ?>
+		<div class="row expanded">
+			<div class="column small-9">
+				<h4 class="title">Email Subscriber and Donor User Summary</h4>
+				<h6 class="sub-title">with Data from Oracle Eloqua</h6>
+			</div>
+			<div class="column small-3 align-self-bottom">
+				@include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
+			</div>
+		</div>
+		<div class="row expanded">
 			<div class="column small-12">
-				<div class="top-bar">
-					<div class="top-bar-left">
-						{{$displayGroupName}} @include('widgets.datafrom')
+				<div class="panel">
+					<div class="top-bar">
+						<div class="top-bar-left">
+							Total Known Users
+						</div>
+						<div class="top-bar-right">
+							<button class="button">Download</button>
+						</div>
 					</div>
-					<div class="top-bar-right">
-						@include('widgets.resultGroup')
-					</div>
-				</div>
-				<br />
-				<div class="table-scroll">
 					<table class="report tiny hover">
-						<colgroup>
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-						</colgroup>
-						<thead>
-							<tr>
-								<th rowspan="3">Week of</th>
-								<th colspan="3">Google Analytics vs MIP GTM</th>
-							</tr>
-							<tr>
-								<th colspan="3">Users </th>
-							</tr>
-							<tr>
-								<th>SCPR GA  Users</th>
-								<th>MIP KPCC GTM Users</th>
-								<th>Variance</th>
-							</tr>
-						</thead>
-						<tbody>
-						@foreach ($report as $row)
-							<tr>
-								<td>{{ date('Y-m-d', strtotime($row['date'])) }}</td>
-								<td>{{ number_format($row['ga_users']) }}</td>
-			                    <td>{{ number_format($row['mip_users']) }}</td>
-			                    <td>{{ number_format(($row['mip_users'] - $row['ga_users']) / $row['ga_users'] * 100, 2) }}%</td>
-							</tr>
-						@endforeach
-						</tbody>
-					</table>
-				</div>
-				
-				<div class="table-scroll">
-					<table class="report tiny hover">
-						<colgroup>
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-						</colgroup>
 			            <thead>
-			            	<tr>
-			            		<th rowspan="4">Week of</th>
-			                    <th colspan="13">EMAIL NEWSLETTER SUBSCRIBERS</th>
-			            	</tr>
-			            	<tr>
-			            		<th colspan="4">How many e-mail subscribers came to the site this week?</th>
-			            		<th colspan="3">How many new subscribers subscribed to an e-mail newsletter this week?</th>
-			            		<th colspan="5">How many e-mail newsletter subscribers are now known to MIP as of this week?</th>
-			            		<th></th>
-			            	</tr>
-			            	<tr>
-			            		<th> Number of users this week who BOTH subscribed to an e-mail newsletter AND came to the site through an e-mail  </th>
-			            		<th> Number of users who came to the site through an e-mail this week for the first time since MIP started collecting data  </th>
-			            		<th> Number of e-mail subscribers already in MIP database and who came to the site this week </th>
-			            		<th> Total number of users who came to the site through an email this week </th>
-			            		<th> Number of users this week who BOTH subscribed to an e-mail newsletter AND came to the site through an e-mail  </th>
-			            		<th> Number of users this week who subscribed to an e-mail newsletter  </th>
-			            		<th> KPI: Number of new subscribers this week </th>
-			            		<th> Number of new subscribers this week </th>
-			            		<th> Number of users who came to the site through an e-mail this week for the first time since MIP started collecting data  </th>
-			            		<th> Number of e-mail subscribers already in MIP database and who came to the site this week </th>
-			            		<th> Number of e-mail subscribers already in MIP database and who came to the site this week </th>
-			            		<th> KPI: Total number of e-mail subscribers known to MIP </th>
-			            		<th> KPI: Percent of e-mail subscribers known to MIP who came to the site through an e-mail this week </th>
-			            	</tr>
+			                <tr>
+			                	<th>Week</th>
+			                    <th>Email Subscribers and Donors on Site</th>
+			                    <th>Email Subscribers or Donors on Site</th>
+			                    <th>Email Subscribers and Donors in MIP DB</th>
+			   					<th>Email Subscribers or Donors in MIP DB</th>
+			   					<th>% of Loyal Users on Site</th>
+			                </tr>
 			            </thead>
 			            <tbody>
 			                @foreach ($report as $row)
 			                <tr>
-			                    <td>{{ date('Y-m-d', strtotime($row['date'])) }}</td>
-			                    {{-- How many e-mail subscribers came to the site this week? --}}
-			                    <td>{{ number_format($row['subscribedandcamethroughemail']) }}</td>
-			                    <td>{{ number_format($row['camethroughemailforfirsttime']) }}</td>
-			                    <td>{{ number_format($row['camethroughemailagain']) }}</td>
-			                    <td>{{ number_format($row['total_cametositethroughemail']) }}</td>
-								{{-- How many new subscribers subscribed to an e-mail newsletter this week? --}}
-			                    <td>{{ number_format($row['subscriberswhodidnotcomethroughemail']) }}</td>
-			                    <td>{{ number_format($row['kpi_totalemailsubscribersknowntomip']) }}</td>
-			                    <td>{{ number_format($row['kpi_percentknownsubswhocame']) }}</td>
-			                    {{--  --}}
-			                    <td>{{ number_format($row['newdonors']) }}</td>
-			                    <td>{{ number_format($row['donatedagain']) }}</td>
-			                    <td>{{ number_format($row['totaldonorsthisweek']) }}</td>
-			                    <td>{{ number_format($row['databasedonorswhodidnotdonatethisweek']) }}</td>
-			                    <td>{{ number_format($row['kpi_totaldonorsknowntomip']) }}</td>
-			                    <td>{{ number_format($row['kpi_percentknowndonorswhodonated']) }}</td>
+			                    <td>{{ $formatter->date($row['date']) }}</td>
+			                   	<td>{{ number_format($row['TotalMembersThisWeek']) }}</td>
+			                   	<td>{{ number_format($row['TotalMembersThisWeek']) }}</td>
+			                   	<td>{{ number_format($row['KPI_TotalMembersKnownToMIP']) }}</td>
+			                    <td>{{ number_format($row['KPI_TotalMembersKnownToMIP']) }}</td>
+								<td>{{ $formatter->percent($row['KPI_TotalMembersKnownToMIP'], $row['TotalMembersThisWeek']) }}</td>
 			                </tr>
 			                @endforeach
 			            </tbody>
 			        </table>
 		        </div>
-				<div class="table-scroll">
-			        <table class="report tiny hover">
-			        	<colgroup>
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-						</colgroup>
-			        	<thead>
-							<tr>
-								<th rowspan="2">Week of</th>
-								<th colspan="3">How many users donated on the site this week?</th>
-								<th colspan="5">How many donors are now known to MIP as of this week?</th>
-							</tr>
-							<tr>
-								<th> Number of users who donated on the site this week for the first time since MIP started collecting data  </th>
-								<th> Number of users already in MIP database and who donated on the site this week </th>
-								<th> Total number of users who donated on the site this week </th>
-								<th> Number of users who donated on the site this week for the first time since MIP started collecting data  </th>
-								<th> Number of users already in MIP database and who donated on the site this week </th>
-								<th> Number of donors in the database but who didn't donate on the site this week </th>
-								<th> KPI: Total number of donors known to MIP </th>
-								<th> KPI:  Percent of donors known to MIP who donated on the site this week </th>
-							</tr>
-						</thead>
-						@foreach ($report as $row)
-						<tr>
-							<td>{{ date('Y-m-d', strtotime($row['date'])) }}</td>
-							<td>{{ number_format($row['newlogins']) }}</td>
-							<td>{{ number_format($row['loggedinagain']) }}</td>
-							<td>{{ number_format($row['totalloginsthisweek']) }}</td>
-							<td>{{ number_format($row['newlogins2']) }}</td>
-							<td>{{ number_format($row['loggedinagain2']) }}</td>
-							<td>{{ number_format($row['databasememberswhodidnotloginthisweek']) }}</td>
-							<td>{{ number_format($row['kpi_totalmembersknowntomip']) }}</td>
-							<td>{{ number_format($row['kpi_percentknownmemberswhologgedin']) }}</td>
-						</tr>
-						@endforeach
-					</table>
-				</div>
-				<div class="table-scroll">
+		        <div class="panel">
+					<div class="top-bar">
+						<div class="top-bar-left">
+							Email Newsletter Subscribers
+						</div>
+						<div class="top-bar-right">
+							<button class="button">Download</button>
+						</div>
+					</div>
 					<table class="report tiny hover">
-						<colgroup>
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-						</colgroup>
-						<thead>
-							<tr>
-								<th rowspan="2">Week of</th>
-								<th colspan="3">  E-mail newsletter click Variance </th>
-							</tr>
-							<tr>
-								<th>  E-mail newsletter clicks  </th>
-								<th>  Eloqua e-mail newsletter clicks  </th>
-								<th>Variance</th>
-							</tr>
-						</thead>
-						<tbody>
-						@foreach ($report as $row)
-							<tr>
-								<td>{{ date('Y-m-d', strtotime($row['date'])) }}</td>
-								<td>{{ number_format($row['email_newsletter_clicks']) }}</td>
-			                    <td></td>
-			                    <td></td>
-							</tr>
-						@endforeach
-						</tbody>
-					</table>
-				</div>
-				<div class="table-scroll">
+			            <thead>
+			                <tr>
+			                	<th>Week</th>
+			                    <th>Email Subscribers on Site</th>
+			                    <th>Total Email Subscribers in MIP DB</th>
+			                    <th>% of Email Subscribers in MIP DB on Site</th>
+			                    <th>New Email Subscribers</th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                @foreach ($report as $row)
+			                <tr>
+			                    <td>{{ $formatter->date($row['date']) }}</td>
+			                    <td>{{ number_format($row['CameToSiteThroughEmail']) }}</td>
+			                    <td>{{ number_format($row['KPI_TotalEmailSubscribersKnownToMIP']) }}</td>
+			                    <td>{{ number_format($row['KPI_PercentKnownSubsWhoCame'], 2) }}</td>
+			                    <td>{{ number_format($row['NewEmailSubscribers']) }}</td> 
+			                </tr>
+			                @endforeach
+			            </tbody>
+			        </table>
+		        </div>
+		        <div class="panel">
+					<div class="top-bar">
+						<div class="top-bar-left">
+							Donors
+						</div>
+						<div class="top-bar-right">
+							<button class="button">Download</button>
+						</div>
+					</div>
+
+
 					<table class="report tiny hover">
-						<colgroup>
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-							<col style="width: 120px" />
-						</colgroup>
-						<thead>
-							<tr>
-								<th rowspan="2">Week of</th>
-								<th colspan="3">  Donor Variance </th>
-							</tr>
-							<tr>
-								<th>   Total number of users who donated on the site this week   </th>
-								<th>  Total Eloqua known donors This week  </th>
-								<th>Variance</th>
-							</tr>
-						</thead>
-						<tbody>
-						@foreach ($report as $row)
-							<tr>
-								<td>{{ date('Y-m-d', strtotime($row['date'])) }}</td>
-								<td>{{ number_format($row['totoldonorsthisweek']) }}</td>
-			                    <td></td>
-			                    <td></td>
-							</tr>
-						@endforeach
-						</tbody>
-					</table>
-				</div>
+			            <thead>
+			                <tr>
+			                	<th>Week</th>
+			                    <th>Donors Dontating</th>
+			                    <th>Donors in MIP DB</th>
+			                    <th>% of Donors in MIP DB Donating</th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                @foreach ($report as $row)
+			                <tr>
+			                    <td>{{ $formatter->date($row['date']) }}</td>
+			                   	<td>{{ number_format($row['TotalDonorsThisWeek']) }}</td>
+			                   	<td>{{ number_format($row['KPI_TotalDonorsKnownToMIP']) }}</td>
+			                   	<td>{{ $formatter->percent($row['TotalDonorsThisWeek'], $row['KPI_TotalDonorsKnownToMIP'])}}</td>
+			                   	
+			                </tr>
+			                @endforeach
+			            </tbody>
+			        </table>
+		        </div>
 			</div>
 		</div>
-
-		
 	    </form>
     @else
 		<div class="small-12 column">
-	        <div>Data Quality Comming soon.</div>
+	        <div>Data Users Coming soon.</div>
 	    </div>
 	@endif
-
-@endsection
-
-@section('script')
-    <script>
-		$(function(){
-			var min_date = $('[name="min_date"]').val(),
-				max_date = $('[name="max_date"]').val();
-			if(min_date && max_date){
-				$('#dateRange').daterangepicker("setRange", {
-					start: moment(min_date).toDate(),
-					end: moment(max_date).toDate()
-				});
-			}
-			$(document).on('dateChange.mip-dashboard', function(event, beginDate, endDate){
-				console.log(beginDate, endDate);
-				$('[name="min_date"]').val(beginDate.format('YYYY-MM-DD'));
-				$('[name="max_date"]').val(endDate.format('YYYY-MM-DD'));
-				$('#form_data_quality')[0].submit();
-			});
-
-			$(document).on('change', '#resultGroup', function (evt) {
-			  	$('#form_data_quality')[0].submit();
-			});
-		})
-    </script>
 @endsection

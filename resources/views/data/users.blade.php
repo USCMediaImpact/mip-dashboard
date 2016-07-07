@@ -1,9 +1,10 @@
+@inject('formatter', 'App\Helpers\FormatterHelper')
 @extends('layouts.main')
 
 @section('content')
 	@if ($have_data)
-		<form id="form_data_quality" method="GET">
-		
+		<form id="form_data_quality" method="POST">
+		<?php echo csrf_field(); ?>
 		<div class="row expanded">
 			<div class="column small-9">
 				<h4 class="title">Email Subscriber and Donor User Summary</h4>
@@ -38,12 +39,12 @@
 			            <tbody>
 			                @foreach ($report as $row)
 			                <tr>
-			                    <td>{{ date('m/d/y', strtotime($row['date'])) }}</td>
-			          
-			                   	{{-- total known users --}}
-			                   	<td>{{ number_format($row['unduplicated_totaluserskpi']) }}</td>
-			                   	<td>{{ number_format($row['duplicated_database_memberspluscamethroughemailplusdonors']) }}</td>
-			                    <td>{{ number_format($row['unduplicated_database_totaluserskpi']) }}</td>
+			                    <td>{{ $formatter->date($row['date']) }}</td>
+			                   	<td>{{ number_format($row['TotalMembersThisWeek']) }}</td>
+			                   	<td>{{ number_format($row['TotalMembersThisWeek']) }}</td>
+			                   	<td>{{ number_format($row['KPI_TotalMembersKnownToMIP']) }}</td>
+			                    <td>{{ number_format($row['KPI_TotalMembersKnownToMIP']) }}</td>
+								<td>{{ $formatter->percent($row['KPI_TotalMembersKnownToMIP'], $row['TotalMembersThisWeek']) }}</td>
 			                </tr>
 			                @endforeach
 			            </tbody>
@@ -71,12 +72,11 @@
 			            <tbody>
 			                @foreach ($report as $row)
 			                <tr>
-			                    <td>{{ date('Y-m-d', strtotime($row['date'])) }}</td>
-			                    {{-- newsletter --}}
-			                    <td>{{ number_format($row['cametositethroughemail']) }}</td>
-			                    <td>{{ number_format($row['kpi_totalemailsubscribersknowntomip']) }}</td>
-			                    <td>{{ number_format($row['kpi_percentknownsubswhocame'], 2) }}</td>
-			                    <td>{{ number_format($row['kpi_newemailsubscribers']) }}</td> 
+			                    <td>{{ $formatter->date($row['date']) }}</td>
+			                    <td>{{ number_format($row['CameToSiteThroughEmail']) }}</td>
+			                    <td>{{ number_format($row['KPI_TotalEmailSubscribersKnownToMIP']) }}</td>
+			                    <td>{{ number_format($row['KPI_PercentKnownSubsWhoCame'], 2) }}</td>
+			                    <td>{{ number_format($row['NewEmailSubscribers']) }}</td> 
 			                </tr>
 			                @endforeach
 			            </tbody>
@@ -91,6 +91,8 @@
 							<button class="button">Download</button>
 						</div>
 					</div>
+
+
 					<table class="report tiny hover">
 			            <thead>
 			                <tr>
@@ -103,11 +105,10 @@
 			            <tbody>
 			                @foreach ($report as $row)
 			                <tr>
-			                    <td>{{ date('Y-m-d', strtotime($row['date'])) }}</td>
-			                   	{{-- donors --}}
-			                   	<td>{{ number_format($row['totaldonorsthisweek']) }}</td>
-			                   	<td>{{ number_format($row['kpi_totaldonorsknowntomip']) }}</td>
-			                   	<td>{{ number_format($row['totaldonorsthisweek'] / $row['kpi_totaldonorsknowntomip'],2) }}</td>
+			                    <td>{{ $formatter->date($row['date']) }}</td>
+			                   	<td>{{ number_format($row['TotalDonorsThisWeek']) }}</td>
+			                   	<td>{{ number_format($row['KPI_TotalDonorsKnownToMIP']) }}</td>
+			                   	<td>{{ $formatter->percent($row['TotalDonorsThisWeek'], $row['KPI_TotalDonorsKnownToMIP'])}}</td>
 			                   	
 			                </tr>
 			                @endforeach

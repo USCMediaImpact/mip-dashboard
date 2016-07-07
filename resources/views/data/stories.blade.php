@@ -1,3 +1,4 @@
+@inject('formatter', 'App\Helpers\FormatterHelper')
 @extends('layouts.main')
 
 @section('content')
@@ -30,7 +31,7 @@
 						</div>
 					</div>
 					<div class="table-scroll">
-						<table class="report tiny hover">
+						<table class="report tiny hover expanded">
 				            <thead>
 				                <tr>
 				                	<th>Article</th>
@@ -47,12 +48,15 @@
 				            <tbody>
 				                @foreach ($report as $row)
 				                <tr>
-				                    <td>{{ date('m/d/y', strtotime($row['date'])) }}</td>
-				          
-				                   	{{-- total known users --}}
-				                   	<td>{{ number_format($row['unduplicated_totaluserskpi']) }}</td>
-				                   	<td>{{ number_format($row['duplicated_database_memberspluscamethroughemailplusdonors']) }}</td>
-				                    <td>{{ number_format($row['unduplicated_database_totaluserskpi']) }}</td>
+				                    <td>{{ $row['Page_Path'] }}</td>
+				                   	<td>{{ number_format($row['Pageviews']) }}</td>
+				                   	<td>{{ number_format($row['Scroll_Start']) }}</td>
+				                   	<td>{{ number_format($row['Scroll_25']) }}</td>
+				                    <td>{{ number_format($row['Scroll_50']) }}</td>
+				                    <td>{{ number_format($row['Scroll_75']) }}</td>
+				                    <td>{{ number_format($row['Scroll_100']) }}</td>
+				                    <td>{{ number_format($row['Scroll_Supplemental']) }}</td>
+				                    <td>{{ number_format($row['Scroll_End']) }}</td>
 				                </tr>
 				                @endforeach
 				            </tbody>
@@ -69,7 +73,7 @@
 						</div>
 					</div>
 					<div class="table-scroll">
-						<table class="report tiny hover">
+						<table class="report tiny hover expanded">
 				            <thead>
 				                <tr>
 				                	<th>Article</th>
@@ -85,12 +89,14 @@
 				            <tbody>
 				                @foreach ($report as $row)
 				                <tr>
-				                    <td>{{ date('Y-m-d', strtotime($row['date'])) }}</td>
-				                    {{-- newsletter --}}
-				                    <td>{{ number_format($row['cametositethroughemail']) }}</td>
-				                    <td>{{ number_format($row['kpi_totalemailsubscribersknowntomip']) }}</td>
-				                    <td>{{ number_format($row['kpi_percentknownsubswhocame'], 2) }}</td>
-				                    <td>{{ number_format($row['kpi_newemailsubscribers']) }}</td> 
+				                    <td>{{ $row['Page_Path'] }}</td>
+				                   	<td>{{ number_format($row['Pageviews']) }}</td>
+				                    <td>{{ number_format($row['Time_15']) }}</td>
+				                    <td>{{ number_format($row['Time_30']) }}</td>
+				                    <td>{{ number_format($row['Time_45']) }}</td>
+				                    <td>{{ number_format($row['Time_60']) }}</td> 
+				                    <td>{{ number_format($row['Time_75']) }}</td>
+				                    <td>{{ number_format($row['Time_90']) }}</td> 
 				                </tr>
 				                @endforeach
 				            </tbody>
@@ -107,7 +113,7 @@
 						</div>
 					</div>
 					<div class="table-scroll">
-						<table class="report tiny hover">
+						<table class="report tiny hover expanded">
 				            <thead>
 				                <tr>
 				                	<th>Article</th>
@@ -124,12 +130,16 @@
 				            <tbody>
 				                @foreach ($report as $row)
 				                <tr>
-				                    <td>{{ date('Y-m-d', strtotime($row['date'])) }}</td>
-				                   	{{-- donors --}}
-				                   	<td>{{ number_format($row['totaldonorsthisweek']) }}</td>
-				                   	<td>{{ number_format($row['kpi_totaldonorsknowntomip']) }}</td>
-				                   	<td>{{ number_format($row['totaldonorsthisweek'] / $row['kpi_totaldonorsknowntomip'],2) }}</td>
-				                   	
+				                    <td>{{ $row['Page_Path'] }}</td>
+				                   	<td>{{ number_format($row['Comments']) }}</td>
+				                   	<td>{{ number_format($row['Emails']) }}</td>
+				                   	<td>{{ number_format($row['Tweets']) }}</td>
+				                   	<td>{{ number_format($row['Facebook_Recommendations']) }}</td>
+				                   	{{--*/ $shareTotal = $row['Emails'] + $row['Tweets'] + $row['Facebook_Recommendations']; /*--}}
+				                   	<td>{{ number_format($shareTotal) }}</td>
+				                   	<td>{{ $formatter->percent($shareTotal, $row['Pageviews'])}}</td>
+				                   	<td>{{ number_format($row['Related_Clicks']) }}</td>
+			                   		<td>{{ $formatter->percent($row['Related_Clicks'], $row['Scroll_Supplemental']) }}</td>
 				                </tr>
 				                @endforeach
 				            </tbody>

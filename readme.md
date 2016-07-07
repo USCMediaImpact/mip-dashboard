@@ -31,6 +31,7 @@ prefix=
 Then run the pip install command `pip install -t lib -r requirements.txt`
 
 ###Command Line###
++ `php artisan clear-compiled`
 + `php artisan optimize`
 + `php artisan config:cache`
 + `php artisan route:cache`

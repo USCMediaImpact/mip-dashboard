@@ -47,6 +47,7 @@ padding: 0 10px;
 .sub-title{color: #767474; margin-top: -10px;}
 .table-wrapper { position: relative; }
 .table-wrapper .table-toolbar { position: absolute; z-index: 1; }
+table.report{min-width: 100%;}
 table.report .button, .noty_buttons .button { margin-bottom: 0; }
 table.report.tiny tbody td, table.report.tiny tbody th { padding: .25rem .3rem .3rem; font-size: 12px; }
 table.report.tiny tfoot td, table.report.tiny tfoot th, table.report.tiny thead td, table.report.tiny thead th { padding: .25rem .3rem .3rem; font-size: 12px; }

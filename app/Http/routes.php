@@ -52,20 +52,20 @@ Route::post('auth/account', 'Auth\AccountController@editAccount');
 Route::delete('auth/account/{id}', 'Auth\AccountController@removeAccount');
 
 // Demo routes...
-Route::get('/', 'DashboardController@showDashboard');
+Route::match(['get', 'post'], '/', 'DashboardController@showDashboard');
 
 // Main routes...
-Route::get('/reports/content', 'ReportsController@showContent');
-Route::get('/reports/users', 'ReportsController@showUsers');
-Route::get('/reports/donations', 'ReportsController@showDonations');
+Route::match(['get', 'post'], '/reports/content', 'ReportsController@showContent');
+Route::match(['get', 'post'], '/reports/users', 'ReportsController@showUsers');
+Route::match(['get', 'post'], '/reports/donations', 'ReportsController@showDonations');
 
-Route::get('/metrics/content', 'MetricsController@showContent');
-Route::get('/metrics/users', 'MetricsController@showUsers');
-Route::get('/metrics/donations', 'MetricsController@showDonations');
+Route::match(['get', 'post'], '/metrics/content', 'MetricsController@showContent');
+Route::match(['get', 'post'], '/metrics/users', 'MetricsController@showUsers');
+Route::match(['get', 'post'], '/metrics/donations', 'MetricsController@showDonations');
 
-Route::get('/data/content', 'DataController@showContent');
-Route::get('/data/users', 'DataController@showUsers');
-Route::get('/data/donations', 'DataController@showDonations');
-Route::get('/data/stories', 'DataController@showStories');
+Route::match(['get', 'post'], '/data/content', 'DataController@showContent');
+Route::match(['get', 'post'], '/data/users', 'DataController@showUsers');
+Route::match(['get', 'post'], '/data/donations', 'DataController@showDonations');
+Route::match(['get', 'post'], '/data/stories', 'DataController@showStories');
 Route::match(['get', 'post'], '/data/quality', 'DataController@showQuality');
 

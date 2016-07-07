@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Helpers\FormatterHelper;
 
 class AuthenticatedBaseController extends Controller
 {
