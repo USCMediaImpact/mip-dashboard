@@ -155,3 +155,21 @@
 	    </div>
 	@endif
 @endsection
+
+
+
+@section('script')
+	<script>
+		DefaultDateRangePickerOptions = {
+			presetRanges: [],
+			datepickerOptions: {
+				numberOfMonths: 1
+			}
+		};
+		$.datepicker.setDefaults({
+			onSelect: function(date){
+				console.log(date);
+			}
+		})
+	</script>
+@endsection

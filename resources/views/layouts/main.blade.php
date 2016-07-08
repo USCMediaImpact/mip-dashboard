@@ -61,10 +61,10 @@
     <script src="{{ asset('scripts/vendor/amcharts/serial.js') }}"></script>
     <script src="{{ asset('scripts/vendor/amcharts/themes/light.js') }}"></script>
     <!-- endbuild -->
+    @yield('prepare_script')
     <!-- build:js scripts/site.js -->
     <script src="{{ asset('scripts/main.js') }}"></script>
     <!-- endbuild -->
-    
     @yield('script')
     
 </body>
