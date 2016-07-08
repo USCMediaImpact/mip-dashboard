@@ -27,14 +27,28 @@ $(function () {
 		window.location.reload(true);
 	});
 
+	var dateRangeDisplayText = 'Select date range...',
+		max_date = $('[name="max_date"]').val(),
+		min_date = $('[name="min_date"]').val();
+	
+	if (max_date && min_date) {
+		max_date = moment(max_date, 'YYYY-MM-DD');
+		min_date = moment(min_date, 'YYYY-MM-DD');
+		if (max_date.isValid() && min_date.isValid()) {
+			dateRangeDisplayText = $.datepicker.formatDate('M d, yy', min_date.toDate()) + ' - ' + $.datepicker.formatDate('M d, yy', max_date.toDate());
+		}
+	}
+
 	DefaultDateRangePickerOptions = typeof DefaultDateRangePickerOptions === 'undefined' ? {} : DefaultDateRangePickerOptions;
 	$('#dateRange').daterangepicker({
+		initialText: dateRangeDisplayText,
+		dateFormat: 'M d, yy', 
 		change: function (event, el) {
 			var range = el.instance.getRange(),
 				min_date = moment(range.start),
 				max_date = moment(range.end);
 			$('input[name="min_date"]').val(min_date.format('YYYY-MM-DD'));
-			$('input[name="max_date"]').val(min_date.format('YYYY-MM-DD'));
+			$('input[name="max_date"]').val(max_date.format('YYYY-MM-DD'));
 			$(this).parents('form')[0].submit();
 		},
 	}, DefaultDateRangePickerOptions);

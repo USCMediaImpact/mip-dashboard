@@ -3,8 +3,8 @@
 
 @section('content')
 	@if ($have_data)
-		<form id="form_data_quality" method="GET">
-		
+		<form id="form_data_quality" method="POST">
+		<?php echo csrf_field(); ?>
 		<div class="row expanded">
 			<div class="column small-9">
 				<h4 class="title">Weekly Story Performance</h4>
@@ -163,13 +163,22 @@
 		DefaultDateRangePickerOptions = {
 			presetRanges: [],
 			datepickerOptions: {
-				numberOfMonths: 1
+				numberOfMonths: 1,
+				showOtherMonths: true,
+      			selectOtherMonths: true,
+				onSelect: function(date, el){
+					var min_date = moment(date, 'MM/DD/YYYY').day(0),
+						max_date = moment(date, 'MM/DD/YYYY').day(6);					
+					$('#dateRange').daterangepicker('setRange', {
+						start: min_date.toDate(),
+						end: max_date.toDate()
+					});
+					$('#dateRange').daterangepicker('close');
+					$('input[name="min_date"]').val(min_date.format('YYYY-MM-DD'));
+					$('input[name="max_date"]').val(min_date.format('YYYY-MM-DD'));
+					$('#dateRange').parents('form')[0].submit();
+				}
 			}
 		};
-		$.datepicker.setDefaults({
-			onSelect: function(date){
-				console.log(date);
-			}
-		})
 	</script>
 @endsection

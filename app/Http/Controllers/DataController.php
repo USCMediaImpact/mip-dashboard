@@ -22,7 +22,7 @@ class DataController extends AuthenticatedBaseController{
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
         $client_id = $request['client']['id'];
-
+        
         $query = DB::table('data_users_' . $group)
             ->select('date', 'TotalMembersThisWeek','KPI_TotalMembersKnownToMIP','CameToSiteThroughEmail','KPI_TotalEmailSubscribersKnownToMIP','KPI_PercentKnownSubsWhoCame','NewEmailSubscribers','TotalDonorsThisWeek','KPI_TotalDonorsKnownToMIP','Duplicated_CameThroughEmailPlusDonors','Unduplicated_TotalUsersKPI','Duplicated_Database_CameThroughEmailPlusDonors','Unduplicated_Database_TotalUsersKPI')
             ->where('client_id', $client_id);
