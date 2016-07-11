@@ -4,6 +4,10 @@ namespace App\Helpers;
 
 class FormatterHelper
 {
+	public static function showAsPercent($value){
+		return sprintf("%.2f%%", $value);
+	}
+
 	public static function percent($numerator, $denominator)
 	{
 		if($denominator){

@@ -29,7 +29,7 @@
 			            <thead>
 			                <tr>
 			                	<th>Week</th>
-			                    <th>Email Subscribers and Donors on Site</th>
+			                    <th data-tooltip aria-haspopup="true" class="has-tip top" title="How many e-mail subscribers came to the site this week?">Email Subscribers and Donors on Site</th>
 			                    <th>Email Subscribers or Donors on Site</th>
 			                    <th>Email Subscribers and Donors in MIP DB</th>
 			   					<th>Email Subscribers or Donors in MIP DB</th>
@@ -75,7 +75,7 @@
 			                    <td>{{ $formatter->date($row['date']) }}</td>
 			                    <td>{{ number_format($row['CameToSiteThroughEmail']) }}</td>
 			                    <td>{{ number_format($row['KPI_TotalEmailSubscribersKnownToMIP']) }}</td>
-			                    <td>{{ number_format($row['KPI_PercentKnownSubsWhoCame'], 2) }}</td>
+			                    <td>{{ $formatter->showAsPercent($row['KPI_PercentKnownSubsWhoCame']) }}</td>
 			                    <td>{{ number_format($row['NewEmailSubscribers']) }}</td> 
 			                </tr>
 			                @endforeach
