@@ -25,7 +25,7 @@
 							<button class="button">Download</button>
 						</div>
 					</div>
-					<table class="report tiny hover">
+					<table id="dataUsersTotalKnownUsers" class="report tiny hover">
 			            <thead>
 			                <tr>
 			                	<th>Week</th>
@@ -37,16 +37,7 @@
 			                </tr>
 			            </thead>
 			            <tbody>
-			                @foreach ($report as $row)
-			                <tr>
-			                    <td>{{ $formatter->date($row['date']) }}</td>
-			                   	<td>{{ number_format($row['TotalMembersThisWeek']) }}</td>
-			                   	<td>{{ number_format($row['TotalMembersThisWeek']) }}</td>
-			                   	<td>{{ number_format($row['KPI_TotalMembersKnownToMIP']) }}</td>
-			                    <td>{{ number_format($row['KPI_TotalMembersKnownToMIP']) }}</td>
-								<td>{{ $formatter->percent($row['KPI_TotalMembersKnownToMIP'], $row['TotalMembersThisWeek']) }}</td>
-			                </tr>
-			                @endforeach
+			                
 			            </tbody>
 			        </table>
 		        </div>
@@ -59,7 +50,7 @@
 							<button class="button">Download</button>
 						</div>
 					</div>
-					<table class="report tiny hover">
+					<table id="dataUsersEmailNewsletterSubscribers" class="report tiny hover">
 			            <thead>
 			                <tr>
 			                	<th>Week</th>
@@ -70,15 +61,7 @@
 			                </tr>
 			            </thead>
 			            <tbody>
-			                @foreach ($report as $row)
-			                <tr>
-			                    <td>{{ $formatter->date($row['date']) }}</td>
-			                    <td>{{ number_format($row['CameToSiteThroughEmail']) }}</td>
-			                    <td>{{ number_format($row['KPI_TotalEmailSubscribersKnownToMIP']) }}</td>
-			                    <td>{{ $formatter->showAsPercent($row['KPI_PercentKnownSubsWhoCame']) }}</td>
-			                    <td>{{ number_format($row['NewEmailSubscribers']) }}</td> 
-			                </tr>
-			                @endforeach
+			                
 			            </tbody>
 			        </table>
 		        </div>
@@ -91,9 +74,7 @@
 							<button class="button">Download</button>
 						</div>
 					</div>
-
-
-					<table class="report tiny hover">
+					<table id="dataUsersDonors" class="report tiny hover">
 			            <thead>
 			                <tr>
 			                	<th>Week</th>
@@ -103,15 +84,7 @@
 			                </tr>
 			            </thead>
 			            <tbody>
-			                @foreach ($report as $row)
-			                <tr>
-			                    <td>{{ $formatter->date($row['date']) }}</td>
-			                   	<td>{{ number_format($row['TotalDonorsThisWeek']) }}</td>
-			                   	<td>{{ number_format($row['KPI_TotalDonorsKnownToMIP']) }}</td>
-			                   	<td>{{ $formatter->percent($row['TotalDonorsThisWeek'], $row['KPI_TotalDonorsKnownToMIP'])}}</td>
-			                   	
-			                </tr>
-			                @endforeach
+			                
 			            </tbody>
 			        </table>
 		        </div>
@@ -123,4 +96,181 @@
 	        <div>Data Users Coming soon.</div>
 	    </div>
 	@endif
+@endsection
+
+@section('script')
+<script>
+	$(function(){
+		var dataTable = [];
+		dataTable[0] = $('#dataUsersTotalKnownUsers').DataTable({
+            'processing': true,
+            'serverSide': true,
+            'searching': false,
+            'ajax': {
+	            'url': '/data/users/total_known_users',
+	            'type': 'POST',
+	            'data': function(data){
+	            	console.log(data);
+	            	return $.extend({
+	            		'min_date': $('[name="min_date"]').val(),
+						'max_date': $('[name="max_date"]').val(),
+	            	}, data);
+	            }
+	        },
+            'dom': 'Bfrtip',
+            'columns': [{
+                'data': 'date'
+            }, {
+                'data': 'TotalMembersThisWeek'
+            }, {
+                'data': 'TotalMembersThisWeek'
+            }, {
+                'data': 'KPI_TotalMembersKnownToMIP'
+            }, {
+                'data': 'KPI_TotalMembersKnownToMIP'
+            }, {
+                'data': 'Loyal_Users_On_Site'
+            }],
+            'columnDefs': [{
+                'targets': 0,
+                'render': function (data, type, row) {
+                    return moment(data).format('MM/DD/YY')
+                }
+            }, {
+                'targets': 1,
+                'render': function (data, type, row) {
+                    return new Intl.NumberFormat().format(data)
+                }
+            }, {
+                'targets': 2,
+                'render': function (data, type, row) {
+                    return new Intl.NumberFormat().format(data)
+                }
+            }, {
+                'targets': 3,
+                'render': function (data, type, row) {
+                    return new Intl.NumberFormat().format(data)
+                }
+            }, {
+                'targets': 4,
+                'render': function (data, type, row) {
+                    return new Intl.NumberFormat().format(data)
+                }
+            }, {
+                'targets': 5,
+                'render': function (data, type, row) {
+                	var value = row.KPI_TotalMembersKnownToMIP / row.TotalMembersThisWeek;
+                    return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 2}).format(data);
+                }
+            } ]
+        });
+        dataTable[1] = $('#dataUsersEmailNewsletterSubscribers').DataTable({
+            'processing': true,
+            'serverSide': true,
+            'searching': false,
+            'ajax': {
+	            'url': '/data/users/email_newsletter_subscribers',
+	            'type': 'POST',
+	            'data': function(data){
+	            	console.log(data);
+	            	return $.extend({
+	            		'min_date': $('[name="min_date"]').val(),
+						'max_date': $('[name="max_date"]').val(),
+	            	}, data);
+	            }
+	        },
+            'dom': 'Bfrtip',
+            'columns': [{
+                'data': 'date'
+            }, {
+                'data': 'CameToSiteThroughEmail'
+            }, {
+                'data': 'KPI_TotalEmailSubscribersKnownToMIP'
+            }, {
+                'data': 'KPI_PercentKnownSubsWhoCame'
+            }, {
+                'data': 'NewEmailSubscribers'
+            }],
+            'columnDefs': [{
+                'targets': 0,
+                'render': function (data, type, row) {
+                    return moment(data).format('MM/DD/YY')
+                }
+            }, {
+                'targets': 1,
+                'render': function (data, type, row) {
+                    return new Intl.NumberFormat().format(data)
+                }
+            }, {
+                'targets': 2,
+                'render': function (data, type, row) {
+                    return new Intl.NumberFormat().format(data)
+                }
+            }, {
+                'targets': 3,
+                'render': function (data, type, row) {
+                    return new Intl.NumberFormat().format(data)
+                }
+            }, {
+                'targets': 4,
+                'render': function (data, type, row) {
+                    return new Intl.NumberFormat().format(data)
+                }
+            }]
+        });
+        dataTable[2] = $('#dataUsersDonors').DataTable({
+            'processing': true,
+            'serverSide': true,
+            'searching': false,
+            'ajax': {
+	            'url': '/data/users/donors',
+	            'type': 'POST',
+	            'data': function(data){
+	            	console.log(data);
+	            	return $.extend({
+	            		'min_date': $('[name="min_date"]').val(),
+						'max_date': $('[name="max_date"]').val(),
+	            	}, data);
+	            }
+	        },
+            'dom': 'Bfrtip',
+            'columns': [{
+                'data': 'date'
+            }, {
+                'data': 'Unduplicated_TotalUsersKPI'
+            }, {
+                'data': 'Duplicated_Database_CameThroughEmailPlusDonors'
+            }, {
+                'data': 'Unduplicated_Database_TotalUsersKPI'
+            }],
+            'columnDefs': [{
+                'targets': 0,
+                'render': function (data, type, row) {
+                    return moment(data).format('MM/DD/YY')
+                }
+            }, {
+                'targets': 1,
+                'render': function (data, type, row) {
+                    return new Intl.NumberFormat().format(data)
+                }
+            }, {
+                'targets': 2,
+                'render': function (data, type, row) {
+                    return new Intl.NumberFormat().format(data)
+                }
+            }, {
+                'targets': 3,
+                'render': function (data, type, row) {
+                    return new Intl.NumberFormat().format(data)
+                }
+            }]
+        });
+
+        $(document).on('change.daterange', function(){
+			$.each(dataTable, function(){
+				this.ajax.reload();
+			});
+        });
+	});
+</script>
 @endsection

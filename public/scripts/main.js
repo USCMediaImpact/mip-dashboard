@@ -49,7 +49,7 @@ $(function () {
 				max_date = moment(range.end);
 			$('input[name="min_date"]').val(min_date.format('YYYY-MM-DD'));
 			$('input[name="max_date"]').val(max_date.format('YYYY-MM-DD'));
-			$(this).parents('form')[0].submit();
+			$(document).trigger('change.daterange');
 		},
 	}, DefaultDateRangePickerOptions);
 

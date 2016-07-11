@@ -64,7 +64,11 @@ Route::match(['get', 'post'], '/metrics/users', 'MetricsController@showUsers');
 Route::match(['get', 'post'], '/metrics/donations', 'MetricsController@showDonations');
 
 Route::match(['get', 'post'], '/data/content', 'DataController@showContent');
-Route::match(['get', 'post'], '/data/users', 'DataController@showUsers');
+
+Route::get('/data/users', 'DataController@showUsers');
+Route::post('/data/users/total_known_users', 'DataController@get_Users_Total_Known_Users');
+Route::post('/data/users/email_newsletter_subscribers', 'DataController@get_Users_Email_Newsletter_Subscribers');
+Route::post('/data/users/donors', 'DataController@get_Users_Donors');
 Route::match(['get', 'post'], '/data/donations', 'DataController@showDonations');
 Route::match(['get', 'post'], '/data/stories', 'DataController@showStories');
 Route::match(['get', 'post'], '/data/quality', 'DataController@showQuality');

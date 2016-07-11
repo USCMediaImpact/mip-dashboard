@@ -22,28 +22,32 @@ class DataController extends AuthenticatedBaseController{
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
         $client_id = $request['client']['id'];
-        
+
         $query = DB::table('data_users_' . $group)
-            ->select('date', 'TotalMembersThisWeek','KPI_TotalMembersKnownToMIP','CameToSiteThroughEmail','KPI_TotalEmailSubscribersKnownToMIP','KPI_PercentKnownSubsWhoCame','NewEmailSubscribers','TotalDonorsThisWeek','KPI_TotalDonorsKnownToMIP','Duplicated_CameThroughEmailPlusDonors','Unduplicated_TotalUsersKPI','Duplicated_Database_CameThroughEmailPlusDonors','Unduplicated_Database_TotalUsersKPI')
+            ->select(DB::raw('count(*)'))
             ->where('client_id', $client_id);
 
         $count = $query->count();
-        $report = $query->where('date', '<=', $max_date['year'] . '-' . $max_date['month'] . '-' . $max_date['day'])
-            ->where('date', '>=', $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day'])
-            ->orderBy('date', 'desc')
-            ->get();
-        $report = array_map(function($row){
-            return get_object_vars($row);
-        }, $report);
 
         return view('data.users', [
             'have_data' => $count > 0,
-            'report' => $report,
             'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
             'max_date' => mktime(0, 0, 0, $max_date['month'], $max_date['day'], $max_date['year']),
             'group' => $group,
             'displayGroupName' => self::$groupDisplay[$group]
         ]);
+    }
+
+    public function get_Users_Total_Known_Users(Request $request){
+        return $this->dataTableQuery($request, 'data_users_', DB::raw('date, TotalMembersThisWeek, TotalMembersThisWeek, KPI_TotalMembersKnownToMIP, KPI_TotalMembersKnownToMIP, TotalMembersThisWeek / KPI_TotalMembersKnownToMIP as Loyal_Users_On_Site'));
+    }
+
+    public function get_Users_Email_Newsletter_Subscribers(Request $request){
+        return $this->dataTableQuery($request, 'data_users_', DB::raw('date, TotalMembersThisWeek, TotalMembersThisWeek, KPI_TotalMembersKnownToMIP, KPI_TotalMembersKnownToMIP, TotalMembersThisWeek / KPI_TotalMembersKnownToMIP as Loyal_Users_On_Site'));
+    }
+
+    public function get_Users_Donors(Request $request){
+        return $this->dataTableQuery($request, 'data_users_', DB::raw('date, TotalMembersThisWeek, TotalMembersThisWeek, KPI_TotalMembersKnownToMIP, KPI_TotalMembersKnownToMIP, TotalMembersThisWeek / KPI_TotalMembersKnownToMIP as Loyal_Users_On_Site'));
     }
 
     public function showDonations(Request $request){
