@@ -56,7 +56,7 @@ def big_query_test():
 # run history task
 def run_history():
 	min_date = date(2016, 4, 17)
-	max_date = datetime.now()
+	max_date = datetime.now().date()
 	#every day history
 	# day_count = (max_date - min_date).days
 	# for single_date in (min_date + timedelta(n) for n in range(day_count)):
