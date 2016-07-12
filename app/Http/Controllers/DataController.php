@@ -13,9 +13,20 @@ use App\Models\User;
 class DataController extends AuthenticatedBaseController{
     
     public function showContent(){
-
         return view('data.content');
     }
+
+    private static $DataUsersField = [
+        'date, Duplicated_CameThroughEmailPlusDonors, Unduplicated_TotalUsersKPI, Duplicated_Database_CameThroughEmailPlusDonors, Unduplicated_Database_TotalUsersKPI, Unduplicated_TotalUsersKPI / Unduplicated_Database_TotalUsersKPI as Loyal_Users_On_Site',
+        'date, CameToSiteThroughEmail, KPI_TotalEmailSubscribersKnownToMIP, KPI_PercentKnownSubsWhoCame, NewEmailSubscribers',
+        'date, TotalDonorsThisWeek, KPI_TotalDonorsKnownToMIP, TotalDonorsThisWeek / KPI_TotalDonorsKnownToMIP as Donors_In_MIP'
+    ];
+    
+    private static $DataUsersColumn = [
+        ['Week of', 'Email Subscribers and Donors on Site', 'Email Subscribers or Donors on Site or Both Email Subscriber and Donor', 'Email Subscribers and Donors in MIP DB', 'Emails Subscribers or Donors or Both Email Subscriber and Donor in DB', '% of Loyal Users on Site'],
+        ['Week of', '(Eloqua) Email Subscribers on Site', 'Total Email Subscribers in MIP DB', '% of Email Subscribers in MIP DB on Site', 'New Email Subscribers'],
+        ['Week of', 'Donors Donating', 'Donors in MIP DB', '% of Donors in MIP DB Donating']
+    ]
 
     public function showUsers(Request $request){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
@@ -39,15 +50,27 @@ class DataController extends AuthenticatedBaseController{
     }
 
     public function get_Users_Total_Known_Users(Request $request){
-        return $this->dataTableQuery($request, 'data_users_', DB::raw('date, TotalMembersThisWeek, TotalMembersThisWeek, KPI_TotalMembersKnownToMIP, KPI_TotalMembersKnownToMIP, TotalMembersThisWeek / KPI_TotalMembersKnownToMIP as Loyal_Users_On_Site'));
+        return $this->dataTableQuery($request, 'data_users_', $this::$DataUsersField[0]);
+    }
+
+    public function download_Users_Total_Known_Users(Request $request){
+        $this->exportCSV($request, 'data_users_', $this::$DataUsersField[0], $this::$DataUsersColumn[0]);
     }
 
     public function get_Users_Email_Newsletter_Subscribers(Request $request){
-        return $this->dataTableQuery($request, 'data_users_', DB::raw('date, TotalMembersThisWeek, TotalMembersThisWeek, KPI_TotalMembersKnownToMIP, KPI_TotalMembersKnownToMIP, TotalMembersThisWeek / KPI_TotalMembersKnownToMIP as Loyal_Users_On_Site'));
+        return $this->dataTableQuery($request, 'data_users_', $this::$DataUsersField[1]);
+    }
+
+    public function download_Users_Email_Newsletter_Subscribers(Request $request){
+        $this->exportCSV($request, 'data_users_', $this::$DataUsersField[1], $this::$DataUsersColumn[1]);
     }
 
     public function get_Users_Donors(Request $request){
-        return $this->dataTableQuery($request, 'data_users_', DB::raw('date, TotalMembersThisWeek, TotalMembersThisWeek, KPI_TotalMembersKnownToMIP, KPI_TotalMembersKnownToMIP, TotalMembersThisWeek / KPI_TotalMembersKnownToMIP as Loyal_Users_On_Site'));
+        return $this->dataTableQuery($request, 'data_users_', $this::$DataUsersField[2]);
+    }
+
+    public function download_Users_Donors(Request $request){
+        $this->exportCSV($request, 'data_users_', $this::$DataUsersField[2], $this::$DataUsersColumn[2]);
     }
 
     public function showDonations(Request $request){

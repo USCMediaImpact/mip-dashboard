@@ -27,9 +27,8 @@ class AuthenticatedBaseController extends Controller
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
         $client_id = $request['client']['id'];
-        //$orderBy = $request->order[0][column]:"5"
         $query = DB::table($tableName . $group)
-            ->select($select)
+            ->select(DB::raw($select))
             ->where('client_id', $client_id)
             ->where('date', '<=', $max_date['year'] . '-' . $max_date['month'] . '-' . $max_date['day'])
             ->where('date', '>=', $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day']);
@@ -52,6 +51,17 @@ class AuthenticatedBaseController extends Controller
     }
 
     protected function exportCSV(Request $request, $table, $select, $columns){
-        
+        $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
+        $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
+        $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
+        $client_id = $request['client']['id'];
+        $query = DB::table($tableName . $group)
+            ->select(DB::raw($select))
+            ->where('client_id', $client_id)
+            ->where('date', '<=', $max_date['year'] . '-' . $max_date['month'] . '-' . $max_date['day'])
+            ->where('date', '>=', $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day']);
+        $data = $query->get();
+
+
     }
 }

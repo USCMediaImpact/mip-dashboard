@@ -22,17 +22,17 @@
 							Total Known Users
 						</div>
 						<div class="top-bar-right">
-							<button class="button">Download</button>
+							<button class="button btnDownload" action=''>Download</button>
 						</div>
 					</div>
 					<table id="dataUsersTotalKnownUsers" class="report tiny hover">
 			            <thead>
 			                <tr>
-			                	<th>Week</th>
-			                    <th data-tooltip aria-haspopup="true" class="has-tip top" title="How many e-mail subscribers came to the site this week?">Email Subscribers and Donors on Site</th>
-			                    <th>Email Subscribers or Donors on Site</th>
+			                	<th>Week of</th>
+			                    <th>Email Subscribers and Donors on Site</th>
+			                    <th>Email Subscribers or Donors on Site or Both Email Subscriber and Donor</th>
 			                    <th>Email Subscribers and Donors in MIP DB</th>
-			   					<th>Email Subscribers or Donors in MIP DB</th>
+			   					<th>Emails Subscribers or Donors or Both Email Subscriber and Donor in DB</th>
 			   					<th>% of Loyal Users on Site</th>
 			                </tr>
 			            </thead>
@@ -47,14 +47,14 @@
 							Email Newsletter Subscribers
 						</div>
 						<div class="top-bar-right">
-							<button class="button">Download</button>
+							<button class="button btnDownload">Download</button>
 						</div>
 					</div>
 					<table id="dataUsersEmailNewsletterSubscribers" class="report tiny hover">
 			            <thead>
 			                <tr>
-			                	<th>Week</th>
-			                    <th>Email Subscribers on Site</th>
+			                	<th>Week of</th>
+			                    <th>(Eloqua) Email Subscribers on Site</th>
 			                    <th>Total Email Subscribers in MIP DB</th>
 			                    <th>% of Email Subscribers in MIP DB on Site</th>
 			                    <th>New Email Subscribers</th>
@@ -71,14 +71,14 @@
 							Donors
 						</div>
 						<div class="top-bar-right">
-							<button class="button">Download</button>
+							<button class="button btnDownload">Download</button>
 						</div>
 					</div>
 					<table id="dataUsersDonors" class="report tiny hover">
 			            <thead>
 			                <tr>
-			                	<th>Week</th>
-			                    <th>Donors Dontating</th>
+			                	<th>Week of</th>
+			                    <th>Donors Donating</th>
 			                    <th>Donors in MIP DB</th>
 			                    <th>% of Donors in MIP DB Donating</th>
 			                </tr>
@@ -121,13 +121,13 @@
             'columns': [{
                 'data': 'date'
             }, {
-                'data': 'TotalMembersThisWeek'
+                'data': 'Duplicated_CameThroughEmailPlusDonors'
             }, {
-                'data': 'TotalMembersThisWeek'
+                'data': 'Unduplicated_TotalUsersKPI'
             }, {
-                'data': 'KPI_TotalMembersKnownToMIP'
+                'data': 'Duplicated_Database_CameThroughEmailPlusDonors'
             }, {
-                'data': 'KPI_TotalMembersKnownToMIP'
+                'data': 'Unduplicated_Database_TotalUsersKPI'
             }, {
                 'data': 'Loyal_Users_On_Site'
             }],
@@ -159,8 +159,7 @@
             }, {
                 'targets': 5,
                 'render': function (data, type, row) {
-                	var value = row.KPI_TotalMembersKnownToMIP / row.TotalMembersThisWeek;
-                    return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 2}).format(data);
+                	return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
                 }
             } ]
         });
@@ -172,7 +171,6 @@
 	            'url': '/data/users/email_newsletter_subscribers',
 	            'type': 'POST',
 	            'data': function(data){
-	            	console.log(data);
 	            	return $.extend({
 	            		'min_date': $('[name="min_date"]').val(),
 						'max_date': $('[name="max_date"]').val(),
@@ -226,7 +224,6 @@
 	            'url': '/data/users/donors',
 	            'type': 'POST',
 	            'data': function(data){
-	            	console.log(data);
 	            	return $.extend({
 	            		'min_date': $('[name="min_date"]').val(),
 						'max_date': $('[name="max_date"]').val(),
@@ -237,11 +234,11 @@
             'columns': [{
                 'data': 'date'
             }, {
-                'data': 'Unduplicated_TotalUsersKPI'
+                'data': 'TotalDonorsThisWeek'
             }, {
-                'data': 'Duplicated_Database_CameThroughEmailPlusDonors'
+                'data': 'KPI_TotalDonorsKnownToMIP'
             }, {
-                'data': 'Unduplicated_Database_TotalUsersKPI'
+                'data': 'Donors_In_MIP'
             }],
             'columnDefs': [{
                 'targets': 0,
@@ -261,7 +258,7 @@
             }, {
                 'targets': 3,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
                 }
             }]
         });
@@ -270,6 +267,14 @@
 			$.each(dataTable, function(){
 				this.ajax.reload();
 			});
+        });
+
+        $(document).on('click', '.btnDownload', function(){
+            var action = $(this).attr('action'),
+                downloadForm = $('form', {action: action, method: 'POST', target: '_self'});
+            downloadForm.append($('[name="min_date"]').clone());
+            downloadForm.append($('[name="max_date"]').clone());
+            downloadForm[0].submit();
         });
 	});
 </script>

@@ -28,7 +28,7 @@
 					<table class="report tiny hover">
 			            <thead>
 			                <tr>
-			                	<th>Week</th>
+			                	<th data-tooltip aria-haspopup="true" class="has-tip top" title="How many e-mail subscribers came to the site this week?">Week</th>
 			                    <th>Events</th>
 			                    <th>SCPR GA  Users</th>
 			                    <th>MIP KPCC GTM Users</th>
