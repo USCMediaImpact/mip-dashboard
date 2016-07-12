@@ -73,6 +73,9 @@ Route::post('/data/users/email_newsletter_subscribers/csv', 'DataController@down
 Route::post('/data/users/donors', 'DataController@get_Users_Donors');
 Route::post('/data/users/donors/csv', 'DataController@download_Users_Donors');
 Route::match(['get', 'post'], '/data/donations', 'DataController@showDonations');
-Route::match(['get', 'post'], '/data/stories', 'DataController@showStories');
+Route::get('/data/stories', 'DataController@showStories');
+Route::post('/data/stories/scroll_depth', 'DataController@get_Stories_Scroll_Depth');
+Route::post('/data/stories/time_on_article', 'DataController@get_Stories_Time_On_Article');
+Route::post('/data/stories/user_interactions', 'DataController@get_Stories_User_Interactions');
 Route::match(['get', 'post'], '/data/quality', 'DataController@showQuality');
 

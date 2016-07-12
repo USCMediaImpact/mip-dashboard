@@ -30,11 +30,11 @@ class InjectClientInfo
             $clientId = $request->cookie('client-id');
             if ($clientId === null) {
                 $client = Client::first()
-                    ->select(['id', 'name', 'code'])
+                    ->select(['id', 'name', 'code', 'website'])
                     ->get()->toArray()[0];
             } else {
                 $client = Client::where('id', $clientId)
-                    ->select(['id', 'name', 'code'])
+                    ->select(['id', 'name', 'code', 'website'])
                     ->get()->toArray()[0];
             }
 
