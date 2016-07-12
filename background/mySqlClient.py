@@ -8,7 +8,7 @@ def get_db():
   	if (env and env.startswith('Google App Engine/')):
 		# Connecting from App Engine
 		return MySQLdb.connect(
-			unix_socket='/cloudsql/mip-dashboard:test-mip-dashboard',
+			unix_socket='/cloudsql/mip-dashboard:mip-dashboard-prd',
 			db='media_impact',
 			user='root')
 	else:
