@@ -26,7 +26,7 @@ class DataController extends AuthenticatedBaseController{
         ['Week of', 'Email Subscribers and Donors on Site', 'Email Subscribers or Donors on Site or Both Email Subscriber and Donor', 'Email Subscribers and Donors in MIP DB', 'Emails Subscribers or Donors or Both Email Subscriber and Donor in DB', '% of Loyal Users on Site'],
         ['Week of', '(Eloqua) Email Subscribers on Site', 'Total Email Subscribers in MIP DB', '% of Email Subscribers in MIP DB on Site', 'New Email Subscribers'],
         ['Week of', 'Donors Donating', 'Donors in MIP DB', '% of Donors in MIP DB Donating']
-    ]
+    ];
 
     public function showUsers(Request $request){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';

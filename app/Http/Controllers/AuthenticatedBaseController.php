@@ -32,6 +32,7 @@ class AuthenticatedBaseController extends Controller
             ->where('client_id', $client_id)
             ->where('date', '<=', $max_date['year'] . '-' . $max_date['month'] . '-' . $max_date['day'])
             ->where('date', '>=', $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day']);
+
         $orderByIndex = $request['order'][0]['column'];
         $orderByDir = $request['order'][0]['dir'];
         $orderBy = $request['columns'][$orderByIndex]['data'] ?: 'date';
