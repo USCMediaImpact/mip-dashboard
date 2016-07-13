@@ -77,5 +77,11 @@ Route::get('/data/stories', 'DataController@showStories');
 Route::post('/data/stories/scroll_depth/{mode}', 'DataController@get_Stories_Scroll_Depth');
 Route::post('/data/stories/time_on_article/{mode}', 'DataController@get_Stories_Time_On_Article');
 Route::post('/data/stories/user_interactions', 'DataController@get_Stories_User_Interactions');
-Route::match(['get', 'post'], '/data/quality', 'DataController@showQuality');
+Route::get('/data/quality', 'DataController@showQuality');
+Route::post('/data/quality/ga_vs_gtm', 'DataController@get_Quality_GA_VS_GTM');
+Route::post('/data/quality/email_subscribers', 'DataController@get_Quality_Email_Subscribers');
+Route::post('/data/quality/donors', 'DataController@get_Quality_Donors');
+Route::post('/data/quality/total_known_users', 'DataController@get_Quality_Total_Known_Users');
+
+
 

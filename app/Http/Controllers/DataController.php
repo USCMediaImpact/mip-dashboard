@@ -104,7 +104,7 @@ class DataController extends AuthenticatedBaseController{
     }
 
 
-    private static $DataStoriesPercentField = [
+    private static $DataStoriesField = [
         'Page_Path, Article, Pageviews, Scroll_Start/Pageviews as StartedScrolling, Scroll_25/Pageviews as Scroll25, Scroll_50/Pageviews as Scroll50, Scroll_75/Pageviews as Scroll75, Scroll_100/Pageviews as Scroll100, Scroll_Supplemental/Pageviews as RelatedContent, Scroll_End/Pageviews as EndOfPage',
         'Page_Path, Article, Pageviews, Scroll_Start as StartedScrolling, Scroll_25 as Scroll25, Scroll_50 as Scroll50, Scroll_75 as Scroll75, Scroll_100 as Scroll100, Scroll_Supplemental as RelatedContent, Scroll_End as EndOfPage',
         'Page_Path, Article, Pageviews, Time_15/Pageviews as Time15, Time_30/Pageviews as Time30, Time_45/Pageviews as Time45, Time_60/Pageviews as Time60, Time_75/Pageviews as Time75, Time_90/Pageviews as Time90',
@@ -117,6 +117,7 @@ class DataController extends AuthenticatedBaseController{
         ['Article Title', 'Total Page Views', '15 Seconds', '30 Seconds', '45 Seconds', '60 Seconds', '75 Seconds', '90 Seconds'],
         ['Article Title', 'Total Page Views', 'Comments', 'Email Shares', 'Tweets', 'FB Shares', 'Total Shares', 'Share Rate', 'Related Content Clicks', 'Click Through Rate']
     ];
+
     public function showStories(Request $request){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $current_week_sunday = mktime(0,0,0,date('m'),date('d') - date('N', time()),date('Y'));
@@ -144,17 +145,31 @@ class DataController extends AuthenticatedBaseController{
     public function get_Stories_Scroll_Depth(Request $request, $mode)
     {
         $index = $mode == 'count' ? 1 : 0;
-        return $this->dataTableQuery($request, 'data_stories_', $this::$DataStoriesPercentField[$index]);
+        return $this->dataTableQuery($request, 'data_stories_', $this::$DataStoriesField[$index]);
     }
     public function get_Stories_Time_On_Article(Request $request, $mode)
     {
         $index = $mode == 'count' ? 3 : 2;
-        return $this->dataTableQuery($request, 'data_stories_', $this::$DataStoriesPercentField[$index]);
+        return $this->dataTableQuery($request, 'data_stories_', $this::$DataStoriesField[$index]);
     }
     public function get_Stories_User_Interactions(Request $request)
     {
-        return $this->dataTableQuery($request, 'data_stories_', $this::$DataStoriesPercentField[4]);
+        return $this->dataTableQuery($request, 'data_stories_', $this::$DataStoriesField[4]);
     }
+
+    private static $DataQualityField = [
+        'date, \'\' as Events, GA_Users, MIP_Users, (GA_Users - MIP_Users) / MIP_Users as Variance',
+        'date, I_inDatabaseCameToSite, K_inDatabaseCameToSite, I_notInDatabaseCameToSite, K_notInDatabaseCameToSite, I_newSubscriberCameThroughEmail, K_newSubscriberCameThroughEmail, I_SubscribersThisWeek, K_SubscribersThisWeek, I_NewSubscribers, K_NewSubscribers, I_TotalDatabaseSubscribers, K_TotalDatabaseSubscribers, K_PercentDatabaseSubscribersWhoCame, EmailNewsletterClicks',
+        'date, I_databaseDonorsWhoVisited, K_databaseDonorsWhoVisited, I_donatedOnSiteForFirstTime, K_donatedOnSiteForFirstTime, I_totalDonorsOnSiteThisWeek, K_totalDonorsOnSiteThisWeek, I_totalDonorsInDatabase, K_totalDonorsInDatabase, K_percentDatabaseDonorsWhoCame',
+        'date, K_individualsWhoCameThisWeek, K_individualsInDatabase, K_percentDatabaseIndividualsWhoCame'
+    ];
+
+    private static $DataQualityColumn = [
+        ['Week of', 'Events', 'GA Users', 'MIP GTM Users', 'Variance'],
+        ['Week of', 'Identified: Subscribers already in MIP database who came to the site this week', 'Known: Subscribers already in MIP database who came to the site this week', 'Identified: Subscribers who came to the site through an e-mail this week for the first time since MIP started collecting data', 'Known: Subscribers who came to the site through an e-mail this week for the first time since MIP started collecting data', 'Identified: New subscribers this week who also clicked on an e-mail this week', 'Known: New subscribers this week who also clicked on an e-mail this week', 'Identified e-mail newsletter subscribers THIS WEEK', 'Known e-mail newsletter subscribers THIS WEEK (unique ELQs)', 'Identified: New e-mail subscribers this week', 'Known: New e-mail subscribers this week', 'Identified: Total identified e-mail newsletter subscribers in the MIP database', 'Known: Total number of known e-mail newsletter subscribers in the MIP database', 'Known: Percent of subscribers in the MIP database who clicked on an e-mail this week', 'E-mail newsletter clicks per week'],
+        ['Week', 'Identified: Donors already in MIP database who came to the site this week', 'Known: Donors already in MIP database who came to the site this week', 'Identified: Users who donated on the site for the first time since MIP started collecting data', 'Known: Users who donated on the site for the first time since MIP started collecting data', 'Identified donors on the site THIS WEEK', 'Known donors on the site THIS WEEK', 'Identified: Total identified donors in the MIP database', 'Known: Total known donors in the MIP database', 'Known: Percent of subscribers in the MIP database who clicked on an e-mail this week'],
+        ['Week of', 'Known: Total known donors and/or e-mail newsletter subscribers who came to the site THIS WEEK', 'Known: Total known donors and/or e-mail newsletter subscribers in the MIP database', 'Known: Percent of known individuals in the MIP database who came to the site this week']
+    ];
 
     public function showQuality(Request $request){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
@@ -162,26 +177,36 @@ class DataController extends AuthenticatedBaseController{
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
         $client_id = $request['client']['id'];
 
-        $query = DB::table('data_quality_new_' . $group)
-            ->select('date','GA_Users', 'MIP_Users', 'Came_To_Site_Subscribed_And_Came_Through_Email', 'Came_To_Site_Came_Through_Email_For_First_Time', 'Came_To_Site_Came_Through_Email_Again', 'Came_To_Site_Total_Came_To_Site_Through_Email', 'New_Subscribers_Subscribed_And_Came_Through_Email', 'New_Subscribers_Subscribed_Only', 'New_Subscribers_KPI_New_Email_Subscribers', 'Known_To_MIP_New_Email_Subscribers', 'Known_To_MIP_Came_Through_Email_For_First_Time', 'Known_To_MIP_Came_Through_Email_Again', 'Known_To_MIP_Subscribers_Who_Did_Not_Come_Through_Email', 'Known_To_MIP_KPI_Total_Email_Subscribers_Known_To_MIP', 'Known_To_MIP_KPI_Percent_Known_Subs_Who_Came', 'Donated_This_Week_New_Donors', 'Donated_This_Week_Donated_Again', 'Donated_This_Week_Total_Donors_This_Week', 'Known_To_MIP_New_Donors', 'Known_To_MIP_Donated_Again', 'Known_To_MIP_Database_Donors_Who_Did_Not_Donate_This_Week', 'Known_To_MIP_KPI_Total_Donors_Known_To_MIP', 'Known_To_MIP_KPI_Percent_Known_Donors_Who_Donated', 'Email_Newsletter_Clicks', 'Totol_Donors_This_Week', 'Logged_In_This_Week_New_Logins', 'Logged_In_This_Week_Logged_In_Again', 'Logged_In_This_Week_Total_Logins_This_Week', 'Known_To_MIP_New_Logins', 'Known_To_MIP_Logged_In_Again', 'Known_To_MIP_Database_Members_Who_Did_Not_Login_This_Week', 'Known_To_MIP_KPI_Total_Members_Known_To_MIP', 'Known_To_MIP_KPI_Percent_Known_Members_Who_Logged_In')
-            ->where('client_id', $client_id);
-
-        $count = $query->count();
-        $report = $query->where('date', '<=', $max_date['year'] . '-' . $max_date['month'] . '-' . $max_date['day'])
-            ->where('date', '>=', $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day'])
-            ->orderBy('date', 'desc')
-            ->get();
-        $report = array_map(function($row){
-            return get_object_vars($row);
-        }, $report);
+        $count = DB::table('data_quality_' . $group)
+            ->where('client_id', $client_id)
+            ->count();
 
         return view('data.quality', [
             'have_data' => $count > 0,
-            'report' => $report,
             'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
             'max_date' => mktime(0, 0, 0, $max_date['month'], $max_date['day'], $max_date['year']),
             'group' => $group,
             'displayGroupName' => self::$groupDisplay[$group]
         ]);
     }
+
+    public function get_Quality_GA_VS_GTM(Request $request){
+        return $this->dataTableQuery($request, 'data_quality_', $this::$DataQualityField[0]);
+    }
+
+    public function get_Quality_Email_Subscribers(Request $request){
+        return $this->dataTableQuery($request, 'data_quality_', $this::$DataQualityField[1]);
+    }
+
+    public function get_Quality_Donors(Request $request){
+        return $this->dataTableQuery($request, 'data_quality_', $this::$DataQualityField[2]);
+    }
+
+    public function get_Quality_Total_Known_Users(Request $request){
+        return $this->dataTableQuery($request, 'data_quality_', $this::$DataQualityField[3]);
+    }
+
+
+
+
 }

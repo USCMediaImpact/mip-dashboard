@@ -3,8 +3,6 @@
 
 @section('content')
 	@if ($have_data)
-		<form id="form_data_quality" method="GET">
-		<?php echo csrf_field(); ?>
 		<div class="row expanded">
 			<div class="column small-9">
 				<h4 class="title">Weekly Story Performance</h4>
@@ -115,7 +113,6 @@
 		        </div>
 			</div>
 		</div>
-	    </form>
     @else
 		<div class="small-12 column">
 	        <div>Data Users Coming soon.</div>
