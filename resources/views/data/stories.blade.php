@@ -23,15 +23,15 @@
 						</div>
 						<div class="top-bar-right">
 							<div class="button-group tiny">
-								<button class="button">Percent</button>
-								<button class="button">Count</button>
+								<button class="button btnSwitcher disabled" mode="percent">Percent</button>
+								<button class="button btnSwitcher " mode="count">Count</button>
 								<span>&nbsp;</span>
 								<button class="button small">Download</button>
 							</div>
 						</div>
 					</div>
 					<div class="table-scroll">
-						<table id="dataStoriesScrollDepth" class="report tiny hover expanded">
+						<table id="dataStoriesScrollDepth" mode="percent" class="report tiny hover expanded">
 				            <thead>
 				                <tr>
 				                	<th>Article Title</th>
@@ -57,15 +57,15 @@
 						</div>
 						<div class="top-bar-right">
 							<div class="button-group tiny">
-								<button class="button">Percent</button>
-								<button class="button">Count</button>
+								<button class="button btnSwitcher disabled" mode="percent">Percent</button>
+                                <button class="button btnSwitcher " mode="count">Count</button>
 								<span>&nbsp;</span>
 								<button class="button small">Download</button>
 							</div>
 						</div>
 					</div>
 					<div class="table-scroll">
-						<table id="dataStoriesTimeOnArticle" class="report tiny hover expanded">
+						<table id="dataStoriesTimeOnArticle" mode="percent" class="report tiny hover expanded">
 				            <thead>
 				                <tr>
 				                	<th>Article Title</th>
@@ -149,13 +149,16 @@
 	};
 
 	$(function(){
-		var dataTable = [];
-		dataTable[0] = $('#dataStoriesScrollDepth').DataTable({
+		var dataTable = {};
+		dataTable['dataStoriesScrollDepth'] = $('#dataStoriesScrollDepth').DataTable({
             'processing': true,
             'serverSide': true,
             'searching': false,
             'ajax': {
-	            'url': '/data/stories/scroll_depth',
+	            'url': '/data/stories/scroll_depth/',
+                'beforeSend': function(xhr, settings){
+                    settings.url += $('#dataStoriesScrollDepth').attr('mode');
+                },
 	            'type': 'POST',
 	            'data': function(data){
 	            	console.log(data);
@@ -194,51 +197,75 @@
             }, {
                 'targets': 1,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat().format(data);
                 }
             }, {
                 'targets': 2,
                 'render': function (data, type, row) {
+                    if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
+                        return new Intl.NumberFormat().format(data);
+                    }
                     return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 3,
                 'render': function (data, type, row) {
+                    if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
+                        return new Intl.NumberFormat().format(data);
+                    }
                     return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 4,
                 'render': function (data, type, row) {
+                    if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
+                        return new Intl.NumberFormat().format(data);
+                    }
                     return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 5,
                 'render': function (data, type, row) {
+                    if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
+                        return new Intl.NumberFormat().format(data);
+                    }
                 	return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 6,
                 'render': function (data, type, row) {
+                    if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
+                        return new Intl.NumberFormat().format(data);
+                    }
                     return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 7,
                 'render': function (data, type, row) {
+                    if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
+                        return new Intl.NumberFormat().format(data);
+                    }
                     return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 8,
                 'render': function (data, type, row) {
+                    if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
+                        return new Intl.NumberFormat().format(data);
+                    }
                     return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
                 }
             } ]
         });
-        dataTable[1] = $('#dataStoriesTimeOnArticle').DataTable({
+        dataTable['dataStoriesTimeOnArticle'] = $('#dataStoriesTimeOnArticle').DataTable({
             'processing': true,
             'serverSide': true,
             'searching': false,
             'ajax': {
-	            'url': '/data/stories/time_on_article',
+	            'url': '/data/stories/time_on_article/',
+                'beforeSend': function(xhr, settings){
+                    settings.url += $('#dataStoriesTimeOnArticle').attr('mode');
+                },
 	            'type': 'POST',
 	            'data': function(data){
 	            	return $.extend({
@@ -279,42 +306,54 @@
             }, {
                 'targets': 2,
                 'render': function (data, type, row) {
+                    if($('#dataStoriesTimeOnArticle').attr('mode') == 'count'){
+                        return new Intl.NumberFormat().format(data);
+                    }
                 	return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
-                    return new Intl.NumberFormat().format(data)
                 }
             }, {
                 'targets': 3,
                 'render': function (data, type, row) {
+                    if($('#dataStoriesTimeOnArticle').attr('mode') == 'count'){
+                        return new Intl.NumberFormat().format(data);
+                    }
                 	return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
-                    return new Intl.NumberFormat().format(data)
                 }
             }, {
                 'targets': 4,
                 'render': function (data, type, row) {
+                    if($('#dataStoriesTimeOnArticle').attr('mode') == 'count'){
+                        return new Intl.NumberFormat().format(data);
+                    }
                 	return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
-                    return new Intl.NumberFormat().format(data)
                 }
             }, {
                 'targets': 5,
                 'render': function (data, type, row) {
+                    if($('#dataStoriesTimeOnArticle').attr('mode') == 'count'){
+                        return new Intl.NumberFormat().format(data);
+                    }
                 	return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
-                    return new Intl.NumberFormat().format(data)
                 }
             }, {
                 'targets': 6,
                 'render': function (data, type, row) {
+                    if($('#dataStoriesTimeOnArticle').attr('mode') == 'count'){
+                        return new Intl.NumberFormat().format(data);
+                    }
                 	return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
-                    return new Intl.NumberFormat().format(data)
                 }
             }, {
                 'targets': 7,
                 'render': function (data, type, row) {
+                    if($('#dataStoriesTimeOnArticle').attr('mode') == 'count'){
+                        return new Intl.NumberFormat().format(data);
+                    }
                 	return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
-                    return new Intl.NumberFormat().format(data)
                 }
             }]
         });
-        dataTable[2] = $('#dataStoriesUserInteractions').DataTable({
+        dataTable['dataStoriesUserInteractions'] = $('#dataStoriesUserInteractions').DataTable({
             'processing': true,
             'serverSide': true,
             'searching': false,
@@ -405,8 +444,8 @@
         });
 
         $(document).on('change.daterange', function(){
-			$.each(dataTable, function(){
-				this.ajax.reload();
+			$.each(dataTable, function(k, v){
+				v.ajax.reload();
 			});
         });
 
@@ -421,6 +460,20 @@
         $('#dataStoriesScrollDepth, #dataStoriesTimeOnArticle, #dataStoriesUserInteractions').on('draw.dt', function(){
         	// Foundation.reInit('tooltip');
         	$(document).foundation();
+        });
+
+        $(document).on('click', '.btnSwitcher', function(){
+            //$(this).parents('div').find('.btnSwitcher')
+            if($(this).attr('checked')){
+                return false;
+            }
+            var panel = $(this).parents('.panel');
+            panel.find('.btnSwitcher').attr('checked', false).toggleClass('disabled');
+            $(this).attr('checked', true);
+            var table = panel.find('table');
+            table.attr('mode', $(this).attr('mode'));
+            dataTable[table.attr('id')].ajax.reload();
+            return false;
         });
 	});
 </script>
