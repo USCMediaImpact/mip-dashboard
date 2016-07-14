@@ -74,7 +74,7 @@ class AuthenticatedBaseController extends Controller
         $fp = fopen("gs://${bucket}/download/${fileName}.csv", 'w');
 
         fputcsv($fp, $columns);
-        for($data as $row){
+        foreach($data as $row){
             fputcsv($fp, $row);
         }
         fclose($fp);
