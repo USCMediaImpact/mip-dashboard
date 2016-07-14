@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use DB;
 use Google_Client;
 use Google_Service_Storage;
-use Google_Service_Storage_StorageObject;
+use Google_Service_Storage_ObjectAccessControl;
 
 class AuthenticatedBaseController extends Controller
 {
@@ -68,10 +68,10 @@ class AuthenticatedBaseController extends Controller
             ->where('date', '>=', $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day']);
         $data = $query->get();
 
-        $bucket = 'dashboard-php-storage';
+        $bucket = 'dashboard-php-storage/download';
         $fileName = md5(uniqid());
 
-        $fp = fopen("gs://${bucket}/download/${fileName}.csv", 'w');
+        $fp = fopen("gs://${bucket}/${fileName}.csv", 'w');
 
         fputcsv($fp, $columns);
         foreach($data as $row){
@@ -79,12 +79,17 @@ class AuthenticatedBaseController extends Controller
         }
         fclose($fp);
 
-//        $client = new Google_Client();
-//        $client->useApplicationDefaultCredentials();
-//        $client->addScope(Google_Service_Storage::DEVSTORAGE_FULL_CONTROL);
-//
-//        $storage = new Google_Service_Storage($client);
+        $client = new Google_Client();
+        $client->useApplicationDefaultCredentials();
+        $client->addScope(Google_Service_Storage::DEVSTORAGE_FULL_CONTROL);
 
-
+        $storage = new Google_Service_Storage($client);
+        $acl = new Google_Service_Storage_ObjectAccessControl();
+        $acl->setEntity('allUsers');
+        $acl->setRole('READER');
+        $acl->setBucket($bucket);
+        $acl->setObject("${fileName}.csv");
+        $response = $storage->objectAccessControls->insert($bucket, "${fileName}.csv", $acl);
+        dd($response);
     }
 }
