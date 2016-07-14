@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use DB;
 use Google_Client;
 use Google_Service_Storage;
+use Google_Service_Storage_StorageObject;
 
 class AuthenticatedBaseController extends Controller
 {
@@ -67,13 +68,23 @@ class AuthenticatedBaseController extends Controller
             ->where('date', '>=', $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day']);
         $data = $query->get();
 
-        $client = new Google_Client();
-        $client->useApplicationDefaultCredentials();
-        $client->addScope(Google_Service_Storage::DEVSTORAGE_FULL_CONTROL);
+        $bucket = 'dashboard-php-storage';
+        $fileName = md5(uniqid());
 
-        $storage = new Google_Service_Storage($client);
-        $buckets = $storage->buckets->listBuckets('mip-dashboard');
-        dd($buckets);
+        $fp = fopen("gs://${bucket}/download/${fileName}.csv", 'w');
+
+        fputcsv($fp, $columns);
+        for($data as $row){
+            fputcsv($fp, $row);
+        }
+        fclose($fp);
+
+//        $client = new Google_Client();
+//        $client->useApplicationDefaultCredentials();
+//        $client->addScope(Google_Service_Storage::DEVSTORAGE_FULL_CONTROL);
+//
+//        $storage = new Google_Service_Storage($client);
+
 
     }
 }
