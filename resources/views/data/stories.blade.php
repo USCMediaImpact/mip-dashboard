@@ -151,6 +151,7 @@
             'processing': true,
             'serverSide': true,
             'searching': false,
+            "order": [[ 1, "desc" ]],
             'ajax': {
 	            'url': '/data/stories/scroll_depth/',
                 'beforeSend': function(xhr, settings){
@@ -258,6 +259,7 @@
             'processing': true,
             'serverSide': true,
             'searching': false,
+            "order": [[ 1, "desc" ]],
             'ajax': {
 	            'url': '/data/stories/time_on_article/',
                 'beforeSend': function(xhr, settings){
@@ -354,6 +356,7 @@
             'processing': true,
             'serverSide': true,
             'searching': false,
+            "order": [[ 1, "desc" ]],
             'ajax': {
 	            'url': '/data/stories/user_interactions',
 	            'type': 'POST',

@@ -33,14 +33,16 @@ class AuthenticatedBaseController extends Controller
             ->where('date', '<=', $max_date['year'] . '-' . $max_date['month'] . '-' . $max_date['day'])
             ->where('date', '>=', $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day']);
 
+
         $orderByIndex = $request['order'][0]['column'];
-        $orderByDir = $request['order'][0]['dir'];
         $orderBy = $request['columns'][$orderByIndex]['data'] ?: 'date';
+        $orderByDir = $request['order'][0]['dir'];
+
 
         $total = $query->count();
         $data = $query->skip($request->start ?: 0)
             ->take($request->length ?: 10)
-            ->orderBy($orderBy, $orderByDir)
+            ->orderBy($orderBy, $orderByDir ?: 'desc')
             ->get();
 
         return [
@@ -63,6 +65,13 @@ class AuthenticatedBaseController extends Controller
             ->where('date', '>=', $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day']);
         $data = $query->get();
 
+        $client = new Google_Client();
+        $client->useApplicationDefaultCredentials();
+        $client->addScope(Google_Service_Storage::DEVSTORAGE_FULL_CONTROL);
+
+        $storage = new Google_Service_Storage($client);
+        $buckets = $storage->buckets->listBuckets($projectId);
+        dd($buckets);
 
     }
 }

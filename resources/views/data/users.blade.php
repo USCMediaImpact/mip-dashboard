@@ -102,6 +102,7 @@
             'processing': true,
             'serverSide': true,
             'searching': false,
+            "order": [[ 0, "desc" ]],
             'ajax': {
 	            'url': '/data/users/total_known_users',
 	            'type': 'POST',
@@ -163,6 +164,7 @@
             'processing': true,
             'serverSide': true,
             'searching': false,
+            "order": [[ 0, "desc" ]],
             'ajax': {
 	            'url': '/data/users/email_newsletter_subscribers',
 	            'type': 'POST',
@@ -216,6 +218,7 @@
             'processing': true,
             'serverSide': true,
             'searching': false,
+            "order": [[ 0, "desc" ]],
             'ajax': {
 	            'url': '/data/users/donors',
 	            'type': 'POST',
