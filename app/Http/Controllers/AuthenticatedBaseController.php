@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Helpers\FormatterHelper;
 use Illuminate\Http\Request;
 use DB;
+use Google_Client;
+use Google_Service_Storage;
 
 class AuthenticatedBaseController extends Controller
 {
@@ -53,7 +55,7 @@ class AuthenticatedBaseController extends Controller
         ];
     }
 
-    protected function exportCSV(Request $request, $table, $select, $columns){
+    protected function exportCSV(Request $request, $tableName, $select, $columns){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
@@ -70,7 +72,7 @@ class AuthenticatedBaseController extends Controller
         $client->addScope(Google_Service_Storage::DEVSTORAGE_FULL_CONTROL);
 
         $storage = new Google_Service_Storage($client);
-        $buckets = $storage->buckets->listBuckets($projectId);
+        $buckets = $storage->buckets->listBuckets('mip-dashboard');
         dd($buckets);
 
     }
