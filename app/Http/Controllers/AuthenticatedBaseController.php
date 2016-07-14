@@ -68,10 +68,11 @@ class AuthenticatedBaseController extends Controller
             ->where('date', '>=', $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day']);
         $data = $query->get();
 
-        $bucket = 'dashboard-php-storage/download';
-        $fileName = md5(uniqid());
+        $bucket = 'dashboard-php-storage';
+        $fileName = md5(uniqid()) . '.csv';
+        $fullName = "/download/${fileName}";
 
-        $fp = fopen("gs://${bucket}/${fileName}.csv", 'w');
+        $fp = fopen("gs://${bucket}${fullName}", 'w');
 
         fputcsv($fp, $columns);
         foreach($data as $row){
@@ -88,8 +89,8 @@ class AuthenticatedBaseController extends Controller
         $acl->setEntity('allUsers');
         $acl->setRole('READER');
         $acl->setBucket($bucket);
-        $acl->setObject("${fileName}.csv");
-        $response = $storage->objectAccessControls->insert($bucket, "${fileName}.csv", $acl);
+        $acl->setObject($fullName);
+        $response = $storage->objectAccessControls->insert($bucket, $fullName, $acl);
         dd($response);
     }
 }
