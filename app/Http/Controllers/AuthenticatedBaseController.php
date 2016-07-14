@@ -75,7 +75,7 @@ class AuthenticatedBaseController extends Controller
 
         fputcsv($fp, $columns);
         foreach($data as $row){
-            fputcsv($fp, $row);
+            fputcsv($fp, array_values(get_object_vars($row)));
         }
         fclose($fp);
 
