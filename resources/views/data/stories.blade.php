@@ -449,14 +449,6 @@
 			});
         });
 
-        $(document).on('click', '.btnDownload', function(){
-            var action = $(this).attr('action'),
-                downloadForm = $('form', {action: action, method: 'POST', target: '_self'});
-            downloadForm.append($('[name="min_date"]').clone());
-            downloadForm.append($('[name="max_date"]').clone());
-            downloadForm[0].submit();
-        });
-
         $('#dataStoriesScrollDepth, #dataStoriesTimeOnArticle, #dataStoriesUserInteractions').on('draw.dt', function(){
         	// Foundation.reInit('tooltip');
         	$(document).foundation();
