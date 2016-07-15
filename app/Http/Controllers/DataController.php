@@ -54,7 +54,7 @@ class DataController extends AuthenticatedBaseController{
     }
 
     public function download_Users_Total_Known_Users(Request $request){
-        $this->exportCSV($request, 'data_users_', $this::$DataUsersField[0], $this::$DataUsersColumn[0]);
+        return $this->exportCSV($request, 'data_users_', $this::$DataUsersField[0], $this::$DataUsersColumn[0]);
     }
 
     public function get_Users_Email_Newsletter_Subscribers(Request $request){
@@ -62,7 +62,7 @@ class DataController extends AuthenticatedBaseController{
     }
 
     public function download_Users_Email_Newsletter_Subscribers(Request $request){
-        $this->exportCSV($request, 'data_users_', $this::$DataUsersField[1], $this::$DataUsersColumn[1]);
+        return $this->exportCSV($request, 'data_users_', $this::$DataUsersField[1], $this::$DataUsersColumn[1]);
     }
 
     public function get_Users_Donors(Request $request){
@@ -70,7 +70,7 @@ class DataController extends AuthenticatedBaseController{
     }
 
     public function download_Users_Donors(Request $request){
-        $this->exportCSV($request, 'data_users_', $this::$DataUsersField[2], $this::$DataUsersColumn[2]);
+        return $this->exportCSV($request, 'data_users_', $this::$DataUsersField[2], $this::$DataUsersColumn[2]);
     }
 
     public function showDonations(Request $request){
