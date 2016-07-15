@@ -45,7 +45,7 @@
 							Email Newsletter Subscribers
 						</div>
 						<div class="top-bar-right">
-							<button class="button btnDownload">Download</button>
+							<button class="button btnDownload" action="/data/users/email_newsletter_subscribers/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataUsersEmailNewsletterSubscribers" class="report tiny hover">
@@ -68,7 +68,7 @@
 							Donors
 						</div>
 						<div class="top-bar-right">
-							<button class="button btnDownload">Download</button>
+							<button class="button btnDownload" action="/data/users/donors/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataUsersDonors" class="report tiny hover">

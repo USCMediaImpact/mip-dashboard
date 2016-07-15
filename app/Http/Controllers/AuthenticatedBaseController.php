@@ -56,7 +56,7 @@ class AuthenticatedBaseController extends Controller
         ];
     }
 
-    protected function exportCSV(Request $request, $tableName, $select, $columns){
+    protected function exportCSV(Request $request, $tableName, $select, $columns, $downloadName){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
@@ -79,19 +79,8 @@ class AuthenticatedBaseController extends Controller
             fputcsv($fp, array_values(get_object_vars($row)));
         }
         fclose($fp);
-
-        $client = new Google_Client();
-        $client->useApplicationDefaultCredentials();
-        $client->addScope(Google_Service_Storage::DEVSTORAGE_FULL_CONTROL);
-
-        $storage = new Google_Service_Storage($client);
-        $postBody = new Google_Service_Storage_ObjectAccessControl($client);
-        $postBody->entity = 'allUsers';
-        $postBody->role = 'READER';
-
-        $response = $storage->objectAccessControls->insert($bucket, $fullName, $postBody);
-
-        return response()->download("gs://${bucket}/${fullName}", 'test.csv', [
+        
+        return response()->download("gs://${bucket}/${fullName}", "${downloadName}.csv", [
             'Content-type' => 'text/csv'
         ]);
     }
