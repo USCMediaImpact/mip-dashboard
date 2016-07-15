@@ -70,9 +70,9 @@ class AuthenticatedBaseController extends Controller
 
         $bucket = 'dashboard-php-storage';
         $fileName = md5(uniqid()) . '.csv';
-        $fullName = "/download/${fileName}";
+        $fullName = "download/${fileName}";
 
-        $fp = fopen("gs://${bucket}${fullName}", 'w');
+        $fp = fopen("gs://${bucket}/${fullName}", 'w');
 
         fputcsv($fp, $columns);
         foreach($data as $row){
@@ -85,12 +85,13 @@ class AuthenticatedBaseController extends Controller
         $client->addScope(Google_Service_Storage::DEVSTORAGE_FULL_CONTROL);
 
         $storage = new Google_Service_Storage($client);
-        $acl = new Google_Service_Storage_ObjectAccessControl();
-        $acl->setEntity('allUsers');
-        $acl->setRole('READER');
-        $acl->setBucket($bucket);
-        $acl->setObject($fullName);
-        $response = $storage->objectAccessControls->insert($bucket, $fullName, $acl);
+        $postBody = new Google_Service_Storage_ObjectAccessControl($client);
+        $postBody->entity = 'allUsers';
+        $postBody->role = 'READER';
+
+        $response = $storage->objectAccessControls->insert($bucket, $fullName, $postBody);
         dd($response);
+
+        
     }
 }
