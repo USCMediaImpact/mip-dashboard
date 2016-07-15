@@ -35,15 +35,18 @@ class DataController extends AuthenticatedBaseController{
         $client_id = $request['client']['id'];
 
         $query = DB::table('data_users_' . $group)
-            ->select(DB::raw('count(*)'))
             ->where('client_id', $client_id);
 
         $count = $query->count();
+        $date_range_min = $query->min('date');
+        $date_range_max = $query->max('date');
 
         return view('data.users', [
             'have_data' => $count > 0,
             'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
             'max_date' => mktime(0, 0, 0, $max_date['month'], $max_date['day'], $max_date['year']),
+            'date_range_min' => $date_range_min,
+            'date_range_max' => $date_range_max,
             'group' => $group,
             'displayGroupName' => self::$groupDisplay[$group]
         ]);
@@ -128,15 +131,20 @@ class DataController extends AuthenticatedBaseController{
 
         $client_id = $request['client']['id'];
 
-        $count = DB::table('data_stories_' . $group)
-            ->where('client_id', $client_id)
-            ->count();
+        $query = DB::table('data_stories_' . $group)
+            ->where('client_id', $client_id);
+
+        $count = $query->count();
+        $date_range_min = $query->min('date');
+        $date_range_max = $query->max('date');
 
         return view('data.stories', [
             'have_data' => $count > 0,
             'website' => $request['client']['website'],
             'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
             'max_date' => mktime(0, 0, 0, $max_date['month'], $max_date['day'], $max_date['year']),
+            'date_range_min' => $date_range_min,
+            'date_range_max' => $date_range_max,
             'group' => $group,
             'displayGroupName' => self::$groupDisplay[$group]
         ]);
@@ -193,14 +201,19 @@ class DataController extends AuthenticatedBaseController{
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
         $client_id = $request['client']['id'];
 
-        $count = DB::table('data_quality_' . $group)
-            ->where('client_id', $client_id)
-            ->count();
+        $query = DB::table('data_quality_' . $group)
+            ->where('client_id', $client_id);
+
+        $count = $query->count();
+        $date_range_min = $query->min('date');
+        $date_range_max = $query->max('date');
 
         return view('data.quality', [
             'have_data' => $count > 0,
             'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
             'max_date' => mktime(0, 0, 0, $max_date['month'], $max_date['day'], $max_date['year']),
+            'date_range_min' => $date_range_min,
+            'date_range_max' => $date_range_max,
             'group' => $group,
             'displayGroupName' => self::$groupDisplay[$group]
         ]);

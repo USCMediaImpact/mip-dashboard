@@ -30,7 +30,7 @@ $(function () {
 	var dateRangeDisplayText = 'Select date range...',
 		max_date = $('[name="max_date"]').val(),
 		min_date = $('[name="min_date"]').val();
-	
+
 	if (max_date && min_date) {
 		max_date = moment(max_date, 'YYYY-MM-DD');
 		min_date = moment(min_date, 'YYYY-MM-DD');
@@ -40,16 +40,42 @@ $(function () {
 	}
 
 	DefaultDateRangePickerOptions = typeof DefaultDateRangePickerOptions === 'undefined' ? {} : DefaultDateRangePickerOptions;
-	$('#dateRange').daterangepicker({
+	$('.dateRange').daterangepicker({
 		initialText: dateRangeDisplayText,
-		dateFormat: 'M d, yy', 
+		dateFormat: 'M d, yy',
+		presetRanges: [{
+			text: 'Last Week (Mo-Su)',
+			dateStart: function () {
+				return moment().subtract('days', 7).isoWeekday(1)
+			},
+			dateEnd: function () {
+				return moment().subtract('days', 7).isoWeekday(7)
+			}
+		}, {
+			text: 'Month to Date',
+			dateStart: function () {
+				return moment().startOf('month')
+			},
+			dateEnd: function () {
+				return moment()
+			}
+		}, {
+			text: 'Previous Month',
+			dateStart: function () {
+				return moment().subtract('month', 1).startOf('month')
+			},
+			dateEnd: function () {
+				return moment().subtract('month', 1).endOf('month')
+			}
+		}, ],
 		change: function (event, el) {
 			var range = el.instance.getRange(),
 				min_date = moment(range.start),
-				max_date = moment(range.end);
-			$('input[name="min_date"]').val(min_date.format('YYYY-MM-DD'));
-			$('input[name="max_date"]').val(max_date.format('YYYY-MM-DD'));
-			$(document).trigger('change.daterange');
+				max_date = moment(range.end),
+				panel = $(this).parents('.panel');
+			$('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
+			$('input[name="max_date"]', panel).val(max_date.format('YYYY-MM-DD'));
+			$(panel).trigger('change.daterange');
 		},
 	}, DefaultDateRangePickerOptions);
 
@@ -67,4 +93,25 @@ $(function () {
 		$('.main-content').css('min-height', height - headerHeight - footerHeight);
 	});
 	$(window).trigger('resize');
+
+	$(document).on('change.daterange', '.panel', function () {
+		var tableId = $(this).find('table').attr('id');
+		ReportDataTable[tableId].ajax.reload();
+	});
+
+	$(document).on('click', '.btnDownload', function () {
+		var panel = $(this).parents('.panel'),
+			mode = panel.find('table').attr('mode'),
+			action = mode ? $(this).attr('action').replace('{mode}', mode) : $(this).attr('action'),
+			downloadForm = $('<form />', {
+				action: action,
+				method: 'POST',
+				target: '_blank',
+			});
+		downloadForm.append($('[name="min_date"]', panel).clone());
+		downloadForm.append($('[name="max_date"]', panel).clone());
+		downloadForm.appendTo('body');
+		downloadForm.submit();
+		downloadForm.remove();
+	});
 });
