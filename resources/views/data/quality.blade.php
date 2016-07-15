@@ -20,7 +20,7 @@
 							GA vs GTM 
 						</div>
 						<div class="top-bar-right">
-							<button class="button">Download</button>
+							<button class="button btnDownload" action="/data/quality/ga_vs_gtm/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataQualityGAvsGTM" class="report tiny hover">
@@ -43,7 +43,7 @@
 							Email Subscribers
 						</div>
 						<div class="top-bar-right">
-							<button class="button">Download</button>
+							<button class="button btnDownload" action="/data/quality/email_subscribers/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataQualityEmailSubscribers" class="report tiny hover">
@@ -76,7 +76,7 @@
 							Donors
 						</div>
 						<div class="top-bar-right">
-							<button class="button">Download</button>
+							<button class="button btnDownload" action="/data/quality/donors/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataQualityDonors" class="report tiny hover">
@@ -104,7 +104,7 @@
 							Total Known Users
 						</div>
 						<div class="top-bar-right">
-							<button class="button">Download</button>
+							<button class="button btnDownload" action="/data/quality/total_known_users/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataQualityTotalKnownUsers" class="report tiny hover">

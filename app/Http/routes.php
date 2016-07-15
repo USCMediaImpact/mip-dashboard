@@ -72,16 +72,28 @@ Route::post('/data/users/email_newsletter_subscribers', 'DataController@get_User
 Route::post('/data/users/email_newsletter_subscribers/csv', 'DataController@download_Users_Email_Newsletter_Subscribers');
 Route::post('/data/users/donors', 'DataController@get_Users_Donors');
 Route::post('/data/users/donors/csv', 'DataController@download_Users_Donors');
+
+
 Route::match(['get', 'post'], '/data/donations', 'DataController@showDonations');
+
+
 Route::get('/data/stories', 'DataController@showStories');
 Route::post('/data/stories/scroll_depth/{mode}', 'DataController@get_Stories_Scroll_Depth');
+Route::post('/data/stories/scroll_depth/{mode}/csv', 'DataController@download_Stories_Scroll_Depth');
 Route::post('/data/stories/time_on_article/{mode}', 'DataController@get_Stories_Time_On_Article');
+Route::post('/data/stories/time_on_article/{mode}/csv', 'DataController@download_Stories_Time_On_Article');
 Route::post('/data/stories/user_interactions', 'DataController@get_Stories_User_Interactions');
+Route::post('/data/stories/user_interactions/csv', 'DataController@download_Stories_User_Interactions');
+
 Route::get('/data/quality', 'DataController@showQuality');
 Route::post('/data/quality/ga_vs_gtm', 'DataController@get_Quality_GA_VS_GTM');
+Route::post('/data/quality/ga_vs_gtm/csv', 'DataController@download_Quality_GA_VS_GTM');
 Route::post('/data/quality/email_subscribers', 'DataController@get_Quality_Email_Subscribers');
+Route::post('/data/quality/email_subscribers/csv', 'DataController@download_Quality_Email_Subscribers');
 Route::post('/data/quality/donors', 'DataController@get_Quality_Donors');
+Route::post('/data/quality/donors/csv', 'DataController@download_Quality_Donors');
 Route::post('/data/quality/total_known_users', 'DataController@get_Quality_Total_Known_Users');
+Route::post('/data/quality/total_known_users/csv', 'DataController@download_Quality_Total_Known_Users');
 
 
 

@@ -147,14 +147,30 @@ class DataController extends AuthenticatedBaseController{
         $index = $mode == 'count' ? 1 : 0;
         return $this->dataTableQuery($request, 'data_stories_', $this::$DataStoriesField[$index]);
     }
+
+    public function download_Stories_Scroll_Depth(Request $request, $mode){
+        $index = $mode == 'count' ? 1 : 0;
+        return $this->exportCSV($request, 'data_stories_', $this::$DataStoriesField[$index], $this::$DataStoriesColumn[0], 'Scroll Depth.csv');
+    }
+
     public function get_Stories_Time_On_Article(Request $request, $mode)
     {
         $index = $mode == 'count' ? 3 : 2;
         return $this->dataTableQuery($request, 'data_stories_', $this::$DataStoriesField[$index]);
     }
+
+    public function download_Stories_Time_On_Article(Request $request, $mode){
+        $index = $mode == 'count' ? 3 : 2;
+        return $this->exportCSV($request, 'data_stories_', $this::$DataStoriesField[$index], $this::$DataStoriesColumn[1], 'Time On Article.csv');
+    }
+
     public function get_Stories_User_Interactions(Request $request)
     {
         return $this->dataTableQuery($request, 'data_stories_', $this::$DataStoriesField[4]);
+    }
+
+    public function download_Stories_User_Interactions(Request $request){
+        return $this->exportCSV($request, 'data_stories_', $this::$DataStoriesField[4], $this::$DataStoriesColumn[2], 'User Interactions.csv');
     }
 
     private static $DataQualityField = [
@@ -194,19 +210,33 @@ class DataController extends AuthenticatedBaseController{
         return $this->dataTableQuery($request, 'data_quality_', $this::$DataQualityField[0]);
     }
 
+    public function download_Quality_GA_VS_GTM(Request $request){
+        return $this->exportCSV($request, 'data_quality_', $this::$DataQualityField[0], $this::$DataQualityColumn[0], 'GA vs GTM.csv');
+    }
+
     public function get_Quality_Email_Subscribers(Request $request){
         return $this->dataTableQuery($request, 'data_quality_', $this::$DataQualityField[1]);
+    }
+
+    public function download_Quality_Email_Subscribers(Request $request){
+        return $this->exportCSV($request, 'data_quality_', $this::$DataQualityField[1], $this::$DataQualityColumn[1], 'Email Subscribers.csv');
     }
 
     public function get_Quality_Donors(Request $request){
         return $this->dataTableQuery($request, 'data_quality_', $this::$DataQualityField[2]);
     }
 
+    public function download_Quality_Donors(Request $request){
+        return $this->exportCSV($request, 'data_quality_', $this::$DataQualityField[2], $this::$DataQualityColumn[2], 'Donors.csv');
+    }
+
     public function get_Quality_Total_Known_Users(Request $request){
         return $this->dataTableQuery($request, 'data_quality_', $this::$DataQualityField[3]);
     }
 
-
+    public function download_Quality_Total_Known_Users(Request $request){
+        return $this->exportCSV($request, 'data_quality_', $this::$DataQualityField[3], $this::$DataQualityColumn[3], 'Total Known Users.csv');
+    }
 
 
 }

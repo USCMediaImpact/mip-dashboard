@@ -24,7 +24,7 @@
 								<button class="button btnSwitcher disabled" mode="percent">Percent</button>
 								<button class="button btnSwitcher " mode="count">Count</button>
 								<span>&nbsp;</span>
-								<button class="button small">Download</button>
+								<button class="button small btnDownload" action="/data/stories/scroll_depth/{mode}/csv">Download</button>
 							</div>
 						</div>
 					</div>
@@ -58,7 +58,7 @@
 								<button class="button btnSwitcher disabled" mode="percent">Percent</button>
                                 <button class="button btnSwitcher " mode="count">Count</button>
 								<span>&nbsp;</span>
-								<button class="button small">Download</button>
+								<button class="button small btnDownload" action="/data/stories/time_on_article/{mode}/csv">Download</button>
 							</div>
 						</div>
 					</div>
@@ -87,7 +87,7 @@
 							User Interactions
 						</div>
 						<div class="top-bar-right">
-							<button class="button">Download</button>
+							<button class="button btnDownload" action="/data/stories/user_interactions/csv">Download</button>
 						</div>
 					</div>
 					<div class="table-scroll">
@@ -474,6 +474,21 @@
             table.attr('mode', $(this).attr('mode'));
             dataTable[table.attr('id')].ajax.reload();
             return false;
+        });
+
+        $(document).on('click', '.btnDownload', function(){
+            var mode = $(this).parents('.panel').find('table').attr('mode'),
+                action = $(this).attr('action').replace('{mode}', mode),
+                downloadForm = $('<form />', {
+                    action: action, 
+                    method: 'POST', 
+                    target: '_blank', 
+                });
+            downloadForm.append($('[name="min_date"]').clone());
+            downloadForm.append($('[name="max_date"]').clone());
+            downloadForm.appendTo('body');
+            downloadForm.submit();
+            downloadForm.remove();
         });
 	});
 </script>
