@@ -73,6 +73,7 @@ $(function () {
 				min_date = moment(range.start),
 				max_date = moment(range.end),
 				panel = $(this).parents('.panel');
+			console.log(panel);
 			$('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
 			$('input[name="max_date"]', panel).val(max_date.format('YYYY-MM-DD'));
 			$(panel).trigger('change.daterange');

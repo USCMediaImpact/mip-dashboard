@@ -133,10 +133,10 @@
 			showOtherMonths: true,
   			selectOtherMonths: true,
 			onSelect: function(date, el){
-                console.log(el);
-				var panel = $(el.input).parents('.panel');
+				var panel = $(this).parents('.panel');
                     min_date = moment(date, 'MM/DD/YYYY').day(0),
 					max_date = moment(date, 'MM/DD/YYYY').day(6);
+                console.log(panel);
 				$('.dateRange', panel).daterangepicker('setRange', {
 					start: min_date.toDate(),
 					end: max_date.toDate()
