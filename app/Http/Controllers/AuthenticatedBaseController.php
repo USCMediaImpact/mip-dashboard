@@ -90,8 +90,10 @@ class AuthenticatedBaseController extends Controller
         $postBody->role = 'READER';
 
         $response = $storage->objectAccessControls->insert($bucket, $fullName, $postBody);
-        dd($response);
 
-        
+        return response()->download("gs://${bucket}/${fullName}", 'test.csv');
+        //return "https://storage.googleapis.com/${bucket}/${fullName}";
+
+
     }
 }
