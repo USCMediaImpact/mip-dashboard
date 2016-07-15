@@ -8,9 +8,6 @@
 				<h4 class="title">Email Subscriber and Donor User Summary</h4>
 				<h6 class="sub-title">with Data from Oracle Eloqua</h6>
 			</div>
-			<div class="column small-3 align-self-bottom">
-				@include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-			</div>
 		</div>
 		<div class="row expanded">
 			<div class="column small-12">
@@ -20,7 +17,8 @@
 							GA vs GTM 
 						</div>
 						<div class="top-bar-right">
-							<button class="button btnDownload" action="/data/quality/ga_vs_gtm/csv">Download</button>
+                            @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
+							<button class="button tiny btnDownload" action="/data/quality/ga_vs_gtm/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataQualityGAvsGTM" class="report tiny hover">
@@ -43,7 +41,8 @@
 							Email Subscribers
 						</div>
 						<div class="top-bar-right">
-							<button class="button btnDownload" action="/data/quality/email_subscribers/csv">Download</button>
+                            @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
+							<button class="button tiny btnDownload" action="/data/quality/email_subscribers/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataQualityEmailSubscribers" class="report tiny hover">
@@ -76,7 +75,8 @@
 							Donors
 						</div>
 						<div class="top-bar-right">
-							<button class="button btnDownload" action="/data/quality/donors/csv">Download</button>
+                            @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
+							<button class="button tiny btnDownload" action="/data/quality/donors/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataQualityDonors" class="report tiny hover">
@@ -104,7 +104,8 @@
 							Total Known Users
 						</div>
 						<div class="top-bar-right">
-							<button class="button btnDownload" action="/data/quality/total_known_users/csv">Download</button>
+                            @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
+							<button class="button tiny tiny btnDownload" action="/data/quality/total_known_users/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataQualityTotalKnownUsers" class="report tiny hover">
@@ -131,9 +132,15 @@
 
 @section('script')
 <script>
+	DefaultDateRangePickerOptions = {
+        datepickerOptions: {
+            minDate: moment('{{$date_range_min}}').toDate(),
+            maxDate: moment('{{$date_range_max}}').toDate()
+        }
+    };
+    ReportDataTable = {};
 	$(function(){
-		var dataTable = [];
-		dataTable[0] = $('#dataQualityGAvsGTM').DataTable({
+		ReportDataTable['dataQualityGAvsGTM'] = $('#dataQualityGAvsGTM').DataTable({
             'processing': true,
             'serverSide': true,
             'searching': false,
@@ -142,10 +149,10 @@
 	            'url': '/data/quality/ga_vs_gtm',
 	            'type': 'POST',
 	            'data': function(data){
-	            	console.log(data);
+	            	var panel = $('#dataQualityGAvsGTM').parents('.panel');
 	            	return $.extend({
-	            		'min_date': $('[name="min_date"]').val(),
-						'max_date': $('[name="max_date"]').val(),
+	            		'min_date': $('[name="min_date"]', panel).val(),
+						'max_date': $('[name="max_date"]', panel).val(),
 	            	}, data);
 	            }
 	        },
@@ -185,7 +192,7 @@
                 }
             } ]
         });
-        dataTable[1] = $('#dataQualityEmailSubscribers').DataTable({
+        ReportDataTable['dataQualityEmailSubscribers'] = $('#dataQualityEmailSubscribers').DataTable({
             'processing': true,
             'serverSide': true,
             'searching': false,
@@ -195,9 +202,10 @@
 	            'url': '/data/quality/email_subscribers',
 	            'type': 'POST',
 	            'data': function(data){
+                    var panel = $('#dataQualityEmailSubscribers').parents('.panel');
 	            	return $.extend({
-	            		'min_date': $('[name="min_date"]').val(),
-						'max_date': $('[name="max_date"]').val(),
+	            		'min_date': $('[name="min_date"]', panel).val(),
+						'max_date': $('[name="max_date"]', panel).val(),
 	            	}, data);
 	            }
 	        },
@@ -310,7 +318,7 @@
                 }
             }]
         });
-        dataTable[2] = $('#dataQualityDonors').DataTable({
+        ReportDataTable['dataQualityDonors'] = $('#dataQualityDonors').DataTable({
             'processing': true,
             'serverSide': true,
             'searching': false,
@@ -320,9 +328,10 @@
 	            'url': '/data/quality/donors',
 	            'type': 'POST',
 	            'data': function(data){
+                    var panel = $('#dataQualityDonors').parents('.panel');
 	            	return $.extend({
-	            		'min_date': $('[name="min_date"]').val(),
-						'max_date': $('[name="max_date"]').val(),
+	            		'min_date': $('[name="min_date"]', panel).val(),
+						'max_date': $('[name="max_date"]', panel).val(),
 	            	}, data);
 	            }
 	        },
@@ -400,7 +409,7 @@
                 }
             }]
         });
-        dataTable[3] = $('#dataQualityTotalKnownUsers').DataTable({
+        ReportDataTable['dataQualityTotalKnownUsers'] = $('#dataQualityTotalKnownUsers').DataTable({
             'processing': true,
             'serverSide': true,
             'searching': false,
@@ -409,10 +418,10 @@
 	            'url': '/data/quality/total_known_users',
 	            'type': 'POST',
 	            'data': function(data){
-	            	console.log(data);
+	            	var panel = $('#dataQualityTotalKnownUsers').parents('.panel');
 	            	return $.extend({
-	            		'min_date': $('[name="min_date"]').val(),
-						'max_date': $('[name="max_date"]').val(),
+	            		'min_date': $('[name="min_date"]', panel).val(),
+						'max_date': $('[name="max_date"]', panel).val(),
 	            	}, data);
 	            }
 	        },
@@ -447,26 +456,6 @@
                     return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
                 }
             } ]
-        });
-
-        $(document).on('change.daterange', function(){
-			$.each(dataTable, function(){
-				this.ajax.reload();
-			});
-        });
-
-        $(document).on('click', '.btnDownload', function(){
-            var action = $(this).attr('action'),
-                downloadForm = $('<form />', {
-                    action: action, 
-                    method: 'POST', 
-                    target: '_blank', 
-                });
-            downloadForm.append($('[name="min_date"]').clone());
-            downloadForm.append($('[name="max_date"]').clone());
-            downloadForm.appendTo('body');
-            downloadForm.submit();
-            downloadForm.remove();
         });
 	});
 </script>

@@ -8,9 +8,6 @@
 				<h4 class="title">Email Subscriber and Donor User Summary</h4>
 				<h6 class="sub-title">with Data from Oracle Eloqua</h6>
 			</div>
-			<div class="column small-3 align-self-bottom">
-				@include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-			</div>
 		</div>
 		<div class="row expanded">
 			<div class="column small-12">
@@ -20,7 +17,8 @@
 							Total Known Users
 						</div>
 						<div class="top-bar-right">
-							<button class="button btnDownload" action='/data/users/total_known_users/csv'>Download</button>
+                            @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
+							<button class="button tiny btnDownload" action='/data/users/total_known_users/csv'>Download</button>
 						</div>
 					</div>
 					<table id="dataUsersTotalKnownUsers" class="report tiny hover">
@@ -30,7 +28,7 @@
 			                    <th>Email Subscribers and Donors on Site</th>
 			                    <th>Email Subscribers or Donors on Site or Both Email Subscriber and Donor</th>
 			                    <th>Email Subscribers and Donors in MIP DB</th>
-			   					<th>Emails Subscribers or Donors or Both Email Subscriber and Donor in DB</th>
+			   					<th>Email Subscribers or Donors or Both Email Subscriber and Donor in DB</th>
 			   					<th>% of Loyal Users on Site</th>
 			                </tr>
 			            </thead>
@@ -45,7 +43,8 @@
 							Email Newsletter Subscribers
 						</div>
 						<div class="top-bar-right">
-							<button class="button btnDownload" action="/data/users/email_newsletter_subscribers/csv">Download</button>
+                            @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
+							<button class="button tiny btnDownload" action="/data/users/email_newsletter_subscribers/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataUsersEmailNewsletterSubscribers" class="report tiny hover">
@@ -68,7 +67,8 @@
 							Donors
 						</div>
 						<div class="top-bar-right">
-							<button class="button btnDownload" action="/data/users/donors/csv">Download</button>
+                            @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
+							<button class="button tiny btnDownload" action="/data/users/donors/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataUsersDonors" class="report tiny hover">
@@ -96,9 +96,15 @@
 
 @section('script')
 <script>
+    DefaultDateRangePickerOptions = {
+        datepickerOptions: {
+            minDate: moment('{{$date_range_min}}').toDate(),
+            maxDate: moment('{{$date_range_max}}').toDate()
+        }
+    };
+    ReportDataTable = {};
 	$(function(){
-		var dataTable = [];
-		dataTable[0] = $('#dataUsersTotalKnownUsers').DataTable({
+		ReportDataTable['dataUsersTotalKnownUsers'] = $('#dataUsersTotalKnownUsers').DataTable({
             'processing': true,
             'serverSide': true,
             'searching': false,
@@ -107,10 +113,10 @@
 	            'url': '/data/users/total_known_users',
 	            'type': 'POST',
 	            'data': function(data){
-	            	console.log(data);
+                    var panel = $('#dataUsersTotalKnownUsers').parents('.panel');
 	            	return $.extend({
-	            		'min_date': $('[name="min_date"]').val(),
-						'max_date': $('[name="max_date"]').val(),
+	            		'min_date': $('[name="min_date"]', panel).val(),
+						'max_date': $('[name="max_date"]', panel).val(),
 	            	}, data);
 	            }
 	        },
@@ -160,7 +166,7 @@
                 }
             } ]
         });
-        dataTable[1] = $('#dataUsersEmailNewsletterSubscribers').DataTable({
+        ReportDataTable['dataUsersEmailNewsletterSubscribers'] = $('#dataUsersEmailNewsletterSubscribers').DataTable({
             'processing': true,
             'serverSide': true,
             'searching': false,
@@ -169,9 +175,10 @@
 	            'url': '/data/users/email_newsletter_subscribers',
 	            'type': 'POST',
 	            'data': function(data){
+                    var panel = $('#dataUsersEmailNewsletterSubscribers').parents('.panel');
 	            	return $.extend({
-	            		'min_date': $('[name="min_date"]').val(),
-						'max_date': $('[name="max_date"]').val(),
+	            		'min_date': $('[name="min_date"]', panel).val(),
+						'max_date': $('[name="max_date"]', panel).val(),
 	            	}, data);
 	            }
 	        },
@@ -205,7 +212,7 @@
             }, {
                 'targets': 3,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 4,
@@ -214,7 +221,7 @@
                 }
             }]
         });
-        dataTable[2] = $('#dataUsersDonors').DataTable({
+        ReportDataTable['dataUsersDonors'] = $('#dataUsersDonors').DataTable({
             'processing': true,
             'serverSide': true,
             'searching': false,
@@ -223,9 +230,10 @@
 	            'url': '/data/users/donors',
 	            'type': 'POST',
 	            'data': function(data){
+                    var panel = $('#dataUsersDonors').parents('.panel');
 	            	return $.extend({
-	            		'min_date': $('[name="min_date"]').val(),
-						'max_date': $('[name="max_date"]').val(),
+	            		'min_date': $('[name="min_date"]', panel).val(),
+						'max_date': $('[name="max_date"]', panel).val(),
 	            	}, data);
 	            }
 	        },
@@ -260,26 +268,6 @@
                     return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
                 }
             }]
-        });
-
-        $(document).on('change.daterange', function(){
-			$.each(dataTable, function(){
-				this.ajax.reload();
-			});
-        });
-
-        $(document).on('click', '.btnDownload', function(){
-            var action = $(this).attr('action'),
-                downloadForm = $('<form />', {
-                    action: action, 
-                    method: 'POST', 
-                    target: '_blank', 
-                });
-            downloadForm.append($('[name="min_date"]').clone());
-            downloadForm.append($('[name="max_date"]').clone());
-            downloadForm.appendTo('body');
-            downloadForm.submit();
-            downloadForm.remove();
         });
 	});
 </script>

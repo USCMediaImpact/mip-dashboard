@@ -8,9 +8,6 @@
 				<h4 class="title">Weekly Story Performance</h4>
 				<h6 class="sub-title">with Data from Oracle Eloqua</h6>
 			</div>
-			<div class="column small-3 align-self-bottom">
-				@include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-			</div>
 		</div>
 		<div class="row expanded">
 			<div class="column small-12">
@@ -24,6 +21,7 @@
 								<button class="button btnSwitcher disabled" mode="percent">Percent</button>
 								<button class="button btnSwitcher " mode="count">Count</button>
 								<span>&nbsp;</span>
+                                @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
 								<button class="button small btnDownload" action="/data/stories/scroll_depth/{mode}/csv">Download</button>
 							</div>
 						</div>
@@ -58,6 +56,7 @@
 								<button class="button btnSwitcher disabled" mode="percent">Percent</button>
                                 <button class="button btnSwitcher " mode="count">Count</button>
 								<span>&nbsp;</span>
+                                @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
 								<button class="button small btnDownload" action="/data/stories/time_on_article/{mode}/csv">Download</button>
 							</div>
 						</div>
@@ -87,6 +86,7 @@
 							User Interactions
 						</div>
 						<div class="top-bar-right">
+                            @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
 							<button class="button btnDownload" action="/data/stories/user_interactions/csv">Download</button>
 						</div>
 					</div>
@@ -127,27 +127,29 @@
 	DefaultDateRangePickerOptions = {
 		presetRanges: [],
 		datepickerOptions: {
+            minDate: moment('{{$date_range_min}}').toDate(),
+            maxDate: moment('{{$date_range_max}}').toDate(),
 			numberOfMonths: 1,
 			showOtherMonths: true,
   			selectOtherMonths: true,
 			onSelect: function(date, el){
-				var min_date = moment(date, 'MM/DD/YYYY').day(0),
-					max_date = moment(date, 'MM/DD/YYYY').day(6);					
-				$('#dateRange').daterangepicker('setRange', {
+				var panel = $(this).parents('.panel');
+                    min_date = moment(date, 'MM/DD/YYYY').day(0),
+					max_date = moment(date, 'MM/DD/YYYY').day(6);
+                console.log(panel);
+				$('.dateRange', panel).daterangepicker('setRange', {
 					start: min_date.toDate(),
 					end: max_date.toDate()
 				});
-				$('#dateRange').daterangepicker('close');
-				$('input[name="min_date"]').val(min_date.format('YYYY-MM-DD'));
-				$('input[name="max_date"]').val(min_date.format('YYYY-MM-DD'));
-				
+				$('.dateRange', panel).daterangepicker('close');
+				$('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
+				$('input[name="max_date"]', panel).val(min_date.format('YYYY-MM-DD'));
 			}
 		}
 	};
-
+    ReportDataTable = {};
 	$(function(){
-		var dataTable = {};
-		dataTable['dataStoriesScrollDepth'] = $('#dataStoriesScrollDepth').DataTable({
+		ReportDataTable['dataStoriesScrollDepth'] = $('#dataStoriesScrollDepth').DataTable({
             'processing': true,
             'serverSide': true,
             'searching': false,
@@ -159,10 +161,10 @@
                 },
 	            'type': 'POST',
 	            'data': function(data){
-	            	console.log(data);
+	            	var panel = $('#dataStoriesScrollDepth').parents('.panel');
 	            	return $.extend({
-	            		'min_date': $('[name="min_date"]').val(),
-						'max_date': $('[name="max_date"]').val(),
+	            		'min_date': $('[name="min_date"]', panel).val(),
+						'max_date': $('[name="max_date"]', panel).val(),
 	            	}, data);
 	            }
 	        },
@@ -255,7 +257,7 @@
                 }
             } ]
         });
-        dataTable['dataStoriesTimeOnArticle'] = $('#dataStoriesTimeOnArticle').DataTable({
+        ReportDataTable['dataStoriesTimeOnArticle'] = $('#dataStoriesTimeOnArticle').DataTable({
             'processing': true,
             'serverSide': true,
             'searching': false,
@@ -267,9 +269,10 @@
                 },
 	            'type': 'POST',
 	            'data': function(data){
+                    var panel = $('#dataStoriesTimeOnArticle').parents('.panel');
 	            	return $.extend({
-	            		'min_date': $('[name="min_date"]').val(),
-						'max_date': $('[name="max_date"]').val(),
+	            		'min_date': $('[name="min_date"]', panel).val(),
+						'max_date': $('[name="max_date"]', panel).val(),
 	            	}, data);
 	            }
 	        },
@@ -352,7 +355,7 @@
                 }
             }]
         });
-        dataTable['dataStoriesUserInteractions'] = $('#dataStoriesUserInteractions').DataTable({
+        ReportDataTable['dataStoriesUserInteractions'] = $('#dataStoriesUserInteractions').DataTable({
             'processing': true,
             'serverSide': true,
             'searching': false,
@@ -361,9 +364,10 @@
 	            'url': '/data/stories/user_interactions',
 	            'type': 'POST',
 	            'data': function(data){
+                    var panel = $('#dataStoriesUserInteractions').parents('.panel');
 	            	return $.extend({
-	            		'min_date': $('[name="min_date"]').val(),
-						'max_date': $('[name="max_date"]').val(),
+	            		'min_date': $('[name="min_date"]', panel).val(),
+						'max_date': $('[name="max_date"]', panel).val(),
 	            	}, data);
 	            }
 	        },
@@ -443,19 +447,11 @@
             }]
         });
 
-        $(document).on('change.daterange', function(){
-			$.each(dataTable, function(k, v){
-				v.ajax.reload();
-			});
-        });
-
         $('#dataStoriesScrollDepth, #dataStoriesTimeOnArticle, #dataStoriesUserInteractions').on('draw.dt', function(){
-        	// Foundation.reInit('tooltip');
         	$(document).foundation();
         });
 
         $(document).on('click', '.btnSwitcher', function(){
-            //$(this).parents('div').find('.btnSwitcher')
             if($(this).attr('checked')){
                 return false;
             }
@@ -466,21 +462,6 @@
             table.attr('mode', $(this).attr('mode'));
             dataTable[table.attr('id')].ajax.reload();
             return false;
-        });
-
-        $(document).on('click', '.btnDownload', function(){
-            var mode = $(this).parents('.panel').find('table').attr('mode'),
-                action = $(this).attr('action').replace('{mode}', mode),
-                downloadForm = $('<form />', {
-                    action: action, 
-                    method: 'POST', 
-                    target: '_blank', 
-                });
-            downloadForm.append($('[name="min_date"]').clone());
-            downloadForm.append($('[name="max_date"]').clone());
-            downloadForm.appendTo('body');
-            downloadForm.submit();
-            downloadForm.remove();
         });
 	});
 </script>
