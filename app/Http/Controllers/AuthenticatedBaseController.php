@@ -91,9 +91,8 @@ class AuthenticatedBaseController extends Controller
 
         $response = $storage->objectAccessControls->insert($bucket, $fullName, $postBody);
 
-        return response()->download("gs://${bucket}/${fullName}", 'test.csv');
-        //return "https://storage.googleapis.com/${bucket}/${fullName}";
-
-
+        return response()->download("gs://${bucket}/${fullName}", 'test.csv', [
+            'Content-type' => 'text/csv'
+        ]);
     }
 }
