@@ -112,6 +112,15 @@ class DataController extends AuthenticatedBaseController{
         'Page_Path, Article, Pageviews, Comments, Emails, Tweets, Facebook_Recommendations, Comments + Emails + Tweets + Facebook_Recommendations as TotalShares, (Comments + Emails + Tweets + Facebook_Recommendations) / Pageviews as SahreRate, Related_Clicks, Related_Clicks / Scroll_Supplemental as ClickThroughRate'
     ];
 
+    private static $DataStoriesExportField = [
+        'Article, Pageviews, Scroll_Start/Pageviews as StartedScrolling, Scroll_25/Pageviews as Scroll25, Scroll_50/Pageviews as Scroll50, Scroll_75/Pageviews as Scroll75, Scroll_100/Pageviews as Scroll100, Scroll_Supplemental/Pageviews as RelatedContent, Scroll_End/Pageviews as EndOfPage',
+        'Article, Pageviews, Scroll_Start as StartedScrolling, Scroll_25 as Scroll25, Scroll_50 as Scroll50, Scroll_75 as Scroll75, Scroll_100 as Scroll100, Scroll_Supplemental as RelatedContent, Scroll_End as EndOfPage',
+        'Article, Pageviews, Time_15/Pageviews as Time15, Time_30/Pageviews as Time30, Time_45/Pageviews as Time45, Time_60/Pageviews as Time60, Time_75/Pageviews as Time75, Time_90/Pageviews as Time90',
+        'Article, Pageviews, Time_15 as Time15, Time_30 as Time30, Time_45 as Time45, Time_60 as Time60, Time_75 as Time75, Time_90 as Time90',
+        'Article, Pageviews, Comments, Emails, Tweets, Facebook_Recommendations, Comments + Emails + Tweets + Facebook_Recommendations as TotalShares, (Comments + Emails + Tweets + Facebook_Recommendations) / Pageviews as SahreRate, Related_Clicks, Related_Clicks / Scroll_Supplemental as ClickThroughRate'
+    ];
+
+
     private static $DataStoriesColumn = [
         ['Article Title', 'Total Page Views', 'Started Scrolling', '25% Scroll', '50% Scroll', '75% Scroll', '100% Scroll', 'Related Content', 'End of Page'],
         ['Article Title', 'Total Page Views', '15 Seconds', '30 Seconds', '45 Seconds', '60 Seconds', '75 Seconds', '90 Seconds'],
@@ -150,7 +159,7 @@ class DataController extends AuthenticatedBaseController{
 
     public function download_Stories_Scroll_Depth(Request $request, $mode){
         $index = $mode == 'count' ? 1 : 0;
-        return $this->exportCSV($request, 'data_stories_', $this::$DataStoriesField[$index], $this::$DataStoriesColumn[0], 'Scroll Depth.csv');
+        return $this->exportCSV($request, 'data_stories_', $this::$DataStoriesExportField[$index], $this::$DataStoriesColumn[0], 'Scroll Depth.csv');
     }
 
     public function get_Stories_Time_On_Article(Request $request, $mode)
@@ -161,7 +170,7 @@ class DataController extends AuthenticatedBaseController{
 
     public function download_Stories_Time_On_Article(Request $request, $mode){
         $index = $mode == 'count' ? 3 : 2;
-        return $this->exportCSV($request, 'data_stories_', $this::$DataStoriesField[$index], $this::$DataStoriesColumn[1], 'Time On Article.csv');
+        return $this->exportCSV($request, 'data_stories_', $this::$DataStoriesExportField[$index], $this::$DataStoriesColumn[1], 'Time On Article.csv');
     }
 
     public function get_Stories_User_Interactions(Request $request)
@@ -170,7 +179,7 @@ class DataController extends AuthenticatedBaseController{
     }
 
     public function download_Stories_User_Interactions(Request $request){
-        return $this->exportCSV($request, 'data_stories_', $this::$DataStoriesField[4], $this::$DataStoriesColumn[2], 'User Interactions.csv');
+        return $this->exportCSV($request, 'data_stories_', $this::$DataStoriesExportField[4], $this::$DataStoriesColumn[2], 'User Interactions.csv');
     }
 
     private static $DataQualityField = [

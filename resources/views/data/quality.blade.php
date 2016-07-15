@@ -137,6 +137,7 @@
             'processing': true,
             'serverSide': true,
             'searching': false,
+            "order": [[ 0, "desc" ]],
             'ajax': {
 	            'url': '/data/quality/ga_vs_gtm',
 	            'type': 'POST',
@@ -189,6 +190,7 @@
             'serverSide': true,
             'searching': false,
             'scrollX': true,
+            "order": [[ 0, "desc" ]],
             'ajax': {
 	            'url': '/data/quality/email_subscribers',
 	            'type': 'POST',
@@ -313,6 +315,7 @@
             'serverSide': true,
             'searching': false,
             'scrollX': true,
+            "order": [[ 0, "desc" ]],
             'ajax': {
 	            'url': '/data/quality/donors',
 	            'type': 'POST',
@@ -401,6 +404,7 @@
             'processing': true,
             'serverSide': true,
             'searching': false,
+            "order": [[ 0, "desc" ]],
             'ajax': {
 	            'url': '/data/quality/total_known_users',
 	            'type': 'POST',
