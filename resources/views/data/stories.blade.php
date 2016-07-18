@@ -6,7 +6,6 @@
 		<div class="row expanded">
 			<div class="column small-9">
 				<h4 class="title">Weekly Story Performance</h4>
-				<h6 class="sub-title">with Data from Oracle Eloqua</h6>
 			</div>
 		</div>
 		<div class="row expanded">
@@ -18,10 +17,13 @@
 						</div>
 						<div class="top-bar-right">
 							<div class="button-group tiny">
+                                <input id="dateRangeScrollDepth" name="date_range" />
+                                <input type="hidden" name="min_date" value="{{ date('Y-m-d', $min_date) }}" />
+                                <input type="hidden" name="max_date" value="{{ date('Y-m-d', $max_date) }}" />
+                                <span>&nbsp;</span>
 								<button class="button btnSwitcher disabled" mode="percent">Percent</button>
 								<button class="button btnSwitcher " mode="count">Count</button>
 								<span>&nbsp;</span>
-                                @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
 								<button class="button small btnDownload" action="/data/stories/scroll_depth/{mode}/csv">Download</button>
 							</div>
 						</div>
@@ -53,10 +55,13 @@
 						</div>
 						<div class="top-bar-right">
 							<div class="button-group tiny">
+                                <input id="dateRangeTimeOnArticle" name="date_range" />
+                                <input type="hidden" name="min_date" value="{{ date('Y-m-d', $min_date) }}" />
+                                <input type="hidden" name="max_date" value="{{ date('Y-m-d', $max_date) }}" />
+                                <span>&nbsp;</span>
 								<button class="button btnSwitcher disabled" mode="percent">Percent</button>
                                 <button class="button btnSwitcher " mode="count">Count</button>
 								<span>&nbsp;</span>
-                                @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
 								<button class="button small btnDownload" action="/data/stories/time_on_article/{mode}/csv">Download</button>
 							</div>
 						</div>
@@ -86,7 +91,9 @@
 							User Interactions
 						</div>
 						<div class="top-bar-right">
-                            @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
+                            <input id="dateRangeUserInteractions" name="date_range" />
+                            <input type="hidden" name="min_date" value="{{ date('Y-m-d', $min_date) }}" />
+                            <input type="hidden" name="max_date" value="{{ date('Y-m-d', $max_date) }}" />
 							<button class="button btnDownload" action="/data/stories/user_interactions/csv">Download</button>
 						</div>
 					</div>
@@ -149,6 +156,75 @@
 	};
     ReportDataTable = {};
 	$(function(){
+        $('#dateRangeScrollDepth').daterangepicker({
+            dateFormat: 'M d, yy',
+            presetRanges: [],
+            datepickerOptions: {
+                minDate: moment('{{$date_range_min}}').toDate(),
+                maxDate: moment('{{$date_range_max}}').toDate(),
+                numberOfMonths: 1,
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                onSelect: function(date, el){
+                    var panel = $('#dateRangeScrollDepth').parents('.panel');
+                        min_date = moment(date, 'MM/DD/YYYY').day(0),
+                        max_date = moment(date, 'MM/DD/YYYY').day(6);
+                    $('#dateRangeScrollDepth').daterangepicker('setRange', {
+                        start: min_date.toDate(),
+                        end: max_date.toDate()
+                    });
+                    $('#dateRangeScrollDepth').daterangepicker('close');
+                    $('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
+                    $('input[name="max_date"]', panel).val(min_date.format('YYYY-MM-DD'));
+                }
+            }
+        });
+        $('#dateRangeTimeOnArticle').daterangepicker({
+            dateFormat: 'M d, yy',
+            presetRanges: [],
+            datepickerOptions: {
+                minDate: moment('{{$date_range_min}}').toDate(),
+                maxDate: moment('{{$date_range_max}}').toDate(),
+                numberOfMonths: 1,
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                onSelect: function(date, el){
+                    var panel = $('#dateRangeTimeOnArticle').parents('.panel');
+                        min_date = moment(date, 'MM/DD/YYYY').day(0),
+                        max_date = moment(date, 'MM/DD/YYYY').day(6);
+                    $('#dateRangeTimeOnArticle').daterangepicker('setRange', {
+                        start: min_date.toDate(),
+                        end: max_date.toDate()
+                    });
+                    $('#dateRangeTimeOnArticle').daterangepicker('close');
+                    $('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
+                    $('input[name="max_date"]', panel).val(min_date.format('YYYY-MM-DD'));
+                }
+            }
+        });
+        $('#dateRangeUserInteractions').daterangepicker({
+            dateFormat: 'M d, yy',
+            presetRanges: [],
+            datepickerOptions: {
+                minDate: moment('{{$date_range_min}}').toDate(),
+                maxDate: moment('{{$date_range_max}}').toDate(),
+                numberOfMonths: 1,
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                onSelect: function(date, el){
+                    var panel = $('#dateRangeUserInteractions').parents('.panel');
+                        min_date = moment(date, 'MM/DD/YYYY').day(0),
+                        max_date = moment(date, 'MM/DD/YYYY').day(6);
+                    $('#dateRangeUserInteractions').daterangepicker('setRange', {
+                        start: min_date.toDate(),
+                        end: max_date.toDate()
+                    });
+                    $('#dateRangeUserInteractions').daterangepicker('close');
+                    $('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
+                    $('input[name="max_date"]', panel).val(min_date.format('YYYY-MM-DD'));
+                }
+            }
+        });
 		ReportDataTable['dataStoriesScrollDepth'] = $('#dataStoriesScrollDepth').DataTable({
             'processing': true,
             'serverSide': true,
@@ -170,7 +246,7 @@
 	        },
             'dom': 'Bfrtip',
             'columns': [{
-                'data': 'Article'
+                'width': '280'
             }, {
                 'data': 'Pageviews'
             }, {
@@ -192,7 +268,8 @@
                 'targets': 0,
                 'render': function(data, type, row){
                 	var url = '{{$client['website']}}' + row.Page_Path;
-                	return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" class="has-tip top">' + row.Article + '</a>';
+                    var displayText = row.Article ? row.Article : url;
+                	return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" class="has-tip top">' + displayText + '</a>';
                 }
             }, {
                 'targets': 1,
@@ -278,7 +355,7 @@
 	        },
             'dom': 'Bfrtip',
             'columns': [{
-                'data': 'Article'
+                'width': '280'
             }, {
                 'data': 'Pageviews'
             }, {
@@ -297,8 +374,9 @@
             'columnDefs': [{
                 'targets': 0,
                 'render': function(data, type, row){
-                	var url = '{{$client['website']}}' + row.Page_Path;
-                	return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" class="has-tip top">' + row.Article + '</a>';
+                    var url = '{{$client['website']}}' + row.Page_Path;
+                    var displayText = row.Article ? row.Article : url;
+                    return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" class="has-tip top">' + displayText + '</a>';
                 }
             }, {
                 'targets': 1,
@@ -373,7 +451,7 @@
 	        },
             'dom': 'Bfrtip',
             'columns': [{
-                'data': 'Article'
+                'width': '280'
             }, {
                 'data': 'Pageviews'
             }, {
@@ -396,8 +474,9 @@
             'columnDefs': [{
                 'targets': 0,
                 'render': function(data, type, row){
-                	var url = '{{$client['website']}}' + row.Page_Path;
-                	return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" class="has-tip top">' + row.Article + '</a>';
+                    var url = '{{$client['website']}}' + row.Page_Path;
+                    var displayText = row.Article ? row.Article : url;
+                    return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" class="has-tip top">' + displayText + '</a>';
                 }
             }, {
                 'targets': 1,
@@ -460,7 +539,7 @@
             $(this).attr('checked', true);
             var table = panel.find('table');
             table.attr('mode', $(this).attr('mode'));
-            dataTable[table.attr('id')].ajax.reload();
+            ReportDataTable[table.attr('id')].ajax.reload();
             return false;
         });
 	});

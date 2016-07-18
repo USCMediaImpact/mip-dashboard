@@ -63,3 +63,4 @@ div.dataTables_wrapper div.dataTables_info { display: none }
 .report-tabs .tabs-title:first-child { margin-left: 60px; border-left: solid 1px #dbdbdb }
 i.mailchimp { background-image: url('/images/mailchimp.svg'); width: 24px; height: 24px; position: relative; top: 6px; margin: 0 5px }
 i.tagmanager { background-image: url('/images/tagmanager.png'); background-size: 24px 24px; width: 24px; height: 24px; position: relative; top: 6px; margin: 0 5px }
+.has-tip{border-bottom:none;}

@@ -6,7 +6,6 @@
 		<div class="row expanded">
 			<div class="column small-9">
 				<h4 class="title">Email Subscriber and Donor User Summary</h4>
-				<h6 class="sub-title">with Data from Oracle Eloqua</h6>
 			</div>
 		</div>
 		<div class="row expanded">
