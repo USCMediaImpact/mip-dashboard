@@ -16,16 +16,16 @@
 							Scroll Depth
 						</div>
 						<div class="top-bar-right">
-							<div class="button-group tiny">
                                 <input id="dateRangeScrollDepth" name="date_range" />
                                 <input type="hidden" name="min_date" value="{{ date('Y-m-d', $min_date) }}" />
                                 <input type="hidden" name="max_date" value="{{ date('Y-m-d', $max_date) }}" />
-                                <span>&nbsp;</span>
-								<button class="button btnSwitcher disabled" mode="percent">Percent</button>
-								<button class="button btnSwitcher " mode="count">Count</button>
-								<span>&nbsp;</span>
+                                
+								 <div class="switcher-group">
+                                    <button class="button btnSwitcher small switcher on" mode="percent">Percent</button>
+                                    <button class="button btnSwitcher small switcher" mode="count">Count</button>
+                                </div>
+								
 								<button class="button small btnDownload" action="/data/stories/scroll_depth/{mode}/csv">Download</button>
-							</div>
 						</div>
 					</div>
 					<div class="table-scroll">
@@ -54,16 +54,14 @@
 							Time on Article
 						</div>
 						<div class="top-bar-right">
-							<div class="button-group tiny">
                                 <input id="dateRangeTimeOnArticle" name="date_range" />
                                 <input type="hidden" name="min_date" value="{{ date('Y-m-d', $min_date) }}" />
                                 <input type="hidden" name="max_date" value="{{ date('Y-m-d', $max_date) }}" />
-                                <span>&nbsp;</span>
-								<button class="button btnSwitcher disabled" mode="percent">Percent</button>
-                                <button class="button btnSwitcher " mode="count">Count</button>
-								<span>&nbsp;</span>
+                                <div class="switcher-group">
+    								<button class="button btnSwitcher small switcher on" mode="percent">Percent</button>
+                                    <button class="button btnSwitcher small switcher" mode="count">Count</button>
+                                </div>
 								<button class="button small btnDownload" action="/data/stories/time_on_article/{mode}/csv">Download</button>
-							</div>
 						</div>
 					</div>
 					<div class="table-scroll">
@@ -535,7 +533,7 @@
                 return false;
             }
             var panel = $(this).parents('.panel');
-            panel.find('.btnSwitcher').attr('checked', false).toggleClass('disabled');
+            panel.find('.btnSwitcher').attr('checked', false).toggleClass('on');
             $(this).attr('checked', true);
             var table = panel.find('table');
             table.attr('mode', $(this).attr('mode'));

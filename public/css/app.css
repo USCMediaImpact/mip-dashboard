@@ -64,3 +64,39 @@ div.dataTables_wrapper div.dataTables_info { display: none }
 i.mailchimp { background-image: url('/images/mailchimp.svg'); width: 24px; height: 24px; position: relative; top: 6px; margin: 0 5px }
 i.tagmanager { background-image: url('/images/tagmanager.png'); background-size: 24px 24px; width: 24px; height: 24px; position: relative; top: 6px; margin: 0 5px }
 .has-tip{border-bottom:none;}
+.switcher-group {
+	display:inline-block;
+}
+.switcher-group .button:last-child{
+	position: relative;
+	left: -6px;
+}
+.switcher-group .button:first-child{
+	position: relative;
+	right: -6px;
+}
+.button.switcher{
+	border: solid 1px #a8a8a8;
+	border-radius: 4px;
+	padding-left: 2em;
+	padding-right: 2em;
+	color: #ccc !important;
+	background: -ms-linear-gradient(top, #fefefe,  #ebebeb);
+	background:-moz-linear-gradient(top,#fefefe, #ebebeb);
+	background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#fefefe), to(#ebebeb));
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fefefe), to(#ebebeb));
+	background: -webkit-linear-gradient(top, #fefefe, #ebebeb);
+	background: -o-linear-gradient(top, #fefefe, #ebebeb);
+	-webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+	box-shadow: 0px 1px 3px rgb(220, 220, 220) inset, 0px 1px rgb(226, 226, 226);
+}
+.button.switcher.on{
+	color: #000 !important;
+	background: -ms-linear-gradient(top, #ebebeb,  #fefefe);
+	background:-moz-linear-gradient(top,#ebebeb,#fefefe);
+	background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#ebebeb), to(#fefefe));
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ebebeb), to(#fefefe));
+	background: -webkit-linear-gradient(top, #ebebeb, #fefefe);
+	background: -o-linear-gradient(top, #ebebeb, #fefefe);
+	z-index: 10;
+}
