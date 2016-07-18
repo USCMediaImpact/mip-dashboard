@@ -17,7 +17,7 @@
 						</div>
 						<div class="top-bar-right">
                             @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-							<button class="button tiny btnDownload" action='/data/users/total_known_users/csv'>Download</button>
+							<button class="button small btnDownload" action='/data/users/total_known_users/csv'>Download</button>
 						</div>
 					</div>
 					<table id="dataUsersTotalKnownUsers" class="report tiny hover">
@@ -43,7 +43,7 @@
 						</div>
 						<div class="top-bar-right">
                             @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-							<button class="button tiny btnDownload" action="/data/users/email_newsletter_subscribers/csv">Download</button>
+							<button class="button small btnDownload" action="/data/users/email_newsletter_subscribers/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataUsersEmailNewsletterSubscribers" class="report tiny hover">
@@ -67,7 +67,7 @@
 						</div>
 						<div class="top-bar-right">
                             @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-							<button class="button tiny btnDownload" action="/data/users/donors/csv">Download</button>
+							<button class="button small btnDownload" action="/data/users/donors/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataUsersDonors" class="report tiny hover">
