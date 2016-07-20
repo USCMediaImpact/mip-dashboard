@@ -142,7 +142,7 @@ def _run_data_stories(client_id, setting, min_date, max_date, dimension):
 		sql_data = []
 		md5 = hashlib.md5()
 		for row in bq_data:
-			md5.update(row[0])
+			md5.update(row[0] + '_:_' + row[1])
 			path_md5 = md5.hexdigest()
 			sql_data.append((min_date, path_md5, client_id) + row + row)
 
