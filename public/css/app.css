@@ -10,7 +10,7 @@
 .top-bar-title { height: 26px; position: relative }
 .top-bar-right .button { margin: 0 }
 .menu-toggle-button { float: left; margin-right: 8px }
-.top_logo { background: url('/images/logo.png') no-repeat; background-size: cover; width: 190px; font-size: 0; height: 32px; float: left; vertical-align: top; margin-top: -4px }
+.top_logo { background: url('/images/logo.png') no-repeat; background-size: cover; width: 190px; font-size: 0 !important; height: 32px; float: left; vertical-align: top; margin-top: -4px }
 .welcome { font-size: 12px; line-height: 1 }
 .main-content { margin-top: 15px; padding: 10px 30px }
 .log-in-form { border: 1px solid #cacaca; padding: 1rem !important; border-radius: 3px; margin-top: 20% }
