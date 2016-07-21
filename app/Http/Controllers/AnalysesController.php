@@ -35,7 +35,6 @@ class AnalysesController extends AuthenticatedBaseController{
     }
 
     public function upload(Request $request){
-        dd($_FILES['content']);
         $name = $_FILES['content']['name'];
         $extension = pathinfo($name)['extension'];
         $uploadFile = $_FILES['content']['tmp_name'];
@@ -43,7 +42,7 @@ class AnalysesController extends AuthenticatedBaseController{
         $bucket = $this::$bucket;
         $path = "gs://${bucket}/${guid}.${extension}";
         $file_type = $_FILES['content']['type'];
-        
+
         move_uploaded_file($uploadFile, $path);
 
         $screenshot = "gs://${bucket}/${guid}_screenshot.${extension}";
