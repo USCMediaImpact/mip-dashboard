@@ -10,7 +10,7 @@ use Google_Client;
 use Google_Service_Bigquery;
 use Google_Service_Bigquery_QueryRequest;
 use App\Models\Analyses;
-use google\appengine\api\cloud_storage\CloudStorageTools;
+use Ramsey\Uuid\Uuid;
 
 class AnalysesController extends AuthenticatedBaseController{
 
@@ -39,10 +39,11 @@ class AnalysesController extends AuthenticatedBaseController{
         $name = $_FILES['content']['name'];
         $extension = pathinfo($name)['extension'];
         $uploadFile = $_FILES['content']['tmp_name'];
-        $guid = time();
+        $guid = Uuid::uuid4()->toString();
         $bucket = $this::$bucket;
         $path = "gs://${bucket}/${guid}.${extension}";
         $file_type = $_FILES['content']['type'];
+        
         move_uploaded_file($uploadFile, $path);
 
         $screenshot = "gs://${bucket}/${guid}_screenshot.${extension}";
