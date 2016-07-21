@@ -24,8 +24,12 @@ class AnalysesController extends AuthenticatedBaseController{
         if($file){
             $path = $file[0]->path;
             $name = $file[0]->file_name;
-            return response()->download($path, $name, [
-                'Content-type' => $file[0]->file_type
+//            return response()->download($path, $name, [
+//                'Content-type' => $file[0]->file_type
+//            ]);
+            return Response::make(file_get_contents($path), 200, [
+                'Content-Type' => $file[0]->file_type,
+                'Content-Disposition' => 'inline; filename="'.$name.'"'
             ]);
         }
     }
