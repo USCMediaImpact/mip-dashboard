@@ -24,24 +24,30 @@ class AnalysesController extends AuthenticatedBaseController{
         if($file){
             $path = $file[0]->path;
             $name = $file[0]->file_name;
-            return response()->download($path, $name);
+            return response()->download($path, $name, [
+                'Content-type' => $file[0]->file_type
+            ]);
         }
     }
 
     public function upload(Request $request){
+
         $name = $_FILES['content']['name'];
         $extension = pathinfo($name)['extension'];
         $uploadFile = $_FILES['content']['tmp_name'];
         $guid = time();
         $bucket = $this::$bucket;
         $path = "gs://${bucket}/${guid}.${extension}";
+        $file_type = $_FILES['content']['type'];
         file_put_contents($path, $uploadFile);
         Analyses::create([
             'file_id' => $guid,
             'file_name' => $name,
+            'file_type' => $file_type,
             'description' => $request['description'],
             'screen_shot' => null,
             'path' => $path
         ]);
+        return redirect()->action('AnalysesController@show');
     }
 }
