@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Cache;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Google_Client;
 use Google_Service_Bigquery;
 use Google_Service_Bigquery_QueryRequest;
