@@ -10,6 +10,7 @@ use Google_Client;
 use Google_Service_Bigquery;
 use Google_Service_Bigquery_QueryRequest;
 use App\Models\Analyses;
+use google\appengine\api\cloud_storage\CloudStorageTools;
 
 class AnalysesController extends AuthenticatedBaseController{
 
@@ -42,13 +43,19 @@ class AnalysesController extends AuthenticatedBaseController{
         $bucket = $this::$bucket;
         $path = "gs://${bucket}/${guid}.${extension}";
         $file_type = $_FILES['content']['type'];
-        file_put_contents($path, $uploadFile);
+        move_uploaded_file($uploadFile, $path);
+
+        $screenshot = "gs://${bucket}/${guid}_screenshot.${extension}";
+        $im = new imagick($path);
+        $im->setImageFormat('jpg');
+        $im->writeImageFile(fopen($screenshot, 'w'));
+
         Analyses::create([
             'file_id' => $guid,
             'file_name' => $name,
             'file_type' => $file_type,
             'description' => $request['description'],
-            'screen_shot' => null,
+            'screen_shot' => $screenshot,
             'path' => $path
         ]);
         return redirect()->action('AnalysesController@show');

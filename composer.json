@@ -10,7 +10,8 @@
         "shpasser/gae-support-l5": "~1.0",
         "google/apiclient": "~2.0@RC",
         "guzzlehttp/guzzle": "~5.3|~6.0",
-        "predis/predis": "^1.0"
+        "predis/predis": "^1.0",
+        "ramsey/uuid": "^3.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
