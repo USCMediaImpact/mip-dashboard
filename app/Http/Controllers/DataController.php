@@ -17,22 +17,40 @@ class DataController extends AuthenticatedBaseController{
     }
 
     private static $DataUsersField = [
-        'date, Duplicated_CameThroughEmailPlusDonors, Unduplicated_TotalUsersKPI, Duplicated_Database_CameThroughEmailPlusDonors, Unduplicated_Database_TotalUsersKPI, Unduplicated_TotalUsersKPI / Unduplicated_Database_TotalUsersKPI as Loyal_Users_On_Site',
-        'date, CameToSiteThroughEmail, KPI_TotalEmailSubscribersKnownToMIP, KPI_PercentKnownSubsWhoCame, NewEmailSubscribers',
-        'date, TotalDonorsThisWeek, KPI_TotalDonorsKnownToMIP, TotalDonorsThisWeek / KPI_TotalDonorsKnownToMIP as Donors_In_MIP'
+        'SCPR' => [
+            'date, Duplicated_CameThroughEmailPlusDonors, Unduplicated_TotalUsersKPI, Duplicated_Database_CameThroughEmailPlusDonors, Unduplicated_Database_TotalUsersKPI, Unduplicated_TotalUsersKPI / Unduplicated_Database_TotalUsersKPI as Loyal_Users_On_Site',
+            'date, CameToSiteThroughEmail, KPI_TotalEmailSubscribersKnownToMIP, KPI_PercentKnownSubsWhoCame, NewEmailSubscribers',
+            'date, TotalDonorsThisWeek, KPI_TotalDonorsKnownToMIP, TotalDonorsThisWeek / KPI_TotalDonorsKnownToMIP as Donors_In_MIP'
+        ],
+        'TT' => [
+            'date, Duplicated_CameThroughEmailPlusDonors, Unduplicated_TotalUsersKPI, Duplicated_Database_CameThroughEmailPlusDonors, Unduplicated_Database_TotalUsersKPI, Unduplicated_TotalUsersKPI / Unduplicated_Database_TotalUsersKPI as Loyal_Users_On_Site',
+            'date, CameToSiteThroughEmail, KPI_TotalEmailSubscribersKnownToMIP, KPI_PercentKnownSubsWhoCame, NewEmailSubscribers',
+            'date, TotalDonorsThisWeek, KPI_TotalDonorsKnownToMIP, TotalDonorsThisWeek / KPI_TotalDonorsKnownToMIP as Donors_In_MIP',
+            'date, TotalMembersThisWeek, KPI_TotalMembersKnownToMIP, TotalMembersThisWeek / KPI_TotalMembersKnownToMIP as Members_In_MIP'
+        ]
     ];
 
     private static $DataUsersColumn = [
-        ['Week of', 'Email Subscribers and Donors on Site', 'Email Subscribers or Donors on Site or Both Email Subscriber and Donor', 'Email Subscribers and Donors in MIP DB', 'Emails Subscribers or Donors or Both Email Subscriber and Donor in DB', '% of Loyal Users on Site'],
-        ['Week of', '(Eloqua) Email Subscribers on Site', 'Total Email Subscribers in MIP DB', '% of Email Subscribers in MIP DB on Site', 'New Email Subscribers'],
-        ['Week of', 'Donors Donating', 'Donors in MIP DB', '% of Donors in MIP DB Donating']
+        'SCPR' => [
+            ['Week of', 'Email Subscribers and Donors on Site', 'Email Subscribers or Donors on Site or Both Email Subscriber and Donor', 'Email Subscribers and Donors in MIP DB', 'Emails Subscribers or Donors or Both Email Subscriber and Donor in DB', '% of Loyal Users on Site'],
+            ['Week of', '(Eloqua) Email Subscribers on Site', 'Total Email Subscribers in MIP DB', '% of Email Subscribers in MIP DB on Site', 'New Email Subscribers'],
+            ['Week of', 'Donors Donating', 'Donors in MIP DB', '% of Donors in MIP DB Donating']
+        ],
+        'TT' => [
+            ['Week of', 'Email Subscribers and Donors on Site', 'Email Subscribers or Donors on Site or Both Email Subscriber and Donor', 'Email Subscribers and Donors in MIP DB', 'Emails Subscribers or Donors or Both Email Subscriber and Donor in DB', '% of Loyal Users on Site'],
+            ['Week of', '(Eloqua) Email Subscribers on Site', 'Total Email Subscribers in MIP DB', '% of Email Subscribers in MIP DB on Site', 'New Email Subscribers'],
+            ['Week of', 'Donors Donating', 'Donors in MIP DB', '% of Donors in MIP DB Donating'],
+            ['Week of', 'Known members on the site THIS WEEK', 'Known: Total known members in the MIP database', 'Known: Percent of members in the MIP database who logged in this week']
+        ]
     ];
 
     public function showUsers(Request $request){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
+
         $client_id = $request['client']['id'];
+        $client_code = $request['client']['code'];
 
         $query = DB::table('data_users_' . $group)
             ->where('client_id', $client_id);
@@ -41,7 +59,7 @@ class DataController extends AuthenticatedBaseController{
         $date_range_min = $query->min('date');
         $date_range_max = $query->max('date');
 
-        return view('data.users', [
+        return view('data.' . $client_code . '.users', [
             'have_data' => $count > 0,
             'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
             'max_date' => mktime(0, 0, 0, $max_date['month'], $max_date['day'], $max_date['year']),
@@ -53,28 +71,54 @@ class DataController extends AuthenticatedBaseController{
     }
 
     public function get_Users_Total_Known_Users(Request $request){
-        return $this->dataTableQuery($request, 'data_users_', $this::$DataUsersField[0]);
+        $client_code = $request['client']['code'];
+        return $this->dataTableQuery($request, 'data_users_', $this::$DataUsersField[$client_code][0]);
     }
 
     public function download_Users_Total_Known_Users(Request $request){
-        return $this->exportCSV($request, 'data_users_', $this::$DataUsersField[0], $this::$DataUsersColumn[0], 'Total Known Users.csv');
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request, 'data_users_', $this::$DataUsersField[0], $this::$DataUsersColumn[$client_code][0], 'Total Known Users.csv');
     }
 
     public function get_Users_Email_Newsletter_Subscribers(Request $request){
-        return $this->dataTableQuery($request, 'data_users_', $this::$DataUsersField[1]);
+        $client_code = $request['client']['code'];
+        return $this->dataTableQuery($request, 'data_users_', $this::$DataUsersField[$client_code][1]);
     }
 
     public function download_Users_Email_Newsletter_Subscribers(Request $request){
-        return $this->exportCSV($request, 'data_users_', $this::$DataUsersField[1], $this::$DataUsersColumn[1], 'Email Newsletter Subscribers.csv');
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request, 'data_users_',
+            $this::$DataUsersField[$client_code][1],
+            $this::$DataUsersColumn[$client_code][1],
+            'Email Newsletter Subscribers.csv');
     }
 
     public function get_Users_Donors(Request $request){
-        return $this->dataTableQuery($request, 'data_users_', $this::$DataUsersField[2]);
+        $client_code = $request['client']['code'];
+        return $this->dataTableQuery($request, 'data_users_', $this::$DataUsersField[$client_code][2]);
     }
 
     public function download_Users_Donors(Request $request){
-        return $this->exportCSV($request, 'data_users_', $this::$DataUsersField[2], $this::$DataUsersColumn[2], 'Donors.csv');
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request, 'data_users_',
+            $this::$DataUsersField[$client_code][2],
+            $this::$DataUsersColumn[$client_code][2],
+            'Donors.csv');
     }
+
+    public function get_Users_Members(Request $request){
+        $client_code = $request['client']['code'];
+        return $this->dataTableQuery($request, 'data_users_', $this::$DataUsersField[$client_code][3]);
+    }
+
+    public function download_Users_Members(Request $request){
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request, 'data_users_',
+            $this::$DataUsersField[$client_code][3],
+            $this::$DataUsersColumn[$client_code][3],
+            'Members.csv');
+    }
+
 
     public function showDonations(Request $request){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
@@ -106,28 +150,51 @@ class DataController extends AuthenticatedBaseController{
         ]);
     }
 
-
     private static $DataStoriesField = [
-        'Page_Path, Article, Pageviews, Scroll_Start/Pageviews as StartedScrolling, Scroll_25/Pageviews as Scroll25, Scroll_50/Pageviews as Scroll50, Scroll_75/Pageviews as Scroll75, Scroll_100/Pageviews as Scroll100, Scroll_Supplemental/Pageviews as RelatedContent, Scroll_End/Pageviews as EndOfPage',
-        'Page_Path, Article, Pageviews, Scroll_Start as StartedScrolling, Scroll_25 as Scroll25, Scroll_50 as Scroll50, Scroll_75 as Scroll75, Scroll_100 as Scroll100, Scroll_Supplemental as RelatedContent, Scroll_End as EndOfPage',
-        'Page_Path, Article, Pageviews, Time_15/Pageviews as Time15, Time_30/Pageviews as Time30, Time_45/Pageviews as Time45, Time_60/Pageviews as Time60, Time_75/Pageviews as Time75, Time_90/Pageviews as Time90',
-        'Page_Path, Article, Pageviews, Time_15 as Time15, Time_30 as Time30, Time_45 as Time45, Time_60 as Time60, Time_75 as Time75, Time_90 as Time90',
-        'Page_Path, Article, Pageviews, Comments, Emails, Tweets, Facebook_Recommendations, Comments + Emails + Tweets + Facebook_Recommendations as TotalShares, (Comments + Emails + Tweets + Facebook_Recommendations) / Pageviews as SahreRate, Related_Clicks, Related_Clicks / Scroll_Supplemental as ClickThroughRate'
+        'SCPR' =>[
+            'Page_Path, Article, Pageviews, Scroll_Start/Pageviews as StartedScrolling, Scroll_25/Pageviews as Scroll25, Scroll_50/Pageviews as Scroll50, Scroll_75/Pageviews as Scroll75, Scroll_100/Pageviews as Scroll100, Scroll_Supplemental/Pageviews as RelatedContent, Scroll_End/Pageviews as EndOfPage',
+            'Page_Path, Article, Pageviews, Scroll_Start as StartedScrolling, Scroll_25 as Scroll25, Scroll_50 as Scroll50, Scroll_75 as Scroll75, Scroll_100 as Scroll100, Scroll_Supplemental as RelatedContent, Scroll_End as EndOfPage',
+            'Page_Path, Article, Pageviews, Time_15/Pageviews as Time15, Time_30/Pageviews as Time30, Time_45/Pageviews as Time45, Time_60/Pageviews as Time60, Time_75/Pageviews as Time75, Time_90/Pageviews as Time90',
+            'Page_Path, Article, Pageviews, Time_15 as Time15, Time_30 as Time30, Time_45 as Time45, Time_60 as Time60, Time_75 as Time75, Time_90 as Time90',
+            'Page_Path, Article, Pageviews, Comments, Emails, Tweets, Facebook_Recommendations, Comments + Emails + Tweets + Facebook_Recommendations as TotalShares, (Comments + Emails + Tweets + Facebook_Recommendations) / Pageviews as SahreRate, Related_Clicks, Related_Clicks / Scroll_Supplemental as ClickThroughRate'
+        ],
+        'TT' => [
+            'Page_Path, Article, Pageviews, Scroll_Start/Pageviews as StartedScrolling, Scroll_25/Pageviews as Scroll25, Scroll_50/Pageviews as Scroll50, Scroll_75/Pageviews as Scroll75, Scroll_100/Pageviews as Scroll100, Scroll_Supplemental/Pageviews as RelatedContent, Scroll_End/Pageviews as EndOfPage',
+            'Page_Path, Article, Pageviews, Scroll_Start as StartedScrolling, Scroll_25 as Scroll25, Scroll_50 as Scroll50, Scroll_75 as Scroll75, Scroll_100 as Scroll100, Scroll_Supplemental as RelatedContent, Scroll_End as EndOfPage',
+            'Page_Path, Article, Pageviews, Time_15/Pageviews as Time15, Time_30/Pageviews as Time30, Time_45/Pageviews as Time45, Time_60/Pageviews as Time60, Time_75/Pageviews as Time75, Time_90/Pageviews as Time90',
+            'Page_Path, Article, Pageviews, Time_15 as Time15, Time_30 as Time30, Time_45 as Time45, Time_60 as Time60, Time_75 as Time75, Time_90 as Time90',
+            'Page_Path, Article, Pageviews, Comments, Republish, Emails, Tweets, Facebook_Recommendations, Comments + Emails + Tweets + Facebook_Recommendations as TotalShares, (Comments + Republish + Emails + Tweets + Facebook_Recommendations) / Pageviews as SahreRate, Tribpedia_Related_Clicks, Related_Clicks, Related_Clicks / Scroll_Supplemental as ClickThroughRate'
+        ],
     ];
 
     private static $DataStoriesExportField = [
-        'Article, Pageviews, Scroll_Start/Pageviews as StartedScrolling, Scroll_25/Pageviews as Scroll25, Scroll_50/Pageviews as Scroll50, Scroll_75/Pageviews as Scroll75, Scroll_100/Pageviews as Scroll100, Scroll_Supplemental/Pageviews as RelatedContent, Scroll_End/Pageviews as EndOfPage',
-        'Article, Pageviews, Scroll_Start as StartedScrolling, Scroll_25 as Scroll25, Scroll_50 as Scroll50, Scroll_75 as Scroll75, Scroll_100 as Scroll100, Scroll_Supplemental as RelatedContent, Scroll_End as EndOfPage',
-        'Article, Pageviews, Time_15/Pageviews as Time15, Time_30/Pageviews as Time30, Time_45/Pageviews as Time45, Time_60/Pageviews as Time60, Time_75/Pageviews as Time75, Time_90/Pageviews as Time90',
-        'Article, Pageviews, Time_15 as Time15, Time_30 as Time30, Time_45 as Time45, Time_60 as Time60, Time_75 as Time75, Time_90 as Time90',
-        'Article, Pageviews, Comments, Emails, Tweets, Facebook_Recommendations, Comments + Emails + Tweets + Facebook_Recommendations as TotalShares, (Comments + Emails + Tweets + Facebook_Recommendations) / Pageviews as SahreRate, Related_Clicks, Related_Clicks / Scroll_Supplemental as ClickThroughRate'
+        'SCPR' => [
+            'Article, Pageviews, Scroll_Start/Pageviews as StartedScrolling, Scroll_25/Pageviews as Scroll25, Scroll_50/Pageviews as Scroll50, Scroll_75/Pageviews as Scroll75, Scroll_100/Pageviews as Scroll100, Scroll_Supplemental/Pageviews as RelatedContent, Scroll_End/Pageviews as EndOfPage',
+            'Article, Pageviews, Scroll_Start as StartedScrolling, Scroll_25 as Scroll25, Scroll_50 as Scroll50, Scroll_75 as Scroll75, Scroll_100 as Scroll100, Scroll_Supplemental as RelatedContent, Scroll_End as EndOfPage',
+            'Article, Pageviews, Time_15/Pageviews as Time15, Time_30/Pageviews as Time30, Time_45/Pageviews as Time45, Time_60/Pageviews as Time60, Time_75/Pageviews as Time75, Time_90/Pageviews as Time90',
+            'Article, Pageviews, Time_15 as Time15, Time_30 as Time30, Time_45 as Time45, Time_60 as Time60, Time_75 as Time75, Time_90 as Time90',
+            'Article, Pageviews, Comments, Emails, Tweets, Facebook_Recommendations, Comments + Emails + Tweets + Facebook_Recommendations as TotalShares, (Comments + Emails + Tweets + Facebook_Recommendations) / Pageviews as SahreRate, Related_Clicks, Related_Clicks / Scroll_Supplemental as ClickThroughRate'
+        ],
+        'TT' => [
+            'Article, Pageviews, Scroll_Start/Pageviews as StartedScrolling, Scroll_25/Pageviews as Scroll25, Scroll_50/Pageviews as Scroll50, Scroll_75/Pageviews as Scroll75, Scroll_100/Pageviews as Scroll100, Scroll_Supplemental/Pageviews as RelatedContent, Scroll_End/Pageviews as EndOfPage',
+            'Article, Pageviews, Scroll_Start as StartedScrolling, Scroll_25 as Scroll25, Scroll_50 as Scroll50, Scroll_75 as Scroll75, Scroll_100 as Scroll100, Scroll_Supplemental as RelatedContent, Scroll_End as EndOfPage',
+            'Article, Pageviews, Time_15/Pageviews as Time15, Time_30/Pageviews as Time30, Time_45/Pageviews as Time45, Time_60/Pageviews as Time60, Time_75/Pageviews as Time75, Time_90/Pageviews as Time90',
+            'Article, Pageviews, Time_15 as Time15, Time_30 as Time30, Time_45 as Time45, Time_60 as Time60, Time_75 as Time75, Time_90 as Time90',
+            'Article, Pageviews, Comments, Emails, Tweets, Facebook_Recommendations, Comments + Emails + Tweets + Facebook_Recommendations as TotalShares, (Comments + Emails + Tweets + Facebook_Recommendations) / Pageviews as SahreRate, Related_Clicks, Related_Clicks / Scroll_Supplemental as ClickThroughRate'
+        ],
     ];
 
-
     private static $DataStoriesColumn = [
-        ['Article Title', 'Total Page Views', 'Started Scrolling', '25% Scroll', '50% Scroll', '75% Scroll', '100% Scroll', 'Related Content', 'End of Page'],
-        ['Article Title', 'Total Page Views', '15 Seconds', '30 Seconds', '45 Seconds', '60 Seconds', '75 Seconds', '90 Seconds'],
-        ['Article Title', 'Total Page Views', 'Comments', 'Email Shares', 'Tweets', 'FB Shares', 'Total Shares', 'Share Rate', 'Related Content Clicks', 'Click Through Rate']
+        'SCPR' => [
+            ['Article Title', 'Total Page Views', 'Started Scrolling', '25% Scroll', '50% Scroll', '75% Scroll', '100% Scroll', 'Related Content', 'End of Page'],
+            ['Article Title', 'Total Page Views', '15 Seconds', '30 Seconds', '45 Seconds', '60 Seconds', '75 Seconds', '90 Seconds'],
+            ['Article Title', 'Total Page Views', 'Comments', 'Email Shares', 'Tweets', 'FB Shares', 'Total Shares', 'Share Rate', 'Related Content Clicks', 'Click Through Rate']
+        ],
+        'TT' => [
+            ['Article Title', 'Total Page Views', 'Started Scrolling', '25% Scroll', '50% Scroll', '75% Scroll', '100% Scroll', 'Related Content', 'End of Page'],
+            ['Article Title', 'Total Page Views', '15 Seconds', '30 Seconds', '45 Seconds', '60 Seconds', '75 Seconds', '90 Seconds'],
+            ['Article Title', 'Total Page Views', 'Comments', 'Email Shares', 'Tweets', 'FB Shares', 'Total Shares', 'Share Rate', 'Related Content Clicks', 'Click Through Rate']
+        ],
     ];
 
     public function showStories(Request $request){
@@ -139,6 +206,7 @@ class DataController extends AuthenticatedBaseController{
         $min_date = date_parse($request['min_date'] ?: date('Y-m-d', $last_week_begin));
 
         $client_id = $request['client']['id'];
+        $client_code = $request['client']['code'];
 
         $query = DB::table('data_stories_' . $group)
             ->where('client_id', $client_id);
@@ -147,7 +215,7 @@ class DataController extends AuthenticatedBaseController{
         $date_range_min = $query->min('date');
         $date_range_max = $query->max('date');
 
-        return view('data.stories', [
+        return view('data.' . $client_code . '.stories', [
             'have_data' => $count > 0,
             'website' => $request['client']['website'],
             'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
@@ -161,47 +229,82 @@ class DataController extends AuthenticatedBaseController{
 
     public function get_Stories_Scroll_Depth(Request $request, $mode)
     {
+        $client_code = $request['client']['code'];
         $index = $mode == 'count' ? 1 : 0;
-        return $this->dataTableQuery($request, 'data_stories_', $this::$DataStoriesField[$index]);
+        return $this->dataTableQuery($request, 'data_stories_',
+            $this::$DataStoriesField[$client_code][$index]);
     }
 
     public function download_Stories_Scroll_Depth(Request $request, $mode){
+        $client_code = $request['client']['code'];
         $index = $mode == 'count' ? 1 : 0;
-        return $this->exportCSV($request, 'data_stories_', $this::$DataStoriesExportField[$index], $this::$DataStoriesColumn[0], 'Scroll Depth.csv');
+        return $this->exportCSV($request, 'data_stories_',
+            $this::$DataStoriesExportField[$client_code][$index],
+            $this::$DataStoriesColumn[$client_code][0],
+            'Scroll Depth.csv');
     }
 
     public function get_Stories_Time_On_Article(Request $request, $mode)
     {
+        $client_code = $request['client']['code'];
         $index = $mode == 'count' ? 3 : 2;
-        return $this->dataTableQuery($request, 'data_stories_', $this::$DataStoriesField[$index]);
+        return $this->dataTableQuery($request, 'data_stories_',
+            $this::$DataStoriesField[$client_code][$index]);
     }
 
     public function download_Stories_Time_On_Article(Request $request, $mode){
+        $client_code = $request['client']['code'];
         $index = $mode == 'count' ? 3 : 2;
-        return $this->exportCSV($request, 'data_stories_', $this::$DataStoriesExportField[$index], $this::$DataStoriesColumn[1], 'Time On Article.csv');
+        return $this->exportCSV($request, 'data_stories_',
+            $this::$DataStoriesExportField[$client_code][$index],
+            $this::$DataStoriesColumn[$client_code][1],
+            'Time On Article.csv');
     }
 
     public function get_Stories_User_Interactions(Request $request)
     {
-        return $this->dataTableQuery($request, 'data_stories_', $this::$DataStoriesField[4]);
+        $client_code = $request['client']['code'];
+        return $this->dataTableQuery($request, 'data_stories_',
+            $this::$DataStoriesField[$client_code][4]);
     }
 
     public function download_Stories_User_Interactions(Request $request){
-        return $this->exportCSV($request, 'data_stories_', $this::$DataStoriesExportField[4], $this::$DataStoriesColumn[2], 'User Interactions.csv');
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request, 'data_stories_',
+            $this::$DataStoriesExportField[$client_code][4],
+            $this::$DataStoriesColumn[$client_code][2], 'User Interactions.csv');
     }
 
     private static $DataQualityField = [
-        'date, \'\' as Events, GA_Users, MIP_Users, (GA_Users - MIP_Users) / MIP_Users as Variance',
-        'date, I_inDatabaseCameToSite, K_inDatabaseCameToSite, I_notInDatabaseCameToSite, K_notInDatabaseCameToSite, I_newSubscriberCameThroughEmail, K_newSubscriberCameThroughEmail, I_SubscribersThisWeek, K_SubscribersThisWeek, I_NewSubscribers, K_NewSubscribers, I_TotalDatabaseSubscribers, K_TotalDatabaseSubscribers, K_PercentDatabaseSubscribersWhoCame, EmailNewsletterClicks',
-        'date, I_databaseDonorsWhoVisited, K_databaseDonorsWhoVisited, I_donatedOnSiteForFirstTime, K_donatedOnSiteForFirstTime, I_totalDonorsOnSiteThisWeek, K_totalDonorsOnSiteThisWeek, I_totalDonorsInDatabase, K_totalDonorsInDatabase, K_percentDatabaseDonorsWhoCame',
-        'date, K_individualsWhoCameThisWeek, K_individualsInDatabase, K_percentDatabaseIndividualsWhoCame'
+        'SCPR' => [
+            'date, \'\' as Events, GA_Users, MIP_Users, (GA_Users - MIP_Users) / MIP_Users as Variance',
+            'date, I_inDatabaseCameToSite, K_inDatabaseCameToSite, I_notInDatabaseCameToSite, K_notInDatabaseCameToSite, I_newSubscriberCameThroughEmail, K_newSubscriberCameThroughEmail, I_SubscribersThisWeek, K_SubscribersThisWeek, I_NewSubscribers, K_NewSubscribers, I_TotalDatabaseSubscribers, K_TotalDatabaseSubscribers, K_PercentDatabaseSubscribersWhoCame, EmailNewsletterClicks',
+            'date, I_databaseDonorsWhoVisited, K_databaseDonorsWhoVisited, I_donatedOnSiteForFirstTime, K_donatedOnSiteForFirstTime, I_totalDonorsOnSiteThisWeek, K_totalDonorsOnSiteThisWeek, I_totalDonorsInDatabase, K_totalDonorsInDatabase, K_percentDatabaseDonorsWhoCame',
+            'date, K_individualsWhoCameThisWeek, K_individualsInDatabase, K_percentDatabaseIndividualsWhoCame'
+        ],
+        'TT' => [
+            'date, \'\' as Events, GA_Users, MIP_Users, (GA_Users - MIP_Users) / MIP_Users as Variance',
+            'date, I_inDatabaseCameToSite, K_inDatabaseCameToSite, I_notInDatabaseCameToSite, K_notInDatabaseCameToSite, I_newSubscriberCameThroughEmail, K_newSubscriberCameThroughEmail, I_SubscribersThisWeek, K_SubscribersThisWeek, I_NewSubscribers, K_NewSubscribers, I_TotalDatabaseSubscribers, K_TotalDatabaseSubscribers, K_PercentDatabaseSubscribersWhoCame, EmailNewsletterClicks',
+            'date, I_databaseDonorsWhoVisited, K_databaseDonorsWhoVisited, I_donatedOnSiteForFirstTime, K_donatedOnSiteForFirstTime, I_totalDonorsOnSiteThisWeek, K_totalDonorsOnSiteThisWeek, I_totalDonorsInDatabase, K_totalDonorsInDatabase, K_percentDatabaseDonorsWhoCame',
+            'date, K_individualsWhoCameThisWeek, K_individualsInDatabase, K_percentDatabaseIndividualsWhoCame',
+            'date, I_databaseMembersWhoVisited, K_databaseMembersWhoVisited, I_loggedInOnSiteForFirstTime, K_loggedInOnSiteForFirstTime, I_totalMembersOnSiteThisWeek, K_totalMembersOnSiteThisWeek, I_totalMembersInDatabase, K_totalMembersInDatabase, K_percentDatabaseMembersWhoCame'
+        ],
     ];
 
     private static $DataQualityColumn = [
-        ['Week of', 'Events', 'GA Users', 'MIP GTM Users', 'Variance'],
-        ['Week of', 'Identified: Subscribers already in MIP database who came to the site this week', 'Known: Subscribers already in MIP database who came to the site this week', 'Identified: Subscribers who came to the site through an e-mail this week for the first time since MIP started collecting data', 'Known: Subscribers who came to the site through an e-mail this week for the first time since MIP started collecting data', 'Identified: New subscribers this week who also clicked on an e-mail this week', 'Known: New subscribers this week who also clicked on an e-mail this week', 'Identified e-mail newsletter subscribers THIS WEEK', 'Known e-mail newsletter subscribers THIS WEEK (unique ELQs)', 'Identified: New e-mail subscribers this week', 'Known: New e-mail subscribers this week', 'Identified: Total identified e-mail newsletter subscribers in the MIP database', 'Known: Total number of known e-mail newsletter subscribers in the MIP database', 'Known: Percent of subscribers in the MIP database who clicked on an e-mail this week', 'E-mail newsletter clicks per week'],
-        ['Week', 'Identified: Donors already in MIP database who came to the site this week', 'Known: Donors already in MIP database who came to the site this week', 'Identified: Users who donated on the site for the first time since MIP started collecting data', 'Known: Users who donated on the site for the first time since MIP started collecting data', 'Identified donors on the site THIS WEEK', 'Known donors on the site THIS WEEK', 'Identified: Total identified donors in the MIP database', 'Known: Total known donors in the MIP database', 'Known: Percent of subscribers in the MIP database who clicked on an e-mail this week'],
-        ['Week of', 'Known: Total known donors and/or e-mail newsletter subscribers who came to the site THIS WEEK', 'Known: Total known donors and/or e-mail newsletter subscribers in the MIP database', 'Known: Percent of known individuals in the MIP database who came to the site this week']
+        'SCPR' => [
+            ['Week of', 'Events', 'GA Users', 'MIP GTM Users', 'Variance'],
+            ['Week of', 'Identified: Subscribers already in MIP database who came to the site this week', 'Known: Subscribers already in MIP database who came to the site this week', 'Identified: Subscribers who came to the site through an e-mail this week for the first time since MIP started collecting data', 'Known: Subscribers who came to the site through an e-mail this week for the first time since MIP started collecting data', 'Identified: New subscribers this week who also clicked on an e-mail this week', 'Known: New subscribers this week who also clicked on an e-mail this week', 'Identified e-mail newsletter subscribers THIS WEEK', 'Known e-mail newsletter subscribers THIS WEEK (unique ELQs)', 'Identified: New e-mail subscribers this week', 'Known: New e-mail subscribers this week', 'Identified: Total identified e-mail newsletter subscribers in the MIP database', 'Known: Total number of known e-mail newsletter subscribers in the MIP database', 'Known: Percent of subscribers in the MIP database who clicked on an e-mail this week', 'E-mail newsletter clicks per week'],
+            ['Week', 'Identified: Donors already in MIP database who came to the site this week', 'Known: Donors already in MIP database who came to the site this week', 'Identified: Users who donated on the site for the first time since MIP started collecting data', 'Known: Users who donated on the site for the first time since MIP started collecting data', 'Identified donors on the site THIS WEEK', 'Known donors on the site THIS WEEK', 'Identified: Total identified donors in the MIP database', 'Known: Total known donors in the MIP database', 'Known: Percent of subscribers in the MIP database who clicked on an e-mail this week'],
+            ['Week of', 'Known: Total known donors and/or e-mail newsletter subscribers who came to the site THIS WEEK', 'Known: Total known donors and/or e-mail newsletter subscribers in the MIP database', 'Known: Percent of known individuals in the MIP database who came to the site this week']
+        ],
+        'TT' => [
+            ['Week of', 'Events', 'GA Users', 'MIP GTM Users', 'Variance'],
+            ['Week of', 'Identified: Subscribers already in MIP database who came to the site this week', 'Known: Subscribers already in MIP database who came to the site this week', 'Identified: Subscribers who came to the site through an e-mail this week for the first time since MIP started collecting data', 'Known: Subscribers who came to the site through an e-mail this week for the first time since MIP started collecting data', 'Identified: New subscribers this week who also clicked on an e-mail this week', 'Known: New subscribers this week who also clicked on an e-mail this week', 'Identified e-mail newsletter subscribers THIS WEEK', 'Known e-mail newsletter subscribers THIS WEEK (unique ELQs)', 'Identified: New e-mail subscribers this week', 'Known: New e-mail subscribers this week', 'Identified: Total identified e-mail newsletter subscribers in the MIP database', 'Known: Total number of known e-mail newsletter subscribers in the MIP database', 'Known: Percent of subscribers in the MIP database who clicked on an e-mail this week', 'E-mail newsletter clicks per week'],
+            ['Week', 'Identified: Donors already in MIP database who came to the site this week', 'Known: Donors already in MIP database who came to the site this week', 'Identified: Users who donated on the site for the first time since MIP started collecting data', 'Known: Users who donated on the site for the first time since MIP started collecting data', 'Identified donors on the site THIS WEEK', 'Known donors on the site THIS WEEK', 'Identified: Total identified donors in the MIP database', 'Known: Total known donors in the MIP database', 'Known: Percent of subscribers in the MIP database who clicked on an e-mail this week'],
+            ['Week of', 'Known: Total known donors and/or e-mail newsletter subscribers who came to the site THIS WEEK', 'Known: Total known donors and/or e-mail newsletter subscribers in the MIP database', 'Known: Percent of known individuals in the MIP database who came to the site this week'],
+            ['Week of', 'Identified: Members already in MIP database who came to the site this week', 'Known: Members already in MIP database who came to the site this week', 'Identified: Users who logged in on the site for the first time since MIP started collecting data', 'Known: Users who logged in on the site for the first time since MIP started collecting data', 'Identified members on the site THIS WEEK', 'Known members on the site THIS WEEK', 'Identified: Total identified members in the MIP database', 'Known: Total known members in the MIP database', 'Known: Percent of members in the MIP database who logged in this week']
+        ],
     ];
 
     public function showQuality(Request $request){
@@ -209,6 +312,7 @@ class DataController extends AuthenticatedBaseController{
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
         $client_id = $request['client']['id'];
+        $client_code = $request['client']['code'];
 
         $query = DB::table('data_quality_' . $group)
             ->where('client_id', $client_id);
@@ -217,7 +321,7 @@ class DataController extends AuthenticatedBaseController{
         $date_range_min = $query->min('date');
         $date_range_max = $query->max('date');
 
-        return view('data.quality', [
+        return view('data.' . $client_code . '.quality', [
             'have_data' => $count > 0,
             'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
             'max_date' => mktime(0, 0, 0, $max_date['month'], $max_date['day'], $max_date['year']),
@@ -229,35 +333,73 @@ class DataController extends AuthenticatedBaseController{
     }
 
     public function get_Quality_GA_VS_GTM(Request $request){
-        return $this->dataTableQuery($request, 'data_quality_', $this::$DataQualityField[0]);
+        $client_code = $request['client']['code'];
+        return $this->dataTableQuery($request, 'data_quality_',
+            $this::$DataQualityField[$client_code][0]);
     }
 
     public function download_Quality_GA_VS_GTM(Request $request){
-        return $this->exportCSV($request, 'data_quality_', $this::$DataQualityField[0], $this::$DataQualityColumn[0], 'GA vs GTM.csv');
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request, 'data_quality_',
+            $this::$DataQualityField[$client_code][0],
+            $this::$DataQualityColumn[$client_code][0],
+            'GA vs GTM.csv');
     }
 
     public function get_Quality_Email_Subscribers(Request $request){
-        return $this->dataTableQuery($request, 'data_quality_', $this::$DataQualityField[1]);
+        $client_code = $request['client']['code'];
+        return $this->dataTableQuery($request, 'data_quality_',
+            $this::$DataQualityField[$client_code][1]);
     }
 
     public function download_Quality_Email_Subscribers(Request $request){
-        return $this->exportCSV($request, 'data_quality_', $this::$DataQualityField[1], $this::$DataQualityColumn[1], 'Email Subscribers.csv');
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request, 'data_quality_',
+            $this::$DataQualityField[$client_code][1],
+            $this::$DataQualityColumn[$client_code][1],
+            'Email Subscribers.csv');
     }
 
     public function get_Quality_Donors(Request $request){
-        return $this->dataTableQuery($request, 'data_quality_', $this::$DataQualityField[2]);
+        $client_code = $request['client']['code'];
+        return $this->dataTableQuery($request, 'data_quality_',
+            $this::$DataQualityField[$client_code][2]);
     }
 
     public function download_Quality_Donors(Request $request){
-        return $this->exportCSV($request, 'data_quality_', $this::$DataQualityField[2], $this::$DataQualityColumn[2], 'Donors.csv');
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request, 'data_quality_',
+            $this::$DataQualityField[$client_code][2],
+            $this::$DataQualityColumn[$client_code][2],
+            'Donors.csv');
     }
 
     public function get_Quality_Total_Known_Users(Request $request){
-        return $this->dataTableQuery($request, 'data_quality_', $this::$DataQualityField[3]);
+        $client_code = $request['client']['code'];
+        return $this->dataTableQuery($request, 'data_quality_',
+            $this::$DataQualityField[$client_code][3]);
     }
 
     public function download_Quality_Total_Known_Users(Request $request){
-        return $this->exportCSV($request, 'data_quality_', $this::$DataQualityField[3], $this::$DataQualityColumn[3], 'Total Known Users.csv');
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request, 'data_quality_',
+            $this::$DataQualityField[$client_code][3],
+            $this::$DataQualityColumn[$client_code][3],
+            'Total Known Users.csv');
+    }
+
+    public function get_Quality_Members(Request $request){
+        $client_code = $request['client']['code'];
+        return $this->dataTableQuery($request, 'data_quality_',
+            $this::$DataQualityField[$client_code][4]);
+    }
+
+    public function download_Quality_Members(Request $request){
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request, 'data_quality_',
+            $this::$DataQualityField[$client_code][4],
+            $this::$DataQualityColumn[$client_code][4],
+            'Members.csv');
     }
 
 

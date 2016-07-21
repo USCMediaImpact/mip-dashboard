@@ -72,6 +72,8 @@ Route::post('/data/users/email_newsletter_subscribers', 'DataController@get_User
 Route::post('/data/users/email_newsletter_subscribers/csv', 'DataController@download_Users_Email_Newsletter_Subscribers');
 Route::post('/data/users/donors', 'DataController@get_Users_Donors');
 Route::post('/data/users/donors/csv', 'DataController@download_Users_Donors');
+Route::post('/data/users/members', 'DataController@get_Users_Members');
+Route::post('/data/users/members/csv', 'DataController@download_Users_Members');
 
 
 Route::match(['get', 'post'], '/data/donations', 'DataController@showDonations');
@@ -94,6 +96,8 @@ Route::post('/data/quality/donors', 'DataController@get_Quality_Donors');
 Route::post('/data/quality/donors/csv', 'DataController@download_Quality_Donors');
 Route::post('/data/quality/total_known_users', 'DataController@get_Quality_Total_Known_Users');
 Route::post('/data/quality/total_known_users/csv', 'DataController@download_Quality_Total_Known_Users');
+Route::post('/data/quality/members', 'DataController@get_Quality_Members');
+Route::post('/data/quality/members/csv', 'DataController@download_Quality_Members');
 
 
 
