@@ -39,7 +39,7 @@
                         <div class="box">
                             <a class="pdf" href="/analyses/{{$item->file_id}}" target="_blank;"></a>
                             <div class="description">
-                                {{$item->description}}
+                                {{$item->description}} of {{$item->created_at}}
                             </div>
                         </div>
                         

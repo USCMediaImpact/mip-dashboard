@@ -45,7 +45,6 @@ class AnalysesController extends AuthenticatedBaseController{
     }
 
     public function upload(Request $request){
-        dd($_FILES['content']);
         $name = $_FILES['content']['name'];
         $extension = pathinfo($name)['extension'];
         $uploadFile = $_FILES['content']['tmp_name'];
