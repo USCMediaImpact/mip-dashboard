@@ -13,5 +13,5 @@ class Analyses extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['file_name', 'description', 'screen_shot', 'path'];
+    protected $fillable = ['file_id', 'file_name', 'description', 'screen_shot', 'path'];
 }

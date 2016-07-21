@@ -37,7 +37,7 @@
                     @foreach ($data as $item)
                     <div class="column analyses">
                         <div class="box">
-                            <div class="pdf" path="{{$item->path}}"></div>
+                            <div class="pdf" path="/analyses/{{$item->file_id}}"></div>
                             <div class="description">
                                 {{$item->description}}
                             </div>
