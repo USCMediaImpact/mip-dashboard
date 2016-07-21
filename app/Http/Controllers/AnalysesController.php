@@ -26,18 +26,21 @@ class AnalysesController extends AuthenticatedBaseController{
             $path = $file[0]->path;
             $name = $file[0]->file_name;
             $type = $file[0]->file_type;
-            $file = file_get_contents($path);
-            return response()->stream(function() use ($path) {
-                try {
-                    $stream = fopen($path, 'r');
-                    fpassthru($stream);
-                } catch(Exception $e) {
-                    Log::error($e);
-                }
-            }, 200, [
+            return response()->make(file_get_contents($path), 200, [
                 'Content-Type' => $type,
                 'Content-Disposition' => 'inline; filename="'.$name.'"'
             ]);
+//            return response()->stream(function() use ($path) {
+//                try {
+//                    $stream = fopen($path, 'r');
+//                    fpassthru($stream);
+//                } catch(Exception $e) {
+//                    Log::error($e);
+//                }
+//            }, 200, [
+//                'Content-Type' => $type,
+//                'Content-Disposition' => 'inline; filename="'.$name.'"'
+//            ]);
         }
     }
 
