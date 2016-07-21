@@ -11,6 +11,7 @@ use Google_Service_Bigquery;
 use Google_Service_Bigquery_QueryRequest;
 use App\Models\Analyses;
 use Ramsey\Uuid\Uuid;
+use Imagick;
 
 class AnalysesController extends AuthenticatedBaseController{
 
