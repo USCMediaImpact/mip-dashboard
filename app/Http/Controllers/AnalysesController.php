@@ -30,21 +30,11 @@ class AnalysesController extends AuthenticatedBaseController{
                 'Content-Type' => $type,
                 'Content-Disposition' => 'inline; filename="'.$name.'"'
             ]);
-//            return response()->stream(function() use ($path) {
-//                try {
-//                    $stream = fopen($path, 'r');
-//                    fpassthru($stream);
-//                } catch(Exception $e) {
-//                    Log::error($e);
-//                }
-//            }, 200, [
-//                'Content-Type' => $type,
-//                'Content-Disposition' => 'inline; filename="'.$name.'"'
-//            ]);
         }
     }
 
     public function upload(Request $request){
+        dd($_FILES['content']);
         $name = $_FILES['content']['name'];
         $extension = pathinfo($name)['extension'];
         $uploadFile = $_FILES['content']['tmp_name'];
