@@ -33,6 +33,7 @@ class AnalysesController extends AuthenticatedBaseController{
         $extension = pathinfo($name)['extension'];
         $uploadFile = $_FILES['content']['tmp_name'];
         $guid = time();
+        $bucket = $this::$bucket;
         $path = "gs://${bucket}/${guid}.${extension}";
         file_put_contents($path, $uploadFile);
         Analyses::create([
