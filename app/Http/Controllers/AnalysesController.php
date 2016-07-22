@@ -47,7 +47,7 @@ class AnalysesController extends AuthenticatedBaseController{
         move_uploaded_file($uploadFile, $path);
 
         $screenshot = "gs://${bucket}/${guid}_screenshot.${extension}";
-        $im = new Imagick($path. '[0]');
+        $im = new Imagick($path);
         $im->setImageFormat('jpg');
         $im->writeImageFile(fopen($screenshot, 'w'));
 
