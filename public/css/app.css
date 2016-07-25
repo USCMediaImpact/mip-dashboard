@@ -71,7 +71,7 @@ i.tagmanager { background-image: url('/images/tagmanager.png'); background-size:
 .button.switcher.on { color: #000 !important; background: -ms-linear-gradient(top, #ebebeb, #fefefe); background: -moz-linear-gradient(top, #ebebeb, #fefefe); background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ebebeb), to(#fefefe)); background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ebebeb), to(#fefefe)); background: -webkit-linear-gradient(top, #ebebeb, #fefefe); background: -o-linear-gradient(top, #ebebeb, #fefefe); z-index: 10; }
 .analyses{ padding: 20px; }
 .analyses .box{height: 320px; position: relative;}
-.analyses .box.upload{background: #f9f9f9; border dash 1px #e4e4e4;}
+.analyses .box.upload{background: #f9f9f9; border dashed 1px #e4e4e4;}
 .analyses .box.upload input[type="file"]{
 	width: 64px !important; 
 	height: 64px !important;
