@@ -112,8 +112,24 @@ i.tagmanager { background-image: url('/images/tagmanager.png'); background-size:
 .analyses .box .description{
 	position: absolute;
 	bottom: 0;
+	left: 0;
+	right: 0;
+	border: solid 1px #fff;
+	border-top: solid 1px #e4e4e4;
 	height: 60px;
 	overflow: hidden;
 	padding: 10px;
 	text-align: center;
+}
+.analyses .box:hover,
+.analyses .box:active{
+	border: solid 1px #c0d0dd;
+}
+.analyses .box:hover .description,
+.analyses .box:active .description
+{
+	background: #c0d0dd;
+	color: #fff;
+	border: solid 1px #c0d0dd;
+	border-top: none;
 }
