@@ -46,8 +46,8 @@ class AnalysesController extends AuthenticatedBaseController{
 
         move_uploaded_file($uploadFile, $path);
 
-//
-
+        $source = fopen("php://temp/maxmemory:$fiveMBs", 'r+');
+        
         $screenshot = "gs://${bucket}/${guid}_screenshot.${extension}";
 
         $img = new Imagick();

@@ -71,12 +71,18 @@ class DataController extends AuthenticatedBaseController{
 
     public function get_Users_Total_Known_Users(Request $request){
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request, $client_code.'_data_users_', $this::$DataUsersField[$client_code][0]);
+        return $this->dataTableQuery($request,
+            $client_code.'_data_users_',
+            $this::$DataUsersField[$client_code][0]);
     }
 
     public function download_Users_Total_Known_Users(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_users_', $this::$DataUsersField[0], $this::$DataUsersColumn[$client_code][0], 'Total Known Users.csv');
+        return $this->exportCSV($request,
+            $client_code.'_data_users_',
+            $this::$DataUsersField[$client_code][0],
+            $this::$DataUsersColumn[$client_code][0],
+            'Total Known Users.csv');
     }
 
     public function get_Users_Email_Newsletter_Subscribers(Request $request){
@@ -94,7 +100,9 @@ class DataController extends AuthenticatedBaseController{
 
     public function get_Users_Donors(Request $request){
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request, $client_code.'_data_users_', $this::$DataUsersField[$client_code][2]);
+        return $this->dataTableQuery($request,
+            $client_code.'_data_users_',
+            $this::$DataUsersField[$client_code][2]);
     }
 
     public function download_Users_Donors(Request $request){
@@ -107,7 +115,9 @@ class DataController extends AuthenticatedBaseController{
 
     public function get_Users_Members(Request $request){
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request, $client_code.'_data_users_', $this::$DataUsersField[$client_code][3]);
+        return $this->dataTableQuery($request,
+            $client_code.'_data_users_',
+            $this::$DataUsersField[$client_code][3]);
     }
 
     public function download_Users_Members(Request $request){
@@ -224,14 +234,16 @@ class DataController extends AuthenticatedBaseController{
     {
         $client_code = $request['client']['code'];
         $index = $mode == 'count' ? 1 : 0;
-        return $this->dataTableQuery($request, $client_code.'_data_stories_',
+        return $this->dataTableQuery($request,
+            $client_code.'_data_stories_',
             $this::$DataStoriesField[$client_code][$index]);
     }
 
     public function download_Stories_Scroll_Depth(Request $request, $mode){
         $client_code = $request['client']['code'];
         $index = $mode == 'count' ? 1 : 0;
-        return $this->exportCSV($request, $client_code.'_data_stories_',
+        return $this->exportCSV($request,
+            $client_code.'_data_stories_',
             $this::$DataStoriesExportField[$client_code][$index],
             $this::$DataStoriesColumn[$client_code][0],
             'Scroll Depth.csv');
@@ -241,14 +253,16 @@ class DataController extends AuthenticatedBaseController{
     {
         $client_code = $request['client']['code'];
         $index = $mode == 'count' ? 3 : 2;
-        return $this->dataTableQuery($request, $client_code.'_data_stories_',
+        return $this->dataTableQuery($request,
+            $client_code.'_data_stories_',
             $this::$DataStoriesField[$client_code][$index]);
     }
 
     public function download_Stories_Time_On_Article(Request $request, $mode){
         $client_code = $request['client']['code'];
         $index = $mode == 'count' ? 3 : 2;
-        return $this->exportCSV($request, $client_code.'_data_stories_',
+        return $this->exportCSV($request,
+            $client_code.'_data_stories_',
             $this::$DataStoriesExportField[$client_code][$index],
             $this::$DataStoriesColumn[$client_code][1],
             'Time On Article.csv');
@@ -257,13 +271,15 @@ class DataController extends AuthenticatedBaseController{
     public function get_Stories_User_Interactions(Request $request)
     {
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request, $client_code.'_data_stories_',
+        return $this->dataTableQuery($request,
+            $client_code.'_data_stories_',
             $this::$DataStoriesField[$client_code][4]);
     }
 
     public function download_Stories_User_Interactions(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_stories_',
+        return $this->exportCSV($request,
+            $client_code.'_data_stories_',
             $this::$DataStoriesExportField[$client_code][4],
             $this::$DataStoriesColumn[$client_code][2], 'User Interactions.csv');
     }
@@ -327,13 +343,15 @@ class DataController extends AuthenticatedBaseController{
 
     public function get_Quality_GA_VS_GTM(Request $request){
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request, $client_code.'_data_quality_',
+        return $this->dataTableQuery($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][0]);
     }
 
     public function download_Quality_GA_VS_GTM(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_quality_',
+        return $this->exportCSV($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][0],
             $this::$DataQualityColumn[$client_code][0],
             'GA vs GTM.csv');
@@ -341,13 +359,15 @@ class DataController extends AuthenticatedBaseController{
 
     public function get_Quality_Email_Subscribers(Request $request){
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request, $client_code.'_data_quality_',
+        return $this->dataTableQuery($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][1]);
     }
 
     public function download_Quality_Email_Subscribers(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_quality_',
+        return $this->exportCSV($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][1],
             $this::$DataQualityColumn[$client_code][1],
             'Email Subscribers.csv');
@@ -355,13 +375,15 @@ class DataController extends AuthenticatedBaseController{
 
     public function get_Quality_Donors(Request $request){
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request, $client_code.'_data_quality_',
+        return $this->dataTableQuery($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][2]);
     }
 
     public function download_Quality_Donors(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_quality_',
+        return $this->exportCSV($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][2],
             $this::$DataQualityColumn[$client_code][2],
             'Donors.csv');
@@ -369,13 +391,15 @@ class DataController extends AuthenticatedBaseController{
 
     public function get_Quality_Total_Known_Users(Request $request){
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request, $client_code.'_data_quality_',
+        return $this->dataTableQuery($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][3]);
     }
 
     public function download_Quality_Total_Known_Users(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_quality_',
+        return $this->exportCSV($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][3],
             $this::$DataQualityColumn[$client_code][3],
             'Total Known Users.csv');
@@ -383,13 +407,15 @@ class DataController extends AuthenticatedBaseController{
 
     public function get_Quality_Members(Request $request){
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request, $client_code.'_data_quality_',
+        return $this->dataTableQuery($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][4]);
     }
 
     public function download_Quality_Members(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_quality_',
+        return $this->exportCSV($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][4],
             $this::$DataQualityColumn[$client_code][4],
             'Members.csv');

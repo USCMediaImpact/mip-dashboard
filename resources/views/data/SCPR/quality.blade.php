@@ -104,7 +104,7 @@
 						</div>
 						<div class="top-bar-right">
                             @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-							<button class="button tiny tiny btnDownload" action="/data/quality/total_known_users/csv">Download</button>
+							<button class="button small btnDownload" action="/data/quality/total_known_users/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataQualityTotalKnownUsers" class="report tiny hover">
