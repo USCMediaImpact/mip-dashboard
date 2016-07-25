@@ -51,7 +51,8 @@ def run(min_date, max_date, dimension):
 	for client in client_settings:
 		
 		clientId = client[0]
-		setting = json.loads(client[1])
+		code = client[1]
+		setting = json.loads(client[2])
 
 		notTotallySuccess = False
 
@@ -101,7 +102,7 @@ def _run_prepare(client_id, setting, min_date, max_date, dimension):
 			logging.debug('begin update table %s %s \n%s' % (info[0], info[1], hive))
 			bigQueryClient.insert_from_query(hive, setting['bq_id'], info[0], info[1])
 
-def _run_data_users(client_id, setting, min_date, max_date, dimension):
+def _run_data_users(client_id, code, setting, min_date, max_date, dimension):
 	logging.debug('run data user job')
 	
 	hql = format_hive(setting['bq_data_users'], min_date, max_date, dimension)
@@ -118,15 +119,15 @@ def _run_data_users(client_id, setting, min_date, max_date, dimension):
 
 	logging.debug('bigquery result : %s' % (bq_data,))
 
-	sql = mysql.data_users.format(dimension=dimension)
-	sql_data = (min_date, client_id) + bq_data + bq_data
+	sql = mysql.data_users[code].format(dimension=dimension)
+	sql_data = (min_date,) + bq_data + bq_data
 
 	logging.debug('excute sql: %s' % (sql,))
 	logging.debug('insert mysql data: %s' % (sql_data,))
 
 	mySqlClient.insert_mysql(sql, [sql_data])
 
-def _run_data_stories(client_id, setting, min_date, max_date, dimension):
+def _run_data_stories(client_id, code, setting, min_date, max_date, dimension):
 	logging.debug(setting['bq_data_stories'])
 	
 	hql = format_hive(setting['bq_data_stories'], min_date, max_date, dimension)
@@ -138,20 +139,20 @@ def _run_data_stories(client_id, setting, min_date, max_date, dimension):
 	logging.debug('bigquery result : %s' % len(bq_data))
 
 	if len(bq_data) > 0 :
-		sql = mysql.data_stories.format(dimension=dimension)
+		sql = mysql.data_stories[code].format(dimension=dimension)
 		sql_data = []
 		md5 = hashlib.md5()
 		for row in bq_data:
 			md5.update((row[0] or '' + '_:_' + row[1] or '').encode("utf-8"))
 			path_md5 = md5.hexdigest()
-			sql_data.append((min_date, path_md5, client_id) + row + row)
+			sql_data.append((min_date, path_md5,) + row + row)
 
 		logging.debug('excute sql: %s' % (sql,))
 		logging.debug('insert mysql data: %s' % (sql_data[0],))
 
 		mySqlClient.insert_mysql(sql, sql_data)
 
-def _run_data_quality(client_id, setting, min_date, max_date, dimension):
+def _run_data_quality(client_id, code, setting, min_date, max_date, dimension):
 	logging.debug('run ga with %s for client %s' % (client_id, setting['ga_id']))
 	ga_data = analyticsClient.get_ga_result(
 		setting['ga_id'], 
@@ -177,8 +178,8 @@ def _run_data_quality(client_id, setting, min_date, max_date, dimension):
 		logging.debug('bigquery result : %s' % (data,))
 		bq_data += data[0]
 
-	sql = mysql.data_quality.format(dimension=dimension)
-	sql_data = (min_date, client_id, ga_data) + bq_data + (ga_data, ) + bq_data
+	sql = mysql.data_quality[code].format(dimension=dimension)
+	sql_data = (min_date, ga_data) + bq_data + (ga_data, ) + bq_data
 	
 	logging.debug('excute sql: %s' % sql)
 	logging.debug('insert mysql data: %s' % (sql_data,))

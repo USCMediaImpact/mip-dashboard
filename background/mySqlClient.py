@@ -27,7 +27,15 @@ def query_client_settings():
 	cursor.execute('SET NAMES utf8;')
 	cursor.execute('SET CHARACTER SET utf8;')
 	cursor.execute('SET character_set_connection=utf8;')
-	clients = cursor.execute('SELECT `client_id`, `values` FROM `media_impact`.`settings` WHERE `enable_sync` = 1;')
+	query = (''' SELECT '''
+			 '''     `a`.`id`, `a`.`code`, `b`.`values` '''
+			 ''' FROM '''
+			 '''     `clients` AS `a` '''
+			 '''         INNER JOIN '''
+			 '''     `settings` AS `b` ON `a`.`id` = `b`.`client_id` '''
+			 ''' WHERE '''
+			 '''     `b`.`enable_sync` = 1; ''')
+	clients = cursor.execute(query)
 	return cursor.fetchmany(clients)
 
 """
