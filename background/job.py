@@ -57,10 +57,10 @@ def run(min_date, max_date, dimension):
 		notTotallySuccess = False
 
 		try:
-			logging.debug('run prepare')
+			logging.debug('run %s prepare' % code)
 			_run_prepare(clientId, setting, min_date, max_date, dimension)
 		except Exception:
-			logging.error('run prepare failed', exc_info=True)
+			logging.error('run prepare %s failed' % code, exc_info=True)
 			notTotallySuccess = True
 
 		#query for data_users
@@ -69,7 +69,7 @@ def run(min_date, max_date, dimension):
 			if dimension in setting['data_users_dimension']:
 				_run_data_users(clientId, code, setting, min_date, max_date, dimension)
 		except Exception:
-			logging.error('run data users failed', exc_info=True)
+			logging.error('run %s data users failed' % code, exc_info=True)
 			notTotallySuccess = True
 
 		#query for data_stories
@@ -77,7 +77,7 @@ def run(min_date, max_date, dimension):
 			if dimension in setting['data_stories_dimension']:
 				_run_data_stories(clientId, code, setting, min_date, max_date, dimension)
 		except Exception:
-			logging.error('run data stories failed', exc_info=True)
+			logging.error('run %s data stories failed' % code, exc_info=True)
 			notTotallySuccess = True
 
 		#query for data_quality
@@ -85,7 +85,7 @@ def run(min_date, max_date, dimension):
 			if dimension in setting['data_quality_dimension']:
 				_run_data_quality(clientId, code, setting, min_date, max_date, dimension)
 		except Exception:
-			logging.error('run data quality failed', exc_info=True)
+			logging.error('run %s data quality failed' % code, exc_info=True)
 			notTotallySuccess = True
 
 	if notTotallySuccess :
@@ -103,7 +103,7 @@ def _run_prepare(client_id, setting, min_date, max_date, dimension):
 			bigQueryClient.insert_from_query(hive, setting['bq_id'], info[0], info[1])
 
 def _run_data_users(client_id, code, setting, min_date, max_date, dimension):
-	logging.debug('run data user job')
+	logging.debug('run %s data user job' % code)
 	
 	hql = format_hive(setting['bq_data_users'], min_date, max_date, dimension)
 
