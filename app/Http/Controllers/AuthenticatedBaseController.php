@@ -32,7 +32,6 @@ class AuthenticatedBaseController extends Controller
         $client_id = $request['client']['id'];
         $query = DB::table($tableName . $group)
             ->select(DB::raw($select))
-            ->where('client_id', $client_id)
             ->where('date', '<=', $max_date['year'] . '-' . $max_date['month'] . '-' . $max_date['day'])
             ->where('date', '>=', $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day']);
 
@@ -63,7 +62,6 @@ class AuthenticatedBaseController extends Controller
         $client_id = $request['client']['id'];
         $query = DB::table($tableName . $group)
             ->select(DB::raw($select))
-            ->where('client_id', $client_id)
             ->where('date', '<=', $max_date['year'] . '-' . $max_date['month'] . '-' . $max_date['day'])
             ->where('date', '>=', $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day']);
         $data = $query->get();

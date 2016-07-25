@@ -23,8 +23,8 @@ class DataController extends AuthenticatedBaseController{
             'date, TotalDonorsThisWeek, KPI_TotalDonorsKnownToMIP, TotalDonorsThisWeek / KPI_TotalDonorsKnownToMIP as Donors_In_MIP'
         ],
         'TT' => [
-            'date, Duplicated_CameThroughEmailPlusDonors, Unduplicated_TotalUsersKPI, Duplicated_Database_CameThroughEmailPlusDonors, Unduplicated_Database_TotalUsersKPI, Unduplicated_TotalUsersKPI / Unduplicated_Database_TotalUsersKPI as Loyal_Users_On_Site',
-            'date, CameToSiteThroughEmail, KPI_TotalEmailSubscribersKnownToMIP, KPI_PercentKnownSubsWhoCame, NewEmailSubscribers',
+            'date, Duplicated_MembersPlusCameThroughEmailPlusDonors, Unduplicated_TotalUsersKPI, Duplicated_Database_MembersPlusCameThroughEmailPlusDonors, Unduplicated_Database_TotalUsersKPI, Unduplicated_TotalUsersKPI / Unduplicated_Database_TotalUsersKPI as Loyal_Users_On_Site',
+            'date, CameToSiteThroughEmail, KPI_TotalEmailSubscribersKnownToMIP, KPI_PercentKnownSubsWhoCame, KPI_NewEmailSubscribers',
             'date, TotalDonorsThisWeek, KPI_TotalDonorsKnownToMIP, TotalDonorsThisWeek / KPI_TotalDonorsKnownToMIP as Donors_In_MIP',
             'date, TotalMembersThisWeek, KPI_TotalMembersKnownToMIP, TotalMembersThisWeek / KPI_TotalMembersKnownToMIP as Members_In_MIP'
         ]
@@ -153,11 +153,11 @@ class DataController extends AuthenticatedBaseController{
             'Page_Path, Article, Pageviews, Comments, Emails, Tweets, Facebook_Recommendations, Comments + Emails + Tweets + Facebook_Recommendations as TotalShares, (Comments + Emails + Tweets + Facebook_Recommendations) / Pageviews as SahreRate, Related_Clicks, Related_Clicks / Scroll_Supplemental as ClickThroughRate'
         ],
         'TT' => [
-            'Page_Path, Article, Pageviews, Scroll_Start/Pageviews as StartedScrolling, Scroll_25/Pageviews as Scroll25, Scroll_50/Pageviews as Scroll50, Scroll_75/Pageviews as Scroll75, Scroll_100/Pageviews as Scroll100, Scroll_Supplemental/Pageviews as RelatedContent, Scroll_End/Pageviews as EndOfPage',
-            'Page_Path, Article, Pageviews, Scroll_Start as StartedScrolling, Scroll_25 as Scroll25, Scroll_50 as Scroll50, Scroll_75 as Scroll75, Scroll_100 as Scroll100, Scroll_Supplemental as RelatedContent, Scroll_End as EndOfPage',
-            'Page_Path, Article, Pageviews, Time_15/Pageviews as Time15, Time_30/Pageviews as Time30, Time_45/Pageviews as Time45, Time_60/Pageviews as Time60, Time_75/Pageviews as Time75, Time_90/Pageviews as Time90',
-            'Page_Path, Article, Pageviews, Time_15 as Time15, Time_30 as Time30, Time_45 as Time45, Time_60 as Time60, Time_75 as Time75, Time_90 as Time90',
-            'Page_Path, Article, Pageviews, Comments, Republish, Emails, Tweets, Facebook_Recommendations, Comments + Emails + Tweets + Facebook_Recommendations as TotalShares, (Comments + Republish + Emails + Tweets + Facebook_Recommendations) / Pageviews as SahreRate, Tribpedia_Related_Clicks, Related_Clicks, Related_Clicks / Scroll_Supplemental as ClickThroughRate'
+            'Combo_URL, Article, Pageviews, Scroll_Start/Pageviews as StartedScrolling, Scroll_25/Pageviews as Scroll25, Scroll_50/Pageviews as Scroll50, Scroll_75/Pageviews as Scroll75, Scroll_100/Pageviews as Scroll100, Scroll_Supplemental/Pageviews as RelatedContent, Scroll_End/Pageviews as EndOfPage',
+            'Combo_URL, Article, Pageviews, Scroll_Start as StartedScrolling, Scroll_25 as Scroll25, Scroll_50 as Scroll50, Scroll_75 as Scroll75, Scroll_100 as Scroll100, Scroll_Supplemental as RelatedContent, Scroll_End as EndOfPage',
+            'Combo_URL, Article, Pageviews, Time_15/Pageviews as Time15, Time_30/Pageviews as Time30, Time_45/Pageviews as Time45, Time_60/Pageviews as Time60, Time_75/Pageviews as Time75, Time_90/Pageviews as Time90',
+            'Combo_URL, Article, Pageviews, Time_15 as Time15, Time_30 as Time30, Time_45 as Time45, Time_60 as Time60, Time_75 as Time75, Time_90 as Time90',
+            'Combo_URL, Article, Pageviews, Comments, Republish, Emails, Tweets, Facebook_Recommendations, Comments + Emails + Tweets + Facebook_Recommendations as TotalShares, (Comments + Republish + Emails + Tweets + Facebook_Recommendations) / Pageviews as SahreRate, Tribpedia_Related_Clicks, Related_Clicks, Related_Clicks / Scroll_Supplemental as ClickThroughRate'
         ],
     ];
 
@@ -202,7 +202,7 @@ class DataController extends AuthenticatedBaseController{
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
 
-        $query = DB::table('data_stories_' . $group);
+        $query = DB::table($client_code. '_data_stories_' . $group);
 
         $count = $query->count();
         $date_range_min = $query->min('date');
@@ -308,7 +308,7 @@ class DataController extends AuthenticatedBaseController{
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
 
-        $query = DB::table('data_quality_' . $group);
+        $query = DB::table($client_code.'_data_quality_'.$group);
 
         $count = $query->count();
         $date_range_min = $query->min('date');

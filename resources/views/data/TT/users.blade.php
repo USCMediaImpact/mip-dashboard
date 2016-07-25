@@ -147,11 +147,11 @@
             'columns': [{
                 'data': 'date'
             }, {
-                'data': 'Duplicated_CameThroughEmailPlusDonors'
+                'data': 'Duplicated_MembersPlusCameThroughEmailPlusDonors'
             }, {
                 'data': 'Unduplicated_TotalUsersKPI'
             }, {
-                'data': 'Duplicated_Database_CameThroughEmailPlusDonors'
+                'data': 'Duplicated_Database_MembersPlusCameThroughEmailPlusDonors'
             }, {
                 'data': 'Unduplicated_Database_TotalUsersKPI'
             }, {
@@ -215,7 +215,7 @@
             }, {
                 'data': 'KPI_PercentKnownSubsWhoCame'
             }, {
-                'data': 'NewEmailSubscribers'
+                'data': 'KPI_NewEmailSubscribers'
             }],
             'columnDefs': [{
                 'targets': 0,

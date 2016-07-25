@@ -505,11 +505,23 @@
             'columns': [{
                 'data': 'date'
             }, {
-                'data': 'K_individualsWhoCameThisWeek'
+                'data': 'I_databaseMembersWhoVisited'
             }, {
-                'data': 'K_individualsInDatabase'
+                'data': 'K_databaseMembersWhoVisited'
             }, {
-                'data': 'K_percentDatabaseIndividualsWhoCame'
+                'data': 'I_loggedInOnSiteForFirstTime'
+            }, {
+                'data': 'K_loggedInOnSiteForFirstTime'
+            }, {
+                'data': 'I_totalMembersOnSiteThisWeek'
+            }, {
+                'data': 'K_totalMembersOnSiteThisWeek'
+            }, {
+                'data': 'I_totalMembersInDatabase'
+            }, {
+                'data': 'K_totalMembersInDatabase'
+            }, {
+                'data': 'K_percentDatabaseMembersWhoCame'
             }],
             'columnDefs': [{
                 'targets': 0,
@@ -531,7 +543,37 @@
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
                 }
-            } ]
+            }, {
+                'targets': 4,
+                'render': function (data, type, row) {
+                    return new Intl.NumberFormat().format(data)
+                }
+            }, {
+                'targets': 5,
+                'render': function (data, type, row) {
+                    return new Intl.NumberFormat().format(data)
+                }
+            }, {
+                'targets': 6,
+                'render': function (data, type, row) {
+                    return new Intl.NumberFormat().format(data)
+                }
+            }, {
+                'targets': 7,
+                'render': function (data, type, row) {
+                    return new Intl.NumberFormat().format(data)
+                }
+            }, {
+                'targets': 8,
+                'render': function (data, type, row) {
+                    return new Intl.NumberFormat().format(data)
+                }
+            }, {
+                'targets': 9,
+                'render': function (data, type, row) {
+                    return new Intl.NumberFormat().format(data)
+                }
+            }]
         });
 	});
 </script>
