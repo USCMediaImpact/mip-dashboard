@@ -45,12 +45,13 @@ class AnalysesController extends AuthenticatedBaseController{
         $file_type = $_FILES['content']['type'];
 
         move_uploaded_file($uploadFile, $path);
-        $screenshot = '';
-//        $screenshot = "gs://${bucket}/${guid}_screenshot.${extension}";
-//        $im = new Imagick();
-//
-//        $im->setImageFormat('jpg');
-//        $im->writeImageFile(fopen($screenshot, 'w'));
+        $screenshot = "gs://${bucket}/${guid}_screenshot.${extension}";
+        $handle = fopen($path, 'rb');
+
+        $img = new Imagick();
+        $img->readImageFile($handle);
+        $img->setImageFormat('jpg');
+        $img->writeImageFile(fopen($screenshot, 'w'));
 
         Analyses::create([
             'file_id' => $guid,
