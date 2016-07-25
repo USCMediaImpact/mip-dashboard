@@ -57,7 +57,7 @@ def run(min_date, max_date, dimension):
 		notTotallySuccess = False
 
 		try:
-			logging.debug('run %s prepare' % code)
+			logging.info('run %s prepare' % code)
 			_run_prepare(clientId, setting, min_date, max_date, dimension)
 		except Exception:
 			logging.error('run prepare %s failed' % code, exc_info=True)
@@ -65,6 +65,7 @@ def run(min_date, max_date, dimension):
 
 		#query for data_users
 		try:
+			logging.info('run %s data users' % code)
 			logging.debug(setting['data_users_dimension'])
 			if dimension in setting['data_users_dimension']:
 				_run_data_users(clientId, code, setting, min_date, max_date, dimension)
@@ -74,6 +75,8 @@ def run(min_date, max_date, dimension):
 
 		#query for data_stories
 		try:
+			logging.info('run %s data stories' % code)
+			logging.debug(setting['data_users_dimension'])
 			if dimension in setting['data_stories_dimension']:
 				_run_data_stories(clientId, code, setting, min_date, max_date, dimension)
 		except Exception:
@@ -82,6 +85,7 @@ def run(min_date, max_date, dimension):
 
 		#query for data_quality
 		try:
+			logging.info('run %s data quality' % code)
 			if dimension in setting['data_quality_dimension']:
 				_run_data_quality(clientId, code, setting, min_date, max_date, dimension)
 		except Exception:
