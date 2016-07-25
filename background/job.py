@@ -67,7 +67,7 @@ def run(min_date, max_date, dimension):
 		try:
 			logging.debug(setting['data_users_dimension'])
 			if dimension in setting['data_users_dimension']:
-				_run_data_users(clientId, setting, min_date, max_date, dimension)
+				_run_data_users(clientId, code, setting, min_date, max_date, dimension)
 		except Exception:
 			logging.error('run data users failed', exc_info=True)
 			notTotallySuccess = True
@@ -75,7 +75,7 @@ def run(min_date, max_date, dimension):
 		#query for data_stories
 		try:
 			if dimension in setting['data_stories_dimension']:
-				_run_data_stories(clientId, setting, min_date, max_date, dimension)
+				_run_data_stories(clientId, code, setting, min_date, max_date, dimension)
 		except Exception:
 			logging.error('run data stories failed', exc_info=True)
 			notTotallySuccess = True
@@ -83,7 +83,7 @@ def run(min_date, max_date, dimension):
 		#query for data_quality
 		try:
 			if dimension in setting['data_quality_dimension']:
-				_run_data_quality(clientId, setting, min_date, max_date, dimension)
+				_run_data_quality(clientId, code, setting, min_date, max_date, dimension)
 		except Exception:
 			logging.error('run data quality failed', exc_info=True)
 			notTotallySuccess = True
