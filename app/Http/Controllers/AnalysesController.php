@@ -45,11 +45,13 @@ class AnalysesController extends AuthenticatedBaseController{
         $file_type = $_FILES['content']['type'];
 
         move_uploaded_file($uploadFile, $path);
+
+//
+
         $screenshot = "gs://${bucket}/${guid}_screenshot.${extension}";
-        $handle = fopen($path, 'rb');
 
         $img = new Imagick();
-        $img->readImageFile($handle);
+        $img->readImageBlob(file_get_contents($path));
         $img->setImageFormat('jpg');
         $img->writeImageFile(fopen($screenshot, 'w'));
 
