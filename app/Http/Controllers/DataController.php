@@ -420,6 +420,4 @@ class DataController extends AuthenticatedBaseController{
             $this::$DataQualityColumn[$client_code][4],
             'Members.csv');
     }
-
-
 }
