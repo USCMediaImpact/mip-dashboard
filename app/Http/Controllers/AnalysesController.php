@@ -85,14 +85,14 @@ class AnalysesController extends AuthenticatedBaseController{
 
         try {
             $screenshot = $path . '.png';
-            $fs = fopen($path, 'r+');
+            $fs = fopen($uploadFile, 'r+');
             $img = new Imagick($fs);
             $img->setImageFormat('png');
             $img->writeImageFile(fopen($screenshot, 'w'));
         }catch(Exception $e){
             $screenshot = '';
         }
-
+        move_uploaded_file($uploadFile, $path);
         Analyses::create([
             'user_id' => $user_id,
             'client_id' => $client_id,
