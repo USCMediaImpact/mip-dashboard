@@ -42,7 +42,7 @@
             <div class="row">
                 <fieldset class="small-12 column">
                     <legend>Client:</legend>
-                    <select name="client_id">
+                    <select style="width: 400px;" name="client_id">
                         @foreach($clients as $row)
                         <option value="{{ $row['id'] }}">{{ $row['name'] }}</option>
                         @endforeach
@@ -50,14 +50,14 @@
                 </fieldset>
                 <fieldset class="small-12 column">
                     <legend>Name:</legend>
-                    <input type="text" name="name" id="" placeholder="invited user name" />
+                    <input type="text" name="name" id="" placeholder="name" />
                 </fieldset>
                 <fieldset class="small-12 column">
                     <legend>Email:</legend>
-                    <input type="email" name="email" id="" placeholder="invited user email" />
+                    <input type="email" name="email" id="" placeholder="email address" />
                 </fieldset>
                 <fieldset class="small-12 column">
-                    <legend>Roles:</legend>
+                    <legend>Admin Roles for User:</legend>
                     @foreach($roles as $index=>$role)
                         <input name="role[]" id="{{'ckbInviteRole-' . $index}}" type="checkbox" value="{{$role->id}}">
                         <label for="{{'ckbInviteRole-' . $index}}">{{$role->name}}</label>

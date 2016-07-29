@@ -1,8 +1,40 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="row">
-        <div class="small-12 column">
+    <div class="row">    
+        <div class="small-12 columns">
+            <div class="panel">
+                <div class="top-bar">
+                    <div class="top-bar-left">
+                        Client Info
+                    </div>
+                </div>
+                <div class="row">
+                    <fieldset class="small-12 column">
+                        <legend>Name:</legend>
+                        <input type="text" name="client_name" />
+                    </fieldset>
+                    <fieldset class="small-6 column">
+                        <legend>GA code:</legend>
+                        <input type="text" name="ga_code" />
+                    </fieldset>
+                    <fieldset class="small-6 column">
+                        <legend>GTM code ID:</legend>
+                        <input type="text" name="gtm_code" />
+                    </fieldset>
+                    <fieldset class="small-12 column">
+                        <legend>Logo Image:</legend>
+                        <input type="file" name="log_img" />
+                    </fieldset>
+                    <div class="small-12 column">
+                        <div class="button-group float-right">
+                            <button class="button success" id="btnSubmitEdit">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="small-12 columns">
             <div class="table-wrapper">
                 <div class="table-toolbar">
                     <button class="button" data-open="inviteUserModal">
@@ -41,11 +73,11 @@
             <div class="row">
                 <fieldset class="small-12 column">
                     <legend>Name:</legend>
-                    <input type="text" name="name" id="" placeholder="invited user name" />
+                    <input type="text" name="name" id="" placeholder="name" />
                 </fieldset>
                 <fieldset class="small-12 column">
                     <legend>Email:</legend>
-                    <input type="email" name="email" id="" placeholder="invited user email" />
+                    <input type="email" name="email" id="" placeholder="email address" />
                 </fieldset>
                 <fieldset class="small-12 column">
                     <legend>Roles:</legend>

@@ -18,6 +18,7 @@
     @can('Admin')
     <li><a href="/auth/account/management"><i class="fa fa-gear"></i>Management</a></li>
     <li><a href="/auth/account/management"><i class="fa fa-users"></i>User Management</a></li>
+    <li><a href="/auth/account/management"><i class="fa fa-gear"></i>Settings</a></li>
     @endcan
     @can('SuperAdmin')
     <li><a href="/admin/client/management"><i class="fa fa-gear"></i>Client Management</a></li>
