@@ -89,7 +89,7 @@ class AnalysesController extends AuthenticatedBaseController{
             $img = new Imagick($fs);
             $img->setImageFormat('png');
             $img->writeImageFile(fopen($screenshot, 'w'));
-        }catch{
+        }catch(Exception $e){
             $screenshot = '';
         }
 
