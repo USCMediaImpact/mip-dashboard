@@ -86,9 +86,14 @@ class AnalysesController extends AuthenticatedBaseController{
         try {
             $screenshot = $path . '.png';
             $fs = fopen($path, 'rb');
-            $img = new Imagick($fs);
-            $img->setImageFormat('png');
-            $img->writeImageFile(fopen($screenshot, 'w'));
+            $im = new Imagick();
+            $im->setResolution(400,400);
+            $im->readImage($path);
+            $im->setImageFormat('jpeg');
+            $im->writeImage($screenshot);
+            $im->clear();
+            $im->destroy();
+            
         }catch(Exception $e){
             $screenshot = '';
         }
