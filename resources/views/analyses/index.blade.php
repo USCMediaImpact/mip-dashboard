@@ -14,7 +14,7 @@
 				<div class="top-bar">
 					<div class="top-bar-left"></div>
 					<div class="top-bar-right">
-                        <button><i class="fa fa-download"></i></button>
+                        <button ><i class="fa fa-download"></i></button>
                         <button><i class="fa fa-view"></i></button>
                         <button><i class="fa fa-edit"></i></button>
                         <button><i class="fa fa-delete"></i></button>
@@ -94,6 +94,12 @@
         });
         $(document).on('click', '.pdf', function(){
             $(this).parents('.box').toggleClass('active');
+        });
+        $(document).on('click', '.btnDownload', function(){
+            var files = $('.box.active .pdf').map(function(){
+                return $(this).attr('id');
+            });
+
         });
     });
 </script>
