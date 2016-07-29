@@ -13,11 +13,13 @@ use App\Models\Analyses;
 use Ramsey\Uuid\Uuid;
 use Imagick;
 
-class AnalysesController extends AuthenticatedBaseController{
+class AnalysesController extends AuthenticatedBaseController
+{
 
     static $bucket = 'mip-dashboard-upload';
 
-    public function show(Request $request){
+    public function show(Request $request)
+    {
         $client_id = $request['client']['id'];
         $data = DB::table('analyses')
             ->where('client_id', $client_id)
@@ -26,39 +28,41 @@ class AnalysesController extends AuthenticatedBaseController{
         return view('analyses.index', ['data' => $data]);
     }
 
-    public function display(Request $request, $guid){
+    public function display(Request $request, $guid)
+    {
         $file = Analyses::where('file_id', $guid)->get();
-        if($file){
+        if ($file) {
             $path = $file[0]->path;
             $name = $file[0]->file_name;
             $type = $file[0]->file_type;
             return response()->make(file_get_contents($path), 200, [
                 'Content-Type' => $type,
-                'Content-Disposition' => 'inline; filename="'.$name.'"'
+                'Content-Disposition' => 'inline; filename="' . $name . '"'
             ]);
         }
     }
 
-    public function download(Request $request){
+    public function download(Request $request)
+    {
         $file_id_array = $request['file_id'];
-        if(is_array($file_id_array) && count($file_id_array) > 0){
+        if (is_array($file_id_array) && count($file_id_array) > 0) {
             $client_id = $request['client']['id'];
             $data = DB::table('analyses')
                 ->where('client_id', $client_id)
                 ->whereIn('file_id', $file_id_array)
                 ->get();
 
-            if(count($data) > 0){
+            if (count($data) > 0) {
                 $bucket = 'dashboard-php-storage';
                 $tmp_name = Uuid::uuid4()->toString();
                 $path = "gs://${bucket}/download/${$tmp_name}.zip";
                 $zip = new ZipArchive();
                 $zip->open($filename, ZipArchive::CREATE);
 
-                if ($zip->open($filename, ZipArchive::CREATE)!==TRUE) {
+                if ($zip->open($filename, ZipArchive::CREATE) !== TRUE) {
                     exit("cannot open <$filename>\n");
                 }
-                foreach($data as $item){
+                foreach ($data as $item) {
                     $zip->addFile($item->path, $item->file_name);
                 }
                 $zip->close();
@@ -67,7 +71,8 @@ class AnalysesController extends AuthenticatedBaseController{
         }
     }
 
-    public function upload(Request $request){
+    public function upload(Request $request)
+    {
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
         $user = $request->user();
@@ -109,5 +114,32 @@ class AnalysesController extends AuthenticatedBaseController{
             'path' => $path
         ]);
         return redirect()->action('AnalysesController@show');
+    }
+
+    public function edit(Request $request)
+    {
+        $pdf = Analyses::where('client_id', $client_id)
+            ->where('file_id', $request['file_id'])
+            ->first();
+        if ($pdf !== null) {
+            $pdf->update([
+                'description' => $request['description']
+            ]);
+            return ['success' => true];
+        }else{
+            return ['success' => false, 'message' => 'file not exists'];
+        }
+
+    }
+
+    public function delete(Request $request, $file_id)
+    {
+        $pdf = Analyses::where('client_id', $client_id)
+            ->where('file_id', $request['file_id'])
+            ->first();
+        if ($pdf !== null) {
+            $pdf->softDeletes();
+        }
+        return ['success' => true];
     }
 }

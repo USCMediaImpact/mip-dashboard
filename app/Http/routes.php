@@ -103,3 +103,5 @@ Route::get('/analyses', 'AnalysesController@show');
 Route::get('/analyses/{guid}', 'AnalysesController@display');
 Route::post('/analyses', 'AnalysesController@upload');
 Route::post('/analyses/download', 'AnalysesController@download');
+Route::post('/analyses/edit', 'AnalysesController@edit');
+Route::delete('/analyses/{guid}', 'AnalysesController@delete');

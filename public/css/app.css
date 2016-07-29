@@ -44,8 +44,8 @@
 .panel { border: solid 1px #ebebeb; padding: 80px 20px 20px; position: relative }
 .panel .top-bar { position: absolute; left: 0; right: 0; width: 100%; top: 0; height: 60px; line-height: 60px; padding: 0 10px }
 .title { display: inline-block; color: #424242; }
-.sec-title { display: inline-block; color: #767474; position: relative; left: 10px; font-size: 18px;}
-.sub-title { display: inline-block; color: #767474; margin-top: -10px; clear: left; font-size: 18px;}
+.sec-title { display: inline-block; color: #767474; position: relative; left: 10px; font-size: 18px; }
+.sub-title { display: inline-block; color: #767474; margin-top: -10px; clear: left; font-size: 18px; }
 .table-wrapper { position: relative }
 .table-wrapper .table-toolbar { position: absolute; z-index: 1 }
 table.report { min-width: 100% }
@@ -87,11 +87,7 @@ z-index: 2; opacity: 0; cursor: pointer; }
 .analyses .box.upload label { width: 80%; height: 64px; position: absolute; left: 50%; top: 35%; margin-left: -40%; margin-top: 74px; text-align: center; font-size: 16px; color: #b4b4b4; }
 .analyses_btn_upload { background: none; border: solid 1px #dfdfdf; border-radius: 64px; width: 64px; height: 64px; position: absolute; left: 50%; top: 35%; margin-left: -32px; z-index: 1; pointer-events: none; }
 .analyses_btn_upload i { color: #3c3d3d }
-.analyses .box .pdf { border: solid 1px #e4e4e4; 
-	height: 100%; position: absolute; left: 0; right: 0; top: 0; bottom: 60px; 
-	background-repeat: no-repeat; 
-	background-position: center 12px;
- }
+.analyses .box .pdf { border: solid 1px #e4e4e4; height: 100%; position: absolute; left: 0; right: 0; top: 0; bottom: 60px; background-repeat: no-repeat; background-position: center 12px; }
 .analyses .box .description { position: absolute; bottom: 0; left: 0; right: 0; border: solid 1px #fff; border-top: solid 1px #e4e4e4; height: 60px; overflow: hidden; padding: 10px; text-align: center; }
 .analyses .box:hover, .analyses .box:active, .analyses .box.active { border: solid 1px #c0d0dd; }
 .analyses .box:hover .description, .analyses .box:active .description, .box.active .description { background: #c0d0dd; color: #fff; border: solid 1px #c0d0dd; border-top: none; }
