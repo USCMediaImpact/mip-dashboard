@@ -82,21 +82,21 @@ class AnalysesController extends AuthenticatedBaseController{
         $file_type = $_FILES['content']['type'];
 
         move_uploaded_file($uploadFile, $path);
-
-        try {
-            $screenshot = $path . '.png';
-            $fs = fopen($path, 'rb');
-            $im = new Imagick();
-            $im->setResolution(400,400);
-            $im->readImage($path);
-            $im->setImageFormat('jpeg');
-            $im->writeImage($screenshot);
-            $im->clear();
-            $im->destroy();
-            
-        }catch(Exception $e){
-            $screenshot = '';
-        }
+        $screenshot = '';
+//        try {
+//            $screenshot = $path . '.png';
+//            $fs = fopen($path, 'rb');
+//            $im = new Imagick();
+//            $im->setResolution(400,400);
+//            $im->readImage($path);
+//            $im->setImageFormat('jpeg');
+//            $im->writeImage($screenshot);
+//            $im->clear();
+//            $im->destroy();
+//
+//        }catch(Exception $e){
+//            $screenshot = '';
+//        }
 
         Analyses::create([
             'user_id' => $user_id,
