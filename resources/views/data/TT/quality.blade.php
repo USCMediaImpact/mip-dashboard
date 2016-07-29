@@ -471,7 +471,7 @@
             }, {
                 'targets': 1,
                 'render': function (data, type, row) {
-                    return '';
+                    return new Intl.NumberFormat().format(data)
                 }
             }, {
                 'targets': 2,
@@ -531,7 +531,7 @@
             }, {
                 'targets': 1,
                 'render': function (data, type, row) {
-                    return '';
+                    return new Intl.NumberFormat().format(data)
                 }
             }, {
                 'targets': 2,

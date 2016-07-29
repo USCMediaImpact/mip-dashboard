@@ -43,6 +43,7 @@ $(function () {
 	$('.dateRange').daterangepicker({
 		initialText: dateRangeDisplayText,
 		dateFormat: 'M d, yy',
+		initialText: 'by default',
 		presetRanges: [{
 			text: 'Last Week (Mo-Su)',
 			dateStart: function () {

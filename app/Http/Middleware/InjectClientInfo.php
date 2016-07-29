@@ -23,12 +23,12 @@ class InjectClientInfo
         $needSetCookie = false;
         $user = $request->user();
         /**
-         * if super admin client id get from cookie
-         * others use current user client info
+         * for super admin client id get from cookie
+         * others used current user client id
          */
         if ($user->roles()->where('name', 'SuperAdmin')->count() > 0) {
             $clientId = $request->cookie('client-id');
-            if ($clientId === null) {
+            if (!$clientId) {
                 $client = Client::first()
                     ->select(['id', 'name', 'code', 'website'])
                     ->get()->toArray()[0];
@@ -39,7 +39,10 @@ class InjectClientInfo
             }
 
             $needSetCookie = true;
-            $allClient = Client::select(['id', 'name'])->get()->toArray();
+            $allClient = Client::select(['id', 'name'])
+                ->where('ready', true)
+                ->get()
+                ->toArray();
             View::share('allClient', array_map(function($row){
                 return array(
                     'id' => $row['id'],
@@ -47,11 +50,9 @@ class InjectClientInfo
                     'value' => Crypt::encrypt($row['id'])
                 );
             }, $allClient));
-        } else {
-            $client = $user->client->first();
-            if($client === null){
-                dd('error');
-            }
+        }
+        else {
+            $client = $user->client->first()->get()->toArray()[0];
         }
 
         View::share('client', $client);
