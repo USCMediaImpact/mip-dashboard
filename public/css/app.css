@@ -82,3 +82,6 @@ z-index: 2; opacity: 0; cursor: pointer; }
 .analyses .box:hover, .analyses .box:active { border: solid 1px #c0d0dd; }
 .analyses .box:hover .description, .analyses .box:active .description { background: #c0d0dd; color: #fff; border: solid 1px #c0d0dd; border-top: none; }
 .url_tooltip.tooltip{max-width: 640px !important;}
+.board .box{ border: solid 1px #ababab; padding: 35px 5px; text-align: center;}
+.board .box .number{font-size: 32px; line-height: 1;}
+.board .box .values{color: #02d401;}

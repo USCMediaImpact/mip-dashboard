@@ -58,6 +58,7 @@
     <script src="{{ asset('scripts/vendor/select2.full.min.js') }}"></script>
     <script src="{{ asset('scripts/vendor/jquery.comiseo.daterangepicker.js') }}"></script>
     <script src="{{ asset('scripts/vendor/amcharts/amcharts.js') }}"></script>
+    <script src="{{ asset('scripts/vendor/amcharts/pie.js') }}"></script>
     <script src="{{ asset('scripts/vendor/amcharts/serial.js') }}"></script>
     <script src="{{ asset('scripts/vendor/amcharts/themes/light.js') }}"></script>
     <!-- endbuild -->
