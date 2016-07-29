@@ -49,11 +49,11 @@ class AnalysesController extends AuthenticatedBaseController{
         $source = fopen("php://temp/maxmemory:$fiveMBs", 'r+');
         
         $screenshot = "gs://${bucket}/${guid}_screenshot.${extension}";
-
-        $img = new Imagick();
-        $img->readImageBlob(file_get_contents($path));
-        $img->setImageFormat('jpg');
-        $img->writeImageFile(fopen($screenshot, 'w'));
+        $screenshot = "gs://${bucket}/default.png";
+//        $img = new Imagick();
+//        $img->readImageBlob(file_get_contents($path));
+//        $img->setImageFormat('jpg');
+//        $img->writeImageFile(fopen($screenshot, 'w'));
 
         Analyses::create([
             'file_id' => $guid,
