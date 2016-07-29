@@ -6,6 +6,9 @@
         <input type="hidden" name="client_id" value="{{$client->id}}" />
         <div class="row">
             <div class="small-12 columns">
+                <h4 class="title">{{$client->name}}</h4>
+            </div>
+            <div class="small-12 columns">
                 <div class="row align-middle">
                     <div class="small-4 columns">
                         <label for="">Enable Cron Background Sync?</label>
@@ -34,8 +37,9 @@
                 <ul class="tabs" data-tabs id="setting-tabs">
                     <li class="tabs-title is-active"><a href="#bq_prepare" aria-selected="true">Prepare</a></li>
                     <li class="tabs-title"><a href="#data_users" aria-selected="true">Data Users</a></li>
-                    <li class="tabs-title"><a href="#bq_data_stories" aria-selected="true">Data Stories</a></li>
+                    <li class="tabs-title"><a href="#data_stories" aria-selected="true">Data Stories</a></li>
                     <li class="tabs-title"><a href="#data_quality" aria-selected="true">Data Quality</a></li>
+                    <li class="tabs-title"><a href="#data_newsletter" aria-selected="true">Data NewsLetter</a></li>
                 </ul>
                 <div class="tabs-content" data-tabs-content="setting-tabs">
                     <div class="tabs-panel is-active" id="bq_prepare">
@@ -114,7 +118,7 @@
                         
                         <textarea name="bq_data_users">{!! array_key_exists('bq_data_users', $values) ? $values['bq_data_users'] : '' !!}</textarea>
                     </div>
-                    <div class="tabs-panel" id="bq_data_stories">
+                    <div class="tabs-panel" id="data_stories">
                         <div class="row">
                             <div class="columns small-12 text-right">
                                 @include('layouts/checkbox', ['name'=>'data_stories_dimension', 'keys'=>['daily', 'weekly', 'monthly'], 'values'=>$values])
@@ -146,8 +150,16 @@
 
                         <label for="bq_data_quality_t6"> T6</label>
                         <textarea id="bq_data_quality_t6" name="bq_data_quality_t6">{!! array_key_exists('bq_data_quality_t6', $values) ? $values['bq_data_quality_t6'] : '' !!}</textarea>
-                        
                     </div>
+                    <div class="tabs-panel" id="data_newsletter">
+                        <div class="row">
+                                <div class="columns small-12 text-right">
+                                    @include('layouts/checkbox', ['name'=>'data_newsletter_dimension', 'keys'=>['daily', 'weekly', 'monthly'], 'values'=>$values])
+                                </div>
+                            </div>
+
+                            <textarea name="bq_data_newsletter">{!! array_key_exists('bq_data_newsletter', $values) ? $values['bq_data_newsletter'] : '' !!}</textarea>
+                        </div>
                 </div>
             </div>
         </div>

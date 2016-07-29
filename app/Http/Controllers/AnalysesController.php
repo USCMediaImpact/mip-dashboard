@@ -50,10 +50,10 @@ class AnalysesController extends AuthenticatedBaseController{
         
         $screenshot = "gs://${bucket}/${guid}_screenshot.${extension}";
 
-        $img = new Imagick();
-        $img->readImageBlob(file_get_contents($path));
-        $img->setImageFormat('jpg');
-        $img->writeImageFile(fopen($screenshot, 'w'));
+//        $img = new Imagick();
+//        $img->readImageBlob(file_get_contents($path));
+//        $img->setImageFormat('jpg');
+//        $img->writeImageFile(fopen($screenshot, 'w'));
 
         Analyses::create([
             'file_id' => $guid,

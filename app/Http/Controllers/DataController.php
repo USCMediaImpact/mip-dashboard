@@ -284,6 +284,57 @@ class DataController extends AuthenticatedBaseController{
             $this::$DataStoriesColumn[$client_code][2], 'User Interactions.csv');
     }
 
+    private static $DataNewsLetterField = [
+        'SCPR' => '',
+        'TT' => ''
+    ];
+
+    private static $DataNewsLetterColumn = [
+        'SCPR' => ['Newsletter', 'Frequency', 'Deliveries', 'Opens', 'Unique Opens', 'Clicks', 'Open Rate', 'Click to Delivery Rate', 'Avg Total Clicks per Unique Opens'],
+        'TT' => []
+    ];
+
+    public function showNewsLetter(Request $request){
+        $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
+        $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
+        $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
+
+        $client_id = $request['client']['id'];
+        $client_code = $request['client']['code'];
+
+        $query = DB::table($client_code.'_data_newsletter_'.$group);
+
+        $count = $query->count();
+        $date_range_min = $query->min('date');
+        $date_range_max = $query->max('date');
+
+        return view('data.' . $client_code . '.newsletter', [
+            'have_data' => $count > 0,
+            'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
+            'max_date' => mktime(0, 0, 0, $max_date['month'], $max_date['day'], $max_date['year']),
+            'date_range_min' => $date_range_min,
+            'date_range_max' => $date_range_max,
+            'group' => $group,
+            'displayGroupName' => self::$groupDisplay[$group]
+        ]);
+    }
+
+    public function get_NewsLetter(Request $request){
+        $client_code = $request['client']['code'];
+        return $this->dataTableQuery($request,
+            $client_code.'_data_newsletter_',
+            $this::$DataQualityField[$client_code]);
+    }
+
+    public function download_NewsLetter(Request $request){
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request,
+            $client_code.'_data_newsletter_',
+            $this::$DataQualityField[$client_code],
+            $this::$DataQualityColumn[$client_code],
+            'Email Newsletter Performance.csv');
+    }
+
     private static $DataQualityField = [
         'SCPR' => [
             'date, \'\' as Events, GA_Users, MIP_Users, (GA_Users - MIP_Users) / MIP_Users as Variance',

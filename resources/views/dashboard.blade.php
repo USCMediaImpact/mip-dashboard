@@ -1,144 +1,41 @@
+@inject('formatter', 'App\Helpers\FormatterHelper')
 @extends('layouts.main')
 
 @section('content')
-    <div class="row">
-        <div class="small-12 column">
-            <div id="chartdiv" style="width: 100%; height: 420px;"></div>
+    <div class="row expanded">
+        <div class="column small-9">
+            <h4 class="title">Media Impact Dashboard</h4>
         </div>
-        <div class="small-12 column">
-            <table class="tiny">
-                <thead>
-                    <tr>
-                        <td>Date</td>
-                        <td>Page Views</td>
-                        <td>Visits</td>
-                        <td>Hits</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($report as $row)
-                    <tr>
-                        <td>{{ $row['date'] }}</td>
-                        <td>{{ $row['pageviews'] }}</td>
-                        <td>{{ $row['visits'] }}</td>
-                        <td>{{ $row['hits'] }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+    </div>
+    <div class="row expanded">
+        <div class="column small-12">
+            <div class="panel">
+                <div class="top-bar">
+                    <div class="top-bar-left">
+                        Metrics Overview
+                    </div>
+                    <div class="top-bar-right">
+                        @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
+                    </div>
+                </div>
+                <div class="row">
+                    
+                </div>
+            </div>
         </div>
     </div>
 @endsection
 
 @section('script')
-    <script>
-    var chart = AmCharts.makeChart("chartdiv", {
-        "type": "serial",
-        "theme": "light",
-        "marginRight": 80,
-        "marginLeft": 80,
-        "autoMarginOffset": 20,
-        "legend": {
-            "position": "bottom",
-            "equalWidths": true,
-            "useGraphSettings": true,
-            "valueAlign": "right",
-            "valueWidth": 80
-        },
-        "dataProvider": {!! json_encode($report) !!},
-        "valueAxes": [{
-            "id": "pageViewsAxis",
-            "axisAlpha": 0,
-            "gridAlpha": 0,
-            "position": "left",
-            "title": "PageViews"
-        }, {
-            "id": "visitsAxis",
-            "axisAlpha": 0,
-            "gridAlpha": 0,
-            "labelsEnabled": false,
-            "position": "right",
-            offset: 100
-        }, {
-            "id": "hitsAxis",
-            "axisAlpha": 0,
-            "gridAlpha": 0,
-            "inside": true,
-            "position": "right",
-            "title": "Hits",
-            offset: 100
-        }],
-        "graphs": [{
-            "alphaField": "alpha",
-            "balloonText": "pv: [[value]]",
-            "dashLengthField": "dashLength",
-            "fillAlphas": 0.7,
-            "legendValueText": "[[value]]",
-            "title": "pv",
-            "type": "column",
-            "columnWidth": 0.5,
-            "valueField": "pageviews",
-            "valueAxis": "pageViewsAxis"
-        }, {
-            "balloonText": "hits: [[value]]",
-            "bullet": "round",
-            "bulletBorderAlpha": 1,
-            "useLineColorForBulletBorder": true,
-            "bulletColor": "#FFFFFF",
-            "bulletSizeField": "5",
-            "dashLengthField": "dashLength",
-            "labelPosition": "top",
-            "labelText": "hits: [[value]]",
-            "legendValueText": "[[value]]",
-            "title": "hits",
-            "fillAlphas": 0,
-            "valueField": "hits",
-            "valueAxis": "hitsAxis"
-        }, {
-            "bullet": "square",
-            "bulletBorderAlpha": 1,
-            "bulletBorderThickness": 1,
-            "dashLengthField": "dashLength",
-            "legendValueText": "[[value]]",
-            "labelPosition": "bottom",
-            "labelText": "visits: [[value]]",
-            "title": "Visits",
-            "fillAlphas": 0,
-            "valueField": "visits",
-            "valueAxis": "visitsAxis"
-        }],
-        "chartCursor": {
-            "categoryBalloonDateFormat": "DD",
-            "cursorAlpha": 0.1,
-            "cursorColor": "#000000",
-            "fullWidth": true,
-            "valueBalloonsEnabled": false,
-            "zoomable": false
-        },
-        "dataDateFormat": "YYYYMMDD",
-        "categoryField": "date",
-        "categoryAxis": {
-            "dateFormats": [{
-                "period": "DD",
-                "format": "DD"
-            }, {
-                "period": "WW",
-                "format": "MMM DD"
-            }, {
-                "period": "MM",
-                "format": "MMM"
-            }, {
-                "period": "YYYY",
-                "format": "YYYY"
-            }],
-            "parseDates": true,
-            "autoGridCount": false,
-            "axisColor": "#555555",
-            "gridAlpha": 0.1,
-            "gridColor": "#FFFFFF",
-            "gridCount": 50
-        },
-        
+<script>
+    DefaultDateRangePickerOptions = {
+        datepickerOptions: {
+            minDate: moment('{{$date_range_min}}').toDate(),
+            maxDate: moment('{{$date_range_max}}').toDate()
+        }
+    };
+    $(function(){
+
     });
-    </script>
+</script>
 @endsection

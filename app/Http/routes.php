@@ -51,8 +51,8 @@ Route::get('auth/account/{id}', 'Auth\AccountController@getAccount');
 Route::post('auth/account', 'Auth\AccountController@editAccount');
 Route::delete('auth/account/{id}', 'Auth\AccountController@removeAccount');
 
-// Demo routes...
-Route::match(['get', 'post'], '/', 'DashboardController@showDashboard');
+// Default routes...
+Route::match(['get', 'post'], '/', 'DashboardController@show');
 
 // Main routes...
 Route::match(['get', 'post'], '/reports/content', 'ReportsController@showContent');
@@ -86,6 +86,10 @@ Route::post('/data/stories/time_on_article/{mode}', 'DataController@get_Stories_
 Route::post('/data/stories/time_on_article/{mode}/csv', 'DataController@download_Stories_Time_On_Article');
 Route::post('/data/stories/user_interactions', 'DataController@get_Stories_User_Interactions');
 Route::post('/data/stories/user_interactions/csv', 'DataController@download_Stories_User_Interactions');
+
+Route::get('/data/newsletter', 'DataController@showNewsLetter');
+Route::post('/data/newsletter', 'DataController@get_NewsLetter');
+Route::post('/data/newsletter/csv', 'DataController@download_NewsLetter');
 
 Route::get('/data/quality', 'DataController@showQuality');
 Route::post('/data/quality/ga_vs_gtm', 'DataController@get_Quality_GA_VS_GTM');

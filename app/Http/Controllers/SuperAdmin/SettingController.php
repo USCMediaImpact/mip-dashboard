@@ -66,6 +66,8 @@ class SettingController extends AuthenticatedBaseController
                 'bq_data_quality_t4' => $request['bq_data_quality_t4'],
                 'bq_data_quality_t5' => $request['bq_data_quality_t5'],
                 'bq_data_quality_t6' => $request['bq_data_quality_t6'],
+                'data_newsletter_dimension' =>  $request['data_newsletter_dimension'],
+                'bq_data_newsletter' =>  $request['bq_data_newsletter'],
             ])
         ];
         if($setting === null) {

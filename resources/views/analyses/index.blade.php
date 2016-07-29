@@ -4,7 +4,8 @@
 @section('content')
 	<div class="row expanded">
 		<div class="column small-9">
-			<h4 class="title">Analyses Upload, view and download ad hoc analyses</h4>
+			<h4 class="title">Analyses</h4>
+            <span>Upload, view and download ad hoc analyses</span>
 		</div>
 	</div>
 	<div class="row expanded">
