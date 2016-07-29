@@ -6,6 +6,7 @@
 .off-canvas .client_title { display: block; height: 60px; line-height: 60px; background: #212121; color: white; font-size: 18px; padding-left: 20px }
 .off-canvas.position-left { width: 320px }
 .off-canvas .menu.vertical > li:hover, .off-canvas .menu.vertical > li:active, .off-canvas .menu.vertical > li:hover a, .off-canvas .menu.vertical > li:active a { background: #335678; color: #fff }
+.off-canvas-content{box-shadow:none !important;}
 .position-left.reveal-for-medium ~ .off-canvas-content { margin-left: 320px }
 .top-bar-title { height: 26px; position: relative }
 .top-bar-right .button { margin: 0 }
