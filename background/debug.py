@@ -55,7 +55,7 @@ def big_query_test():
 #---------histry task ---------#
 # run history task
 def run_history():
-	min_date = date(2016, 4, 17)
+	min_date = date(2015, 7, 27)
 	max_date = datetime.now().date()
 	#every day history
 	# day_count = (max_date - min_date).days
@@ -78,7 +78,7 @@ def run_history():
 		except:
 			logging.error('faild')
 
-		if max_week > max_date :
+		if max_week + timedelta(7) > max_date :
 			break
 		min_week += timedelta(7)
 		max_week += timedelta(7)
