@@ -31,6 +31,24 @@ prefix=
 ```
 Then run the pip install command `pip install -t lib -r requirements.txt`
 
+####How to run history####
+3. use the newest sql to create the local mysql database in the folder `init_sql`
+3. use gcloud command to backup the newset settings table (plz change the google storage file name gs://mip-dashboard_mysql_dump/20160730_1.gz to what you want name)
+`gcloud sql instances export mip-dashboard-prd gs://mip-dashboard_mysql_dump/20160730_1.gz --async --database media_impact --table settings,clients`
+4. download file
+5. add `use media_impact;` in the setting files
+6. use command to import this file. you may need change the file path
+`mysql -uroot < 20160730_1`
+7. make sure you are on master branch
+8. go to background folder and run test first
+`python debug.py`
+9. if everything is fine run `python history.py > history.log`
+10. you can `tail -f history.log` to check the progress
+11. after success run history. export your local mysql data
+`mysqldump -uroot media_impact SCPR_data_quality_weekly SCPR_data_stories_weekly SCPR_data_users_weekly > export.sql`
+12. upload this export.sql file to google storage `mip-dashboard_mysql_dump`
+13. import this file use command or operate on web.
+
 ###Command Line###
 + `php artisan clear-compiled`
 + `php artisan optimize`
