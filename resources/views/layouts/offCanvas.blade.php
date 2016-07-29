@@ -16,8 +16,7 @@
     <li><a href="{{action('AnalysesController@show')}}"><i class="fa fa-database"></i>Analyses</a></li>
     <li><a href="{{action('DataController@showContent')}}"><i class="fa fa-database"></i>Data</a></li>
     @can('Admin')
-    <li><a href="/auth/account/management"><i class="fa fa-gear"></i>Management</a></li>
-    <li><a href="/auth/account/management"><i class="fa fa-users"></i>User Management</a></li>
+    <li><a href="/auth/account/management"><i class="fa fa-gear"></i>Settings</a></li>
     @endcan
     @can('SuperAdmin')
     <li><a href="/admin/client/management"><i class="fa fa-gear"></i>Client Management</a></li>
