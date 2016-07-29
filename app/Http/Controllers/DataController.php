@@ -302,12 +302,15 @@ class DataController extends AuthenticatedBaseController{
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
 
-        $query = DB::table($client_code.'_data_newsletter_'.$group);
+//        $query = DB::table($client_code.'_data_newsletter_'.$group);
+//
+//        $count = $query->count();
+//        $date_range_min = $query->min('date');
+//        $date_range_max = $query->max('date');
 
-        $count = $query->count();
-        $date_range_min = $query->min('date');
-        $date_range_max = $query->max('date');
-
+        $count = 1;
+        $date_range_min = '2016-07-25';
+        $date_range_max = '2016-07-25';
         return view('data.' . $client_code . '.newsletter', [
             'have_data' => $count > 0,
             'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
@@ -321,18 +324,24 @@ class DataController extends AuthenticatedBaseController{
 
     public function get_NewsLetter(Request $request){
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request,
-            $client_code.'_data_newsletter_',
-            $this::$DataQualityField[$client_code]);
+        return [
+            'draw' => $request->draw,
+            'recordsTotal' => 0,
+            'recordsFiltered' => 0,
+            'data' => []
+        ];
+//        return $this->dataTableQuery($request,
+//            $client_code.'_data_newsletter_',
+//            $this::$DataQualityField[$client_code]);
     }
 
     public function download_NewsLetter(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request,
-            $client_code.'_data_newsletter_',
-            $this::$DataQualityField[$client_code],
-            $this::$DataQualityColumn[$client_code],
-            'Email Newsletter Performance.csv');
+//        return $this->exportCSV($request,
+//            $client_code.'_data_newsletter_',
+//            $this::$DataQualityField[$client_code],
+//            $this::$DataQualityColumn[$client_code],
+//            'Email Newsletter Performance.csv');
     }
 
     private static $DataQualityField = [

@@ -15,9 +15,10 @@ return [
 	// ],
 	'DataController' => [
 		// 'showContent' => 'Content',
-		'showUsers' => 'Users',
+		'showUsers' => 'USERS',
 		// 'showDonations' => 'Donations',
-		'showStories' => 'Story',
-		'showQuality' => 'Data Quality'
+		'showStories' => 'STORIES',
+		'showNewsLetter' => 'NEWSLETTERS',		
+		'showQuality' => 'DATA QUALITY'
 	]
 ];
