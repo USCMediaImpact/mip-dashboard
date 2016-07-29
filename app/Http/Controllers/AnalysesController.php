@@ -17,8 +17,12 @@ class AnalysesController extends AuthenticatedBaseController{
 
     static $bucket = 'mip-dashboard-upload';
 
-    public function show(){
-        $data = DB::table('analyses')->get();
+    public function show(Request $request){
+        $client_id = $request['client']['id'];
+        $data = DB::table('analyses')
+            ->where('client_id', $client_id)
+            ->orderby('created_at', 'desc')
+            ->get();
         return view('analyses.index', ['data' => $data]);
     }
 
@@ -35,27 +39,63 @@ class AnalysesController extends AuthenticatedBaseController{
         }
     }
 
+    public function download(Request $request){
+        $file_id_array = $request['file_id'];
+        if(is_array($file_id_array) && count($file_id_array) > 0){
+            $client_id = $request['client']['id'];
+            $data = DB::table('analyses')
+                ->where('client_id', $client_id)
+                ->whereIn('file_id', $file_id_array)
+                ->get();
+
+            if(count($data) > 0){
+                $bucket = 'dashboard-php-storage';
+                $tmp_name = Uuid::uuid4()->toString();
+                $path = "gs://${bucket}/download/${$tmp_name}.zip";
+                $zip = new ZipArchive();
+                $zip->open($filename, ZipArchive::CREATE);
+
+                if ($zip->open($filename, ZipArchive::CREATE)!==TRUE) {
+                    exit("cannot open <$filename>\n");
+                }
+                foreach($data as $item){
+                    $zip->addFile($item->path, $item->file_name);
+                }
+                $zip->close();
+                return response()->download($path, "Archive.zip");
+            }
+        }
+    }
+
     public function upload(Request $request){
+        $client_id = $request['client']['id'];
+        $client_code = $request['client']['code'];
+        $user = $request->user();
+        $user_id = $user->id;
+
         $name = $_FILES['content']['name'];
         $extension = pathinfo($name)['extension'];
         $uploadFile = $_FILES['content']['tmp_name'];
         $guid = Uuid::uuid4()->toString();
         $bucket = $this::$bucket;
-        $path = "gs://${bucket}/${guid}.${extension}";
+        $path = "gs://${bucket}/${client_code}/${guid}.${extension}";
         $file_type = $_FILES['content']['type'];
 
         move_uploaded_file($uploadFile, $path);
 
-        $source = fopen("php://temp/maxmemory:$fiveMBs", 'r+');
-        
-        $screenshot = "gs://${bucket}/${guid}_screenshot.${extension}";
-        $screenshot = "gs://${bucket}/default.png";
-//        $img = new Imagick();
-//        $img->readImageBlob(file_get_contents($path));
-//        $img->setImageFormat('jpg');
-//        $img->writeImageFile(fopen($screenshot, 'w'));
+        try {
+            $screenshot = $path . '.png';
+            $fs = fopen($path, 'r+');
+            $img = new Imagick($fs);
+            $img->setImageFormat('png');
+            $img->writeImageFile(fopen($screenshot, 'w'));
+        }catch{
+            $screenshot = '';
+        }
 
         Analyses::create([
+            'user_id' => $user_id,
+            'client_id' => $client_id,
             'file_id' => $guid,
             'file_name' => $name,
             'file_type' => $file_type,

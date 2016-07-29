@@ -4,7 +4,8 @@
 @section('content')
 	<div class="row expanded">
 		<div class="column small-9">
-			<h4 class="title">Analyses Upload, view and download ad hoc analyses</h4>
+			<h4 class="title">Analyses</h4>
+            <h5 class="sec-title">Upload, view and download ad hoc analyses</h5>
 		</div>
 	</div>
 	<div class="row expanded">
@@ -36,10 +37,11 @@
                     </div>
                     @foreach ($data as $item)
                     <div class="column analyses">
-                        <div class="box">
-                            <a class="pdf" href="/analyses/{{$item->file_id}}" target="_blank;"></a>
+                        <div id="{{$item->file_id}}" class="box" href="/analyses/{{$item->file_id}}">
+                            <a class="pdf" href="javascript:;" style="background-image: url({{$item->screen_shot ? $item->screen_shot : '/images/pdf.png'}})">
+                            </a>
                             <div class="description">
-                                {{$item->description}} of {{$item->created_at}}
+                                {{$item->description}}
                             </div>
                         </div>
                         
@@ -89,6 +91,9 @@
             $('#form_upload [name="description"]').val(desc);
             $('#form_upload').submit();
             return false;
+        });
+        $(document).on('click', '.pdf', function(){
+            $(this).parents('.box').toggleClass('active');
         });
     });
 </script>
