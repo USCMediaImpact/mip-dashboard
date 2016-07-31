@@ -98,7 +98,7 @@ $(function () {
 
 	$(document).on('change.daterange', '.panel', function () {
 		var tableId = $(this).find('table').attr('id');
-		ReportDataTable[tableId].ajax.reload();
+		typeof ReportDataTable !== 'undefined' && ReportDataTable[tableId].ajax.reload();
 	});
 
 	$(document).on('click', '.btnDownload', function () {
@@ -116,4 +116,9 @@ $(function () {
 		downloadForm.submit();
 		downloadForm.remove();
 	});
+
+	$('body').on('click', 'button.disabled, .button.disabled', function(evt){
+		evt.stopPropagation();
+		evt.preventDefault();
+	})
 });

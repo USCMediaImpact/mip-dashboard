@@ -73,7 +73,8 @@ div.dataTables_wrapper div.dataTables_info { display: none }
 .report-tabs .tabs-title:first-child { margin-left: 60px; border-left: solid 1px #dbdbdb }
 i.mailchimp { background-image: url('/images/mailchimp.svg'); width: 24px; height: 24px; position: relative; top: 6px; margin: 0 5px }
 i.tagmanager { background-image: url('/images/tagmanager.png'); background-size: 24px 24px; width: 24px; height: 24px; position: relative; top: 6px; margin: 0 5px }
-.has-tip { border-bottom: none; }
+.has-tip{border-bottom: none;}
+button.has-tip {  cursor: pointer;}
 .switcher-group { display: inline-block; }
 .switcher-group .button:last-child { position: relative; left: -6px; }
 .switcher-group .button:first-child { position: relative; right: -6px; }
@@ -90,5 +91,11 @@ z-index: 2; opacity: 0; cursor: pointer; }
 .analyses .box .pdf { border: solid 1px #e4e4e4; height: 100%; position: absolute; left: 0; right: 0; top: 0; bottom: 60px; background-repeat: no-repeat; background-position: center 12px; }
 .analyses .box .description { position: absolute; bottom: 0; left: 0; right: 0; border: solid 1px #fff; border-top: solid 1px #e4e4e4; height: 60px; overflow: hidden; padding: 10px; text-align: center; }
 .analyses .box:hover, .analyses .box:active, .analyses .box.active { border: solid 1px #c0d0dd; }
+.analyses .box input[type='checkbox'] { width: 24px; height: 24px; display: none; position: absolute; top:0; left: 0; z-index: 1;}
+.analyses .box:hover input[type='checkbox'], .analyses .box:active input[type='checkbox'], .analyses .box.active input[type='checkbox'] { border: solid 1px #c0d0dd; display: block;}
 .analyses .box:hover .description, .analyses .box:active .description, .box.active .description { background: #c0d0dd; color: #fff; border: solid 1px #c0d0dd; border-top: none; }
 .url_tooltip.tooltip { max-width: 640px !important; }
+.bar-icon-group button, .bar-icon-group .button{
+	margin: auto 5px;
+}
+.button.disabled .fa, button.disabled .fa{color:gray}

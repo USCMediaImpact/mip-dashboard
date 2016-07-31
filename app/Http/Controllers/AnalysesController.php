@@ -12,6 +12,7 @@ use Google_Service_Bigquery_QueryRequest;
 use App\Models\Analyses;
 use Ramsey\Uuid\Uuid;
 use Imagick;
+use ZipArchive;
 
 class AnalysesController extends AuthenticatedBaseController
 {
@@ -21,8 +22,7 @@ class AnalysesController extends AuthenticatedBaseController
     public function show(Request $request)
     {
         $client_id = $request['client']['id'];
-        $data = DB::table('analyses')
-            ->where('client_id', $client_id)
+        $data = Analyses::where('client_id', $client_id)
             ->orderby('created_at', 'desc')
             ->get();
         return view('analyses.index', ['data' => $data]);
@@ -47,21 +47,16 @@ class AnalysesController extends AuthenticatedBaseController
         $file_id_array = $request['file_id'];
         if (is_array($file_id_array) && count($file_id_array) > 0) {
             $client_id = $request['client']['id'];
-            $data = DB::table('analyses')
-                ->where('client_id', $client_id)
+            $data = Analyses::where('client_id', $client_id)
                 ->whereIn('file_id', $file_id_array)
                 ->get();
 
             if (count($data) > 0) {
                 $bucket = 'dashboard-php-storage';
                 $tmp_name = Uuid::uuid4()->toString();
-                $path = "gs://${bucket}/download/${$tmp_name}.zip";
+                $path = "gs://${bucket}/download/${tmp_name}.zip";
                 $zip = new ZipArchive();
-                $zip->open($filename, ZipArchive::CREATE);
-
-                if ($zip->open($filename, ZipArchive::CREATE) !== TRUE) {
-                    exit("cannot open <$filename>\n");
-                }
+                $zip->open($path, ZipArchive::CREATE);
                 foreach ($data as $item) {
                     $zip->addFile($item->path, $item->file_name);
                 }
@@ -88,6 +83,16 @@ class AnalysesController extends AuthenticatedBaseController
 
         move_uploaded_file($uploadFile, $path);
         $screenshot = '';
+
+//        $tmp_dir = sys_get_temp_dir();
+//        $tmp = tempnam($dir, “foo”);
+//        file_put_contents($tmp, “hello”)
+//        $f = fopen($tmp, “a”);
+//        fwrite($f, “ world”);
+//        fclose($f)
+//        echo file_get_contents($tmp);
+
+
 //        try {
 //            $screenshot = $path . '.png';
 //            $fs = fopen($path, 'rb');
@@ -118,28 +123,38 @@ class AnalysesController extends AuthenticatedBaseController
 
     public function edit(Request $request)
     {
+        $client_id = $request['client']['id'];
+        $client_code = $request['client']['code'];
+        $file_id = $request['file_id'];
+        $description = $request['description'];
         $pdf = Analyses::where('client_id', $client_id)
-            ->where('file_id', $request['file_id'])
+            ->where('file_id', $file_id)
             ->first();
         if ($pdf !== null) {
             $pdf->update([
-                'description' => $request['description']
+                'description' => $description
             ]);
-            return ['success' => true];
+            return [
+                'success' => true,
+                'file_id' => $file_id,
+                'description' => $description
+            ];
         }else{
             return ['success' => false, 'message' => 'file not exists'];
         }
 
     }
 
-    public function delete(Request $request, $file_id)
+    public function delete(Request $request)
     {
+
+        $client_id = $request['client']['id'];
+        $client_code = $request['client']['code'];
+        $file_id = $request['file_id'];
         $pdf = Analyses::where('client_id', $client_id)
-            ->where('file_id', $request['file_id'])
-            ->first();
-        if ($pdf !== null) {
-            $pdf->softDeletes();
-        }
-        return ['success' => true];
+            ->whereIn('file_id', $request['file_id'])
+            ->delete();
+
+        return ['success' => true, 'file_id' => $request['file_id']];
     }
 }

@@ -12,7 +12,7 @@ use Google_Service_Bigquery_QueryRequest;
 
 class DashboardController extends AuthenticatedBaseController{
     
-    public function showDashboard(Request $request){
+    public function show(Request $request){
         return redirect('/data/users');
     }
 
