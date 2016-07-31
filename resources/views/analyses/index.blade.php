@@ -65,7 +65,7 @@
             </fieldset>
             <div class="small-12 column">
                 <div class="button-group float-right">
-                    <button class="button success btnEditPdfSave">Save</button>
+                    <button class="button success btnUploadPdfSave">Save</button>
                     <button class="button alert closeModal">Cancel</button>
                 </div>
             </div>
