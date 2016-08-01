@@ -159,6 +159,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 60,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
@@ -219,6 +220,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 60,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
@@ -272,6 +274,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 60,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
@@ -320,6 +323,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 60,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
