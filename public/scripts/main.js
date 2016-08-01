@@ -44,31 +44,7 @@ $(function () {
 		initialText: dateRangeDisplayText,
 		dateFormat: 'M d, yy',
 		initialText: 'by default',
-		presetRanges: [{
-			text: 'Last Week (Mo-Su)',
-			dateStart: function () {
-				return moment().subtract('days', 7).isoWeekday(1)
-			},
-			dateEnd: function () {
-				return moment().subtract('days', 7).isoWeekday(7)
-			}
-		}, {
-			text: 'Month to Date',
-			dateStart: function () {
-				return moment().startOf('month')
-			},
-			dateEnd: function () {
-				return moment()
-			}
-		}, {
-			text: 'Previous Month',
-			dateStart: function () {
-				return moment().subtract('month', 1).startOf('month')
-			},
-			dateEnd: function () {
-				return moment().subtract('month', 1).endOf('month')
-			}
-		}, ],
+		presetRanges: [],
 		change: function (event, el) {
 			var range = el.instance.getRange(),
 				min_date = moment(range.start),
