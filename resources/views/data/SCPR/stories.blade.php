@@ -157,6 +157,7 @@
         $('#dateRangeScrollDepth').daterangepicker({
             dateFormat: 'M d, yy',
             presetRanges: [],
+            initialText: 'last week',
             datepickerOptions: {
                 minDate: moment('{{$date_range_min}}').toDate(),
                 maxDate: moment('{{$date_range_max}}').toDate(),
@@ -180,6 +181,7 @@
         $('#dateRangeTimeOnArticle').daterangepicker({
             dateFormat: 'M d, yy',
             presetRanges: [],
+            initialText: 'last week',
             datepickerOptions: {
                 minDate: moment('{{$date_range_min}}').toDate(),
                 maxDate: moment('{{$date_range_max}}').toDate(),
@@ -203,6 +205,7 @@
         $('#dateRangeUserInteractions').daterangepicker({
             dateFormat: 'M d, yy',
             presetRanges: [],
+            initialText: 'last week',
             datepickerOptions: {
                 minDate: moment('{{$date_range_min}}').toDate(),
                 maxDate: moment('{{$date_range_max}}').toDate(),

@@ -43,7 +43,7 @@ $(function () {
 	$('.dateRange').daterangepicker({
 		initialText: dateRangeDisplayText,
 		dateFormat: 'M d, yy',
-		initialText: 'by default',
+		initialText: 'last 30 days',
 		presetRanges: [],
 		change: function (event, el) {
 			var range = el.instance.getRange(),
