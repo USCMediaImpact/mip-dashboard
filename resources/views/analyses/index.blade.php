@@ -14,7 +14,7 @@
 				<div class="top-bar">
 					<div class="top-bar-left"></div>
 					<div class="top-bar-right bar-icon-group">
-                        <button class="has-tip top btnPdfDownload" title="download" data-tooltip aria-haspopup="false" data-disable-hover="false"><i class="fa fa-download"></i></button>
+                        {{-- <button class="has-tip top btnPdfDownload" title="download" data-tooltip aria-haspopup="false" data-disable-hover="false"><i class="fa fa-download"></i></button> --}}
                         <button class="has-tip top btnPdfEdit disabled" title="edit" data-tooltip aria-haspopup="false" data-disable-hover="false"><i class="fa fa-edit"></i></button>
                         <button class="has-tip top btnPdfDelete" title="delete" data-tooltip aria-haspopup="false" data-disable-hover="false"><i class="fa fa-remove"></i></button>
 					</div>
