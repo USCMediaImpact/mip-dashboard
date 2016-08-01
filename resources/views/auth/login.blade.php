@@ -18,10 +18,6 @@
                         <div class="callout alert">
                         The entered email or password is incorrect, Please try again.
                         </div>
-                    @else
-                        <div class="callout">
-                        the email have been send to you email. please check.
-                        </div>
                     @endif
                     <p>
                         <input type="submit" class="button expanded" value="Log In" />

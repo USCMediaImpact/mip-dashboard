@@ -12,11 +12,9 @@
                     </label>
                     @if (count($errors) > 0)
                         <div class="callout alert">
-                        <ol>
                             @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
+                                <p>{{ $error }}</p>
                             @endforeach
-                        </ol>
                         </div>
                     @endif
                     <p>
