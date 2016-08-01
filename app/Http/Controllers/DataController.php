@@ -47,11 +47,12 @@ class DataController extends AuthenticatedBaseController{
     public function showUsers(Request $request){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
-        $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
+        $min_date = date("Y-m-d", strtotime("-30 day"));
+        $min_date = date_parse($request['min_date'] ?: $min_date);
 
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
-
+        
         $query = DB::table($client_code. '_data_users_' . $group);
 
         $count = $query->count();
@@ -319,7 +320,8 @@ class DataController extends AuthenticatedBaseController{
     public function showQuality(Request $request){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
-        $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
+        $min_date = date("Y-m-d", strtotime("-30 day"));
+        $min_date = date_parse($request['min_date'] ?: $min_date);
 
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
