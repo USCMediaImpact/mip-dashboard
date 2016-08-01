@@ -14,6 +14,15 @@
                         <input type="password" name="password" placeholder="Password">
                     </label>
                     <input id="remember" type="checkbox" name="remember"><label for="remember">Remember Me</label>
+                    @if (count($errors) > 0)
+                        <div class="callout alert">
+                        The entered email or password is incorrect, Please try again.
+                        </div>
+                    @else
+                        <div class="callout">
+                        the email have been send to you email. please check.
+                        </div>
+                    @endif
                     <p>
                         <input type="submit" class="button expanded" value="Log In" />
                     </p>

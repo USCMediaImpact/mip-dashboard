@@ -10,9 +10,20 @@
                     <label>Email
                         <input type="text" name="email" value="{{ old('email') }}" placeholder="somebody@example.com">
                     </label>
+                    @if (count($errors) > 0)
+                        <div class="callout alert">
+                        <ol>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ol>
+                        </div>
+                    @endif
                     <p>
                         <input type="submit" class="button expanded" value="Send Reset Password Email" />
                     </p>
+
+                    
                     <p class="text-center"><a href="/auth/login">Continue login?</a></p>
                 </div>
             </form>
