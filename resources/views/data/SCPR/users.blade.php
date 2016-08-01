@@ -141,6 +141,7 @@
                 }
             }, {
                 'targets': 1,
+                "visible": false,
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat().format(data)
                 }
@@ -151,6 +152,7 @@
                 }
             }, {
                 'targets': 3,
+                "visible": false,
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat().format(data)
                 }
