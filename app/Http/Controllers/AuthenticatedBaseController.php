@@ -60,10 +60,14 @@ class AuthenticatedBaseController extends Controller
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
         $client_id = $request['client']['id'];
+
+        $max_date = $max_date['year'] . '-' . $max_date['month'] . '-' . $max_date['day'];
+        $min_date = $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day'];
+
         $query = DB::table($tableName . $group)
             ->select(DB::raw($select))
-            ->where('date', '<=', $max_date['year'] . '-' . $max_date['month'] . '-' . $max_date['day'])
-            ->where('date', '>=', $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day'])
+            ->where('date', '<=', $max_date)
+            ->where('date', '>=', $min_date)
             ->orderBy($sort, 'desc');
         $data = $query->get();
 
@@ -78,8 +82,10 @@ class AuthenticatedBaseController extends Controller
             fputcsv($fp, array_values(get_object_vars($row)));
         }
         fclose($fp);
-        
-        return response()->download("gs://${bucket}/${fullName}", "${downloadName}.csv", [
+
+        return response()->download(
+            "gs://${bucket}/${fullName}",
+            "${downloadName}_${min_date}_${max_date}.csv", [
             'Content-type' => 'text/csv'
         ]);
     }
