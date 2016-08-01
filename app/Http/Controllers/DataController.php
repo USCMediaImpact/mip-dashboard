@@ -247,7 +247,8 @@ class DataController extends AuthenticatedBaseController{
             $client_code.'_data_stories_',
             $this::$DataStoriesExportField[$client_code][$index],
             $this::$DataStoriesColumn[$client_code][0],
-            'Scroll Depth.csv');
+            'Scroll Depth.csv',
+            'Pageviews');
     }
 
     public function get_Stories_Time_On_Article(Request $request, $mode)
@@ -266,7 +267,8 @@ class DataController extends AuthenticatedBaseController{
             $client_code.'_data_stories_',
             $this::$DataStoriesExportField[$client_code][$index],
             $this::$DataStoriesColumn[$client_code][1],
-            'Time On Article.csv');
+            'Time On Article.csv',
+            'Pageviews');
     }
 
     public function get_Stories_User_Interactions(Request $request)
@@ -282,7 +284,9 @@ class DataController extends AuthenticatedBaseController{
         return $this->exportCSV($request,
             $client_code.'_data_stories_',
             $this::$DataStoriesExportField[$client_code][4],
-            $this::$DataStoriesColumn[$client_code][2], 'User Interactions.csv');
+            $this::$DataStoriesColumn[$client_code][2],
+            'User Interactions.csv',
+            'Pageviews');
     }
 
     private static $DataQualityField = [
