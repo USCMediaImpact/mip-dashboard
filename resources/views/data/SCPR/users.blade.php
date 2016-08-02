@@ -24,8 +24,8 @@
 			            <thead>
 			                <tr>
 			                	<th>Week of</th>
-			                    <th>Email Subscribers and Donors on Site</th>
-			                    <th>Email Subscribers or Donors on Site or Both Email Subscriber and Donor</th>
+			                    <th>Loyal users on site (email subscribers or donors)</th>
+			                    <th>Loyal users in the MIP database</th>
 			                    <th>Email Subscribers and Donors in MIP DB</th>
 			   					<th>Email Subscribers or Donors or Both Email Subscriber and Donor in DB</th>
 			   					<th>% of Loyal Users on Site</th>
