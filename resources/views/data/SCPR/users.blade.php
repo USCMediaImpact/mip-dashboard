@@ -24,10 +24,10 @@
 			            <thead>
 			                <tr>
 			                	<th>Week of</th>
-			                    <th>Email Subscribers and Donors on Site</th>
-			                    <th>Email Subscribers or Donors on Site or Both Email Subscriber and Donor</th>
-			                    <th>Email Subscribers and Donors in MIP DB</th>
-			   					<th>Email Subscribers or Donors or Both Email Subscriber and Donor in DB</th>
+			                    <th>email subscribers and donors hidden</th>
+			                    <th>Loyal users on site (email subscribers or donors)</th>
+			                    <th>Email Subscribers and Donors in MIP DB hidden</th>
+			   					<th>Loyal users in the MIP database</th>
 			   					<th>% of Loyal Users on Site</th>
 			                </tr>
 			            </thead>
@@ -74,9 +74,9 @@
 			            <thead>
 			                <tr>
 			                	<th>Week of</th>
-			                    <th>Donors Donating</th>
+			                    <th>Donors on Site</th>
 			                    <th>Donors in MIP DB</th>
-			                    <th>% of Donors in MIP DB Donating</th>
+			                    <th>% of Donors in DB on Site</th>
 			                </tr>
 			            </thead>
 			            <tbody>
@@ -135,11 +135,13 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 60,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
             }, {
                 'targets': 1,
+                "visible": false,
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat().format(data)
                 }
@@ -150,6 +152,7 @@
                 }
             }, {
                 'targets': 3,
+                "visible": false,
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat().format(data)
                 }
@@ -195,6 +198,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 60,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
@@ -248,6 +252,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 60,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }

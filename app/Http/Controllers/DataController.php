@@ -19,7 +19,7 @@ class DataController extends AuthenticatedBaseController{
     private static $DataUsersField = [
         'SCPR' => [
             'date, Duplicated_CameThroughEmailPlusDonors, Unduplicated_TotalUsersKPI, Duplicated_Database_CameThroughEmailPlusDonors, Unduplicated_Database_TotalUsersKPI, Unduplicated_TotalUsersKPI / Unduplicated_Database_TotalUsersKPI as Loyal_Users_On_Site',
-            'date, CameToSiteThroughEmail, KPI_TotalEmailSubscribersKnownToMIP, KPI_PercentKnownSubsWhoCame, NewEmailSubscribers',
+            'date, CameToSiteThroughEmail, KPI_TotalEmailSubscribersKnownToMIP, CameToSiteThroughEmail / KPI_TotalEmailSubscribersKnownToMIP as KPI_PercentKnownSubsWhoCame, NewEmailSubscribers',
             'date, TotalDonorsThisWeek, KPI_TotalDonorsKnownToMIP, TotalDonorsThisWeek / KPI_TotalDonorsKnownToMIP as Donors_In_MIP'
         ],
         'TT' => [
@@ -47,7 +47,8 @@ class DataController extends AuthenticatedBaseController{
     public function showUsers(Request $request){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
-        $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
+        $min_date = date("Y-m-d", strtotime("-30 day"));
+        $min_date = date_parse($request['min_date'] ?: $min_date);
 
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
@@ -71,12 +72,18 @@ class DataController extends AuthenticatedBaseController{
 
     public function get_Users_Total_Known_Users(Request $request){
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request, $client_code.'_data_users_', $this::$DataUsersField[$client_code][0]);
+        return $this->dataTableQuery($request,
+            $client_code.'_data_users_',
+            $this::$DataUsersField[$client_code][0]);
     }
 
     public function download_Users_Total_Known_Users(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_users_', $this::$DataUsersField[0], $this::$DataUsersColumn[$client_code][0], 'Total Known Users.csv');
+        return $this->exportCSV($request,
+            $client_code.'_data_users_',
+            $this::$DataUsersField[$client_code][0],
+            $this::$DataUsersColumn[$client_code][0],
+            'Total Known Users.csv');
     }
 
     public function get_Users_Email_Newsletter_Subscribers(Request $request){
@@ -94,7 +101,9 @@ class DataController extends AuthenticatedBaseController{
 
     public function get_Users_Donors(Request $request){
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request, $client_code.'_data_users_', $this::$DataUsersField[$client_code][2]);
+        return $this->dataTableQuery($request,
+            $client_code.'_data_users_',
+            $this::$DataUsersField[$client_code][2]);
     }
 
     public function download_Users_Donors(Request $request){
@@ -107,7 +116,9 @@ class DataController extends AuthenticatedBaseController{
 
     public function get_Users_Members(Request $request){
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request, $client_code.'_data_users_', $this::$DataUsersField[$client_code][3]);
+        return $this->dataTableQuery($request,
+            $client_code.'_data_users_',
+            $this::$DataUsersField[$client_code][3]);
     }
 
     public function download_Users_Members(Request $request){
@@ -163,31 +174,31 @@ class DataController extends AuthenticatedBaseController{
 
     private static $DataStoriesExportField = [
         'SCPR' => [
-            'Article, Pageviews, Scroll_Start/Pageviews as StartedScrolling, Scroll_25/Pageviews as Scroll25, Scroll_50/Pageviews as Scroll50, Scroll_75/Pageviews as Scroll75, Scroll_100/Pageviews as Scroll100, Scroll_Supplemental/Pageviews as RelatedContent, Scroll_End/Pageviews as EndOfPage',
-            'Article, Pageviews, Scroll_Start as StartedScrolling, Scroll_25 as Scroll25, Scroll_50 as Scroll50, Scroll_75 as Scroll75, Scroll_100 as Scroll100, Scroll_Supplemental as RelatedContent, Scroll_End as EndOfPage',
-            'Article, Pageviews, Time_15/Pageviews as Time15, Time_30/Pageviews as Time30, Time_45/Pageviews as Time45, Time_60/Pageviews as Time60, Time_75/Pageviews as Time75, Time_90/Pageviews as Time90',
-            'Article, Pageviews, Time_15 as Time15, Time_30 as Time30, Time_45 as Time45, Time_60 as Time60, Time_75 as Time75, Time_90 as Time90',
-            'Article, Pageviews, Comments, Emails, Tweets, Facebook_Recommendations, Comments + Emails + Tweets + Facebook_Recommendations as TotalShares, (Comments + Emails + Tweets + Facebook_Recommendations) / Pageviews as SahreRate, Related_Clicks, Related_Clicks / Scroll_Supplemental as ClickThroughRate'
+            'Article, Page_Path, Pageviews, Scroll_Start/Pageviews as StartedScrolling, Scroll_25/Pageviews as Scroll25, Scroll_50/Pageviews as Scroll50, Scroll_75/Pageviews as Scroll75, Scroll_100/Pageviews as Scroll100, Scroll_Supplemental/Pageviews as RelatedContent, Scroll_End/Pageviews as EndOfPage',
+            'Article, Page_Path, Pageviews, Scroll_Start as StartedScrolling, Scroll_25 as Scroll25, Scroll_50 as Scroll50, Scroll_75 as Scroll75, Scroll_100 as Scroll100, Scroll_Supplemental as RelatedContent, Scroll_End as EndOfPage',
+            'Article, Page_Path, Pageviews, Time_15/Pageviews as Time15, Time_30/Pageviews as Time30, Time_45/Pageviews as Time45, Time_60/Pageviews as Time60, Time_75/Pageviews as Time75, Time_90/Pageviews as Time90',
+            'Article, Page_Path, Pageviews, Time_15 as Time15, Time_30 as Time30, Time_45 as Time45, Time_60 as Time60, Time_75 as Time75, Time_90 as Time90',
+            'Article, Page_Path, Pageviews, Comments, Emails, Tweets, Facebook_Recommendations, Comments + Emails + Tweets + Facebook_Recommendations as TotalShares, (Comments + Emails + Tweets + Facebook_Recommendations) / Pageviews as SahreRate, Related_Clicks, Related_Clicks / Scroll_Supplemental as ClickThroughRate'
         ],
         'TT' => [
-            'Article, Pageviews, Scroll_Start/Pageviews as StartedScrolling, Scroll_25/Pageviews as Scroll25, Scroll_50/Pageviews as Scroll50, Scroll_75/Pageviews as Scroll75, Scroll_100/Pageviews as Scroll100, Scroll_Supplemental/Pageviews as RelatedContent, Scroll_End/Pageviews as EndOfPage',
-            'Article, Pageviews, Scroll_Start as StartedScrolling, Scroll_25 as Scroll25, Scroll_50 as Scroll50, Scroll_75 as Scroll75, Scroll_100 as Scroll100, Scroll_Supplemental as RelatedContent, Scroll_End as EndOfPage',
-            'Article, Pageviews, Time_15/Pageviews as Time15, Time_30/Pageviews as Time30, Time_45/Pageviews as Time45, Time_60/Pageviews as Time60, Time_75/Pageviews as Time75, Time_90/Pageviews as Time90',
-            'Article, Pageviews, Time_15 as Time15, Time_30 as Time30, Time_45 as Time45, Time_60 as Time60, Time_75 as Time75, Time_90 as Time90',
-            'Article, Pageviews, Comments, Emails, Tweets, Facebook_Recommendations, Comments + Emails + Tweets + Facebook_Recommendations as TotalShares, (Comments + Emails + Tweets + Facebook_Recommendations) / Pageviews as SahreRate, Related_Clicks, Related_Clicks / Scroll_Supplemental as ClickThroughRate'
+            'Article, Page_Path, Pageviews, Scroll_Start/Pageviews as StartedScrolling, Scroll_25/Pageviews as Scroll25, Scroll_50/Pageviews as Scroll50, Scroll_75/Pageviews as Scroll75, Scroll_100/Pageviews as Scroll100, Scroll_Supplemental/Pageviews as RelatedContent, Scroll_End/Pageviews as EndOfPage',
+            'Article, Page_Path, Pageviews, Scroll_Start as StartedScrolling, Scroll_25 as Scroll25, Scroll_50 as Scroll50, Scroll_75 as Scroll75, Scroll_100 as Scroll100, Scroll_Supplemental as RelatedContent, Scroll_End as EndOfPage',
+            'Article, Page_Path, Pageviews, Time_15/Pageviews as Time15, Time_30/Pageviews as Time30, Time_45/Pageviews as Time45, Time_60/Pageviews as Time60, Time_75/Pageviews as Time75, Time_90/Pageviews as Time90',
+            'Article, Page_Path, Pageviews, Time_15 as Time15, Time_30 as Time30, Time_45 as Time45, Time_60 as Time60, Time_75 as Time75, Time_90 as Time90',
+            'Article, Page_Path, Pageviews, Comments, Emails, Tweets, Facebook_Recommendations, Comments + Emails + Tweets + Facebook_Recommendations as TotalShares, (Comments + Emails + Tweets + Facebook_Recommendations) / Pageviews as SahreRate, Related_Clicks, Related_Clicks / Scroll_Supplemental as ClickThroughRate'
         ],
     ];
 
     private static $DataStoriesColumn = [
         'SCPR' => [
-            ['Article Title', 'Total Page Views', 'Started Scrolling', '25% Scroll', '50% Scroll', '75% Scroll', '100% Scroll', 'Related Content', 'End of Page'],
-            ['Article Title', 'Total Page Views', '15 Seconds', '30 Seconds', '45 Seconds', '60 Seconds', '75 Seconds', '90 Seconds'],
-            ['Article Title', 'Total Page Views', 'Comments', 'Email Shares', 'Tweets', 'FB Shares', 'Total Shares', 'Share Rate', 'Related Content Clicks', 'Click Through Rate']
+            ['Article Title', 'Page Path', 'Total Page Views', 'Started Scrolling', '25% Scroll', '50% Scroll', '75% Scroll', '100% Scroll', 'Related Content', 'End of Page'],
+            ['Article Title', 'Page Path', 'Total Page Views', '15 Seconds', '30 Seconds', '45 Seconds', '60 Seconds', '75 Seconds', '90 Seconds'],
+            ['Article Title', 'Page Path', 'Total Page Views', 'Comments', 'Email Shares', 'Tweets', 'FB Shares', 'Total Shares', 'Share Rate', 'Related Content Clicks', 'Click Through Rate']
         ],
         'TT' => [
-            ['Article Title', 'Total Page Views', 'Started Scrolling', '25% Scroll', '50% Scroll', '75% Scroll', '100% Scroll', 'Related Content', 'End of Page'],
-            ['Article Title', 'Total Page Views', '15 Seconds', '30 Seconds', '45 Seconds', '60 Seconds', '75 Seconds', '90 Seconds'],
-            ['Article Title', 'Total Page Views', 'Comments', 'Email Shares', 'Tweets', 'FB Shares', 'Total Shares', 'Share Rate', 'Related Content Clicks', 'Click Through Rate']
+            ['Article Title', 'Page Path', 'Total Page Views', 'Started Scrolling', '25% Scroll', '50% Scroll', '75% Scroll', '100% Scroll', 'Related Content', 'End of Page'],
+            ['Article Title', 'Page Path', 'Total Page Views', '15 Seconds', '30 Seconds', '45 Seconds', '60 Seconds', '75 Seconds', '90 Seconds'],
+            ['Article Title', 'Page Path', 'Total Page Views', 'Comments', 'Email Shares', 'Tweets', 'FB Shares', 'Total Shares', 'Share Rate', 'Related Content Clicks', 'Click Through Rate']
         ],
     ];
 
@@ -224,48 +235,58 @@ class DataController extends AuthenticatedBaseController{
     {
         $client_code = $request['client']['code'];
         $index = $mode == 'count' ? 1 : 0;
-        return $this->dataTableQuery($request, $client_code.'_data_stories_',
+        return $this->dataTableQuery($request,
+            $client_code.'_data_stories_',
             $this::$DataStoriesField[$client_code][$index]);
     }
 
     public function download_Stories_Scroll_Depth(Request $request, $mode){
         $client_code = $request['client']['code'];
         $index = $mode == 'count' ? 1 : 0;
-        return $this->exportCSV($request, $client_code.'_data_stories_',
+        return $this->exportCSV($request,
+            $client_code.'_data_stories_',
             $this::$DataStoriesExportField[$client_code][$index],
             $this::$DataStoriesColumn[$client_code][0],
-            'Scroll Depth.csv');
+            'Scroll Depth.csv',
+            'Pageviews');
     }
 
     public function get_Stories_Time_On_Article(Request $request, $mode)
     {
         $client_code = $request['client']['code'];
         $index = $mode == 'count' ? 3 : 2;
-        return $this->dataTableQuery($request, $client_code.'_data_stories_',
+        return $this->dataTableQuery($request,
+            $client_code.'_data_stories_',
             $this::$DataStoriesField[$client_code][$index]);
     }
 
     public function download_Stories_Time_On_Article(Request $request, $mode){
         $client_code = $request['client']['code'];
         $index = $mode == 'count' ? 3 : 2;
-        return $this->exportCSV($request, $client_code.'_data_stories_',
+        return $this->exportCSV($request,
+            $client_code.'_data_stories_',
             $this::$DataStoriesExportField[$client_code][$index],
             $this::$DataStoriesColumn[$client_code][1],
-            'Time On Article.csv');
+            'Time On Article.csv',
+            'Pageviews');
     }
 
     public function get_Stories_User_Interactions(Request $request)
     {
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request, $client_code.'_data_stories_',
+        return $this->dataTableQuery($request,
+            $client_code.'_data_stories_',
             $this::$DataStoriesField[$client_code][4]);
     }
 
     public function download_Stories_User_Interactions(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_stories_',
+        return $this->exportCSV($request,
+            $client_code.'_data_stories_',
             $this::$DataStoriesExportField[$client_code][4],
-            $this::$DataStoriesColumn[$client_code][2], 'User Interactions.csv');
+            $this::$DataStoriesColumn[$client_code][2],
+            'User Interactions.csv',
+            'Pageviews');
     }
 
     private static $DataQualityField = [
@@ -303,7 +324,8 @@ class DataController extends AuthenticatedBaseController{
     public function showQuality(Request $request){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
-        $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
+        $min_date = date("Y-m-d", strtotime("-30 day"));
+        $min_date = date_parse($request['min_date'] ?: $min_date);
 
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
@@ -327,13 +349,15 @@ class DataController extends AuthenticatedBaseController{
 
     public function get_Quality_GA_VS_GTM(Request $request){
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request, $client_code.'_data_quality_',
+        return $this->dataTableQuery($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][0]);
     }
 
     public function download_Quality_GA_VS_GTM(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_quality_',
+        return $this->exportCSV($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][0],
             $this::$DataQualityColumn[$client_code][0],
             'GA vs GTM.csv');
@@ -341,13 +365,15 @@ class DataController extends AuthenticatedBaseController{
 
     public function get_Quality_Email_Subscribers(Request $request){
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request, $client_code.'_data_quality_',
+        return $this->dataTableQuery($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][1]);
     }
 
     public function download_Quality_Email_Subscribers(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_quality_',
+        return $this->exportCSV($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][1],
             $this::$DataQualityColumn[$client_code][1],
             'Email Subscribers.csv');
@@ -355,13 +381,15 @@ class DataController extends AuthenticatedBaseController{
 
     public function get_Quality_Donors(Request $request){
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request, $client_code.'_data_quality_',
+        return $this->dataTableQuery($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][2]);
     }
 
     public function download_Quality_Donors(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_quality_',
+        return $this->exportCSV($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][2],
             $this::$DataQualityColumn[$client_code][2],
             'Donors.csv');
@@ -369,13 +397,15 @@ class DataController extends AuthenticatedBaseController{
 
     public function get_Quality_Total_Known_Users(Request $request){
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request, $client_code.'_data_quality_',
+        return $this->dataTableQuery($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][3]);
     }
 
     public function download_Quality_Total_Known_Users(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_quality_',
+        return $this->exportCSV($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][3],
             $this::$DataQualityColumn[$client_code][3],
             'Total Known Users.csv');
@@ -383,17 +413,17 @@ class DataController extends AuthenticatedBaseController{
 
     public function get_Quality_Members(Request $request){
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request, $client_code.'_data_quality_',
+        return $this->dataTableQuery($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][4]);
     }
 
     public function download_Quality_Members(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_quality_',
+        return $this->exportCSV($request,
+            $client_code.'_data_quality_',
             $this::$DataQualityField[$client_code][4],
             $this::$DataQualityColumn[$client_code][4],
             'Members.csv');
     }
-
-
 }

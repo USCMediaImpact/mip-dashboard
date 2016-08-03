@@ -10,7 +10,7 @@ manual_scaling:
 
 handlers:
   - url: /.*
-    script: job.app
+    script: main.app
     login: admin
 
 libraries:

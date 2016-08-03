@@ -157,6 +157,7 @@
         $('#dateRangeScrollDepth').daterangepicker({
             dateFormat: 'M d, yy',
             presetRanges: [],
+            initialText: 'last week',
             datepickerOptions: {
                 minDate: moment('{{$date_range_min}}').toDate(),
                 maxDate: moment('{{$date_range_max}}').toDate(),
@@ -180,6 +181,7 @@
         $('#dateRangeTimeOnArticle').daterangepicker({
             dateFormat: 'M d, yy',
             presetRanges: [],
+            initialText: 'last week',
             datepickerOptions: {
                 minDate: moment('{{$date_range_min}}').toDate(),
                 maxDate: moment('{{$date_range_max}}').toDate(),
@@ -203,6 +205,7 @@
         $('#dateRangeUserInteractions').daterangepicker({
             dateFormat: 'M d, yy',
             presetRanges: [],
+            initialText: 'last week',
             datepickerOptions: {
                 minDate: moment('{{$date_range_min}}').toDate(),
                 maxDate: moment('{{$date_range_max}}').toDate(),
@@ -267,7 +270,7 @@
                 'render': function(data, type, row){
                 	var url = '{{$client['website']}}' + row.Page_Path;
                     var displayText = row.Article ? row.Article : url;
-                	return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" class="has-tip top">' + displayText + '</a>';
+                	return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" data-template-classes="url_tooltip" class="has-tip top">' + displayText + '</a>';
                 }
             }, {
                 'targets': 1,
@@ -374,7 +377,7 @@
                 'render': function(data, type, row){
                     var url = '{{$client['website']}}' + row.Page_Path;
                     var displayText = row.Article ? row.Article : url;
-                    return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" class="has-tip top">' + displayText + '</a>';
+                    return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" data-template-classes="url_tooltip" class="has-tip top">' + displayText + '</a>';
                 }
             }, {
                 'targets': 1,
@@ -474,7 +477,7 @@
                 'render': function(data, type, row){
                     var url = '{{$client['website']}}' + row.Page_Path;
                     var displayText = row.Article ? row.Article : url;
-                    return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" class="has-tip top">' + displayText + '</a>';
+                    return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" data-template-classes="url_tooltip" class="has-tip top">' + displayText + '</a>';
                 }
             }, {
                 'targets': 1,

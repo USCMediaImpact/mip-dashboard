@@ -52,7 +52,7 @@ Route::post('auth/account', 'Auth\AccountController@editAccount');
 Route::delete('auth/account/{id}', 'Auth\AccountController@removeAccount');
 
 // Demo routes...
-Route::match(['get', 'post'], '/', 'DashboardController@showDashboard');
+Route::match(['get', 'post'], '/', 'DashboardController@show');
 
 // Main routes...
 Route::match(['get', 'post'], '/reports/content', 'ReportsController@showContent');
@@ -102,3 +102,6 @@ Route::post('/data/quality/members/csv', 'DataController@download_Quality_Member
 Route::get('/analyses', 'AnalysesController@show');
 Route::get('/analyses/{guid}', 'AnalysesController@display');
 Route::post('/analyses', 'AnalysesController@upload');
+Route::post('/analyses/download', 'AnalysesController@download');
+Route::post('/analyses/edit', 'AnalysesController@edit');
+Route::post('/analyses/delete', 'AnalysesController@delete');
