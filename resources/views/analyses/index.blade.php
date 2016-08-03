@@ -37,7 +37,7 @@
                     @foreach ($data as $item)
                     <div class="column analyses">
                         <div id="{{$item->file_id}}" class="box">
-                            <a class="pdf" href="/analyses/{{$item->file_id}}" style="background-image: url({{$item->screen_shot ? $item->screen_shot : '/images/pdf.png'}})">
+                            <a class="pdf" href="/analyses/{{$item->file_id}}" style="background-image: url({{$item->screen_shot ? $item->screen_shot : '/images/file.png'}})">
                             </a>
                             <div class="description">{{$item->description}}</div>
                             <input class="checkpdf" type="checkbox" />
