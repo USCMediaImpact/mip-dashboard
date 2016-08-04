@@ -24,21 +24,7 @@
                                     <button class="button btnSwitcher small switcher on" mode="percent">Percent</button>
                                     <button class="button btnSwitcher small switcher" mode="count">Count</button>
                                 </div>
-								@include('widgets.dropdownbutton', [
-                                    'text' => 'Download',
-                                    'class' => 'small download-group',
-                                    'buttons' => [
-                                        [
-                                            'text' => 'Download Selected Date',
-                                            'class' => 'small btnDownload',
-                                            'attr' => [['action', '/data/stories/scroll_depth/{mode}/csv']],
-                                        ], [
-                                            'text' => 'Download All Date Report',
-                                            'class' => 'small btnDownload',
-                                            'attr' => [['action', '/data/stories/scroll_depth/{mode}/csv/all']],
-                                        ]
-                                    ]
-                                ])
+                                <button class="button small btnDownload" action="/data/stories/scroll_depth/{mode}/csv/all">Download Full Report</button>
 						</div>
 					</div>
 					<div class="table-scroll">
@@ -74,21 +60,7 @@
     								<button class="button btnSwitcher small switcher on" mode="percent">Percent</button>
                                     <button class="button btnSwitcher small switcher" mode="count">Count</button>
                                 </div>
-                                @include('widgets.dropdownbutton', [
-                                    'text' => 'Download',
-                                    'class' => 'small download-group',
-                                    'buttons' => [
-                                        [
-                                            'text' => 'Download Selected Date',
-                                            'class' => 'small btnDownload',
-                                            'attr' => [['action', '/data/stories/time_on_article/{mode}/csv']],
-                                        ], [
-                                            'text' => 'Download All Date Report',
-                                            'class' => 'small btnDownload',
-                                            'attr' => [['action', '/data/stories/time_on_article/{mode}/csv/all']],
-                                        ]
-                                    ]
-                                ])
+                                <button class="button small btnDownload" action="/data/stories/time_on_article/{mode}/csv/all">Download Full Report</button>
 						</div>
 					</div>
 					<div class="table-scroll">
@@ -119,21 +91,7 @@
                             <input id="dateRangeUserInteractions" name="date_range" />
                             <input type="hidden" name="min_date" value="{{ date('Y-m-d', $min_date) }}" />
                             <input type="hidden" name="max_date" value="{{ date('Y-m-d', $max_date) }}" />
-                            @include('widgets.dropdownbutton', [
-                                'text' => 'Download',
-                                'class' => 'small download-group',
-                                'buttons' => [
-                                    [
-                                        'text' => 'Download Selected Date',
-                                        'class' => 'small btnDownload',
-                                        'attr' => [['action', '/data/stories/user_interactions/{mode}/csv']],
-                                    ], [
-                                        'text' => 'Download All Date Report',
-                                        'class' => 'small btnDownload',
-                                        'attr' => [['action', '/data/stories/user_interactions/{mode}/csv/all']],
-                                    ]
-                                ]
-                            ])
+                            <button class="button small btnDownload" action="/data/stories/user_interactions//csv/all">Download Full Report</button>
 						</div>
 					</div>
 					<div class="table-scroll">
