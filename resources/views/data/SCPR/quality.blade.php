@@ -17,7 +17,21 @@
 						</div>
 						<div class="top-bar-right">
                             @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-							<button class="button small btnDownload" action="/data/quality/ga_vs_gtm/csv">Download</button>
+                            @include('widgets.dropdownbutton', [
+                                'text' => 'Download',
+                                'class' => 'small download-group',
+                                'buttons' => [
+                                    [
+                                        'text' => 'Download Selected Date',
+                                        'class' => 'small btnDownload',
+                                        'attr' => [['action', '/data/quality/ga_vs_gtm/csv']],
+                                    ], [
+                                        'text' => 'Download All Date',
+                                        'class' => 'small btnDownload',
+                                        'attr' => [['action', '/data/quality/ga_vs_gtm/csv/all']],
+                                    ]
+                                ]
+                            ])
 						</div>
 					</div>
 					<table id="dataQualityGAvsGTM" class="report tiny hover">
@@ -41,7 +55,21 @@
 						</div>
 						<div class="top-bar-right">
                             @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-							<button class="button small btnDownload" action="/data/quality/email_subscribers/csv">Download</button>
+							@include('widgets.dropdownbutton', [
+                                'text' => 'Download',
+                                'class' => 'small download-group',
+                                'buttons' => [
+                                    [
+                                        'text' => 'Download Selected Date',
+                                        'class' => 'small btnDownload',
+                                        'attr' => [['action', '/data/quality/email_subscribers/csv']],
+                                    ], [
+                                        'text' => 'Download All Date',
+                                        'class' => 'small btnDownload',
+                                        'attr' => [['action', '/data/quality/email_subscribers/csv/all']],
+                                    ]
+                                ]
+                            ])
 						</div>
 					</div>
 					<table id="dataQualityEmailSubscribers" class="report tiny hover">
@@ -75,7 +103,21 @@
 						</div>
 						<div class="top-bar-right">
                             @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-							<button class="button small btnDownload" action="/data/quality/donors/csv">Download</button>
+							@include('widgets.dropdownbutton', [
+                                'text' => 'Download',
+                                'class' => 'small download-group',
+                                'buttons' => [
+                                    [
+                                        'text' => 'Download Selected Date',
+                                        'class' => 'small btnDownload',
+                                        'attr' => [['action', '/data/quality/donors/csv']],
+                                    ], [
+                                        'text' => 'Download All Date',
+                                        'class' => 'small btnDownload',
+                                        'attr' => [['action', '/data/quality/donors/csv/all']],
+                                    ]
+                                ]
+                            ])
 						</div>
 					</div>
 					<table id="dataQualityDonors" class="report tiny hover">
@@ -104,7 +146,21 @@
 						</div>
 						<div class="top-bar-right">
                             @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-							<button class="button small btnDownload" action="/data/quality/total_known_users/csv">Download</button>
+                            @include('widgets.dropdownbutton', [
+                                'text' => 'Download',
+                                'class' => 'small download-group',
+                                'buttons' => [
+                                    [
+                                        'text' => 'Download Selected Date',
+                                        'class' => 'small btnDownload',
+                                        'attr' => [['action', '/data/quality/total_known_users/csv']],
+                                    ], [
+                                        'text' => 'Download All Date',
+                                        'class' => 'small btnDownload',
+                                        'attr' => [['action', '/data/quality/total_known_users/csv/all']],
+                                    ]
+                                ]
+                            ])
 						</div>
 					</div>
 					<table id="dataQualityTotalKnownUsers" class="report tiny hover">

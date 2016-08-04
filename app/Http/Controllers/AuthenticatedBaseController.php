@@ -55,7 +55,7 @@ class AuthenticatedBaseController extends Controller
         ];
     }
 
-    protected function exportCSV(Request $request, $tableName, $select, $columns, $downloadName, $sort = 'date'){
+    protected function exportCSV(Request $request, $tableName, $select, $columns, $downloadName, $ignoreDate = false, $sort = 'date'){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
@@ -66,9 +66,11 @@ class AuthenticatedBaseController extends Controller
 
         $query = DB::table($tableName . $group)
             ->select(DB::raw($select))
-            ->where('date', '<=', $max_date)
-            ->where('date', '>=', $min_date)
             ->orderBy($sort, 'desc');
+        if(!$ignoreDate){
+            $query = $query->where('date', '<=', $max_date)
+                ->where('date', '>=', $min_date);
+        }
         $data = $query->get();
 
         $bucket = 'dashboard-php-storage';

@@ -68,12 +68,16 @@ Route::match(['get', 'post'], '/data/content', 'DataController@showContent');
 Route::get('/data/users', 'DataController@showUsers');
 Route::post('/data/users/total_known_users', 'DataController@get_Users_Total_Known_Users');
 Route::post('/data/users/total_known_users/csv', 'DataController@download_Users_Total_Known_Users');
+Route::post('/data/users/total_known_users/csv/all', 'DataController@download_All_Users_Total_Known_Users');
 Route::post('/data/users/email_newsletter_subscribers', 'DataController@get_Users_Email_Newsletter_Subscribers');
 Route::post('/data/users/email_newsletter_subscribers/csv', 'DataController@download_Users_Email_Newsletter_Subscribers');
+Route::post('/data/users/email_newsletter_subscribers/csv/all', 'DataController@download_All_Users_Email_Newsletter_Subscribers');
 Route::post('/data/users/donors', 'DataController@get_Users_Donors');
 Route::post('/data/users/donors/csv', 'DataController@download_Users_Donors');
+Route::post('/data/users/donors/csv/all', 'DataController@download_All_Users_Donors');
 Route::post('/data/users/members', 'DataController@get_Users_Members');
 Route::post('/data/users/members/csv', 'DataController@download_Users_Members');
+Route::post('/data/users/members/csv/all', 'DataController@download_All_Users_Members');
 
 
 Route::match(['get', 'post'], '/data/donations', 'DataController@showDonations');

@@ -86,6 +86,15 @@ class DataController extends AuthenticatedBaseController{
             'Total Known Users.csv');
     }
 
+    public function download_All_Users_Total_Known_Users(Request $request){
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request,
+            $client_code.'_data_users_',
+            $this::$DataUsersField[$client_code][0],
+            $this::$DataUsersColumn[$client_code][0],
+            'Total Known Users.csv', true);
+    }
+
     public function get_Users_Email_Newsletter_Subscribers(Request $request){
         $client_code = $request['client']['code'];
         return $this->dataTableQuery($request, $client_code.'_data_users_', $this::$DataUsersField[$client_code][1]);
@@ -97,6 +106,14 @@ class DataController extends AuthenticatedBaseController{
             $this::$DataUsersField[$client_code][1],
             $this::$DataUsersColumn[$client_code][1],
             'Email Newsletter Subscribers.csv');
+    }
+
+    public function download_All_Users_Email_Newsletter_Subscribers(Request $request){
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request, $client_code.'_data_users_',
+            $this::$DataUsersField[$client_code][1],
+            $this::$DataUsersColumn[$client_code][1],
+            'Email Newsletter Subscribers.csv', true);
     }
 
     public function get_Users_Donors(Request $request){
@@ -114,6 +131,14 @@ class DataController extends AuthenticatedBaseController{
             'Donors.csv');
     }
 
+    public function download_All_Users_Donors(Request $request){
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request, $client_code.'_data_users_',
+            $this::$DataUsersField[$client_code][2],
+            $this::$DataUsersColumn[$client_code][2],
+            'Donors.csv', true);
+    }
+
     public function get_Users_Members(Request $request){
         $client_code = $request['client']['code'];
         return $this->dataTableQuery($request,
@@ -127,6 +152,14 @@ class DataController extends AuthenticatedBaseController{
             $this::$DataUsersField[$client_code][3],
             $this::$DataUsersColumn[$client_code][3],
             'Members.csv');
+    }
+
+    public function download_All_Users_Members(Request $request){
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request, $client_code.'_data_users_',
+            $this::$DataUsersField[$client_code][3],
+            $this::$DataUsersColumn[$client_code][3],
+            'Members.csv', true);
     }
 
 
@@ -251,6 +284,18 @@ class DataController extends AuthenticatedBaseController{
             'Pageviews');
     }
 
+    public function download_All_Stories_Scroll_Depth(Request $request, $mode){
+        $client_code = $request['client']['code'];
+        $index = $mode == 'count' ? 1 : 0;
+        return $this->exportCSV($request,
+            $client_code.'_data_stories_',
+            $this::$DataStoriesExportField[$client_code][$index],
+            $this::$DataStoriesColumn[$client_code][0],
+            'Scroll Depth.csv',
+            true,
+            'Pageviews');
+    }
+
     public function get_Stories_Time_On_Article(Request $request, $mode)
     {
         $client_code = $request['client']['code'];
@@ -271,6 +316,18 @@ class DataController extends AuthenticatedBaseController{
             'Pageviews');
     }
 
+    public function download_All_Stories_Time_On_Article(Request $request, $mode){
+        $client_code = $request['client']['code'];
+        $index = $mode == 'count' ? 3 : 2;
+        return $this->exportCSV($request,
+            $client_code.'_data_stories_',
+            $this::$DataStoriesExportField[$client_code][$index],
+            $this::$DataStoriesColumn[$client_code][1],
+            'Time On Article.csv',
+            true,
+            'Pageviews');
+    }
+
     public function get_Stories_User_Interactions(Request $request)
     {
         $client_code = $request['client']['code'];
@@ -286,6 +343,17 @@ class DataController extends AuthenticatedBaseController{
             $this::$DataStoriesExportField[$client_code][4],
             $this::$DataStoriesColumn[$client_code][2],
             'User Interactions.csv',
+            'Pageviews');
+    }
+
+    public function download_All_Stories_User_Interactions(Request $request){
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request,
+            $client_code.'_data_stories_',
+            $this::$DataStoriesExportField[$client_code][4],
+            $this::$DataStoriesColumn[$client_code][2],
+            'User Interactions.csv',
+            true,
             'Pageviews');
     }
 
@@ -322,29 +390,30 @@ class DataController extends AuthenticatedBaseController{
     ];
 
     public function showQuality(Request $request){
-        $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
-        $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
-        $min_date = date("Y-m-d", strtotime("-30 day"));
-        $min_date = date_parse($request['min_date'] ?: $min_date);
+    
 
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
+        $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
 
-        $query = DB::table($client_code.'_data_quality_'.$group);
+        $query = DB::table($client_code. '_data_quality_' . $group);
 
         $count = $query->count();
-        $date_range_min = $query->min('date');
-        $date_range_max = $query->max('date');
+        $date_range_min = strtotime($query->min('date'));
+        $date_range_max = strtotime($query->max('date'));
+        $date_range_max = strtotime('6 days', $date_range_max);
+        $max_date = $date_range_max;
+        $min_date = strtotime('-27 days', $max_date);
 
         return view('data.' . $client_code . '.quality', [
             'have_data' => $count > 0,
-            'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
-            'max_date' => mktime(0, 0, 0, $max_date['month'], $max_date['day'], $max_date['year']),
-            'date_range_min' => $date_range_min,
-            'date_range_max' => $date_range_max,
+            'min_date' => $min_date,
+            'max_date' => $max_date,
+            'date_range_min' => date('Y-m-d', $date_range_min),
+            'date_range_max' => date('Y-m-d', $date_range_max),
             'group' => $group,
             'displayGroupName' => self::$groupDisplay[$group],
-            'default_date_range' => date('m/d/Y', $min_date). ' - ' . date('m/d/Y', $max_date)
+            'default_date_range' => date('M d, Y', $min_date). ' - ' . date('M d, Y', $max_date)
         ]);
     }
 
@@ -364,6 +433,15 @@ class DataController extends AuthenticatedBaseController{
             'GA vs GTM.csv');
     }
 
+    public function download_All_Quality_GA_VS_GTM(Request $request){
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request,
+            $client_code.'_data_quality_',
+            $this::$DataQualityField[$client_code][0],
+            $this::$DataQualityColumn[$client_code][0],
+            'GA vs GTM.csv', true);
+    }
+
     public function get_Quality_Email_Subscribers(Request $request){
         $client_code = $request['client']['code'];
         return $this->dataTableQuery($request,
@@ -378,6 +456,15 @@ class DataController extends AuthenticatedBaseController{
             $this::$DataQualityField[$client_code][1],
             $this::$DataQualityColumn[$client_code][1],
             'Email Subscribers.csv');
+    }
+
+    public function download_All_Quality_Email_Subscribers(Request $request){
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request,
+            $client_code.'_data_quality_',
+            $this::$DataQualityField[$client_code][1],
+            $this::$DataQualityColumn[$client_code][1],
+            'Email Subscribers.csv', true);
     }
 
     public function get_Quality_Donors(Request $request){
@@ -396,6 +483,15 @@ class DataController extends AuthenticatedBaseController{
             'Donors.csv');
     }
 
+    public function download_All_Quality_Donors(Request $request){
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request,
+            $client_code.'_data_quality_',
+            $this::$DataQualityField[$client_code][2],
+            $this::$DataQualityColumn[$client_code][2],
+            'Donors.csv', true);
+    }
+
     public function get_Quality_Total_Known_Users(Request $request){
         $client_code = $request['client']['code'];
         return $this->dataTableQuery($request,
@@ -412,6 +508,15 @@ class DataController extends AuthenticatedBaseController{
             'Total Known Users.csv');
     }
 
+    public function download_All_Quality_Total_Known_Users(Request $request){
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request,
+            $client_code.'_data_quality_',
+            $this::$DataQualityField[$client_code][3],
+            $this::$DataQualityColumn[$client_code][3],
+            'Total Known Users.csv', true);
+    }
+
     public function get_Quality_Members(Request $request){
         $client_code = $request['client']['code'];
         return $this->dataTableQuery($request,
@@ -426,5 +531,14 @@ class DataController extends AuthenticatedBaseController{
             $this::$DataQualityField[$client_code][4],
             $this::$DataQualityColumn[$client_code][4],
             'Members.csv');
+    }
+
+    public function download_All_Quality_Members(Request $request){
+        $client_code = $request['client']['code'];
+        return $this->exportCSV($request,
+            $client_code.'_data_quality_',
+            $this::$DataQualityField[$client_code][4],
+            $this::$DataQualityColumn[$client_code][4],
+            'Members.csv', true);
     }
 }
