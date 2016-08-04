@@ -129,35 +129,11 @@
 
 @section('script')
 <script>
-	DefaultDateRangePickerOptions = {
-		presetRanges: [],
-		datepickerOptions: {
-            minDate: moment('{{$date_range_min}}').toDate(),
-            maxDate: moment('{{$date_range_max}}').toDate(),
-			numberOfMonths: 1,
-			showOtherMonths: true,
-  			selectOtherMonths: true,
-			onSelect: function(date, el){
-				var panel = $(this).parents('.panel');
-                    min_date = moment(date, 'MM/DD/YYYY').day(0),
-					max_date = moment(date, 'MM/DD/YYYY').day(6);
-                console.log(panel);
-				$('.dateRange', panel).daterangepicker('setRange', {
-					start: min_date.toDate(),
-					end: max_date.toDate()
-				});
-				$('.dateRange', panel).daterangepicker('close');
-				$('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
-				$('input[name="max_date"]', panel).val(min_date.format('YYYY-MM-DD'));
-			}
-		}
-	};
     ReportDataTable = {};
 	$(function(){
         $('#dateRangeScrollDepth').daterangepicker({
             dateFormat: 'M d, yy',
             presetRanges: [],
-            initialText: 'last week',
             datepickerOptions: {
                 minDate: moment('{{$date_range_min}}').toDate(),
                 maxDate: moment('{{$date_range_max}}').toDate(),
@@ -175,13 +151,13 @@
                     $('#dateRangeScrollDepth').daterangepicker('close');
                     $('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
                     $('input[name="max_date"]', panel).val(min_date.format('YYYY-MM-DD'));
+                    panel.trigger('change.daterange');
                 }
             }
         });
         $('#dateRangeTimeOnArticle').daterangepicker({
             dateFormat: 'M d, yy',
             presetRanges: [],
-            initialText: 'last week',
             datepickerOptions: {
                 minDate: moment('{{$date_range_min}}').toDate(),
                 maxDate: moment('{{$date_range_max}}').toDate(),
@@ -199,13 +175,13 @@
                     $('#dateRangeTimeOnArticle').daterangepicker('close');
                     $('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
                     $('input[name="max_date"]', panel).val(min_date.format('YYYY-MM-DD'));
+                    panel.trigger('change.daterange');
                 }
             }
         });
         $('#dateRangeUserInteractions').daterangepicker({
             dateFormat: 'M d, yy',
             presetRanges: [],
-            initialText: 'last week',
             datepickerOptions: {
                 minDate: moment('{{$date_range_min}}').toDate(),
                 maxDate: moment('{{$date_range_max}}').toDate(),
@@ -223,9 +199,31 @@
                     $('#dateRangeUserInteractions').daterangepicker('close');
                     $('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
                     $('input[name="max_date"]', panel).val(min_date.format('YYYY-MM-DD'));
+                    panel.trigger('change.daterange');
                 }
             }
         });
+        /**
+         * set default range
+         */
+        if(!$('#dateRangeScrollDepth').daterangepicker('getRange')){
+            $('#dateRangeScrollDepth').daterangepicker('setRange', {
+                start: moment('{{date('Y-m-d', $min_date)}}').toDate(),
+                end: moment('{{date('Y-m-d', $max_date)}}').toDate()
+            });
+        }
+        if(!$('#dateRangeTimeOnArticle').daterangepicker('getRange')){
+            $('#dateRangeTimeOnArticle').daterangepicker('setRange', {
+                start: moment('{{date('Y-m-d', $min_date)}}').toDate(),
+                end: moment('{{date('Y-m-d', $max_date)}}').toDate()
+            });
+        }
+        if(!$('#dateRangeUserInteractions').daterangepicker('getRange')){
+            $('#dateRangeUserInteractions').daterangepicker('setRange', {
+                start: moment('{{date('Y-m-d', $min_date)}}').toDate(),
+                end: moment('{{date('Y-m-d', $max_date)}}').toDate()
+            });
+        }
 		ReportDataTable['dataStoriesScrollDepth'] = $('#dataStoriesScrollDepth').DataTable({
             'processing': true,
             'serverSide': true,

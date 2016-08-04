@@ -45,28 +45,28 @@ class DataController extends AuthenticatedBaseController{
     ];
 
     public function showUsers(Request $request){
-        $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
-        $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
-        $min_date = date("Y-m-d", strtotime("-30 day"));
-        $min_date = date_parse($request['min_date'] ?: $min_date);
-
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
+        $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
 
         $query = DB::table($client_code. '_data_users_' . $group);
 
         $count = $query->count();
-        $date_range_min = $query->min('date');
-        $date_range_max = $query->max('date');
+        $date_range_min = strtotime($query->min('date'));
+        $date_range_max = strtotime($query->max('date'));
+        $date_range_max = strtotime('6 days', $date_range_max);
+        $max_date = $date_range_max;
+        $min_date = strtotime('-27 days', $max_date);
 
         return view('data.' . $client_code . '.users', [
             'have_data' => $count > 0,
-            'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
-            'max_date' => mktime(0, 0, 0, $max_date['month'], $max_date['day'], $max_date['year']),
-            'date_range_min' => $date_range_min,
-            'date_range_max' => $date_range_max,
+            'min_date' => $min_date,
+            'max_date' => $max_date,
+            'date_range_min' => date('Y-m-d', $date_range_min),
+            'date_range_max' => date('Y-m-d', $date_range_max),
             'group' => $group,
-            'displayGroupName' => self::$groupDisplay[$group]
+            'displayGroupName' => self::$groupDisplay[$group],
+            'default_date_range' => date('M d, Y', $min_date). ' - ' . date('M d, Y', $max_date)
         ]);
     }
 
@@ -203,31 +203,31 @@ class DataController extends AuthenticatedBaseController{
     ];
 
     public function showStories(Request $request){
-        $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
-        $current_week_sunday = mktime(0,0,0,date('m'),date('d') - date('N', time()),date('Y'));
-        $last_week_begin = $current_week_sunday - 60 * 60 * 24 * 7;
-        $last_week_end = $current_week_sunday - 60 * 60 * 24 * 1;
-        $max_date = date_parse($request['max_date'] ?: date('Y-m-d', $last_week_end));
-        $min_date = date_parse($request['min_date'] ?: date('Y-m-d', $last_week_begin));
-
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
+        $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
 
         $query = DB::table($client_code. '_data_stories_' . $group);
-
         $count = $query->count();
+
         $date_range_min = $query->min('date');
-        $date_range_max = $query->max('date');
+        $last_week_begin = strtotime($query->max('date'));
+        $last_week_end = strtotime('6 days', $last_week_begin);
+        $date_range_max = date('Y-m-d', $last_week_end);
+
+        $max_date = strtotime($request['max_date']) ?: $last_week_end;
+        $min_date = strtotime($request['min_date']) ?: $last_week_begin;
 
         return view('data.' . $client_code . '.stories', [
             'have_data' => $count > 0,
             'website' => $request['client']['website'],
-            'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
-            'max_date' => mktime(0, 0, 0, $max_date['month'], $max_date['day'], $max_date['year']),
+            'min_date' => $min_date,
+            'max_date' => $max_date,
             'date_range_min' => $date_range_min,
             'date_range_max' => $date_range_max,
             'group' => $group,
-            'displayGroupName' => self::$groupDisplay[$group]
+            'displayGroupName' => self::$groupDisplay[$group],
+            'default_date_range' => date('m/d/Y', $min_date). ' - ' . date('m/d/Y', $max_date)
         ]);
     }
 
@@ -343,7 +343,8 @@ class DataController extends AuthenticatedBaseController{
             'date_range_min' => $date_range_min,
             'date_range_max' => $date_range_max,
             'group' => $group,
-            'displayGroupName' => self::$groupDisplay[$group]
+            'displayGroupName' => self::$groupDisplay[$group],
+            'default_date_range' => date('m/d/Y', $min_date). ' - ' . date('m/d/Y', $max_date)
         ]);
     }
 

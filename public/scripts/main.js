@@ -27,7 +27,7 @@ $(function () {
 		window.location.reload(true);
 	});
 
-	var dateRangeDisplayText = 'Select date range...',
+	var dateRangeDisplayText = $('[name="defaultDateRange"]').val(),
 		max_date = $('[name="max_date"]').val(),
 		min_date = $('[name="min_date"]').val();
 
@@ -37,26 +37,34 @@ $(function () {
 		if (max_date.isValid() && min_date.isValid()) {
 			dateRangeDisplayText = $.datepicker.formatDate('M d, yy', min_date.toDate()) + ' - ' + $.datepicker.formatDate('M d, yy', max_date.toDate());
 		}
+
 	}
 
 	DefaultDateRangePickerOptions = typeof DefaultDateRangePickerOptions === 'undefined' ? {} : DefaultDateRangePickerOptions;
 	$('.dateRange').daterangepicker({
 		initialText: dateRangeDisplayText,
 		dateFormat: 'M d, yy',
-		initialText: 'last 30 days',
 		presetRanges: [],
 		change: function (event, el) {
+			console.log('date range on change');
 			var range = el.instance.getRange(),
 				min_date = moment(range.start),
 				max_date = moment(range.end),
 				panel = $(this).parents('.panel');
-			console.log(panel);
 			$('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
 			$('input[name="max_date"]', panel).val(max_date.format('YYYY-MM-DD'));
 			$(panel).trigger('change.daterange');
 		},
 	}, DefaultDateRangePickerOptions);
-
+	/**
+	 * set default range
+	 */
+	if(!$('.dateRange').daterangepicker('getRange') && max_date && min_date){
+		$('.dateRange').daterangepicker('setRange', {
+			start: moment(min_date).toDate(),
+			end: moment(max_date).toDate()
+		});
+	}
 	$('select').select2({
 		minimumResultsForSearch: Infinity,
 		change: function (data) {}
@@ -72,9 +80,14 @@ $(function () {
 	});
 	$(window).trigger('resize');
 
+	var dateRangeChangeTimeout = null;
 	$(document).on('change.daterange', '.panel', function () {
+		window.clearTimeout(dateRangeChangeTimeout);
 		var tableId = $(this).find('table').attr('id');
-		typeof ReportDataTable !== 'undefined' && ReportDataTable[tableId].ajax.reload();
+		dateRangeChangeTimeout = window.setTimeout(function(){
+			typeof ReportDataTable !== 'undefined' && ReportDataTable[tableId] && ReportDataTable[tableId].ajax.reload();	
+		}, 500);
+		
 	});
 
 	$(document).on('click', '.btnDownload', function () {
