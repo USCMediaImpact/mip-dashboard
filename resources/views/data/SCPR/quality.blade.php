@@ -81,7 +81,7 @@
 					<table id="dataQualityDonors" class="report tiny hover">
 			            <thead>
 			                <tr>
-			                	<th>Week</th>
+			                	<th>Week of</th>
 			                    <th>Identified: Donors already in MIP database who came to the site this week</th>
 			                    <th>Known: Donors already in MIP database who came to the site this week</th>
 			                    <th>Identified: Users who donated on the site for the first time since MIP started collecting data</th>
@@ -169,7 +169,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
-                'width': 60,
+                'width': 80,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
@@ -243,7 +243,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
-                'width': 60,
+                'width': 80,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
@@ -360,7 +360,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
-                'width': 60,
+                'width': 80,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
@@ -439,7 +439,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
-                'width': 60,
+                'width': 80,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
