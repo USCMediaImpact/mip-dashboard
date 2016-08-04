@@ -229,7 +229,7 @@ class DataController extends AuthenticatedBaseController{
             ['Article Title', 'Page Path', 'Total Page Views', 'Started Scrolling', '25% Scroll', '50% Scroll', '75% Scroll', '100% Scroll', 'Related Content', 'End of Page'],
             ['Article Title', 'Page Path', 'Total Page Views', '15 Seconds', '30 Seconds', '45 Seconds', '60 Seconds', '75 Seconds', '90 Seconds'],
             ['Article Title', 'Page Path', 'Total Page Views', 'Comments', 'Email Shares', 'Tweets', 'FB Shares', 'Total Shares', 'Share Rate', 'Related Content Clicks', 'Click Through Rate'],
-            ['Article Title', 'Page Path', 'Total Page Views', 'Started Scrolling', '25% Scroll', '50% Scroll', '75% Scroll', '100% Scroll', 'Related Content', 'End of Page', 'Article Title', 'Page Path', 'Total Page Views', '15 Seconds', '30 Seconds', '45 Seconds', '60 Seconds', '75 Seconds', '90 Seconds', 'Article Title', 'Page Path', 'Total Page Views', 'Comments', 'Email Shares', 'Tweets', 'FB Shares', 'Total Shares', 'Share Rate', 'Related Content Clicks', 'Click Through Rate']
+            ['Article Title', 'Page Path', 'Total Page Views', 'Started Scrolling', '25% Scroll', '50% Scroll', '75% Scroll', '100% Scroll', 'Related Content', 'End of Page', '15 Seconds', '30 Seconds', '45 Seconds', '60 Seconds', '75 Seconds', '90 Seconds', 'Comments', 'Email Shares', 'Tweets', 'FB Shares', 'Total Shares', 'Share Rate', 'Related Content Clicks', 'Click Through Rate']
         ],
         'TT' => [
             ['Article Title', 'Page Path', 'Total Page Views', 'Started Scrolling', '25% Scroll', '50% Scroll', '75% Scroll', '100% Scroll', 'Related Content', 'End of Page'],
@@ -289,12 +289,13 @@ class DataController extends AuthenticatedBaseController{
 
     public function download_All_Stories_Scroll_Depth(Request $request, $mode){
         $client_code = $request['client']['code'];
-        $index = $mode == 'count' ? 6 : 5;
+        $index = 6;
+        $mode = 'count';
         return $this->exportCSV($request,
             $client_code.'_data_stories_',
             $this::$DataStoriesExportField[$client_code][$index],
             $this::$DataStoriesColumn[$client_code][3],
-            "stories_full_report_${mode}",
+            "stories_full_report",
             'Pageviews');
     }
 
@@ -320,12 +321,13 @@ class DataController extends AuthenticatedBaseController{
 
     public function download_All_Stories_Time_On_Article(Request $request, $mode){
         $client_code = $request['client']['code'];
-        $index = $mode == 'count' ? 6 : 5;
+        $index = 6;
+        $mode = 'count';
         return $this->exportCSV($request,
             $client_code.'_data_stories_',
             $this::$DataStoriesExportField[$client_code][$index],
             $this::$DataStoriesColumn[$client_code][3],
-            "stories_full_report_${mode}",
+            "stories_full_report",
             'Pageviews');
     }
 
@@ -355,7 +357,7 @@ class DataController extends AuthenticatedBaseController{
             $client_code.'_data_stories_',
             $this::$DataStoriesExportField[$client_code][$index],
             $this::$DataStoriesColumn[$client_code][3],
-            "stories_full_report_${mode}",
+            "stories_full_report",
             'Pageviews');
     }
 
@@ -379,7 +381,7 @@ class DataController extends AuthenticatedBaseController{
         'SCPR' => [
             ['Week of', 'Events', 'GA Users', 'MIP GTM Users', 'Variance'],
             ['Week of', 'Identified: Subscribers already in MIP database who came to the site this week', 'Known: Subscribers already in MIP database who came to the site this week', 'Identified: Subscribers who came to the site through an e-mail this week for the first time since MIP started collecting data', 'Known: Subscribers who came to the site through an e-mail this week for the first time since MIP started collecting data', 'Identified: New subscribers this week who also clicked on an e-mail this week', 'Known: New subscribers this week who also clicked on an e-mail this week', 'Identified e-mail newsletter subscribers THIS WEEK', 'Known e-mail newsletter subscribers THIS WEEK (unique ELQs)', 'Identified: New e-mail subscribers this week', 'Known: New e-mail subscribers this week', 'Identified: Total identified e-mail newsletter subscribers in the MIP database', 'Known: Total number of known e-mail newsletter subscribers in the MIP database', 'Known: Percent of subscribers in the MIP database who clicked on an e-mail this week', 'E-mail newsletter clicks per week'],
-            ['Week', 'Identified: Donors already in MIP database who came to the site this week', 'Known: Donors already in MIP database who came to the site this week', 'Identified: Users who donated on the site for the first time since MIP started collecting data', 'Known: Users who donated on the site for the first time since MIP started collecting data', 'Identified donors on the site THIS WEEK', 'Known donors on the site THIS WEEK', 'Identified: Total identified donors in the MIP database', 'Known: Total known donors in the MIP database', 'Known: Percent of subscribers in the MIP database who clicked on an e-mail this week'],
+            ['Week of', 'Identified: Donors already in MIP database who came to the site this week', 'Known: Donors already in MIP database who came to the site this week', 'Identified: Users who donated on the site for the first time since MIP started collecting data', 'Known: Users who donated on the site for the first time since MIP started collecting data', 'Identified donors on the site THIS WEEK', 'Known donors on the site THIS WEEK', 'Identified: Total identified donors in the MIP database', 'Known: Total known donors in the MIP database', 'Known: Percent of subscribers in the MIP database who clicked on an e-mail this week'],
             ['Week of', 'Known: Total known donors and/or e-mail newsletter subscribers who came to the site THIS WEEK', 'Known: Total known donors and/or e-mail newsletter subscribers in the MIP database', 'Known: Percent of known individuals in the MIP database who came to the site this week']
         ],
         'TT' => [
