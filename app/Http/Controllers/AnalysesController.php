@@ -83,8 +83,24 @@ class AnalysesController extends AuthenticatedBaseController
 
         move_uploaded_file($uploadFile, $path);
         switch ($extension){
+            case '.pdf':
+                $screenshot = '/images/pdf.png';
+                break;
+            case '.xls':
+            case '.xlsx':
+                $screenshot = '/images/excel.png';
+                break;
+            case '.ppt':
+            case '.pptx':
+                $screenshot = '/images/ppt.png';
+                break;
+            case '.doc':
+            case '.docx':
+                $screenshot = '/images/word.png';
+                break;
             default:
                 $screenshot = '/images/file.png';
+                break;
         }
 
 //        $tmp_dir = sys_get_temp_dir();
