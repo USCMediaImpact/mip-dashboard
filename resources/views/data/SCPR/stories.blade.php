@@ -91,7 +91,7 @@
                             <input id="dateRangeUserInteractions" name="date_range" />
                             <input type="hidden" name="min_date" value="{{ date('Y-m-d', $min_date) }}" />
                             <input type="hidden" name="max_date" value="{{ date('Y-m-d', $max_date) }}" />
-                            <button class="button small btnDownload" action="/data/stories/user_interactions//csv/all">Download Full Report</button>
+                            <button class="button small btnDownload" action="/data/stories/user_interactions/csv/all">Download Full Report</button>
 						</div>
 					</div>
 					<div class="table-scroll">
