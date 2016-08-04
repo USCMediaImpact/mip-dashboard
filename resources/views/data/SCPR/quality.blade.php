@@ -26,7 +26,7 @@
                                         'class' => 'small btnDownload',
                                         'attr' => [['action', '/data/quality/ga_vs_gtm/csv']],
                                     ], [
-                                        'text' => 'Download All Date',
+                                        'text' => 'Download All Date Report',
                                         'class' => 'small btnDownload',
                                         'attr' => [['action', '/data/quality/ga_vs_gtm/csv/all']],
                                     ]
@@ -64,7 +64,7 @@
                                         'class' => 'small btnDownload',
                                         'attr' => [['action', '/data/quality/email_subscribers/csv']],
                                     ], [
-                                        'text' => 'Download All Date',
+                                        'text' => 'Download All Date Report',
                                         'class' => 'small btnDownload',
                                         'attr' => [['action', '/data/quality/email_subscribers/csv/all']],
                                     ]
@@ -112,7 +112,7 @@
                                         'class' => 'small btnDownload',
                                         'attr' => [['action', '/data/quality/donors/csv']],
                                     ], [
-                                        'text' => 'Download All Date',
+                                        'text' => 'Download All Date Report',
                                         'class' => 'small btnDownload',
                                         'attr' => [['action', '/data/quality/donors/csv/all']],
                                     ]
@@ -155,7 +155,7 @@
                                         'class' => 'small btnDownload',
                                         'attr' => [['action', '/data/quality/total_known_users/csv']],
                                     ], [
-                                        'text' => 'Download All Date',
+                                        'text' => 'Download All Date Report',
                                         'class' => 'small btnDownload',
                                         'attr' => [['action', '/data/quality/total_known_users/csv/all']],
                                     ]

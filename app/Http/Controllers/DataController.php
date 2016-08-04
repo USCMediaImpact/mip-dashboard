@@ -390,7 +390,7 @@ class DataController extends AuthenticatedBaseController{
     ];
 
     public function showQuality(Request $request){
-    
+
 
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];

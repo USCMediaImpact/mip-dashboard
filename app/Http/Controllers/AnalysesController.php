@@ -16,7 +16,6 @@ use ZipArchive;
 
 class AnalysesController extends AuthenticatedBaseController
 {
-
     static $bucket = 'mip-dashboard-upload';
 
     public function show(Request $request)
@@ -83,7 +82,10 @@ class AnalysesController extends AuthenticatedBaseController
         $file_type = $_FILES['content']['type'];
 
         move_uploaded_file($uploadFile, $path);
-        $screenshot = '';
+        switch ($extension){
+            default:
+                $screenshot = '/images/file.png';
+        }
 
 //        $tmp_dir = sys_get_temp_dir();
 //        $tmp = tempnam($dir, “foo”);

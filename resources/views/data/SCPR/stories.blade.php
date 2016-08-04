@@ -33,7 +33,7 @@
                                             'class' => 'small btnDownload',
                                             'attr' => [['action', '/data/stories/scroll_depth/{mode}/csv']],
                                         ], [
-                                            'text' => 'Download All Date',
+                                            'text' => 'Download All Date Report',
                                             'class' => 'small btnDownload',
                                             'attr' => [['action', '/data/stories/scroll_depth/{mode}/csv/all']],
                                         ]
@@ -83,7 +83,7 @@
                                             'class' => 'small btnDownload',
                                             'attr' => [['action', '/data/stories/time_on_article/{mode}/csv']],
                                         ], [
-                                            'text' => 'Download All Date',
+                                            'text' => 'Download All Date Report',
                                             'class' => 'small btnDownload',
                                             'attr' => [['action', '/data/stories/time_on_article/{mode}/csv/all']],
                                         ]
@@ -128,7 +128,7 @@
                                         'class' => 'small btnDownload',
                                         'attr' => [['action', '/data/stories/user_interactions/{mode}/csv']],
                                     ], [
-                                        'text' => 'Download All Date',
+                                        'text' => 'Download All Date Report',
                                         'class' => 'small btnDownload',
                                         'attr' => [['action', '/data/stories/user_interactions/{mode}/csv/all']],
                                     ]

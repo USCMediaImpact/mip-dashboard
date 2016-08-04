@@ -26,7 +26,7 @@
                                         'class' => 'small btnDownload',
                                         'attr' => [['action', '/data/users/total_known_users/csv']],
                                     ], [
-                                        'text' => 'Download All Date',
+                                        'text' => 'Download Full Report',
                                         'class' => 'small btnDownload',
                                         'attr' => [['action', '/data/users/total_known_users/csv/all']],
                                     ]
@@ -66,7 +66,7 @@
                                         'class' => 'small btnDownload',
                                         'attr' => [['action', '/data/users/email_newsletter_subscribers/csv']],
                                     ], [
-                                        'text' => 'Download All Date',
+                                        'text' => 'Download All Date Report',
                                         'class' => 'small btnDownload',
                                         'attr' => [['action', '/data/users/email_newsletter_subscribers/csv/all']],
                                     ]
@@ -104,7 +104,7 @@
                                         'class' => 'small btnDownload',
                                         'attr' => [['action', '/data/users/donors/csv']],
                                     ], [
-                                        'text' => 'Download All Date',
+                                        'text' => 'Download All Date Report',
                                         'class' => 'small btnDownload',
                                         'attr' => [['action', '/data/users/donors/csv/all']],
                                     ]
