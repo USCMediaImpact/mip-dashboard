@@ -19,7 +19,9 @@ class AccountController extends AuthenticatedBaseController
     }
 
     public function showAccount(){
-        $roles = Role::where('name', '<>', 'SuperAdmin')->get();
+        $roles = Role::where('name', '<>', 'SuperAdmin')
+            ->where('name', '<>', 'Test')
+            ->get();
 		return view('auth.account', [
             'roles' => $roles
         ]);
@@ -29,8 +31,16 @@ class AccountController extends AuthenticatedBaseController
         $client_id = $request->user()->client->id;
         $search = $request->input('search.value');
 
-        $total = User::where('client_id', $client_id)->count();
-        $query = User::where('client_id', $client_id);
+        $superAdminAndTest = DB::select(DB::raw("SELECT user_id FROM user_role ur INNER JOIN roles r ON ur.role_id = r.id WHERE r.name IN ('SuperAdmin' , 'Test')"));
+        $superAdminAndTest = array_map(function($i){
+            return $i->user_id;
+        }, $superAdminAndTest);
+
+        $query = User::with('roles')
+            ->where('client_id', $client_id)
+            ->whereNotIn('id', $superAdminAndTest);
+
+        $total = $query->count();
         if($search !== null){
             $query = $query->where(function($q) use($search){
                 $q->where('email', 'like', '%'.$search.'%')
@@ -38,6 +48,7 @@ class AccountController extends AuthenticatedBaseController
 
             });
         }
+
         $filtered = $query->count();
         $data = $query->with('roles')
             ->skip($request->start ?: 0)

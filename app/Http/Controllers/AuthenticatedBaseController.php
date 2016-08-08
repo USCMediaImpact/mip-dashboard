@@ -66,9 +66,11 @@ class AuthenticatedBaseController extends Controller
 
         $query = DB::table($tableName . $group)
             ->select(DB::raw($select))
-            ->where('date', '<=', $max_date)
-            ->where('date', '>=', $min_date)
             ->orderBy($sort, 'desc');
+
+        $query = $query->where('date', '<=', $max_date)
+            ->where('date', '>=', $min_date);
+
         $data = $query->get();
 
         $bucket = 'dashboard-php-storage';
@@ -85,7 +87,7 @@ class AuthenticatedBaseController extends Controller
 
         return response()->download(
             "gs://${bucket}/${fullName}",
-            "${downloadName}_${min_date}_${max_date}.csv", [
+            "${min_date}_${max_date}_${downloadName}.csv", [
             'Content-type' => 'text/csv'
         ]);
     }
