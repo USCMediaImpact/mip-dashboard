@@ -104,7 +104,7 @@
 						</div>
 						<div class="top-bar-right">
                             @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-							<button class="button tiny tiny btnDownload" action="/data/quality/total_known_users/csv">Download</button>
+							<button class="button small btnDownload" action="/data/quality/total_known_users/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataQualityTotalKnownUsers" class="report tiny hover">
@@ -127,7 +127,7 @@
                         </div>
                         <div class="top-bar-right">
                             @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-                            <button class="button tiny tiny btnDownload" action="/data/quality/members/csv">Download</button>
+                            <button class="button small btnDownload" action="/data/quality/members/csv">Download</button>
                         </div>
                     </div>
                     <table id="dataQualityMembers" class="report tiny hover">
@@ -198,6 +198,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 60,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
@@ -271,6 +272,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 60,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
@@ -387,6 +389,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 60,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
@@ -465,13 +468,14 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 60,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
             }, {
                 'targets': 1,
                 'render': function (data, type, row) {
-                    return '';
+                    return new Intl.NumberFormat().format(data)
                 }
             }, {
                 'targets': 2,
@@ -525,13 +529,14 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 60,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
             }, {
                 'targets': 1,
                 'render': function (data, type, row) {
-                    return '';
+                    return new Intl.NumberFormat().format(data)
                 }
             }, {
                 'targets': 2,

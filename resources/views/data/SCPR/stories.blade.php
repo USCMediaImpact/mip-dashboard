@@ -24,8 +24,7 @@
                                     <button class="button btnSwitcher small switcher on" mode="percent">Percent</button>
                                     <button class="button btnSwitcher small switcher" mode="count">Count</button>
                                 </div>
-								
-								<button class="button small btnDownload" action="/data/stories/scroll_depth/{mode}/csv">Download</button>
+                                <button class="button small btnDownload" action="/data/stories/scroll_depth/{mode}/csv/all">Download Full Report</button>
 						</div>
 					</div>
 					<div class="table-scroll">
@@ -61,7 +60,7 @@
     								<button class="button btnSwitcher small switcher on" mode="percent">Percent</button>
                                     <button class="button btnSwitcher small switcher" mode="count">Count</button>
                                 </div>
-								<button class="button small btnDownload" action="/data/stories/time_on_article/{mode}/csv">Download</button>
+                                <button class="button small btnDownload" action="/data/stories/time_on_article/{mode}/csv/all">Download Full Report</button>
 						</div>
 					</div>
 					<div class="table-scroll">
@@ -92,7 +91,7 @@
                             <input id="dateRangeUserInteractions" name="date_range" />
                             <input type="hidden" name="min_date" value="{{ date('Y-m-d', $min_date) }}" />
                             <input type="hidden" name="max_date" value="{{ date('Y-m-d', $max_date) }}" />
-							<button class="button btnDownload small" action="/data/stories/user_interactions/csv">Download</button>
+                            <button class="button small btnDownload" action="/data/stories/user_interactions/csv/all">Download Full Report</button>
 						</div>
 					</div>
 					<div class="table-scroll">
@@ -129,29 +128,6 @@
 
 @section('script')
 <script>
-	DefaultDateRangePickerOptions = {
-		presetRanges: [],
-		datepickerOptions: {
-            minDate: moment('{{$date_range_min}}').toDate(),
-            maxDate: moment('{{$date_range_max}}').toDate(),
-			numberOfMonths: 1,
-			showOtherMonths: true,
-  			selectOtherMonths: true,
-			onSelect: function(date, el){
-				var panel = $(this).parents('.panel');
-                    min_date = moment(date, 'MM/DD/YYYY').day(0),
-					max_date = moment(date, 'MM/DD/YYYY').day(6);
-                console.log(panel);
-				$('.dateRange', panel).daterangepicker('setRange', {
-					start: min_date.toDate(),
-					end: max_date.toDate()
-				});
-				$('.dateRange', panel).daterangepicker('close');
-				$('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
-				$('input[name="max_date"]', panel).val(min_date.format('YYYY-MM-DD'));
-			}
-		}
-	};
     ReportDataTable = {};
 	$(function(){
         $('#dateRangeScrollDepth').daterangepicker({
@@ -174,6 +150,7 @@
                     $('#dateRangeScrollDepth').daterangepicker('close');
                     $('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
                     $('input[name="max_date"]', panel).val(min_date.format('YYYY-MM-DD'));
+                    panel.trigger('change.daterange');
                 }
             }
         });
@@ -197,6 +174,7 @@
                     $('#dateRangeTimeOnArticle').daterangepicker('close');
                     $('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
                     $('input[name="max_date"]', panel).val(min_date.format('YYYY-MM-DD'));
+                    panel.trigger('change.daterange');
                 }
             }
         });
@@ -220,9 +198,31 @@
                     $('#dateRangeUserInteractions').daterangepicker('close');
                     $('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
                     $('input[name="max_date"]', panel).val(min_date.format('YYYY-MM-DD'));
+                    panel.trigger('change.daterange');
                 }
             }
         });
+        /**
+         * set default range
+         */
+        if(!$('#dateRangeScrollDepth').daterangepicker('getRange')){
+            $('#dateRangeScrollDepth').daterangepicker('setRange', {
+                start: moment('{{date('Y-m-d', $min_date)}}').toDate(),
+                end: moment('{{date('Y-m-d', $max_date)}}').toDate()
+            });
+        }
+        if(!$('#dateRangeTimeOnArticle').daterangepicker('getRange')){
+            $('#dateRangeTimeOnArticle').daterangepicker('setRange', {
+                start: moment('{{date('Y-m-d', $min_date)}}').toDate(),
+                end: moment('{{date('Y-m-d', $max_date)}}').toDate()
+            });
+        }
+        if(!$('#dateRangeUserInteractions').daterangepicker('getRange')){
+            $('#dateRangeUserInteractions').daterangepicker('setRange', {
+                start: moment('{{date('Y-m-d', $min_date)}}').toDate(),
+                end: moment('{{date('Y-m-d', $max_date)}}').toDate()
+            });
+        }
 		ReportDataTable['dataStoriesScrollDepth'] = $('#dataStoriesScrollDepth').DataTable({
             'processing': true,
             'serverSide': true,
@@ -267,7 +267,7 @@
                 'render': function(data, type, row){
                 	var url = '{{$client['website']}}' + row.Page_Path;
                     var displayText = row.Article ? row.Article : url;
-                	return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" class="has-tip top">' + displayText + '</a>';
+                	return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" data-template-classes="url_tooltip" class="has-tip top">' + displayText + '</a>';
                 }
             }, {
                 'targets': 1,
@@ -374,7 +374,7 @@
                 'render': function(data, type, row){
                     var url = '{{$client['website']}}' + row.Page_Path;
                     var displayText = row.Article ? row.Article : url;
-                    return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" class="has-tip top">' + displayText + '</a>';
+                    return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" data-template-classes="url_tooltip" class="has-tip top">' + displayText + '</a>';
                 }
             }, {
                 'targets': 1,
@@ -474,7 +474,7 @@
                 'render': function(data, type, row){
                     var url = '{{$client['website']}}' + row.Page_Path;
                     var displayText = row.Article ? row.Article : url;
-                    return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" class="has-tip top">' + displayText + '</a>';
+                    return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" data-template-classes="url_tooltip" class="has-tip top">' + displayText + '</a>';
                 }
             }, {
                 'targets': 1,

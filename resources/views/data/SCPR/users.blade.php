@@ -17,17 +17,17 @@
 						</div>
 						<div class="top-bar-right">
                             @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-							<button class="button small btnDownload" action='/data/users/total_known_users/csv'>Download</button>
+                            <button class="button small btnDownload" action="/data/users/total_known_users/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataUsersTotalKnownUsers" class="report tiny hover">
 			            <thead>
 			                <tr>
 			                	<th>Week of</th>
-			                    <th>Email Subscribers and Donors on Site</th>
-			                    <th>Email Subscribers or Donors on Site or Both Email Subscriber and Donor</th>
-			                    <th>Email Subscribers and Donors in MIP DB</th>
-			   					<th>Email Subscribers or Donors or Both Email Subscriber and Donor in DB</th>
+			                    <th>email subscribers and donors hidden</th>
+			                    <th>Loyal users on site (email subscribers or donors)</th>
+			                    <th>Email Subscribers and Donors in MIP DB hidden</th>
+			   					<th>Loyal users in the MIP database</th>
 			   					<th>% of Loyal Users on Site</th>
 			                </tr>
 			            </thead>
@@ -43,7 +43,7 @@
 						</div>
 						<div class="top-bar-right">
                             @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-							<button class="button small btnDownload" action="/data/users/email_newsletter_subscribers/csv">Download</button>
+                            <button class="button small btnDownload" action="/data/users/email_newsletter_subscribers/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataUsersEmailNewsletterSubscribers" class="report tiny hover">
@@ -67,16 +67,16 @@
 						</div>
 						<div class="top-bar-right">
                             @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-							<button class="button small btnDownload" action="/data/users/donors/csv">Download</button>
+                            <button class="button small btnDownload" action="/data/users/donors/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataUsersDonors" class="report tiny hover">
 			            <thead>
 			                <tr>
 			                	<th>Week of</th>
-			                    <th>Donors Donating</th>
+			                    <th>Donors on Site</th>
 			                    <th>Donors in MIP DB</th>
-			                    <th>% of Donors in MIP DB Donating</th>
+			                    <th>% of Donors in DB on Site</th>
 			                </tr>
 			            </thead>
 			            <tbody>
@@ -135,11 +135,13 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 80,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
             }, {
                 'targets': 1,
+                "visible": false,
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat().format(data)
                 }
@@ -150,6 +152,7 @@
                 }
             }, {
                 'targets': 3,
+                "visible": false,
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat().format(data)
                 }
@@ -195,6 +198,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 80,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
@@ -248,6 +252,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 80,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }

@@ -9,9 +9,9 @@ class Analyses extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'analyses';
-
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['file_id', 'file_name', 'file_type', 'description', 'screen_shot', 'path'];
+    protected $table = 'analyses';
+
+    protected $fillable = ['client_id', 'user_id', 'file_id', 'file_name', 'file_type', 'description', 'screen_shot', 'path'];
 }

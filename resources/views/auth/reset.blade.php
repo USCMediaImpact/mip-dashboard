@@ -17,6 +17,13 @@
                     <label>Re-Password
                         <input type="password" name="password_confirmation" placeholder="Password">
                     </label>
+                    @if (count($errors) > 0)
+                        <div class="callout alert">
+                            @foreach ($errors->all() as $error)
+                                <p>{{ $error }}</p>
+                            @endforeach
+                        </div>
+                    @endif
                     <p>
                         <input type="submit" class="button expanded" value="Reset" />
                     </p>
