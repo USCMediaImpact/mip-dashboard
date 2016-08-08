@@ -52,6 +52,16 @@ def big_query_test():
 
 	bigQueryClient.insert_from_query(sql, pid, dataset, datatable)
 
+#---------last week task ---------#
+def run_last_week():
+	yesterday = date.today() - timedelta(1)
+	day_of_week = yesterday.weekday() # index from 0
+	max_date = yesterday - timedelta(day_of_week + 2)
+	min_date = (max_date - timedelta(6)).strftime('%Y-%m-%d')
+	max_date = max_date.strftime('%Y-%m-%d')
+
+	job.run(min_date, max_date, 'weekly')
+
 #---------histry task ---------#
 # run history task
 def run_history():
@@ -100,5 +110,6 @@ def run_history():
 	# 	max_month = add_months(min_month, 1) - timedelta(1)
 
 	logging.info('run history job finished')
+
 
 unite_test()
