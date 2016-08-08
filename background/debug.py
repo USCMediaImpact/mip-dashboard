@@ -54,9 +54,13 @@ def big_query_test():
 
 #---------last week task ---------#
 def run_last_week():
-	yesterday = date.today() - timedelta(1)
-	day_of_week = yesterday.weekday() # index from 0
-	max_date = yesterday - timedelta(day_of_week + 2)
+	today = date.today()
+	if today.weekday() == 6 :
+		max_date = today - timedelta(1)
+	else :
+		monday = today - timedelta(today.weekday())
+		max_date = monday - timedelta(2)
+
 	min_date = (max_date - timedelta(6)).strftime('%Y-%m-%d')
 	max_date = max_date.strftime('%Y-%m-%d')
 
