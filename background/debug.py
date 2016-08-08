@@ -66,6 +66,10 @@ def run_last_week():
 
 	job.run(min_date, max_date, 'weekly')
 
+#---------last week task ---------#
+def run_custom_week(min_date, min_date) :
+	job.run(min_date, max_date, 'weekly')
+	
 #---------histry task ---------#
 # run history task
 def run_history():
