@@ -73,7 +73,7 @@ def run_custom_week(min_date, max_date) :
 #---------histry task ---------#
 # run history task
 def run_history():
-	min_date = date(2015, 7, 27)
+	min_date = date(2015, 6, 29)
 	max_date = datetime.now().date()
 	#every day history
 	# day_count = (max_date - min_date).days
