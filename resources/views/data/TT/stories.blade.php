@@ -143,7 +143,7 @@
 				var panel = $(this).parents('.panel');
                     min_date = moment(date, 'MM/DD/YYYY').day(0),
 					max_date = moment(date, 'MM/DD/YYYY').day(6);
-                console.log(panel);
+
 				$('.dateRange', panel).daterangepicker('setRange', {
 					start: min_date.toDate(),
 					end: max_date.toDate()
@@ -159,6 +159,7 @@
         $('#dateRangeScrollDepth').daterangepicker({
             dateFormat: 'M d, yy',
             presetRanges: [],
+            initialText: 'last week',
             datepickerOptions: {
                 minDate: moment('{{$date_range_min}}').toDate(),
                 maxDate: moment('{{$date_range_max}}').toDate(),
@@ -182,6 +183,7 @@
         $('#dateRangeTimeOnArticle').daterangepicker({
             dateFormat: 'M d, yy',
             presetRanges: [],
+            initialText: 'last week',
             datepickerOptions: {
                 minDate: moment('{{$date_range_min}}').toDate(),
                 maxDate: moment('{{$date_range_max}}').toDate(),
@@ -205,6 +207,7 @@
         $('#dateRangeUserInteractions').daterangepicker({
             dateFormat: 'M d, yy',
             presetRanges: [],
+            initialText: 'last week',
             datepickerOptions: {
                 minDate: moment('{{$date_range_min}}').toDate(),
                 maxDate: moment('{{$date_range_max}}').toDate(),

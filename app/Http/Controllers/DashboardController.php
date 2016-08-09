@@ -13,21 +13,110 @@ use Google_Service_Bigquery_QueryRequest;
 class DashboardController extends AuthenticatedBaseController{
     
     public function show(Request $request){
-        $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
-        $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
-        $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
+        return redirect('/data/users');
+    }
 
-        $client_id = $request['client']['id'];
-        $client_code = $request['client']['code'];
+	public function showDataFromMySql()
+    {
+    	$report = DB::select('select date, pv from page_views');
+    	$report = array_map(function($row){
+			return array('date' => date('Ymd', strtotime($row->date)), 'value' => $row->pv);
+    	}, $report);
+        return view('dashboard', ['report' => $report]);
+    }
 
-        $date_range_min = '2014-06-27';
-        $date_range_max = '2016-06-27';
+    public function showDataFromBigQuery(){
+        $projectId = 'tonal-studio-119521';
+        $queryString = '
+			SELECT
+			  date,
+			  SUM(totals.visits) AS visits,
+			  SUM(totals.hits) AS hits,
+			  SUM(totals.pageviews) AS pageviews
+			FROM
+			  TABLE_DATE_RANGE([116430105.ga_sessions_tz_], TIMESTAMP("2016-05-01"), TIMESTAMP("2016-06-01"))
+			GROUP BY
+			  date
+			ORDER BY
+			  date';
 
-        return view('dashboard.users', [
-            'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
-            'max_date' => mktime(0, 0, 0, $max_date['month'], $max_date['day'], $max_date['year']),
-            'date_range_min' => $date_range_min,
-            'date_range_max' => $date_range_max
-        ]);
+        $client = new Google_Client();
+        $client->useApplicationDefaultCredentials();
+        $client->addScope(Google_Service_Bigquery::BIGQUERY);
+        $bigQuery = new Google_Service_Bigquery($client);
+
+        $request = new Google_Service_Bigquery_QueryRequest();
+        $request->setQuery($queryString);
+        $response = $bigQuery->jobs->query($projectId, $request);
+        $rows = $response->getRows() ?: array();
+        $report = array();
+        foreach ($rows as $row) {
+            $report[] = array(
+                'date' => $row['f']['0']['v'],
+                'visits' => $row['f']['1']['v'],
+                'hits' => $row['f']['2']['v'],
+                'pageviews' => $row['f']['3']['v']
+            );
+        }
+        return $report;
+    }
+
+    public function mockChartFromBigQuery(){
+        return [
+            array(
+                'date' => '20160501',
+                'visits' => '24526',
+                'hits' => '340093',
+                'pageviews' => '66534'
+            ),
+            array(
+                'date' => '20160502',
+                'visits' => '47042',
+                'hits' => '673029',
+                'pageviews' => '128949'
+            ),
+            array(
+                'date' => '20160503',
+                'visits' => '51481',
+                'hits' => '721708',
+                'pageviews' => '138107'
+            ),
+            array(
+                'date' => '20160504',
+                'visits' => '91404',
+                'hits' => '1131268',
+                'pageviews' => '187993'
+            ),
+            array(
+                'date' => '20160505',
+                'visits' => '103058',
+                'hits' => '1170603',
+                'pageviews' => '199053'
+            ),
+            array(
+                'date' => '20160506',
+                'visits' => '41100',
+                'hits' => '590747',
+                'pageviews' => '124243'
+            ),
+            array(
+                'date' => '20160507',
+                'visits' => '29682',
+                'hits' => '379989',
+                'pageviews' => '70874'
+            ),
+            array(
+                'date' => '20160508',
+                'visits' => '37125',
+                'hits' => '453912',
+                'pageviews' => '78380'
+            ),
+            array(
+                'date' => '20160509',
+                'visits' => '48897',
+                'hits' => '671048',
+                'pageviews' => '137162'
+            )
+        ];
     }
 }

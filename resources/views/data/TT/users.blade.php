@@ -24,10 +24,10 @@
 			            <thead>
 			                <tr>
 			                	<th>Week of</th>
-			                    <th>Email Subscribers and Donors and Members on Site</th>
-			                    <th>Email Subscribers or Donors or Members on Site or all Three</th>
-			                    <th>Email Subscribers and Donors and Members in MIP DB</th>
-			   					<th>Email Subscribers or Donors or Members, all pairs, or all three in DB</th>
+			                    <th>Email Subscribers and Donors and Members on Site (hidden)</th>
+			                    <th><span data-tooltip aria-haspopup="true" class="has-tip top" title="Email Subscribers or Donors or Members on Site or all Three">Loyal users on site - </th>
+			                    <th>Email Subscribers and Donors and Members in MIP DB (hidden)</th>
+			   					<th><span data-tooltip aria-haspopup="true" class="has-tip top" title="Email Subscribers or Donors or Members, all pairs, or all three in DB">Loyal users in the MIP database</th>
 			   					<th>% of Loyal Users on Site</th>
 			                </tr>
 			            </thead>
@@ -74,9 +74,9 @@
 			            <thead>
 			                <tr>
 			                	<th>Week of</th>
-			                    <th>Donors Donating</th>
+			                    <th>Donors on Site</th>
 			                    <th>Donors in MIP DB</th>
-			                    <th>% of Donors in MIP DB Donating</th>
+			                    <th>% of Donors in MIP DB on Site</th>
 			                </tr>
 			            </thead>
 			            <tbody>
@@ -98,7 +98,7 @@
                         <thead>
                             <tr>
                                 <th>Week of</th>
-                                <th>Known members on the site THIS WEEK</th>
+                                <th>Known members on the site this week</th>
                                 <th>Known: Total known members in the MIP database</th>
                                 <th>Known: Percent of members in the MIP database who logged in this week</th>
                             </tr>
@@ -159,6 +159,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 60,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
@@ -219,6 +220,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 60,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
@@ -272,6 +274,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 60,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
@@ -320,6 +323,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 60,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }

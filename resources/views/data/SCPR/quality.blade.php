@@ -17,7 +17,7 @@
 						</div>
 						<div class="top-bar-right">
                             @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-							<button class="button small btnDownload" action="/data/quality/ga_vs_gtm/csv">Download</button>
+                            <button class="button small btnDownload" action="/data/quality/ga_vs_gtm/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataQualityGAvsGTM" class="report tiny hover">
@@ -41,7 +41,7 @@
 						</div>
 						<div class="top-bar-right">
                             @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-							<button class="button small btnDownload" action="/data/quality/email_subscribers/csv">Download</button>
+                            <button class="button small btnDownload" action="/data/quality/email_subscribers/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataQualityEmailSubscribers" class="report tiny hover">
@@ -75,13 +75,13 @@
 						</div>
 						<div class="top-bar-right">
                             @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-							<button class="button small btnDownload" action="/data/quality/donors/csv">Download</button>
+                            <button class="button small btnDownload" action="/data/quality/donors/csv">Download</button>							
 						</div>
 					</div>
 					<table id="dataQualityDonors" class="report tiny hover">
 			            <thead>
 			                <tr>
-			                	<th>Week</th>
+			                	<th>Week of</th>
 			                    <th>Identified: Donors already in MIP database who came to the site this week</th>
 			                    <th>Known: Donors already in MIP database who came to the site this week</th>
 			                    <th>Identified: Users who donated on the site for the first time since MIP started collecting data</th>
@@ -104,7 +104,7 @@
 						</div>
 						<div class="top-bar-right">
                             @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-							<button class="button small btnDownload" action="/data/quality/total_known_users/csv">Download</button>
+                            <button class="button small btnDownload" action="/data/quality/total_known_users/csv">Download</button>
 						</div>
 					</div>
 					<table id="dataQualityTotalKnownUsers" class="report tiny hover">
@@ -169,6 +169,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 80,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
@@ -242,6 +243,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 80,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
@@ -358,6 +360,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 80,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }
@@ -436,6 +439,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 80,
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }

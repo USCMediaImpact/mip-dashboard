@@ -1,26 +1,8 @@
 cron:
-- description: daily etl job
-  url: /etl/daily
-  target: etl
-  schedule: every day 04:30
-  timezone: America/Los_Angeles
-  retry_parameters:
-    min_backoff_seconds: 60
-    max_doublings: 5
-
 - description: weekly etl job
   url: /etl/weekly
   target: etl
   schedule: every sunday 04:30
-  timezone: America/Los_Angeles
-  retry_parameters:
-    min_backoff_seconds: 60
-    max_doublings: 5
-
-- description: monthly etl job
-  url: /etl/monthly
-  target: etl
-  schedule: 1 of month 04:30
   timezone: America/Los_Angeles
   retry_parameters:
     min_backoff_seconds: 60
