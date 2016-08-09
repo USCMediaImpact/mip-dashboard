@@ -469,7 +469,7 @@
             }, {
                 'data': 'SahreRate'
             }, {
-                'data': 'Tribpedia Clicks'
+                'data': 'Tribpedia_Related_Clicks'
             }, {
                 'data': 'Related_Clicks'
             }, {
