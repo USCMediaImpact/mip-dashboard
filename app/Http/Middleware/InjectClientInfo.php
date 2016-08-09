@@ -22,6 +22,8 @@ class InjectClientInfo
     {
         $needSetCookie = false;
         $user = $request->user();
+
+
         /**
          * for super admin client id get from cookie
          * others used current user client id
@@ -52,7 +54,7 @@ class InjectClientInfo
             }, $allClient));
         }
         else {
-            $client = $user->client->first()->get()->toArray()[0];
+            $client = $user->client->toArray();
         }
 
         View::share('client', $client);
