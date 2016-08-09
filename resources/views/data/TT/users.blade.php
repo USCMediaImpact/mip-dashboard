@@ -24,10 +24,10 @@
 			            <thead>
 			                <tr>
 			                	<th>Week of</th>
-			                    <th>Email Subscribers and Donors and Members on Site</th>
-			                    <th>Email Subscribers or Donors or Members on Site or all Three</th>
-			                    <th>Email Subscribers and Donors and Members in MIP DB</th>
-			   					<th>Email Subscribers or Donors or Members, all pairs, or all three in DB</th>
+			                    <th>Email Subscribers and Donors and Members on Site (hidden)</th>
+			                    <th><span data-tooltip aria-haspopup="true" class="has-tip top" title="Email Subscribers or Donors or Members on Site or all Three">Loyal users on site - </th>
+			                    <th>Email Subscribers and Donors and Members in MIP DB (hidden)</th>
+			   					<th><span data-tooltip aria-haspopup="true" class="has-tip top" title="Email Subscribers or Donors or Members, all pairs, or all three in DB">Loyal users in the MIP database</th>
 			   					<th>% of Loyal Users on Site</th>
 			                </tr>
 			            </thead>
