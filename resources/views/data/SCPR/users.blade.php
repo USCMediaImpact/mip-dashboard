@@ -5,7 +5,7 @@
 	@if ($have_data)
 		<div class="row expanded">
 			<div class="column small-9">
-				<h4 class="title">Email Subscriber and Donor User Summary</h4>
+				<h4 class="title">Users by type</h4>
 			</div>
 		</div>
 		<div class="row expanded">
@@ -198,7 +198,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
-                'width': 80,
+                'width': 80, 
                 'render': function (data, type, row) {
                     return moment(data).format('MM/DD/YY')
                 }

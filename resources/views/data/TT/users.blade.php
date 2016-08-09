@@ -5,7 +5,7 @@
 	@if ($have_data)
 		<div class="row expanded">
 			<div class="column small-9">
-				<h4 class="title">Email Subscriber and Donor User Summary</h4>
+				<h4 class="title">Users by Type</h4>
 			</div>
 		</div>
 		<div class="row expanded">
