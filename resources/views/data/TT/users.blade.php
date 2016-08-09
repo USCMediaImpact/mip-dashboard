@@ -74,9 +74,9 @@
 			            <thead>
 			                <tr>
 			                	<th>Week of</th>
-			                    <th>Donors Donating</th>
+			                    <th>Donors on Site</th>
 			                    <th>Donors in MIP DB</th>
-			                    <th>% of Donors in MIP DB Donating</th>
+			                    <th>% of Donors in MIP DB on Site</th>
 			                </tr>
 			            </thead>
 			            <tbody>
@@ -98,7 +98,7 @@
                         <thead>
                             <tr>
                                 <th>Week of</th>
-                                <th>Known members on the site THIS WEEK</th>
+                                <th>Known members on the site this week</th>
                                 <th>Known: Total known members in the MIP database</th>
                                 <th>Known: Percent of members in the MIP database who logged in this week</th>
                             </tr>
