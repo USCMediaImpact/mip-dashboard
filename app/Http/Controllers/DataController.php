@@ -24,7 +24,7 @@ class DataController extends AuthenticatedBaseController{
         ],
         'TT' => [
             'date, Duplicated_MembersPlusCameThroughEmailPlusDonors, Unduplicated_TotalUsersKPI, Duplicated_Database_MembersPlusCameThroughEmailPlusDonors, Unduplicated_Database_TotalUsersKPI, Unduplicated_TotalUsersKPI / Unduplicated_Database_TotalUsersKPI as Loyal_Users_On_Site',
-            'date, CameToSiteThroughEmail, KPI_TotalEmailSubscribersKnownToMIP, KPI_PercentKnownSubsWhoCame, KPI_NewEmailSubscribers',
+            'date, CameToSiteThroughEmail, KPI_TotalEmailSubscribersKnownToMIP, CameToSiteThroughEmail / KPI_TotalEmailSubscribersKnownToMIP as KPI_PercentKnownSubsWhoCame, KPI_NewEmailSubscribers',
             'date, TotalDonorsThisWeek, KPI_TotalDonorsKnownToMIP, TotalDonorsThisWeek / KPI_TotalDonorsKnownToMIP as Donors_In_MIP',
             'date, TotalMembersThisWeek, KPI_TotalMembersKnownToMIP, TotalMembersThisWeek / KPI_TotalMembersKnownToMIP as Members_In_MIP'
         ]
