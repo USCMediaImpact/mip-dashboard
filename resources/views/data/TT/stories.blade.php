@@ -177,6 +177,7 @@
                     $('#dateRangeTimeOnArticle').daterangepicker('close');
                     $('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
                     $('input[name="max_date"]', panel).val(min_date.format('YYYY-MM-DD'));
+                    panel.trigger('change.daterange');
                 }
             }
         });
@@ -204,7 +205,7 @@
                 }
             }
         });
-                /**
+        /**
          * set default range
          */
         if(!$('#dateRangeScrollDepth').daterangepicker('getRange')){
