@@ -91,7 +91,7 @@
                         </div>
                         <div class="top-bar-right">
                             @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-                            <button class="button small btnDownload" action="/data/users/donors/csv">Download</button>
+                            <button class="button small btnDownload" action="/data/users/members/csv">Download</button>
                         </div>
                     </div>
                     <table id="dataUsersMembers" class="report tiny hover">
@@ -306,7 +306,7 @@
                 'url': '/data/users/members',
                 'type': 'POST',
                 'data': function(data){
-                    var panel = $('#dataUsersDonors').parents('.panel');
+                    var panel = $('#dataUsersMembers').parents('.panel');
                     return $.extend({
                         'min_date': $('[name="min_date"]', panel).val(),
                         'max_date': $('[name="max_date"]', panel).val(),
