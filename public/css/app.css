@@ -105,4 +105,6 @@ z-index:2;opacity:0;cursor:pointer;}
 .dashboard .number{ font-size: 32px}
 .dashboard .values{ font-size: 12px}
 .dashboard .box, .dashboard .chart{min-height: 220px;}
-.dashboard .box{border: solid 1px #D0D0D0; margin: 0;}
+.dashboard .box, .dashboard .row-box{border: solid 1px #D0D0D0; margin: 0;}
+.dashboard .row-box{margin: 20px 0;}
+.dashboard .chart-title{line-height: 4}

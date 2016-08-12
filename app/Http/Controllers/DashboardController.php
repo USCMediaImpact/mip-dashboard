@@ -35,9 +35,9 @@ class DashboardController extends AuthenticatedBaseController{
 
         $dataBox1To4 = DB::table("${client_code}_data_users_${group}")
             ->select(DB::raw('Unduplicated_TotalUsersKPI, Unduplicated_Database_TotalUsersKPI, Unduplicated_TotalUsersKPI / Unduplicated_Database_TotalUsersKPI as Loyal_Users_On_Site, KPI_TotalEmailSubscribersKnownToMIP, KPI_TotalDonorsKnownToMIP'))
-            ->where('date', '<=', date('Y-m-d', $max_date))
+            ->where('date', '<=', $thisWeekEnd)
+            ->where('date', '>=', date('Y-m-d', strtotime('-7 days', $min_date)))
             ->orderBy('date', 'desc')
-            ->take(24)
             ->get();
 
 

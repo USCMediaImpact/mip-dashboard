@@ -68,12 +68,18 @@
                     </div>
                     <div class="row">
                         <div class="columns small-12">
-                            <div id="box5" style="min-height: 300px;"></div>
+                            <div class="row-box">
+                                <p class="chart-title text-center">{{date('Y', $min_date)}} vs {{date('Y', strtotime('-1 years', $min_date))}}</p>
+                                <div id="box5" style="min-height: 300px;"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="columns small-12">
-                            <div id="box6" style="min-height: 300px;"></div>
+                            <div class="box">
+                                <p class="chart-title text-center">% Change from {{date('Y', $min_date)}} to {{date('Y', strtotime('-1 years', $min_date))}}</p>
+                                <div id="box6" style="min-height: 300px;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -152,6 +158,7 @@
                 "lineAlpha": 0.3,
                 "title": "CameToSiteThroughEmail",
                 "type": "column",
+                'fillColors': ['#487aa9'],
                 "color": "#000000",
                 "valueField": "CameToSiteThroughEmail"
             }, {
@@ -161,10 +168,10 @@
                 "lineAlpha": 0.3,
                 "title": "TotalDonorsThisWeek",
                 "type": "column",
+                'fillColors': ['#5ea0dd'],
                 "color": "#000000",
                 "valueField": "TotalDonorsThisWeek"
             }, {
-                "id": "graph2",
                 "balloonText": "<span style='font-size:12px;'>[[title]] in [[category]]:<br><span style='font-size:20px;'>[[value]]</span> [[additional]]</span>",
                 "bullet": "round",
                 "lineThickness": 3,
@@ -175,6 +182,7 @@
                 "bulletBorderThickness": 3,
                 "fillAlphas": 0,
                 "lineAlpha": 1,
+                'fillColors': ['#bcbdbe'],
                 "title": "TotalDonorsThisWeek + CameToSiteThroughEmail",
                 "valueField": "lastYear",
                 "dashLengthField": "dashLengthLine"
