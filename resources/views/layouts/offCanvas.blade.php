@@ -10,7 +10,7 @@
     @endcan
 @endif
 <ul class="vertical menu">
-    
+    <li><a href="{{action('DashboardController@show')}}"><i class="fa fa-dashboard"></i>Dashboard</a></li>
     {{-- <li><a href="{{action('ReportsController@showContent')}}"><i class="fa fa-file-text-o"></i>Reports</a></li>
     <li><a href="{{action('MetricsController@showContent')}}"><i class="fa fa-bar-chart"></i>Metrics</a></li> --}}
     

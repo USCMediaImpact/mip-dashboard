@@ -46,7 +46,6 @@ $(function () {
 		dateFormat: 'M d, yy',
 		presetRanges: [],
 		change: function (event, el) {
-			console.log('date range on change');
 			var range = el.instance.getRange(),
 				min_date = moment(range.start),
 				max_date = moment(range.end),

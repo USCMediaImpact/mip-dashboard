@@ -13,110 +13,96 @@ use Google_Service_Bigquery_QueryRequest;
 class DashboardController extends AuthenticatedBaseController{
     
     public function show(Request $request){
-        return redirect('/data/users');
-    }
+        $client_id = $request['client']['id'];
+        $client_code = $request['client']['code'];
+        $group = array_key_exists($request['group'], parent::$groupDisplay) ? $request['group'] : 'weekly';
 
-	public function showDataFromMySql()
-    {
-    	$report = DB::select('select date, pv from page_views');
-    	$report = array_map(function($row){
-			return array('date' => date('Ymd', strtotime($row->date)), 'value' => $row->pv);
-    	}, $report);
-        return view('dashboard', ['report' => $report]);
-    }
+        $query = DB::table("${client_code}_data_users_${group}");
+        $date_range_min = strtotime($query->min('date'));
+        $date_range_max = strtotime($query->max('date'));
+        $default_min_date = $date_range_max;
+        $date_range_max = strtotime('6 days', $date_range_max);
 
-    public function showDataFromBigQuery(){
-        $projectId = 'tonal-studio-119521';
-        $queryString = '
-			SELECT
-			  date,
-			  SUM(totals.visits) AS visits,
-			  SUM(totals.hits) AS hits,
-			  SUM(totals.pageviews) AS pageviews
-			FROM
-			  TABLE_DATE_RANGE([116430105.ga_sessions_tz_], TIMESTAMP("2016-05-01"), TIMESTAMP("2016-06-01"))
-			GROUP BY
-			  date
-			ORDER BY
-			  date';
+        $max_date = $request['max_date'] ? strtotime($request['max_date']) : $date_range_max;
+        $min_date = $request['min_date'] ? strtotime($request['min_date']) : $default_min_date;
 
-        $client = new Google_Client();
-        $client->useApplicationDefaultCredentials();
-        $client->addScope(Google_Service_Bigquery::BIGQUERY);
-        $bigQuery = new Google_Service_Bigquery($client);
+        $thisWeekEnd = date('Y-m-d', $max_date);
+        $thisWeekBegin = date('Y-m-d', $min_date);
+        $firstDayOfThisYear = date('Y-01-01', $max_date);
+        $lastYearThisWeekEnd = date('Y-m-d', strtotime('-1 years', $max_date));
+        $lastYearThisWeekBegin = date('Y-m-d', strtotime('-1 years', $min_date));
+        $firstDayOfLastYear = date('Y-01-01', strtotime('-1 years', $min_date));
 
-        $request = new Google_Service_Bigquery_QueryRequest();
-        $request->setQuery($queryString);
-        $response = $bigQuery->jobs->query($projectId, $request);
-        $rows = $response->getRows() ?: array();
-        $report = array();
-        foreach ($rows as $row) {
-            $report[] = array(
-                'date' => $row['f']['0']['v'],
-                'visits' => $row['f']['1']['v'],
-                'hits' => $row['f']['2']['v'],
-                'pageviews' => $row['f']['3']['v']
-            );
+        $dataBox1To4 = DB::table("${client_code}_data_users_${group}")
+            ->select(DB::raw('Unduplicated_TotalUsersKPI, Unduplicated_Database_TotalUsersKPI, Unduplicated_TotalUsersKPI / Unduplicated_Database_TotalUsersKPI as Loyal_Users_On_Site, KPI_TotalEmailSubscribersKnownToMIP, KPI_TotalDonorsKnownToMIP'))
+            ->where('date', '<=', date('Y-m-d', $max_date))
+            ->orderBy('date', 'desc')
+            ->take(24)
+            ->get();
+
+
+        $dataBox5 = DB::table("${client_code}_data_users_${group}")
+            ->select(DB::raw('date, year(date) as year, week(date) as week, TotalDonorsThisWeek, CameToSiteThroughEmail'))
+            ->where('date', '<=', $thisWeekEnd)
+            ->orderBy('date', 'desc')
+            ->take(24)
+            ->get();
+        $dataBox5LastYear = DB::table("${client_code}_data_users_${group}")
+            ->select(DB::raw('date, year(date) as year, week(date) as week, TotalDonorsThisWeek, CameToSiteThroughEmail'))
+            ->where('date', '<=', $lastYearThisWeekEnd)
+            ->where('date', '>=', $firstDayOfLastYear)
+            ->orderBy('date', 'desc')
+            ->get();
+
+        $dataBox5Temp = [];
+        foreach ($dataBox5LastYear as $row){
+            $key = ($row->year + 1) . '-' . $row->week;
+            if($row->TotalDonorsThisWeek === null && $row->TotalDonorsThisWeek === null){
+                $dataBox5Temp[$key] = null;
+            }else{
+                $dataBox5Temp[$key] = ($row->TotalDonorsThisWeek ?: 0) + ($row->TotalDonorsThisWeek ?: 0);
+            }
         }
-        return $report;
-    }
+        foreach($dataBox5 as $row){
+            $key = $row->year . '-' . $row->week;
+            $row->lastYear = array_key_exists($key, $dataBox5Temp) ? $dataBox5Temp[$key] : null;
+        }
 
-    public function mockChartFromBigQuery(){
-        return [
-            array(
-                'date' => '20160501',
-                'visits' => '24526',
-                'hits' => '340093',
-                'pageviews' => '66534'
-            ),
-            array(
-                'date' => '20160502',
-                'visits' => '47042',
-                'hits' => '673029',
-                'pageviews' => '128949'
-            ),
-            array(
-                'date' => '20160503',
-                'visits' => '51481',
-                'hits' => '721708',
-                'pageviews' => '138107'
-            ),
-            array(
-                'date' => '20160504',
-                'visits' => '91404',
-                'hits' => '1131268',
-                'pageviews' => '187993'
-            ),
-            array(
-                'date' => '20160505',
-                'visits' => '103058',
-                'hits' => '1170603',
-                'pageviews' => '199053'
-            ),
-            array(
-                'date' => '20160506',
-                'visits' => '41100',
-                'hits' => '590747',
-                'pageviews' => '124243'
-            ),
-            array(
-                'date' => '20160507',
-                'visits' => '29682',
-                'hits' => '379989',
-                'pageviews' => '70874'
-            ),
-            array(
-                'date' => '20160508',
-                'visits' => '37125',
-                'hits' => '453912',
-                'pageviews' => '78380'
-            ),
-            array(
-                'date' => '20160509',
-                'visits' => '48897',
-                'hits' => '671048',
-                'pageviews' => '137162'
-            )
-        ];
+
+        $dataBox6 = DB::table("${client_code}_data_users_${group}")
+            ->select(DB::raw('date, year(date) as year, week(date) as week, Unduplicated_Database_TotalUsersKPI'))
+            ->where('date', '<=', $thisWeekEnd)
+            ->where('date', '>=', $firstDayOfThisYear)
+            ->orderBy('date', 'desc')
+            ->get();
+
+        $dataBox6LastYear = DB::table("${client_code}_data_users_${group}")
+            ->select(DB::raw('date, year(date) as year, week(date) as week, Unduplicated_Database_TotalUsersKPI'))
+            ->where('date', '<=', $lastYearThisWeekEnd)
+            ->where('date', '>=', $firstDayOfLastYear)
+            ->orderBy('date', 'desc')
+            ->get();
+        $dataBox6Temp = [];
+        foreach($dataBox6LastYear as $row){
+            $key = $row->week;
+            $dataBox6Temp[$key] = $row->Unduplicated_Database_TotalUsersKPI;
+        }
+        foreach ($dataBox6 as $row){
+            $key = $row->week;
+            if(array_key_exists($key, $dataBox6Temp)){
+                $row->change = ($row->Unduplicated_Database_TotalUsersKPI - $dataBox6Temp[$key]) / $dataBox6Temp[$key];
+            }
+        }
+
+        return view("dashboard.users", [
+            'max_date'=> $max_date,
+            'min_date'=> $min_date,
+            'date_range_min' => date('Y-m-d', $date_range_min),
+            'date_range_max' => date('Y-m-d', $date_range_max),
+            'default_date_range' => date('Y-m-d', $date_range_min) . ' - ' . date('Y-m-d', $date_range_max),
+            'dataBox1To4' => $dataBox1To4,
+            'dataBox5' => $dataBox5,
+            'dataBox6' => $dataBox6
+        ]);
     }
 }
