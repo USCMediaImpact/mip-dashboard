@@ -10,18 +10,16 @@
     @endcan
 @endif
 <ul class="vertical menu">
-    
     {{-- <li><a href="{{action('ReportsController@showContent')}}"><i class="fa fa-file-text-o"></i>Reports</a></li>
     <li><a href="{{action('MetricsController@showContent')}}"><i class="fa fa-bar-chart"></i>Metrics</a></li> --}}
-    
-    <li><a href="{{action('DataController@showUsers')}}"><i class="fa fa-data"></i>Data</a></li>
-    <li><a href="{{action('AnalysesController@show')}}"><i class="fa fa-analyses"></i>Analyses</a></li>
+    <li><a {{$controller == 'DataController' ? 'class=active' : ''}} href="{{action('DataController@showUsers')}}"><i class="fa fa-data"></i>Data</a></li>
+    <li><a {{$controller == 'AnalysesController' ? 'class=active' : ''}} href="{{action('AnalysesController@show')}}"><i class="fa fa-analyses"></i>Analyses</a></li>
     @can('Admin')
-    <li><a href="/auth/account/management"><i class="fa fa-settings"></i>Settings</a></li>
+    <li><a {{$controller == 'Auth\AccountController' ? 'class=active' : ''}} href="/auth/account/management"><i class="fa fa-settings"></i>Settings</a></li>
     @endcan
     @can('SuperAdmin')
-    <li><a href="/admin/client/management"><i class="fa fa-management"></i>Client Management</a></li>
-    <li><a href="/admin/account/management"><i class="fa fa-settings"></i>User Management</a></li>
+    <li><a {{$controller == 'SuperAdmin\ClientController' ? 'class=active' : ''}} href="/admin/client/management"><i class="fa fa-management"></i>Client Management</a></li>
+    <li><a {{$controller == 'SuperAdmin\AccountController' ? 'class=active' : ''}} href="/admin/account/management"><i class="fa fa-settings"></i>User Management</a></li>
     @endcan
     <li><a href="/auth/logout"><i class="fa fa-sign-out"></i>Logout</a></li>
 </ul>

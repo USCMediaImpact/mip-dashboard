@@ -14,6 +14,7 @@ class AccountController extends AuthenticatedBaseController
 {
     public function __construct()
     {
+        $this->middleware('routeInfo');
         $this->middleware('auth');
         $this->middleware('clientInfo');
     }
