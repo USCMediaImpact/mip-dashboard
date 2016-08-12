@@ -10,6 +10,7 @@
             </div>
             <div class="column small-3">
                 <form method="POST">
+                    {!! csrf_field() !!}
                     <input id="dateRangeDashboard" name="date_range" />
                     <input type="hidden" name="min_date" value="{{ date('Y-m-d', $min_date) }}" />
                     <input type="hidden" name="max_date" value="{{ date('Y-m-d', $max_date) }}" />
