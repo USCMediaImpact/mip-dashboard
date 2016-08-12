@@ -51,8 +51,8 @@
 .table-wrapper .table-toolbar { position: absolute; z-index: 1 }
 table.report { min-width: 100% }
 table.report .button, .noty_buttons .button { margin-bottom: 0 }
-table.report.tiny tbody td, table.report.tiny th { padding: .25rem .3rem .3rem; font-size: 16px }
-table.report.tiny tfoot td, table.report.tiny tfoot th, table.report.tiny thead td, table.report.tiny thead th { padding: .25rem .3rem .3rem; font-size: 16px }
+table.report.tiny tbody td, table.report.tiny th { padding: .25rem .3rem .3rem; font-size: 14px }
+table.report.tiny tfoot td, table.report.tiny tfoot th, table.report.tiny thead td, table.report.tiny thead th { padding: .25rem .3rem .3rem; font-size: 14px }
 table.report caption { text-align: left }
 table.report th { background: #5f5e5f; color: #fff }
 table.report tbody tr { background: #c4d2dc }
