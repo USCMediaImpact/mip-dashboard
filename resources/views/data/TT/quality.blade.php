@@ -81,7 +81,7 @@
 					<table id="dataQualityDonors" class="report tiny hover">
 			            <thead>
 			                <tr>
-			                	<th>Week</th>
+			                	<th>Week of</th>
 			                    <th>Identified: Donors already in MIP database who came to the site this week</th>
 			                    <th>Known: Donors already in MIP database who came to the site this week</th>
 			                    <th>Identified: Users who donated on the site for the first time since MIP started collecting data</th>
