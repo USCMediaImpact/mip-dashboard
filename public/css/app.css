@@ -14,7 +14,7 @@
 .top_logo { background: url('/images/logo.png') no-repeat; background-size: cover; width: 190px; font-size: 0 !important; height: 32px; float: left; vertical-align: top; margin-top: -4px }
 .welcome { font-size: 12px; line-height: 1 }
 .main-content { margin-top: 15px; padding: 10px 30px }
-.side-menu a.active{color: #fff;}
+.side-menu a.active{color: #fff;background-color: #335678; }
 .side-menu i.fa { background-image: url('/images/sprite-gray.png'); background-repeat: no-repeat; width: 24px; height: 24px; }
 .side-menu a:hover i.fa, .side-menu a:active i.fa, .side-menu a.active i.fa { background-image: url('/images/sprite.png'); }
 .side-menu i.fa-dashboard { background-position: 0 0; background-size: 20px 20px; position: relative; top: -2px; }
