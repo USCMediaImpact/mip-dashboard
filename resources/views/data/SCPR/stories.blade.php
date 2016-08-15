@@ -565,7 +565,7 @@
             var panel = $(this).parents('.panel');
             panel.find('.btnSwitcher').attr('checked', false).toggleClass('on');
             $(this).attr('checked', true);
-            var table = panel.find('table');
+            var table = panel.find('table[id]');
             table.attr('mode', $(this).attr('mode'));
             ReportDataTable[table.attr('id')].ajax.reload();
             return false;
