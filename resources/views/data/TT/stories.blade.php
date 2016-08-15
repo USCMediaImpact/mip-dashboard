@@ -177,6 +177,7 @@
                     $('#dateRangeTimeOnArticle').daterangepicker('close');
                     $('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
                     $('input[name="max_date"]', panel).val(min_date.format('YYYY-MM-DD'));
+                    panel.trigger('change.daterange');
                 }
             }
         });
@@ -204,7 +205,7 @@
                 }
             }
         });
-                /**
+        /**
          * set default range
          */
         if(!$('#dateRangeScrollDepth').daterangepicker('getRange')){
@@ -229,6 +230,7 @@
             'processing': true,
             'serverSide': true,
             'searching': false,
+            "scrollX": true,
             "order": [[ 1, "desc" ]],
             'ajax': {
 	            'url': '/data/stories/scroll_depth/',
@@ -246,7 +248,7 @@
 	        },
             'dom': 'Bfrtip',
             'columns': [{
-                'width': '280'
+                
             }, {
                 'data': 'Pageviews'
             }, {
@@ -266,6 +268,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 320,
                 'render': function(data, type, row){
                 	var url = '{{$client['website']}}' + row.Combo_URL;
                     var displayText = row.Article ? row.Article : url;
@@ -273,11 +276,13 @@
                 }
             }, {
                 'targets': 1,
+                'width': 60,
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat().format(data);
                 }
             }, {
                 'targets': 2,
+                'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
                         return new Intl.NumberFormat().format(data);
@@ -286,6 +291,7 @@
                 }
             }, {
                 'targets': 3,
+                'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
                         return new Intl.NumberFormat().format(data);
@@ -294,6 +300,7 @@
                 }
             }, {
                 'targets': 4,
+                'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
                         return new Intl.NumberFormat().format(data);
@@ -302,6 +309,7 @@
                 }
             }, {
                 'targets': 5,
+                'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
                         return new Intl.NumberFormat().format(data);
@@ -310,6 +318,7 @@
                 }
             }, {
                 'targets': 6,
+                'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
                         return new Intl.NumberFormat().format(data);
@@ -318,6 +327,7 @@
                 }
             }, {
                 'targets': 7,
+                'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
                         return new Intl.NumberFormat().format(data);
@@ -326,6 +336,7 @@
                 }
             }, {
                 'targets': 8,
+                
                 'render': function (data, type, row) {
                     if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
                         return new Intl.NumberFormat().format(data);
@@ -338,6 +349,7 @@
             'processing': true,
             'serverSide': true,
             'searching': false,
+            "scrollX": true,
             "order": [[ 1, "desc" ]],
             'ajax': {
 	            'url': '/data/stories/time_on_article/',
@@ -355,7 +367,7 @@
 	        },
             'dom': 'Bfrtip',
             'columns': [{
-                'width': '280'
+                
             }, {
                 'data': 'Pageviews'
             }, {
@@ -373,6 +385,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 320,
                 'render': function(data, type, row){
                     var url = '{{$client['website']}}' + row.Combo_URL;
                     var displayText = row.Article ? row.Article : url;
@@ -380,11 +393,13 @@
                 }
             }, {
                 'targets': 1,
+                'width': 60,
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat().format(data)
                 }
             }, {
                 'targets': 2,
+                'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesTimeOnArticle').attr('mode') == 'count'){
                         return new Intl.NumberFormat().format(data);
@@ -393,6 +408,7 @@
                 }
             }, {
                 'targets': 3,
+                'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesTimeOnArticle').attr('mode') == 'count'){
                         return new Intl.NumberFormat().format(data);
@@ -401,6 +417,7 @@
                 }
             }, {
                 'targets': 4,
+                'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesTimeOnArticle').attr('mode') == 'count'){
                         return new Intl.NumberFormat().format(data);
@@ -409,6 +426,7 @@
                 }
             }, {
                 'targets': 5,
+                'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesTimeOnArticle').attr('mode') == 'count'){
                         return new Intl.NumberFormat().format(data);
@@ -417,6 +435,7 @@
                 }
             }, {
                 'targets': 6,
+                'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesTimeOnArticle').attr('mode') == 'count'){
                         return new Intl.NumberFormat().format(data);
@@ -425,6 +444,7 @@
                 }
             }, {
                 'targets': 7,
+                
                 'render': function (data, type, row) {
                     if($('#dataStoriesTimeOnArticle').attr('mode') == 'count'){
                         return new Intl.NumberFormat().format(data);
@@ -437,6 +457,7 @@
             'processing': true,
             'serverSide': true,
             'searching': false,
+            "scrollX": true,
             "order": [[ 1, "desc" ]],
             'ajax': {
 	            'url': '/data/stories/user_interactions',
@@ -451,7 +472,7 @@
 	        },
             'dom': 'Bfrtip',
             'columns': [{
-                'width': '280'
+                
             }, {
                 'data': 'Pageviews'
             }, {
@@ -469,7 +490,7 @@
             }, {
                 'data': 'SahreRate'
             }, {
-                'data': 'Tribpedia Clicks'
+                'data': 'Tribpedia_Related_Clicks'
             }, {
                 'data': 'Related_Clicks'
             }, {
@@ -477,6 +498,7 @@
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 320,
                 'render': function(data, type, row){
                     var url = '{{$client['website']}}' + row.Combo_URL;
                     var displayText = row.Article ? row.Article : url;
@@ -484,56 +506,67 @@
                 }
             }, {
                 'targets': 1,
+                'width': 60,
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat().format(data)
                 }
             }, {
                 'targets': 2,
+                'width': 60,
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat().format(data)
                 }
             }, {
                 'targets': 3,
+                'width': 60,
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat().format(data)
                 }
             }, {
                 'targets': 4,
+                'width': 60,
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat().format(data)
                 }
             }, {
                 'targets': 5,
+                'width': 60,
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat().format(data)
                 }
             }, {
                 'targets': 6,
+                'width': 60,
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat().format(data)
                 }
             }, {
                 'targets': 7,
+                'width': 60,
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat().format(data)
                 }
             }, {
                 'targets': 8,
+                'width': 60,
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 9,
+                'width': 60,
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat().format(data)
                 }
             }, {
                 'targets': 10,
+                'width': 60,
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat().format(data)
                 }
             }, {
                 'targets': 11,
+                
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
                 }
@@ -551,7 +584,7 @@
             var panel = $(this).parents('.panel');
             panel.find('.btnSwitcher').attr('checked', false).toggleClass('on');
             $(this).attr('checked', true);
-            var table = panel.find('table');
+            var table = panel.find('table[id]');
             table.attr('mode', $(this).attr('mode'));
             ReportDataTable[table.attr('id')].ajax.reload();
             return false;
