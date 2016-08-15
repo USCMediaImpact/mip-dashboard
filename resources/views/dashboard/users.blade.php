@@ -31,34 +31,40 @@
                     <div class="row small-up-2 medium-up-4 board">
                         <div class="column align-self-middle text-center">
                             <div class="box">
-                                <label class="number has-tip top" data-tooltip aria-haspopup="true"  title="Email Subscribers or Donors on Site">
-                                    {{number_format($dataBox1To4[0]->Unduplicated_TotalUsersKPI)}}
-                                </label>
-                                <div class="desc">Loyal Users on Site</div>
-                                {{-- */$d1 = count($dataBox1To4) == 2 ? ($dataBox1To4[0]->Unduplicated_TotalUsersKPI - $dataBox1To4[1]->Unduplicated_TotalUsersKPI ) / $dataBox1To4[1]->Unduplicated_TotalUsersKPI : '';/* --}}
-                                <div class="values" style="{{ $d1 ? 'color:#ec4f43;' : 'color:#7cc066;' }}">{{$formatter->showAsPercent($d1)}} from previous week</div>
+                                <div class="box-content">
+                                    <label class="number has-tip top" data-tooltip aria-haspopup="true"  title="Email Subscribers or Donors on Site">
+                                        {{number_format($dataBox1To4[0]->Unduplicated_TotalUsersKPI)}}
+                                    </label>
+                                    <div class="desc">Loyal Users on Site</div>
+                                    {{-- */$d1 = count($dataBox1To4) == 2 ? ($dataBox1To4[0]->Unduplicated_TotalUsersKPI - $dataBox1To4[1]->Unduplicated_TotalUsersKPI ) / $dataBox1To4[1]->Unduplicated_TotalUsersKPI : '';/* --}}
+                                    <div class="values" style="{{ $d1 ? 'color:#ec4f43;' : 'color:#7cc066;' }}">{{$formatter->showAsPercent($d1)}} from previous week</div>
+                                </div>
                             </div>
                         </div>
                         <div class="column align-self-middle text-center">
                             <div class="box">
-                                <label class="number has-tip top" data-tooltip aria-haspopup="true"  title="Email Subscribers or Donors in Database">
-                                    {{number_format($dataBox1To4[0]->Unduplicated_Database_TotalUsersKPI)}}
-                                </label>
-                                <div class="desc">Loyal Users in Database</div>
-                                {{-- */$d2 = count($dataBox1To4) == 2 ? ($dataBox1To4[0]->Unduplicated_Database_TotalUsersKPI - $dataBox1To4[1]->Unduplicated_Database_TotalUsersKPI ) / $dataBox1To4[1]->Unduplicated_Database_TotalUsersKPI : '';/* --}}
-                                <div class="values" style="{{ $d2 ? 'color:#ec4f43;' : 'color:#7cc066;' }}">{{$formatter->showAsPercent($d2)}} from previous week</div>
+                                <div class="box-content">
+                                    <label class="number has-tip top" data-tooltip aria-haspopup="true"  title="Email Subscribers or Donors in Database">
+                                        {{number_format($dataBox1To4[0]->Unduplicated_Database_TotalUsersKPI)}}
+                                    </label>
+                                    <div class="desc">Loyal Users in Database</div>
+                                    {{-- */$d2 = count($dataBox1To4) == 2 ? ($dataBox1To4[0]->Unduplicated_Database_TotalUsersKPI - $dataBox1To4[1]->Unduplicated_Database_TotalUsersKPI ) / $dataBox1To4[1]->Unduplicated_Database_TotalUsersKPI : '';/* --}}
+                                    <div class="values" style="{{ $d2 ? 'color:#ec4f43;' : 'color:#7cc066;' }}">{{$formatter->showAsPercent($d2)}} from previous week</div>
+                                </div>
                             </div>
                         </div>
                         <div class="column align-self-middle text-center">
                             <div class="box">
-                                <label class="number has-tip top" data-tooltip aria-haspopup="true"  title="Email Subscribers or Donors in Database that Visited the Site">
-                                    {{$formatter->showAsPercent($dataBox1To4[0]->Loyal_Users_On_Site)}}
-                                </label>
-                                <div class="desc">Percent of Loyal Users on Site</div>
-                                {{-- */$d3 = count($dataBox1To4) == 2 ? ($dataBox1To4[0]->Loyal_Users_On_Site - $dataBox1To4[1]->Loyal_Users_On_Site ) / $dataBox1To4[1]->Loyal_Users_On_Site : '';/* --}}
-                                {{-- */$d4 = count($dataBox1To4) == 2 ? $dataBox1To4[0]->Loyal_Users_On_Site - $dataBox1To4[1]->Loyal_Users_On_Site : '';/* --}}
-                                <div class="values" style="{{ $d3 ? 'color:#ec4f43;' : 'color:#7cc066;' }}">{{$formatter->showAsPercent($d2)}} change from previous week</div>
-                                <div class="values" style="{{ $d4 ? 'color:#ec4f43;' : 'color:#7cc066;' }}">{{$formatter->showAsPercent($d4)}} points from previous week</div>
+                                <div class="box-content">
+                                    <label class="number has-tip top" data-tooltip aria-haspopup="true"  title="Email Subscribers or Donors in Database that Visited the Site">
+                                        {{$formatter->showAsPercent($dataBox1To4[0]->Loyal_Users_On_Site)}}
+                                    </label>
+                                    <div class="desc">Percent of Loyal Users on Site</div>
+                                    {{-- */$d3 = count($dataBox1To4) == 2 ? ($dataBox1To4[0]->Loyal_Users_On_Site - $dataBox1To4[1]->Loyal_Users_On_Site ) / $dataBox1To4[1]->Loyal_Users_On_Site : '';/* --}}
+                                    {{-- */$d4 = count($dataBox1To4) == 2 ? $dataBox1To4[0]->Loyal_Users_On_Site - $dataBox1To4[1]->Loyal_Users_On_Site : '';/* --}}
+                                    <div class="values" style="{{ $d3 ? 'color:#ec4f43;' : 'color:#7cc066;' }}">{{$formatter->showAsPercent($d2)}} change from previous week</div>
+                                    <div class="values" style="{{ $d4 ? 'color:#ec4f43;' : 'color:#7cc066;' }}">{{$formatter->showAsPercent($d4)}} points from previous week</div>
+                                </div>
                             </div>                         
                         </div>
                         <div class="column align-self-middle">

@@ -105,7 +105,9 @@ z-index: 2; opacity: 0; cursor: pointer; }
 .button.disabled .fa, button.disabled .fa { color: gray }
 .dashboard .number { font-size: 32px }
 .dashboard .values { font-size: 12px }
-.dashboard .box, .dashboard .chart { min-height: 220px; }
+.dashboard .box { height: 220px; width: 100%; display: table; }
+.dashboard .box-content { display: table-cell; vertical-align: middle; }
+.dashboard .chart { min-height: 220px; }
 .dashboard .box, .dashboard .row-box { border: solid 1px #D0D0D0; margin: 0; }
 .dashboard .row-box { margin: 20px 0; }
 .dashboard .chart-title { line-height: 4 }

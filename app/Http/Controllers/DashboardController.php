@@ -11,7 +11,9 @@ use Google_Service_Bigquery;
 use Google_Service_Bigquery_QueryRequest;
 
 class DashboardController extends AuthenticatedBaseController{
-    
+    public static function caculateDateRange($date, $maxDate, $minDate){
+        
+    }
     public function show(Request $request){
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
