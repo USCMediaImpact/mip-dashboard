@@ -18,9 +18,11 @@ class ParseCurrentControllerAndAction
     public function handle($request, Closure $next)
     {
         $routeInfo = Route::getCurrentRoute()->getAction();
-        $controllerAtAction = ltrim($routeInfo['controller'], $routeInfo['namespace']);
-        $info = explode('@', $controllerAtAction);
+        $preLenth = strlen($routeInfo['namespace']) + 1;
 
+        $controllerAtAction = substr($routeInfo['controller'], $preLenth);
+        $info = explode('@', $controllerAtAction);
+        
         View::share('controller', $info[0]);
         View::share('action', $info[1]);
 
