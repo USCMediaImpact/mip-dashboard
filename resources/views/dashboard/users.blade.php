@@ -38,6 +38,7 @@
                                     <div class="desc">Loyal Users on Site</div>
                                     {{-- */$d1 = count($dataBox1To4) == 2 ? ($dataBox1To4[0]->Unduplicated_TotalUsersKPI - $dataBox1To4[1]->Unduplicated_TotalUsersKPI ) / $dataBox1To4[1]->Unduplicated_TotalUsersKPI : '';/* --}}
                                     <div class="values" style="{{ $d1 ? 'color:#ec4f43;' : 'color:#7cc066;' }}">{{$formatter->showAsPercent($d1)}} from previous week</div>
+                                    <div class="value">&nbsp;</div>
                                 </div>
                             </div>
                         </div>
@@ -50,6 +51,7 @@
                                     <div class="desc">Loyal Users in Database</div>
                                     {{-- */$d2 = count($dataBox1To4) == 2 ? ($dataBox1To4[0]->Unduplicated_Database_TotalUsersKPI - $dataBox1To4[1]->Unduplicated_Database_TotalUsersKPI ) / $dataBox1To4[1]->Unduplicated_Database_TotalUsersKPI : '';/* --}}
                                     <div class="values" style="{{ $d2 ? 'color:#ec4f43;' : 'color:#7cc066;' }}">{{$formatter->showAsPercent($d2)}} from previous week</div>
+                                    <div class="value">&nbsp;</div>
                                 </div>
                             </div>
                         </div>

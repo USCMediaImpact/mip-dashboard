@@ -104,6 +104,7 @@ z-index: 2; opacity: 0; cursor: pointer; }
 .bar-icon-group button, .bar-icon-group .button { margin: auto 5px; }
 .button.disabled .fa, button.disabled .fa { color: gray }
 .dashboard .number { font-size: 32px }
+.dashboard .dec { font-size: 14px; }
 .dashboard .values { font-size: 12px }
 .dashboard .box { height: 220px; width: 100%; display: table; }
 .dashboard .box-content { display: table-cell; vertical-align: middle; }
