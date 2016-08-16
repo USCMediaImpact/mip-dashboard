@@ -110,6 +110,7 @@
 				                    <th>Share Rate</th>
                                     <th>Tribpedia Clicks</th>
 				                    <th>Related Content Clicks</th>
+                                    <th>Total Related Clicks</th>
 				                    <th>Click Through Rate</th>
 				                </tr>
 				            </thead>
@@ -272,7 +273,7 @@
                 'render': function(data, type, row){
                 	var url = '{{$client['website']}}' + row.Combo_URL;
                     var displayText = row.Article ? row.Article : url;
-                	return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" class="has-tip top">' + displayText + '</a>';
+                	return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" data-template-classes="url_tooltip" class="has-tip top">' + displayText + '</a>';
                 }
             }, {
                 'targets': 1,
@@ -389,7 +390,7 @@
                 'render': function(data, type, row){
                     var url = '{{$client['website']}}' + row.Combo_URL;
                     var displayText = row.Article ? row.Article : url;
-                    return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" class="has-tip top">' + displayText + '</a>';
+                    return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" data-template-classes="url_tooltip" class="has-tip top">' + displayText + '</a>';
                 }
             }, {
                 'targets': 1,
@@ -494,6 +495,8 @@
             }, {
                 'data': 'Related_Clicks'
             }, {
+                'data': 'Total_Related_Clicks'
+            }, {
                 'data': 'ClickThroughRate'
             }],
             'columnDefs': [{
@@ -502,7 +505,7 @@
                 'render': function(data, type, row){
                     var url = '{{$client['website']}}' + row.Combo_URL;
                     var displayText = row.Article ? row.Article : url;
-                    return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" class="has-tip top">' + displayText + '</a>';
+                    return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" data-template-classes="url_tooltip" class="has-tip top">' + displayText + '</a>';
                 }
             }, {
                 'targets': 1,
@@ -566,6 +569,12 @@
                 }
             }, {
                 'targets': 11,
+                
+                'render': function (data, type, row) {
+                    return new Intl.NumberFormat().format(data)
+                }
+            }, {
+                'targets': 12,
                 
                 'render': function (data, type, row) {
                     return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
