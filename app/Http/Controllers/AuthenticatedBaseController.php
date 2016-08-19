@@ -76,7 +76,8 @@ class AuthenticatedBaseController extends Controller
         $fileName = md5(uniqid()) . '.csv';
         $fullName = "download/${fileName}";
 
-        $pdo = DB::getPdo();
+        $pdo = $query->connection('cloudsql')->getPdo();
+
         $stmt = $pdo->prepare($query->toSql());
 
         $stmt->execute([$max_date, $min_date]);
