@@ -292,8 +292,7 @@ class DataController extends AuthenticatedBaseController{
 
     public function download_All_Stories_Scroll_Depth(Request $request, $mode){
         $client_code = $request['client']['code'];
-        $index = 6;
-        $mode = 'count';
+        $index = $mode == 'count' ? 6 : 5;
         return $this->exportCSV($request,
             $client_code.'_data_stories_',
             $this::$DataStoriesExportField[$client_code][$index],
@@ -324,8 +323,7 @@ class DataController extends AuthenticatedBaseController{
 
     public function download_All_Stories_Time_On_Article(Request $request, $mode){
         $client_code = $request['client']['code'];
-        $index = 6;
-        $mode = 'count';
+        $index = $mode == 'count' ? 6 : 5;
         return $this->exportCSV($request,
             $client_code.'_data_stories_',
             $this::$DataStoriesExportField[$client_code][$index],
