@@ -38,7 +38,7 @@
                                     <div class="desc">Loyal Users on Site</div>
                                     {{-- */$d1 = count($dataBox1To4) == 2 ? ($dataBox1To4[0]->Unduplicated_TotalUsersKPI - $dataBox1To4[1]->Unduplicated_TotalUsersKPI ) / $dataBox1To4[1]->Unduplicated_TotalUsersKPI : '';/* --}}
                                     <div class="values" style="{{ $d1 ? 'color:#ec4f43;' : 'color:#7cc066;' }}">{{$formatter->showAsPercent($d1)}} from previous week</div>
-                                    <div class="value">&nbsp;</div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                                     <div class="desc">Loyal Users in Database</div>
                                     {{-- */$d2 = count($dataBox1To4) == 2 ? ($dataBox1To4[0]->Unduplicated_Database_TotalUsersKPI - $dataBox1To4[1]->Unduplicated_Database_TotalUsersKPI ) / $dataBox1To4[1]->Unduplicated_Database_TotalUsersKPI : '';/* --}}
                                     <div class="values" style="{{ $d2 ? 'color:#ec4f43;' : 'color:#7cc066;' }}">{{$formatter->showAsPercent($d2)}} from previous week</div>
-                                    <div class="value">&nbsp;</div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                                     {{-- */$d3 = count($dataBox1To4) == 2 ? ($dataBox1To4[0]->Loyal_Users_On_Site - $dataBox1To4[1]->Loyal_Users_On_Site ) / $dataBox1To4[1]->Loyal_Users_On_Site : '';/* --}}
                                     {{-- */$d4 = count($dataBox1To4) == 2 ? $dataBox1To4[0]->Loyal_Users_On_Site - $dataBox1To4[1]->Loyal_Users_On_Site : '';/* --}}
                                     <div class="values" style="{{ $d3 ? 'color:#ec4f43;' : 'color:#7cc066;' }}">{{$formatter->showAsPercent($d2)}} change from previous week</div>
-                                    <div class="values" style="{{ $d4 ? 'color:#ec4f43;' : 'color:#7cc066;' }}">{{$formatter->showAsPercent($d4)}} points from previous week</div>
+                                    
                                 </div>
                             </div>                         
                         </div>
@@ -85,7 +85,7 @@
                     </div>
                     <div class="row">
                         <div class="columns small-12">
-                            <div class="box">
+                            <div class="row-box">
                                 <p class="chart-title text-center">% Change from {{date('Y', $min_date)}} to {{date('Y', strtotime('-1 years', $min_date))}}</p>
                                 <div id="box6" style="min-height: 300px;"></div>
                             </div>
@@ -130,97 +130,173 @@
                 }
             }
         });
-        AmCharts.makeChart("box4", {
-            "type": "pie",
-            "theme": "light",
-            "dataProvider": [{
-                'title': 'Email Subscribers',
-                "value": {{$dataBox1To4[0]->KPI_TotalEmailSubscribersKnownToMIP}}
+        AmCharts.makeChart('box4', {
+            type: 'pie',
+            theme: 'light',
+            dataProvider: [{
+                title: 'Email Subscribers',
+                value: {{$dataBox1To4[0]->KPI_TotalEmailSubscribersKnownToMIP}}
             }, {
-                'title': 'Donors',
-                "value": {{$dataBox1To4[0]->KPI_TotalDonorsKnownToMIP}}
+                title: 'Donors',
+                value: {{$dataBox1To4[0]->KPI_TotalDonorsKnownToMIP}}
             }],
-            "titleField": "title",
-            "valueField": "value",
+            titleField: 'title',
+            valueField: 'value',
             labelsEnabled: false,
-            "radius": "42%",
-            "innerRadius": "60%",
-            "labelText": "[[title]]( [[value]] | )",
-            "export": {
-                "enabled": true
+            radius: '42%',
+            innerRadius: '60%',
+            balloonText: '[[title]] ([[value]] | [[percents]]%)',
+            export: {
+                enabled: true
             }
         });
-        AmCharts.makeChart("box5", {
-            "type": "serial",
-            "theme": "light",
-            "dataProvider": {!!json_encode($dataBox5)!!},
-            "categoryField": "date",
-            "valueAxes": [{
-                "stackType": "regular",
-                "axisAlpha": 0.3,
-                "gridAlpha": 0
+
+        AmCharts.makeChart('box5', {
+            type: 'serial',
+            theme: 'light',
+            dataProvider: {!!json_encode($dataBox5)!!},
+            categoryField: 'date',
+            categoryAxis: {
+                parseDates: true,
+                dataDateFormat: 'YYYY-MM-DD',
+                firstDayOfWeek: 0,
+                equalSpacing: true,
+                minPeriod: 'WW',
+                dateFormats: [{
+                    period: 'fff',
+                    format: 'JJ:NN:SS'
+                }, {
+                    period: 'ss',
+                    format: 'JJ:NN:SS'
+                }, {
+                    period: 'mm',
+                    format: 'JJ:NN'
+                }, {
+                    period: 'hh',
+                    format: 'JJ:NN'
+                }, {
+                    period: 'DD',
+                    format: 'weekW\nYYYY'
+                }, {
+                    period: 'WW',
+                    format: 'weekW\nYYYY'
+                }, {
+                    period: 'MM',
+                    format: 'weekW\nYYYY'
+                }, {
+                    period: 'YYYY',
+                    format: 'YYYY'
+                }],
+                autoGridCount: false,
+                gridCount: 20,
+            },
+            valueAxes: [{
+                stackType: 'regular',
+                axisAlpha: 0.3,
+                gridAlpha: 0
+            }, {
+                "id": "lastYear",
+                "axisAlpha": 0,
+                "gridAlpha": 0,
+                "position": "right",
             }],
-            "graphs": [{
-                "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
-                "fillAlphas": 0.8,
-                "labelText": "[[value]]",
-                "lineAlpha": 0.3,
-                "title": "CameToSiteThroughEmail",
-                "type": "column",
-                'fillColors': ['#487aa9'],
-                "color": "#000000",
-                "valueField": "CameToSiteThroughEmail"
+            graphs: [{
+                balloonText: '[[title]]<br />[[category]]:[[value]]',
+                fillAlphas: 0.8,
+                labelText: '[[value]]',
+                lineAlpha: 0.3,
+                title: 'Came To Site Through Email',
+                type: 'column',
+                fillColors: ['#487aa9'],
+                color: '#000000',
+                valueField: 'CameToSiteThroughEmail'
             }, {
-                "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
-                "fillAlphas": 0.8,
-                "labelText": "[[value]]",
-                "lineAlpha": 0.3,
-                "title": "TotalDonorsThisWeek",
-                "type": "column",
-                'fillColors': ['#5ea0dd'],
-                "color": "#000000",
-                "valueField": "TotalDonorsThisWeek"
+                balloonText: '[[title]]<br />[[category]]:[[value]]',
+                fillAlphas: 0.8,
+                labelText: '[[value]]',
+                lineAlpha: 0.3,
+                title: 'Total Donors This Week',
+                type: 'column',
+                fillColors: ['#5ea0dd'],
+                color: '#000000',
+                valueField: 'TotalDonorsThisWeek'
             }, {
-                "balloonText": "<span style='font-size:12px;'>[[title]] in [[category]]:<br><span style='font-size:20px;'>[[value]]</span> [[additional]]</span>",
-                "bullet": "round",
-                "lineThickness": 3,
-                "bulletSize": 7,
-                "bulletBorderAlpha": 1,
-                "bulletColor": "#FFFFFF",
-                "useLineColorForBulletBorder": true,
-                "bulletBorderThickness": 3,
-                "fillAlphas": 0,
-                "lineAlpha": 1,
-                'fillColors': ['#bcbdbe'],
-                "title": "TotalDonorsThisWeek + CameToSiteThroughEmail",
-                "valueField": "lastYear",
-                "dashLengthField": "dashLengthLine"
+                balloonText: '[[title]] for Week of <br />[[category]]:<b>[[value]]</b>',
+                bullet: 'round',
+                lineThickness: 3,
+                bulletSize: 7,
+                bulletBorderAlpha: 1,
+                bulletColor: '#FFFFFF',
+                useLineColorForBulletBorder: true,
+                bulletBorderThickness: 3,
+                fillAlphas: 0,
+                lineAlpha: 1,
+                fillColors: ['#bcbdbe'],
+                title: 'Loyal Users',
+                valueField: 'LastYearTotal',
+                valueAxis: 'lastYear',
+                dashLengthField: 'dashLengthLine',
+                connect: false
             }]
         });
-        AmCharts.makeChart("box6", {
-            "type": "serial",
-            "theme": "light",
-            "dataProvider": {!!json_encode($dataBox6)!!},
-            "categoryField": "date",
-            "valueAxes": [{
-                "stackType": "regular",
-                "axisAlpha": 0.3,
-                "gridAlpha": 0
+        AmCharts.makeChart('box6', {
+            type: 'serial',
+            theme: 'light',
+            dataProvider: {!!json_encode($dataBox6)!!},
+            categoryField: 'date',
+            categoryAxis: {
+                parseDates: true,
+                dataDateFormat: 'YYYY-MM-DD',
+                firstDayOfWeek: 0,
+                equalSpacing: true,
+                minPeriod: 'WW',
+                dateFormats: [{
+                    period: 'fff',
+                    format: 'JJ:NN:SS'
+                }, {
+                    period: 'ss',
+                    format: 'JJ:NN:SS'
+                }, {
+                    period: 'mm',
+                    format: 'JJ:NN'
+                }, {
+                    period: 'hh',
+                    format: 'JJ:NN'
+                }, {
+                    period: 'DD',
+                    format: 'weekW\nYYYY'
+                }, {
+                    period: 'WW',
+                    format: 'weekW\nYYYY'
+                }, {
+                    period: 'MM',
+                    format: 'weekW\nYYYY'
+                }, {
+                    period: 'YYYY',
+                    format: 'YYYY'
+                }],
+                autoGridCount: false,
+                gridCount: 20,
+            },
+            valueAxes: [{
+                stackType: 'regular',
+                axisAlpha: 0.3,
+                gridAlpha: 0
             }],
-            "graphs": [{
-                "balloonText": "<span style='font-size:12px;'>[[title]] in [[category]]:<br><span style='font-size:20px;'>[[value]]</span> [[additional]]</span>",
-                "bullet": "round",
-                "lineThickness": 3,
-                "bulletSize": 7,
-                "bulletBorderAlpha": 1,
-                "bulletColor": "#FFFFFF",
-                "useLineColorForBulletBorder": true,
-                "bulletBorderThickness": 3,
-                "fillAlphas": 0,
-                "lineAlpha": 1,
-                "title": "TotalDonorsThisWeek + CameToSiteThroughEmail",
-                "valueField": "change",
-                "dashLengthField": "dashLengthLine"
+            graphs: [{
+                balloonText: '[[title]]:[[value]]',
+                bullet: 'round',
+                lineThickness: 3,
+                bulletSize: 7,
+                bulletBorderAlpha: 1,
+                bulletColor: '#FFFFFF',
+                useLineColorForBulletBorder: true,
+                bulletBorderThickness: 3,
+                fillAlphas: 0,
+                lineAlpha: 1,
+                title: 'Total Known Users % Change',
+                valueField: 'changes',
+                dashLengthField: 'dashLengthLine'
             }]
         });
     });

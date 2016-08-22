@@ -18,6 +18,7 @@ $user->save();
 then run `php artisan db:seed` to add you account and role
 4. Create .env file base .env.local and change to you need settings. BTW you can use `MAIL_DRIVER=log` for debug emails. do not need real email smtp service. you can check the log file in path `/storage/logs/laravel.log` to see what you send content in email.
 5. Install library `composer install`
+6. We used PHP intl see need run `brew install php55-intl` to install this extensions. need restart php-fpm or just restart you computer.BTW in project folder php.ini for google engine already add this extensions.
 
 ###Background Services###
 The Background Services deployed to Google App Engine are use corn for python. The sourcecode are in the folder `background`
