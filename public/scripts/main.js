@@ -92,7 +92,7 @@ $(function () {
 
 	$(document).on('click', '.btnDownload', function () {
 		var panel = $(this).parents('.panel'),
-			mode = panel.find('table').attr('mode'),
+			mode = panel.find('table[id]').attr('mode'),
 			action = mode ? $(this).attr('action').replace('{mode}', mode) : $(this).attr('action'),
 			downloadForm = $('<form />', {
 				action: action,
