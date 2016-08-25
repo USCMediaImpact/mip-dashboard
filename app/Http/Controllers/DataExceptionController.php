@@ -80,8 +80,6 @@ class DataExceptionController extends AuthenticatedBaseController
 
     public function download(Request $request){
         $client_id = $request['client']['id'];
-
-
         $bucket = 'dashboard-php-storage';
         $fileName = md5(uniqid()) . '.csv';
         $fullName = "download/${fileName}";
@@ -112,7 +110,7 @@ class DataExceptionController extends AuthenticatedBaseController
 
         return response()->download(
             "gs://${bucket}/${fullName}",
-            "${min_date}_${max_date}_${downloadName}.csv", [
+            "data exceptions.csv", [
             'Content-type' => 'text/csv'
         ]);
 
