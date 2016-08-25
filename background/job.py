@@ -25,7 +25,7 @@ def add_months(sourcedate, months):
 
 def format_hive(sql, min_date, max_date, dimension):
 	parse_min_date = datetime.strptime(min_date, '%Y-%m-%d')
-	parse_max_date = datetime.strptime(min_date, '%Y-%m-%d')
+	parse_max_date = datetime.strptime(max_date, '%Y-%m-%d')
 	if dimension == 'dialy':
 		prev_min_date = parse_min_date - timedelta(1)
 		prev_max_date = parse_max_date - timedelta(1)

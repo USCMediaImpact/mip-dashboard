@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\FormatterHelper;
 use Illuminate\Http\Request;
 use DB;
+use PDO;
 use Google_Client;
 use Google_Service_Storage;
 use Google_Service_Storage_ObjectAccessControl;
@@ -71,16 +72,21 @@ class AuthenticatedBaseController extends Controller
         $query = $query->where('date', '<=', $max_date)
             ->where('date', '>=', $min_date);
 
-        $data = $query->get();
-
         $bucket = 'dashboard-php-storage';
         $fileName = md5(uniqid()) . '.csv';
         $fullName = "download/${fileName}";
 
+        $pdo = DB::connection(env('DB_CONNECTION'))->getPdo();
+
+        $stmt = $pdo->prepare($query->toSql());
+
+        $stmt->execute([$max_date, $min_date]);
+
         $fp = fopen("gs://${bucket}/${fullName}", 'w');
         fprintf($fp, chr(0xEF).chr(0xBB).chr(0xBF));
         fputcsv($fp, $columns);
-        foreach($data as $row){
+
+        while($row = $stmt->fetch(PDO::FETCH_OBJ)){
             fputcsv($fp, array_values(get_object_vars($row)));
         }
         fclose($fp);
