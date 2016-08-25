@@ -101,8 +101,8 @@ class DataExceptionController extends AuthenticatedBaseController
                 $row->title,
                 $row->data_impact,
                 $row->resolution,
-                date('', strtotime($row->begin_date)),
-                date('', strtotime($row->begin_date)),
+                date('Y-m-d', strtotime($row->begin_date)),
+                date('Y-m-d', strtotime($row->end_date)),
                 $row->reporter_name,
                 $row->reporter_email,
                 $row->resolved ? 'Yes' : 'No'
