@@ -15,7 +15,7 @@
 					<div class="top-bar-left"></div>
 					<div class="top-bar-right bar-icon-group">
                         <button class="has-tip top btnAdd" title="add" data-tooltip aria-haspopup="false" data-disable-hover="false"><i class="fa fa-plus"></i></button>
-                        <button class="has-tip top btnDownload" title="download" data-tooltip aria-haspopup="false" data-disable-hover="false"><i class="fa fa-download"></i></button>
+                        <button class="has-tip top btnDataExceptionDownload" title="download" data-tooltip aria-haspopup="false" data-disable-hover="false"><i class="fa fa-download"></i></button>
 					</div>
 				</div>
 				<div class="row small-up-1 medium-up-2 large-up-3">
@@ -272,7 +272,7 @@
             });
             return false;
         });
-        $(document).on('click', '.btnDownload', function () {
+        $(document).on('click', '.btnDataExceptionDownload', function () {
             var downloadForm = $('<form />', {
                 action: '/management/data-exception/download',
                 method: 'POST',

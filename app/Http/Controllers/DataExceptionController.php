@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DB;
+use PDO;
 use Illuminate\Http\Request;
 use App\Models\DataException;
 
