@@ -12,15 +12,20 @@
 		<div class="column small-12">
 			<div class="panel">
 				<div class="top-bar">
+                    <form id="dateChangeForm" method="post">
+                    {!! csrf_field() !!}
 					<div class="top-bar-left"></div>
 					<div class="top-bar-right bar-icon-group">
+                        @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
                         <button class="has-tip top btnAdd" title="add" data-tooltip aria-haspopup="false" data-disable-hover="false"><i class="fa fa-plus"></i></button>
                         <button class="has-tip top btnDataExceptionDownload" title="download" data-tooltip aria-haspopup="false" data-disable-hover="false"><i class="fa fa-download"></i></button>
 					</div>
+                    </form>
 				</div>
-				<div class="row small-up-1 medium-up-2 large-up-3">
+                @if (count($data) > 0)
+				<div class="card-columns">
                     @foreach ($data as $item)
-                    <div class="column data-exception">
+                    <div class="data-exception card">
                         <div id="{{$item->id}}" class="box" data-id={{$item->id}}>
                             <div class="button-group">
                                 <a href="javascript:;"><i class="fa fa-pencil btnEdit"></i></a>
@@ -29,7 +34,7 @@
                             <div class="row">
                                 <div class="small-12 columns date">{{date('m/d/Y h:i A', strtotime($item->created_at))}}</div>
                                 <div class="small-12 columns title">
-                                    <div class="va-b">{{$item->title}}</div>
+                                    {{$item->title}}
                                 </div>
                                 <div class="small-12 columns">
                                     <label>DATA IMPACT
@@ -60,6 +65,13 @@
                     </div>
                     @endforeach
                 </div>
+                @else
+                    <div class="row">
+                        <div class="small-12 column">
+                            <h5 class="text-center">NO DATA EXCEPTIONS</h5>
+                        </div>
+                    </div>
+                @endif
 	        </div>
 		</div>
 	</div>
@@ -75,7 +87,7 @@
         <form>
         <div class="row">
             <fieldset class="small-12 column">
-                <legend>Title:</legend>
+                <legend>Issue Description:</legend>
                 <textarea style="height: 80px;" name="title"></textarea>
             </fieldset>
             <fieldset class="small-12 column">
@@ -103,13 +115,13 @@
         <button class="close-button" data-close aria-label="Close modal" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
-        <h5>Edit File Description</h5>
+        <h5>Edit Data Exception</h5>
         <label class="callout alert hide"></label>
         <form>
             <input type="hidden" name="id" />
             <div class="row">
                 <fieldset class="small-12 column">
-                    <legend>Title:</legend>
+                    <legend>Issue Description:</legend>
                     <textarea style="height: 80px;" name="title"></textarea>
                 </fieldset>
                 <fieldset class="small-12 column">
@@ -166,6 +178,14 @@
 @endsection
 @section('script')
 <script>
+    DefaultDateRangePickerOptions = {
+        clear: function(){
+            var form = $('#dateChangeForm');
+            $('input[name="min_date"]', form).val('');
+            $('input[name="max_date"]', form).val('');
+            form.submit();
+        }
+    };
     $(function(){
         $(document).on('click', '.closeModal', function(){
             $(this).parents('.reveal').foundation('close');
@@ -183,7 +203,7 @@
                 beginDate = moment(dateRange.start).format('YYYY-MM-DD'),
                 endDate = moment(dateRange.end).format('YYYY-MM-DD');
             $.ajax({
-                'url': '/management/data-exception',
+                'url': '/management/data-exception/new',
                 'method': 'POST',
                 'data': {
                     '_token': '{!! csrf_token() !!}',
@@ -282,6 +302,10 @@
             downloadForm.submit();
             downloadForm.remove();
             return false;
+        });
+
+        $(document).on('daterange_change', '.panel', function(){
+            $('#dateChangeForm').submit();
         });
     });
 </script>

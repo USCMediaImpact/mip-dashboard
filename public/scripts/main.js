@@ -28,9 +28,10 @@ $(function () {
 		window.location.reload(true);
 	});
 
-	var dateRangeDisplayText = $('[name="defaultDateRange"]').val(),
+	var dateRangeDisplayText = $('[name="defaultDateRange"]').val() || 'Select date range...',
 		max_date = $('[name="max_date"]').val(),
 		min_date = $('[name="min_date"]').val();
+
 
 	if (max_date && min_date) {
 		max_date = moment(max_date, 'YYYY-MM-DD');
@@ -53,6 +54,7 @@ $(function () {
 			$('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
 			$('input[name="max_date"]', panel).val(max_date.format('YYYY-MM-DD'));
 			$(panel).trigger('change.daterange');
+			$(panel).trigger('daterange_change');
 		},
 	}, DefaultDateRangePickerOptions);
 	/**
