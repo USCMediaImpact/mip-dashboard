@@ -42,7 +42,7 @@
     <div class="hide">
         @yield('reveal')
     </div>
-    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"></script>
+    {{-- <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"></script> --}}
     <!-- build:js scripts/vendor.js -->
     <script src="{{ asset('scripts/vendor/jquery.min.js') }}"></script>
     <script src="{{ asset('scripts/vendor/moment.min.js') }}"></script>

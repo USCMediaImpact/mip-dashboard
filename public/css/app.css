@@ -52,7 +52,7 @@
 .table-wrapper .table-toolbar { position: absolute; z-index: 1 }
 table.report { min-width: 100% }
 table.report .button, .noty_buttons .button { margin-bottom: 0 }
-table.report.tiny tbody td, table.report.tiny th {  font-size: 14px }
+table.report.tiny tbody td, table.report.tiny th { font-size: 14px }
 table.report.tiny tfoot td, table.report.tiny tfoot th, table.report.tiny thead td, table.report.tiny thead th { padding: .25rem .3rem .3rem; font-size: 14px }
 table.report caption { text-align: left }
 table.report th { background: #5f5e5f; color: #fff }
@@ -63,7 +63,9 @@ table.report tbody tr td, table.report thead tr th { height: 30px }
 .tabs-panel textarea { margin-bottom: 0px }
 .panel { margin-bottom: 30px }
 div.dataTables_wrapper div.dataTables_info { display: none }
+.ui-front { z-index: 9999; }
 .comiseo-daterangepicker-triggerbutton { position: relative; top: 0px; font-size: 12px }
+.reveal .comiseo-daterangepicker-triggerbutton { background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc !important; border-radius: 0; width: 100%; }
 .comiseo-daterangepicker { font-size: 12px }
 .comiseo-daterangepicker-presets, .comiseo-daterangepicker-calendar { height: auto !important }
 .comiseo-daterangepicker-presets .ui-menu .ui-state-focus, .comiseo-daterangepicker-presets .ui-menu .ui-state-active { font-weight: 200 !important }
@@ -112,3 +114,16 @@ z-index: 2; opacity: 0; cursor: pointer; }
 .dashboard .box, .dashboard .row-box { border: solid 1px #D0D0D0; margin: 0; }
 .dashboard .row-box { margin: 20px 0; }
 .dashboard .chart-title { line-height: 4 }
+.data-exception .box { border: solid 1px #ddd; box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.1); padding: 10px; position: relative; margin: 10px 0; }
+.data-exception .box:hover, .data-exception .box:active, .data-exception .box.active { border-color: #A6B8C6; }
+.data-exception .box .title { font-size: 14px; font-weight: 500; color: #416A8A; min-height: 70px; line-height: 20px; margin-bottom: 10px; position: relative; }
+.data-exception .box .title .va-b { position: absolute; top: 100%; max-height: 80%; overflow: hidden; transform: perspective(1px) translateY(-100%); }
+.data-exception .box .date { font-size: 12px; }
+.data-exception .box label { font-size: 12px !important; margin: 5px 0; line-height: 1.3; }
+.data-exception .box label, .data-exception .box .date, .data-exception .box .input.email, .data-exception .box .resolved { color: #B4B4B4; }
+.data-exception .box .input { color: #000; font-size: 14px; }
+.data-exception .box .input.email { font-style: italic; }
+.data-exception .box .resolved { font-size: 12px; font-weight: 800; margin-top: 20px; }
+.data-exception .box .button-group { position: absolute; top: 5px; right: 15px; font-size: 18px; display: none; }
+.data-exception .box:hover .button-group, .data-exception .box:active .button-group, .data-exception .box.active .button-group { display: block; }
+.data-exception .box .button-group a { line-height: 1; padding: 10px 0px; color: #000; }

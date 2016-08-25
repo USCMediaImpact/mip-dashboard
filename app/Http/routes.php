@@ -118,3 +118,10 @@ Route::post('/analyses', 'AnalysesController@upload');
 Route::post('/analyses/download', 'AnalysesController@download');
 Route::post('/analyses/edit', 'AnalysesController@edit');
 Route::post('/analyses/delete', 'AnalysesController@delete');
+
+Route::get('/management/data-exception', 'DataExceptionController@show');
+Route::get('/management/data-exception/{id}', 'DataExceptionController@get');
+Route::post('/management/data-exception', 'DataExceptionController@create');
+Route::post('/management/data-exception/edit', 'DataExceptionController@edit');
+Route::post('/management/data-exception/delete', 'DataExceptionController@delete');
+Route::post('/management/data-exception/download', 'DataExceptionController@download');

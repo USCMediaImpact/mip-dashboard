@@ -22,6 +22,7 @@ $(function () {
 		callback: {},
 		buttons: false // an array of buttons
 	};
+
 	$(document).on('change', '.clientSelector', function () {
 		Cookies.set('client-id', $(this).val());
 		window.location.reload(true);
@@ -37,7 +38,6 @@ $(function () {
 		if (max_date.isValid() && min_date.isValid()) {
 			dateRangeDisplayText = $.datepicker.formatDate('M d, yy', min_date.toDate()) + ' - ' + $.datepicker.formatDate('M d, yy', max_date.toDate());
 		}
-
 	}
 
 	DefaultDateRangePickerOptions = typeof DefaultDateRangePickerOptions === 'undefined' ? {} : DefaultDateRangePickerOptions;
@@ -58,7 +58,7 @@ $(function () {
 	/**
 	 * set default range
 	 */
-	if(!$('.dateRange').daterangepicker('getRange') && max_date && min_date){
+	if (!$('.dateRange').daterangepicker('getRange') && max_date && min_date) {
 		$('.dateRange').daterangepicker('setRange', {
 			start: moment(min_date).toDate(),
 			end: moment(max_date).toDate()
@@ -83,10 +83,9 @@ $(function () {
 	$(document).on('change.daterange', '.panel', function () {
 		window.clearTimeout(dateRangeChangeTimeout);
 		var tableId = $(this).find('table').attr('id');
-		dateRangeChangeTimeout = window.setTimeout(function(){
-			typeof ReportDataTable !== 'undefined' && ReportDataTable[tableId] && ReportDataTable[tableId].ajax.reload();	
+		dateRangeChangeTimeout = window.setTimeout(function () {
+			typeof ReportDataTable !== 'undefined' && ReportDataTable[tableId] && ReportDataTable[tableId].ajax.reload();
 		}, 500);
-		
 	});
 
 	$(document).on('click', '.btnDownload', function () {
@@ -105,7 +104,7 @@ $(function () {
 		downloadForm.remove();
 	});
 
-	$('body').on('click', 'button.disabled, .button.disabled', function(evt){
+	$('body').on('click', 'button.disabled, .button.disabled', function (evt) {
 		evt.stopPropagation();
 		evt.preventDefault();
 	})

@@ -55,8 +55,6 @@ class AnalysesController extends AuthenticatedBaseController
                 $tmp_name = Uuid::uuid4()->toString();
                 $path = "gs://${bucket}/download/${tmp_name}.zip";
                 $zip = new ZipArchive();
-                $zip_debug = $zip->open($path, ZipArchive::CREATE);
-                dd($zip_debug);
                 foreach ($data as $item) {
                     $zip->addFile($item->path, $item->file_name);
                 }

@@ -15,6 +15,7 @@
     <li><a href="{{action('MetricsController@showContent')}}"><i class="fa fa-bar-chart"></i>Metrics</a></li> --}}
     <li><a {{$controller == 'DataController' ? 'class=active' : ''}} href="{{action('DataController@showUsers')}}"><i class="fa fa-data"></i>Data</a></li>
     <li><a {{$controller == 'AnalysesController' ? 'class=active' : ''}} href="{{action('AnalysesController@show')}}"><i class="fa fa-analyses"></i>Analyses</a></li>
+    <li><a {{$controller == 'DataExceptionController' ? 'class=active' : ''}} href="{{action('DataExceptionController@show')}}"><i class="fa fa-management"></i>Management</a></li>
     @can('Admin')
     <li><a {{$controller == 'Auth\AccountController' ? 'class=active' : ''}} href="/auth/account/management"><i class="fa fa-settings"></i>Settings</a></li>
     @endcan
