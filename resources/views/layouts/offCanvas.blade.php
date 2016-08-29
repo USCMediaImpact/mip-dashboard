@@ -20,8 +20,8 @@
     <li><a {{$controller == 'Auth\AccountController' ? 'class=active' : ''}} href="/auth/account/management"><i class="fa fa-settings"></i>Settings</a></li>
     @endcan
     @can('SuperAdmin')
-    <li><a {{$controller == 'SuperAdmin\ClientController' ? 'class=active' : ''}} href="/admin/client/management"><i class="fa fa-management"></i>Client Management</a></li>
     <li><a {{$controller == 'SuperAdmin\AccountController' ? 'class=active' : ''}} href="/admin/account/management"><i class="fa fa-settings"></i>Settings</a></li>
+    <li><a {{$controller == 'SuperAdmin\ClientController' ? 'class=active' : ''}} href="/admin/client/management"><i class="fa fa-server"></i>Client Management</a></li>    
     @endcan
     <li><a href="/auth/logout"><i class="fa fa-sign-out"></i>Logout</a></li>
 </ul>
