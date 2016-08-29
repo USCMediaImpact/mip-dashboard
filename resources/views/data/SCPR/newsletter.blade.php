@@ -32,11 +32,11 @@
 			   					<th>Clicks</th>
                                 <th>Open Rate</th>
                                 <th>Click to Delivery Rate</th>
-                                <th>Avg Total Clicks per Unique Opens</th>
+                                <th>Average Total Clicks Per Unique Open</th>
 			                </tr>
 			            </thead>
 			            <tbody>
-			                
+
 			            </tbody>
 			        </table>
 		        </div>
@@ -44,7 +44,7 @@
 		</div>
     @else
 		<div class="small-12 column">
-	        <div>Data Users Coming soon.</div>
+	        <div>Email Newsletter Coming soon.</div>
 	    </div>
 	@endif
 @endsection

@@ -6,12 +6,16 @@ use Illuminate\Http\Request;
 use Mail;
 use Config;
 use DB;
+use Ramsey\Uuid\Uuid;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Client;
 use App\Http\Controllers\AuthenticatedBaseController;
 
 class AccountController extends AuthenticatedBaseController
 {
+    static $bucket = 'mip-dashboard-upload';
+
     public function __construct()
     {
         $this->middleware('routeInfo');
@@ -19,12 +23,17 @@ class AccountController extends AuthenticatedBaseController
         $this->middleware('clientInfo');
     }
 
-    public function showAccount(){
+    public function showAccount(Request $request){
+        $client_id = $request['client']['id'];
+
         $roles = Role::where('name', '<>', 'SuperAdmin')
             ->where('name', '<>', 'Test')
             ->get();
+
+        $detail = Client::where('id', $client_id)->first();
 		return view('auth.account', [
-            'roles' => $roles
+            'roles' => $roles,
+            'detail' => $detail
         ]);
 	}
 
@@ -63,6 +72,37 @@ class AccountController extends AuthenticatedBaseController
             'recordsFiltered' => $filtered,
             'data' => $data
         ];
+    }
+
+    public function loadClientInfo(Request $request){
+        $client_id = $request->user()->client->id;
+        return Client::where('id', $client_id)
+            ->select('name', 'GTM', 'MailChimp', 'GA', 'logo')
+            ->first();
+    }
+
+    public function saveClientInfo(Request $request){
+        $client_id = $request['client']['id'];
+        $client_code = $request['client']['code'];
+        $client = Client::where('id', $client_id)->first();
+        if($client !== null){
+            $client->update([
+                'name' => $request['name'],
+                'GTM' => $request['GTM'],
+                'MailChimp' => $request['MailChimp'],
+                'GA' => $request['GA'],
+            ]);
+            if($_FILES['logo']['tmp_name']){
+                $name = $_FILES['logo']['name'];
+                $extension = pathinfo($name)['extension'];
+                $uploadFile = $_FILES['logo']['tmp_name'];
+                $guid = Uuid::uuid4()->toString();
+                $bucket = $this::$bucket;
+                $path = "gs://${bucket}/${client_code}/${guid}.${extension}";
+                move_uploaded_file($uploadFile, $path);
+            }
+        }
+        return redirect(action('Auth\AccountController@showAccount'));
     }
 
     public function invite(Request $request){
@@ -118,7 +158,7 @@ class AccountController extends AuthenticatedBaseController
             return array('success'=>false, 'message' => 'user not exist');
         }
         $user->update([
-            'name' => $request['name']
+            'name' => $request['name'],
         ]);
         $roles = DB::table('roles')
             ->wherein('id', $request['role'] ?: [])

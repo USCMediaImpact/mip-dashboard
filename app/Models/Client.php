@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 class Client extends Model
 {
     use SoftDeletes;
@@ -13,7 +14,7 @@ class Client extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['name', 'website', 'code'];
+    protected $fillable = ['name', 'website', 'code', 'GA', 'GTM', 'MailChimp', 'logo'];
 
     public function users(){
         return $this->hasMany('App\Models\User');

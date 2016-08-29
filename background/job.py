@@ -189,3 +189,7 @@ def _run_data_quality(client_id, code, setting, min_date, max_date, dimension):
 	logging.debug('insert mysql data: %s' % (sql_data,))
 
 	mySqlClient.insert_mysql(sql, [sql_data])
+
+def _run_data_newsletter(client_id, code, date):
+	file_name = '%s_%s_mailchimp_stats.csv' % (date, code, )
+	logging.debug('run newsletter csv import for file: ' % (file_name,))

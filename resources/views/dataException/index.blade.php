@@ -12,15 +12,15 @@
 		<div class="column small-12">
 			<div class="panel">
 				<div class="top-bar">
-                    <form id="dateChangeForm" method="post">
-                    {!! csrf_field() !!}
 					<div class="top-bar-left"></div>
 					<div class="top-bar-right bar-icon-group">
+                        <form id="dateChangeForm" method="post">
                         @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
+                        {!! csrf_field() !!}
+                        </form>
                         <button class="has-tip top btnAdd" title="add" data-tooltip aria-haspopup="false" data-disable-hover="false"><i class="fa fa-plus"></i></button>
                         <button class="has-tip top btnDataExceptionDownload" title="download" data-tooltip aria-haspopup="false" data-disable-hover="false"><i class="fa fa-download"></i></button>
 					</div>
-                    </form>
 				</div>
                 @if (count($data) > 0)
 				<div class="card-columns">
@@ -100,8 +100,11 @@
             </fieldset>
             <fieldset class="small-12 column">
                 <legend>IMPACTED DATES:</legend>
-                @include('widgets.daterange', ['default_date_range' => 'Please select begin and end date'])
+                @include('widgets.daterange', ['dateRangeClass' => 'no_event_date_range', 'default_date_range' => 'Please select begin and end date'])
             </fieldset>
+            <div class="small-12 column">
+                <br />
+            </div>
             <div class="small-12 column">
                 <div class="button-group float-right">
                     <button class="button success btnNewSave">Save</button>
@@ -134,7 +137,7 @@
                 </fieldset>
                 <fieldset class="small-6 column">
                     <legend>IMPACTED DATES:</legend>
-                    @include('widgets.daterange')
+                    @include('widgets.daterange', ['dateRangeClass' => 'no_event_date_range', 'default_date_range' => 'Please select begin and end date'])
                 </fieldset>
                 <fieldset class="small-6 column">
                     <legend>RESOLVED:</legend>
@@ -146,6 +149,9 @@
                         </label>
                     </div>
                 </fieldset>
+                <div class="small-12 column">
+                    <br />
+                </div>
                 <div class="small-12 column">
                     <div class="button-group float-right">
                         <button class="button success btnEditSave">Save</button>
@@ -193,13 +199,14 @@
         });
         $(document).on('click', '.btnAdd', function(){
             $('#newModal').foundation('open');
+            return false;
         });
         $(document).on('click', '.btnNewSave', function(){
             var dialog = $(this).parents('.reveal'),
                 title = $('[name="title"]', dialog).val(),
                 dataImpact = $('[name="data_impact"]', dialog).val(),
                 resolution = $('[name="resolution"]', dialog).val(),
-                dateRange = $('.dateRange', dialog).daterangepicker('getRange'),
+                dateRange = $('.no_event_date_range', dialog).daterangepicker('getRange'),
                 beginDate = moment(dateRange.start).format('YYYY-MM-DD'),
                 endDate = moment(dateRange.end).format('YYYY-MM-DD');
             $.ajax({
@@ -214,7 +221,7 @@
                     'end_date': endDate
                 }
             }).done(function(result){
-                window.location.reload(true);
+                window.location = '/management/data-exception';
             });
             return false;
         });
@@ -230,7 +237,7 @@
                 $('[name="title"]', dialog).val(result.title);
                 $('[name="data_impact"]', dialog).val(result.data_impact);
                 $('[name="resolution"]', dialog).val(result.resolution);
-                $('.dateRange', dialog).daterangepicker('setRange', {
+                $('.no_event_date_range', dialog).daterangepicker('setRange', {
                     start: moment(result.begin_date).toDate(),
                     end: moment(result.end_date).toDate()
                 });
@@ -245,12 +252,12 @@
                 title = $('[name="title"]', dialog).val(),
                 dataImpact = $('[name="data_impact"]', dialog).val(),
                 resolution = $('[name="resolution"]', dialog).val(),
-                dateRange = $('.dateRange', dialog).daterangepicker('getRange'),
+                dateRange = $('.no_event_date_range', dialog).daterangepicker('getRange'),
                 beginDate = moment(dateRange.start).format('YYYY-MM-DD'),
                 endDate = moment(dateRange.end).format('YYYY-MM-DD'),
-                resolved = $('[name="resolved"]', dialog).prop('checked');
+                resolved = $('[name="resolved"]', dialog).prop('checked') == true ? 1 : 0;
             $.ajax({
-                'url': '/management/data-exception',
+                'url': '/management/data-exception/edit',
                 'method': 'POST',
                 'data': {
                     '_token': '{!! csrf_token() !!}',
@@ -263,7 +270,7 @@
                     'resolved': resolved
                 }
             }).done(function(result){
-                window.location.reload(true);
+                window.location = '/management/data-exception';
             });
             return false;
         });

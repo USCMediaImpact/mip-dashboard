@@ -48,15 +48,22 @@ $(function () {
 		presetRanges: [],
 		change: function (event, el) {
 			var range = el.instance.getRange(),
-				min_date = moment(range.start),
-				max_date = moment(range.end),
+				min_date = range && range.start ? moment(range.start) : null,
+				max_date = range && range.end ? moment(range.end) : null,
 				panel = $(this).parents('.panel');
-			$('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
-			$('input[name="max_date"]', panel).val(max_date.format('YYYY-MM-DD'));
-			$(panel).trigger('change.daterange');
-			$(panel).trigger('daterange_change');
+			if(min_date && max_date){
+				$('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
+				$('input[name="max_date"]', panel).val(max_date.format('YYYY-MM-DD'));
+				$(panel).trigger('change.daterange');
+				$(panel).trigger('daterange_change');
+			}
 		},
 	}, DefaultDateRangePickerOptions);
+
+	$('.no_event_date_range').daterangepicker({
+		dateFormat: 'M d, yy',
+		presetRanges: []
+	});
 	/**
 	 * set default range
 	 */

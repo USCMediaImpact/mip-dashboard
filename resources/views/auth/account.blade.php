@@ -1,55 +1,87 @@
 @extends('layouts.main')
 
 @section('content')
+    
     <div class="row">    
         <div class="small-12 columns">
-            <div class="panel">
+            <div class="panel client-info">
                 <div class="top-bar">
                     <div class="top-bar-left">
-                        Client Info
+                        Details
+                    </div>
+                    <div class="top-bar-right">
+                        <button class="button small btnEditDetail">Edit</button>
                     </div>
                 </div>
                 <div class="row">
-                    <fieldset class="small-12 column">
-                        <legend>Name:</legend>
-                        <input type="text" name="client_name" />
-                    </fieldset>
-                    <fieldset class="small-6 column">
-                        <legend>GA code:</legend>
-                        <input type="text" name="ga_code" />
-                    </fieldset>
-                    <fieldset class="small-6 column">
-                        <legend>GTM code ID:</legend>
-                        <input type="text" name="gtm_code" />
-                    </fieldset>
-                    <fieldset class="small-12 column">
-                        <legend>Logo Image:</legend>
-                        <input type="file" name="log_img" />
-                    </fieldset>
-                    <div class="small-12 column">
-                        <div class="button-group float-right">
-                            <button class="button success" id="btnSubmitEdit">Save</button>
-                        </div>
+                    <div class="small-12 columns">
+                        <i class="fa fa-flag-star"></i>
+                        <span class="title">{{$detail->name}}</h3>
+                    </div>
+                    <div class="small-12 columns">
+                        <table class="report">
+                            <colgroup>
+                                <col style="width: 230px" />
+                                <col style="width: 230px" />
+                                <col />
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Data Type</th>
+                                    <th>Data Source</th>
+                                    <th>Data Source/Account ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if($detail->GTM)
+                                <tr>
+                                    <td>Web Analytics</td>
+                                    <td>MIP Google Tag Manager</td>
+                                    <td>{{$detail->GTM}}</td>
+                                </tr>
+                                @endif
+                                @if($detail->MailChimp)
+                                <tr>
+                                    <td>Email Newsletter</td>
+                                    <td>MailChimp</td>
+                                    <td></td>
+                                </tr>
+                                @endif
+                                @if($detail->GA)
+                                <tr>
+                                    <td>Web Analytics</td>
+                                    <td>Google Analytics</td>
+                                    <td>{{$detail->GA}}</td>
+                                </tr>
+                                @endif
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
         <div class="small-12 columns">
-            <div class="table-wrapper">
-                <div class="table-toolbar">
-                    <button class="button" data-open="inviteUserModal">
-                        <i class="fa fa-user-plus margin-right-sm"></i>
-                        <span>Invite User</span>
-                    </button>    
+            <div class="panel">
+                <div class="top-bar">
+                    <div class="top-bar-left">
+                        Users
+                    </div>
+                    <div class="top-bar-right">
+                        <button class="button" data-open="inviteUserModal">
+                            <i class="fa fa-user-plus margin-right-sm"></i>
+                            <span>Invite User</span>
+                        </button>  
+                    </div>
                 </div>
-                <table class="dataTable accountTable">
+                <table class="report tiny hover accountTable">
                     <thead>
                         <tr>
-                            <td>Email</td>
-                            <td>Name</td>
-                            <td>Roles</td>
-                            <td>Create Date</td>
-                            <td>Action</td>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Roles</th>
+                            <th>Created</th>
+                            <th>Last Active</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -129,6 +161,50 @@
             </div>
         </form>
     </div>
+    <div id="editDetailModal" class="small reveal" data-reveal>
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h5>Edit Details</h5>
+        <label class="callout alert hide"></label>
+        <form id="editDetailForm" method="POST"  enctype="multipart/form-data" action="{{action('Auth\AccountController@saveClientInfo')}}">
+        {!! csrf_field() !!}
+        <div class="row">
+            <fieldset class="small-12 column">
+                <legend>Name:</legend>
+                <input type="text" name="name" />
+            </fieldset>
+            <fieldset class="small-12 column">
+                <legend>GA code:</legend>
+                <input type="text" name="GA" />
+            </fieldset>
+            <fieldset class="small-12 column">
+                <legend>MailChimp:</legend>
+                <div class="switch round">
+                    <input class="switch-input" id="yes-no" name="MailChimp" type="checkbox">
+                    <label class="switch-paddle" for="yes-no">
+                        <span class="switch-active" aria-hidden="true">Yes</span>
+                        <span class="switch-inactive" aria-hidden="true">No</span>
+                    </label>
+                </div>
+            </fieldset>
+            <fieldset class="small-12 column">
+                <legend>GTM code ID:</legend>
+                <input type="text" name="GTM" />
+            </fieldset>
+            <fieldset class="small-12 column">
+                <legend>Logo Image:</legend>
+                <input type="file" name="logo" />
+            </fieldset>
+            <div class="small-12 column">
+                <div class="button-group float-right">
+                    <button class="button success" id="btnSaveDetail">Save</button>
+                    <button class="button alert closeModal">Cancel</button>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
 @endsection
 
 @section('script')
@@ -140,6 +216,7 @@
         var accountTable = $('.accountTable').DataTable({
             'processing': true,
             'serverSide': true,
+            'searching': false,
             'ajax': '/auth/account/all',
             'dom': 'Bfrtip',
             'columns': [{
@@ -150,6 +227,8 @@
                 'data': ''
             }, {
                 'data': 'created_at'
+            }, {
+                'data': 'last_login_date'
             }, {
                 'data': ''
             }],
@@ -173,6 +252,9 @@
                 'width': 160
             }, {
                 'targets': 4,
+                'width': 160
+            }, {
+                'targets': 5,
                 'bSortable': false,
                 'width': 180,
                 'render': function (data, type, row) {
@@ -303,6 +385,25 @@
          */
         $('#inviteUserModal').on('open.zf.reveal', function(){
             $(this).find('form')[0].reset();
+        });
+
+        $(document).on('click', '.btnEditDetail', function(){
+            var dialog = $('#editDetailModal');
+            $.ajax({
+                'url': '/auth/client/',
+                'method': 'GET'
+            }).done(function(result){
+                $('#editDetailForm')[0].reset();
+                $('[name="name"]', dialog).val(result.name);
+                $('[name="GTM"]', dialog).val(result.GTM);
+                $('[name="MailChimp"]', dialog).prop('checked', result.MailChimp && result.MailChimp.length > 0);
+                $('[name="GA"]', dialog).val(result.GA);
+                dialog.foundation('open');  
+            });
+        });
+
+        $(document).on('click', '.btnSaveDetail', function(){
+            $('#editDetailForm').submit();
         });
     });
 </script>

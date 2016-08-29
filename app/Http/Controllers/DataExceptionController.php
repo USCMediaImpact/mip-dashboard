@@ -59,6 +59,7 @@ class DataExceptionController extends AuthenticatedBaseController
 
     public function edit(Request $request)
     {
+
         $client_id = $request['client']['id'];
         $user = $request->user();
         $user_id = $user->id;
@@ -72,7 +73,7 @@ class DataExceptionController extends AuthenticatedBaseController
                 'resolution' => $request['resolution'],
                 'begin_date' => $request['begin_date'],
                 'end_date' => $request['end_date'],
-                'resolved' => $request['resolved'] ? true : false
+                'resolved' => $request['resolved'] == 'true' ? true : false
             ]);
             return [
                 'success' => true,

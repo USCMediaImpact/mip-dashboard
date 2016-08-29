@@ -68,4 +68,10 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+    protected function authenticated($request, $user){
+        $user->last_login_date = date('Y-m-d H:i:s', time());
+        $user->save();
+        return redirect()->intended($this->redirectPath());
+    }
 }
