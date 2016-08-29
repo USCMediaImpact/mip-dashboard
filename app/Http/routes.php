@@ -97,6 +97,10 @@ Route::post('/data/stories/user_interactions', 'DataController@get_Stories_User_
 Route::post('/data/stories/user_interactions/csv', 'DataController@download_Stories_User_Interactions');
 Route::post('/data/stories/user_interactions/csv/all', 'DataController@download_All_Stories_User_Interactions');
 
+Route::get('/data/newsletter', 'DataController@showNewsLetter');
+Route::post('/data/newsletter', 'DataController@get_NewsLetter');
+Route::post('/data/newsletter/csv', 'DataController@download_NewsLetter');
+
 Route::get('/data/quality', 'DataController@showQuality');
 Route::post('/data/quality/ga_vs_gtm', 'DataController@get_Quality_GA_VS_GTM');
 Route::post('/data/quality/ga_vs_gtm/csv', 'DataController@download_Quality_GA_VS_GTM');

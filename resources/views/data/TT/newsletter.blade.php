@@ -77,26 +77,27 @@
 	        },
             'dom': 'Bfrtip',
             'columns': [{
-                'data': 'date'
+                'data': 'List'
             }, {
-                'data': ''
+                'data': 'Total_Recipients'
             }, {
-                'data': ''
+                'data': 'Successful_Deliveries'
             }, {
-                'data': ''
+                'data': 'Total_Opens'
             }, {
-                'data': ''
+                'data': 'Unique_Opens'
             }, {
-                'data': ''
+                'data': 'Total_Clicks'
             }, {
-                'data': ''
+                'data': 'Open_Rate'
             }, {
-                'data': ''
+                'data': 'Cick_To_Delivery_Rate'
             }, {
-                'data': ''
+                'data': 'Average_Total_Clicks_Per_Unique_Open'
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 320,
                 'render': function (data, type, row) {
                     return data;
                 }
@@ -128,12 +129,12 @@
             }, {
                 'targets': 6,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 7,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 8,

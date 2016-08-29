@@ -26,16 +26,20 @@ class AuthenticatedBaseController extends Controller
         'monthly' => 'By Month',
     ];
 
-    protected function dataTableQuery(Request $request, $tableName, $select){
+    protected function dataTableQuery(Request $request, $tableName, $select, $callback = null){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
         $client_id = $request['client']['id'];
         $query = DB::table($tableName . $group)
-            ->select(DB::raw($select))
-            ->where('date', '<=', $max_date['year'] . '-' . $max_date['month'] . '-' . $max_date['day'])
-            ->where('date', '>=', $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day']);
+            ->select(DB::raw($select));
 
+        if($callback){
+            $query = $callback($query);
+        }
+
+        $query = $query->where('date', '<=', $max_date['year'] . '-' . $max_date['month'] . '-' . $max_date['day'])
+            ->where('date', '>=', $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day']);
 
         $orderByIndex = $request['order'][0]['column'];
         $orderBy = $request['columns'][$orderByIndex]['data'] ?: 'date';
@@ -56,7 +60,7 @@ class AuthenticatedBaseController extends Controller
         ];
     }
 
-    protected function exportCSV(Request $request, $tableName, $select, $columns, $downloadName, $sort = 'date'){
+    protected function exportCSV(Request $request, $tableName, $select, $columns, $downloadName, $sort = 'date', $callback = null){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
@@ -69,9 +73,12 @@ class AuthenticatedBaseController extends Controller
             ->select(DB::raw($select))
             ->orderBy($sort, 'desc');
 
+        if($callback){
+            $query = $callback($query);
+        }
+
         $query = $query->where('date', '<=', $max_date)
             ->where('date', '>=', $min_date);
-
         $bucket = 'dashboard-php-storage';
         $fileName = md5(uniqid()) . '.csv';
         $fullName = "download/${fileName}";

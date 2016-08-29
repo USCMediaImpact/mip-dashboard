@@ -18,6 +18,7 @@ return [
 		'showUsers' => 'Users',
 		// 'showDonations' => 'Donations',
 		'showStories' => 'Stories',
+        'showNewsLetter' => 'Newsletters',
 		'showQuality' => 'Data Quality'
 	]
 ];

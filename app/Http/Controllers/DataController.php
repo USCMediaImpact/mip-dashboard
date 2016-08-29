@@ -363,32 +363,39 @@ class DataController extends AuthenticatedBaseController{
     }
 
     private static $DataNewsLetterField = [
-        'SCPR' => '',
-        'TT' => ''
+        'SCPR' => 'List, AVG(Total_Recipients) AS Total_Recipients, AVG(Successful_Deliveries) AS Successful_Deliveries, AVG(Total_Opens) AS Total_Opens, AVG(Unique_Opens) AS Unique_Opens, AVG(Total_Clicks) AS Total_Clicks, AVG(Open_Rate) AS Open_Rate, AVG(Total_Clicks / Successful_Deliveries) AS Cick_To_Delivery_Rate, AVG(Total_Clicks / Unique_Opens) AS Average_Total_Clicks_Per_Unique_Open',
+        'TT' => 'List, AVG(Total_Recipients) AS Total_Recipients, AVG(Successful_Deliveries) AS Successful_Deliveries, AVG(Total_Opens) AS Total_Opens, AVG(Unique_Opens) AS Unique_Opens, AVG(Total_Clicks) AS Total_Clicks, AVG(Open_Rate) AS Open_Rate, AVG(Total_Clicks / Successful_Deliveries) AS Cick_To_Delivery_Rate, AVG(Total_Clicks / Unique_Opens) AS Average_Total_Clicks_Per_Unique_Open',
     ];
 
     private static $DataNewsLetterColumn = [
         'SCPR' => ['Newsletter', 'Frequency', 'Deliveries', 'Opens', 'Unique Opens', 'Clicks', 'Open Rate', 'Click to Delivery Rate', 'Avg Total Clicks per Unique Opens'],
-        'TT' => []
+        'TT' => ['Newsletter', 'Frequency', 'Deliveries', 'Opens', 'Unique Opens', 'Clicks', 'Open Rate', 'Click to Delivery Rate', 'Avg Total Clicks per Unique Opens']
     ];
 
-    public function showNewsLetter(Request $request){
-        $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
-        $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
-        $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
+    public static function getFirstDayOfWeek($date){
+        $weekOfNumber = date('w', $date);
+        return strtotime("-${weekOfNumber} days", $date);
 
+    }
+
+    public function showNewsLetter(Request $request){
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
+        $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
 
-//        $query = DB::table($client_code.'_data_newsletter_'.$group);
-//
-//        $count = $query->count();
-//        $date_range_min = $query->min('date');
-//        $date_range_max = $query->max('date');
+        $query = DB::table($client_code. '_data_newsletter_' . $group);
+        $count = $query->count();
 
-        $count = 1;
-        $date_range_min = '2016-07-25';
-        $date_range_max = '2016-07-25';
+        $date_range_min = $query->min('date');
+        $date_range_max = $query->max('date');
+
+        $date_range_min = $this::getFirstDayOfWeek(strtotime($date_range_min));
+        $date_range_max_begin = $this::getFirstDayOfWeek(strtotime($date_range_max));
+        $date_range_max = strtotime('6 days', $date_range_max_begin);
+
+        $max_date = strtotime($request['max_date']) ?: $date_range_max;
+        $min_date = strtotime($request['min_date']) ?: $date_range_max_begin;
+
         return view('data.' . $client_code . '.newsletter', [
             'have_data' => $count > 0,
             'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
@@ -402,24 +409,23 @@ class DataController extends AuthenticatedBaseController{
 
     public function get_NewsLetter(Request $request){
         $client_code = $request['client']['code'];
-        return [
-            'draw' => $request->draw,
-            'recordsTotal' => 0,
-            'recordsFiltered' => 0,
-            'data' => []
-        ];
-//        return $this->dataTableQuery($request,
-//            $client_code.'_data_newsletter_',
-//            $this::$DataQualityField[$client_code]);
+        return $this->dataTableQuery($request,
+            $client_code.'_data_newsletter_',
+            $this::$DataNewsLetterField[$client_code],
+            function($query){
+                return $query->groupby('date', 'List');
+            });
     }
 
     public function download_NewsLetter(Request $request){
         $client_code = $request['client']['code'];
-//        return $this->exportCSV($request,
-//            $client_code.'_data_newsletter_',
-//            $this::$DataQualityField[$client_code],
-//            $this::$DataQualityColumn[$client_code],
-//            'Email Newsletter Performance.csv');
+        return $this->dataTableQuery($request,
+            $client_code.'_data_newsletter_',
+            $this::$DataNewsLetterField[$client_code],
+            $this::$DataNewsLetterColumn[$client_code],
+            function($query){
+                return $query->group('date');
+            });
     }
 
     private static $DataQualityField = [
@@ -455,8 +461,6 @@ class DataController extends AuthenticatedBaseController{
     ];
 
     public function showQuality(Request $request){
-
-
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
