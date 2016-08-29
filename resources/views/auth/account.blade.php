@@ -33,25 +33,25 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if($detail->GTM)
+                                @if($detail->gtm)
                                 <tr>
                                     <td>Web Analytics</td>
                                     <td>MIP Google Tag Manager</td>
-                                    <td>{{$detail->GTM}}</td>
+                                    <td>{{$detail->gtm}}</td>
                                 </tr>
                                 @endif
-                                @if($detail->MailChimp)
+                                @if($detail->email_newsletter)
                                 <tr>
                                     <td>Email Newsletter</td>
-                                    <td>MailChimp</td>
+                                    <td>{{$detail->email_newsletter}}</td>
                                     <td></td>
                                 </tr>
                                 @endif
-                                @if($detail->GA)
+                                @if($detail->ga)
                                 <tr>
                                     <td>Web Analytics</td>
                                     <td>Google Analytics</td>
-                                    <td>{{$detail->GA}}</td>
+                                    <td>{{$detail->ga}}</td>
                                 </tr>
                                 @endif
                             </tbody>
@@ -176,21 +176,15 @@
             </fieldset>
             <fieldset class="small-12 column">
                 <legend>GA code:</legend>
-                <input type="text" name="GA" />
+                <input type="text" name="ga" />
             </fieldset>
             <fieldset class="small-12 column">
-                <legend>MailChimp:</legend>
-                <div class="switch round">
-                    <input class="switch-input" id="yes-no" name="MailChimp" type="checkbox">
-                    <label class="switch-paddle" for="yes-no">
-                        <span class="switch-active" aria-hidden="true">Yes</span>
-                        <span class="switch-inactive" aria-hidden="true">No</span>
-                    </label>
-                </div>
+                <legend>Email Newsletter:</legend>
+                <input type="text" name="email_newsletter" />
             </fieldset>
             <fieldset class="small-12 column">
-                <legend>GTM code ID:</legend>
-                <input type="text" name="GTM" />
+                <legend>GTM code:</legend>
+                <input type="text" name="gtm" />
             </fieldset>
             <fieldset class="small-12 column">
                 <legend>Logo Image:</legend>
@@ -390,14 +384,14 @@
         $(document).on('click', '.btnEditDetail', function(){
             var dialog = $('#editDetailModal');
             $.ajax({
-                'url': '/auth/client/',
+                'url': '/auth/detail/',
                 'method': 'GET'
             }).done(function(result){
                 $('#editDetailForm')[0].reset();
                 $('[name="name"]', dialog).val(result.name);
-                $('[name="GTM"]', dialog).val(result.GTM);
-                $('[name="MailChimp"]', dialog).prop('checked', result.MailChimp && result.MailChimp.length > 0);
-                $('[name="GA"]', dialog).val(result.GA);
+                $('[name="gtm"]', dialog).val(result.gtm);
+                $('[name="email_newsletter"]', dialog).val(result.email_newsletter);
+                $('[name="ga"]', dialog).val(result.ga);
                 dialog.foundation('open');  
             });
         });

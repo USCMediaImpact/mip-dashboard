@@ -56,6 +56,37 @@ class AccountController extends AuthenticatedBaseController
         ];
     }
 
+    public function loadClientInfo(Request $request){
+        $client_id = $request['client_id'];
+        return Client::where('id', $client_id)
+            ->select('id', 'name', 'gtm', 'email_newsletter', 'ga', 'logo')
+            ->first();
+    }
+
+    public function saveClientInfo(Request $request){
+        $client_id = $request['client_id'];
+        $client = Client::where('id', $client_id)->first();
+        $client_code = $client->code;
+        if($client !== null){
+            $client->update([
+                'name' => $request['name'],
+                'gtm' => $request['gtm'],
+                'email_newsletter' => $request['email_newsletter'],
+                'ga' => $request['ga'],
+            ]);
+            if($_FILES['logo']['tmp_name']){
+                $name = $_FILES['logo']['name'];
+                $extension = pathinfo($name)['extension'];
+                $uploadFile = $_FILES['logo']['tmp_name'];
+                $guid = Uuid::uuid4()->toString();
+                $bucket = $this::$bucket;
+                $path = "gs://${bucket}/${client_code}/${guid}.${extension}";
+                move_uploaded_file($uploadFile, $path);
+            }
+        }
+        return redirect(action('SuperAdmin\AccountController@showPage'));
+    }
+
     public function invite(Request $request){
         $dbUser = User::where('email', $request['email'])->first();
         if($dbUser){

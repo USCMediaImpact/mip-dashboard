@@ -14,7 +14,7 @@ class Client extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['name', 'website', 'code', 'GA', 'GTM', 'MailChimp', 'logo'];
+    protected $fillable = ['name', 'website', 'code', 'ga', 'gtm', 'email_newsletter', 'logo'];
 
     public function users(){
         return $this->hasMany('App\Models\User');

@@ -21,7 +21,7 @@
     @endcan
     @can('SuperAdmin')
     <li><a {{$controller == 'SuperAdmin\ClientController' ? 'class=active' : ''}} href="/admin/client/management"><i class="fa fa-management"></i>Client Management</a></li>
-    <li><a {{$controller == 'SuperAdmin\AccountController' ? 'class=active' : ''}} href="/admin/account/management"><i class="fa fa-settings"></i>User Management</a></li>
+    <li><a {{$controller == 'SuperAdmin\AccountController' ? 'class=active' : ''}} href="/admin/account/management"><i class="fa fa-settings"></i>Settings</a></li>
     @endcan
     <li><a href="/auth/logout"><i class="fa fa-sign-out"></i>Logout</a></li>
 </ul>

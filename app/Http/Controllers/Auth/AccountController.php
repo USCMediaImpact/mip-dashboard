@@ -77,7 +77,7 @@ class AccountController extends AuthenticatedBaseController
     public function loadClientInfo(Request $request){
         $client_id = $request->user()->client->id;
         return Client::where('id', $client_id)
-            ->select('name', 'GTM', 'MailChimp', 'GA', 'logo')
+            ->select('name', 'gtm', 'email_newsletter', 'ga', 'logo')
             ->first();
     }
 
@@ -88,9 +88,9 @@ class AccountController extends AuthenticatedBaseController
         if($client !== null){
             $client->update([
                 'name' => $request['name'],
-                'GTM' => $request['GTM'],
-                'MailChimp' => $request['MailChimp'],
-                'GA' => $request['GA'],
+                'gtm' => $request['gtm'],
+                'email_newsletter' => $request['email_newsletter'],
+                'ga' => $request['ga'],
             ]);
             if($_FILES['logo']['tmp_name']){
                 $name = $_FILES['logo']['name'];

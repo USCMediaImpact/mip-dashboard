@@ -2,13 +2,73 @@
 
 @section('content')
     <div class="row">
+        <div class="small-12 columns">
+            <div class="panel client-info">
+                <div class="top-bar">
+                    <div class="top-bar-left">
+                        Details
+                    </div>
+                    <div class="top-bar-right">
+                        <button class="button small btnEditDetail">Edit</button>
+                    </div>
+                </div>
+                <div class="row">
+                    
+                    <div class="small-12 columns">
+                        <table class="report">
+                            <thead>
+                                <tr>
+                                    <th>Client Name</th>
+                                    <th>Data Type</th>
+                                    <th>Data Source</th>
+                                    <th>Data Source/Account ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($clients as $detail)
+                                @if($detail->gtm)
+                                <tr>
+                                    <td>{{$detail->name}}</td>
+                                    <td>Web Analytics</td>
+                                    <td>MIP Google Tag Manager</td>
+                                    <td>{{$detail->gtm}}</td>
+                                </tr>
+                                @endif
+                                @if($detail->email_newsletter)
+                                <tr>
+                                    <td>{{$detail->name}}</td>
+                                    <td>Email Newsletter</td>
+                                    <td>{{$detail->email_newsletter}}</td>
+                                    <td></td>
+                                </tr>
+                                @endif
+                                @if($detail->ga)
+                                <tr>
+                                    <td>{{$detail->name}}</td>
+                                    <td>Web Analytics</td>
+                                    <td>Google Analytics</td>
+                                    <td>{{$detail->ga}}</td>
+                                </tr>
+                                @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="small-12 column">
-            <div class="table-wrapper">
-                <div class="table-toolbar">
-                    <button class="button" data-open="inviteModal">
-                        <i class="fa fa-user-plus margin-right-sm"></i>
-                        <span>Invite User</span>
-                    </button>    
+            <div class="panel">
+                <div class="top-bar">
+                    <div class="top-bar-left">
+                        Users
+                    </div>
+                    <div class="top-bar-right">
+                        <button class="button" data-open="inviteModal">
+                            <i class="fa fa-user-plus margin-right-sm"></i>
+                            <span>Invite User</span>
+                        </button>  
+                    </div>
                 </div>
                 <table class="dataTable">
                     <thead>
@@ -17,7 +77,8 @@
                             <td>Email</td>
                             <td>Name</td>
                             <td>Roles</td>
-                            <td>Create Date</td>
+                            <td>Created</td>
+                            <th>Last Active</th>
                             <td>Action</td>
                         </tr>
                     </thead>
@@ -117,6 +178,54 @@
             </div>
         </form>
     </div>
+    <div id="editDetailModal" class="small reveal" data-reveal>
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h5>Edit Details</h5>
+        <label class="callout alert hide"></label>
+        <form id="editDetailForm" method="POST"  enctype="multipart/form-data" action="{{action('SuperAdmin\AccountController@saveClientInfo')}}">
+        {!! csrf_field() !!}
+        <div class="row">
+            <fieldset class="small-12 column">
+                <input type="hidden" name="client_id" value="" />
+                <legend>Client:</legend>
+                <select class="clientDetailSelector" style="width: 100%">
+                <option value="">--Select--</option>
+                @foreach($clients as $value)
+                <option value="{{ $value['id'] }}">{{ $value['name'] }}</option>
+                @endforeach
+                </select>
+            </fieldset>
+            <fieldset class="small-12 column">
+                <legend>Name:</legend>
+                <input type="text" name="name" />
+            </fieldset>
+            <fieldset class="small-12 column">
+                <legend>GA code:</legend>
+                <input type="text" name="ga" />
+            </fieldset>
+            <fieldset class="small-12 column">
+                <legend>Email Newsletter:</legend>
+                <input type="text" name="email_newsletter" />
+            </fieldset>
+            <fieldset class="small-12 column">
+                <legend>GTM code:</legend>
+                <input type="text" name="gtm" />
+            </fieldset>
+            <fieldset class="small-12 column">
+                <legend>Logo Image:</legend>
+                <input type="file" name="logo" />
+            </fieldset>
+            <div class="small-12 column">
+                <div class="button-group float-right">
+                    <button class="button success" id="btnSaveDetail">Save</button>
+                    <button class="button alert closeModal">Cancel</button>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
 @endsection
 
 @section('script')
@@ -128,6 +237,7 @@
         var dataTable = $('.dataTable').DataTable({
             'processing': true,
             'serverSide': true,
+            'searching': false,
             'ajax': '/admin/account/all',
             'dom': 'Bfrtip',
             'columns': [{
@@ -140,6 +250,8 @@
                 'data': ''
             }, {
                 'data': 'created_at'
+            }, {
+                'data': 'last_login_date'
             }, {
                 'data': ''
             }],
@@ -169,6 +281,9 @@
                 'width': 160
             }, {
                 'targets': 5,
+                'width': 160
+            }, {
+                'targets': 6,
                 'bSortable': false,
                 'width': 180,
                 'render': function (data, type, row) {
@@ -304,6 +419,32 @@
          */
         $('#inviteUserModal').on('open.zf.reveal', function(){
             $(this).find('form')[0].reset();
+        });
+        $(document).on('change', '.clientDetailSelector', function () {
+            console.log('clientDetailSelector change');
+            var dialog = $('#editDetailModal');
+            $.ajax({
+                'url': '/admin/detail/',
+                'method': 'GET',
+                'data': {
+                    'client_id': $(this).val()
+                }
+            }).done(function(result){
+                $('#editDetailForm')[0].reset();
+                $('[name="client_id"]', dialog).val(result.id);
+                $('[name="name"]', dialog).val(result.name);
+                $('[name="gtm"]', dialog).val(result.gtm);
+                $('[name="email_newsletter"]', dialog).val(result.email_newsletter);
+                $('[name="ga"]', dialog).val(result.ga);
+            });
+        });
+        $(document).on('click', '.btnEditDetail', function(){
+            $('#editDetailForm')[0].reset();
+            $('#editDetailModal').foundation('open'); 
+        });
+
+        $(document).on('click', '.btnSaveDetail', function(){
+            $('#editDetailForm').submit();
         });
     });
 </script>
