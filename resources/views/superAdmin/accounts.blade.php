@@ -98,13 +98,16 @@
                 </fieldset>
                 <fieldset class="small-12 column">
                     <legend>Client:</legend>
-                    <select name="client_id">
+                    <select name="client_id" style="width: 100%">
                     <option value="">--Select--</option>
                     @foreach($clients as $value)
                     <option value="{{ $value['id'] }}">{{ $value['name'] }}</option>
                     @endforeach
                     </select>
                 </fieldset>
+                <div class="small-12 columns">
+                    <br />
+                </div>
                 <div class="small-12 column">
                     <div class="button-group float-right">
                         <button class="button success" id="btnSave">Save</button>
