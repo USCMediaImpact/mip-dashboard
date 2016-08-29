@@ -42,7 +42,7 @@
             <div class="row">
                 <fieldset class="small-12 column">
                     <legend>Client:</legend>
-                    <select style="width: 400px;" name="client_id">
+                    <select style="width: 100%;" name="client_id">
                         @foreach($clients as $row)
                         <option value="{{ $row['id'] }}">{{ $row['name'] }}</option>
                         @endforeach
