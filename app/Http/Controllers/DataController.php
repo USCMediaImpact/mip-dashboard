@@ -398,8 +398,8 @@ class DataController extends AuthenticatedBaseController{
 
         return view('data.' . $client_code . '.newsletter', [
             'have_data' => $count > 0,
-            'min_date' => mktime(0, 0, 0, $min_date['month'], $min_date['day'], $min_date['year']),
-            'max_date' => mktime(0, 0, 0, $max_date['month'], $max_date['day'], $max_date['year']),
+            'min_date' => $min_date,
+            'max_date' => $max_date,
             'date_range_min' => $date_range_min,
             'date_range_max' => $date_range_max,
             'group' => $group,
@@ -413,7 +413,7 @@ class DataController extends AuthenticatedBaseController{
             $client_code.'_data_newsletter_',
             $this::$DataNewsLetterField[$client_code],
             function($query){
-                return $query->groupby('date', 'List');
+                return $query->groupby('List');
             });
     }
 
@@ -424,7 +424,7 @@ class DataController extends AuthenticatedBaseController{
             $this::$DataNewsLetterField[$client_code],
             $this::$DataNewsLetterColumn[$client_code],
             function($query){
-                return $query->group('date');
+                return $query->group('List');
             });
     }
 
