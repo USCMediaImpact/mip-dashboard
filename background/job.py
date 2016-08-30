@@ -9,6 +9,7 @@ import mySqlClient
 from query import mysql
 import json
 import hashlib
+from cloudStorage import download
 
 DIMESIONS = {
 	'daily': 'ga:date',
@@ -193,3 +194,24 @@ def _run_data_quality(client_id, code, setting, min_date, max_date, dimension):
 def _run_data_newsletter(client_id, code, date):
 	file_name = '%s_%s_mailchimp_stats.csv' % (date, code, )
 	logging.debug('run newsletter csv import for file: ' % (file_name,))
+
+	with open('./tmp.csv', 'wb') as file_obj:
+		download(bucket_name='mip-newsletter-data', 
+			path='Jul_28_2016_texas_tribune_mailchimp_stats.csv', 
+			file_obj=file_obj)
+	with open('./tmp.csv', 'rb') as file_obj:
+		spamreader = csv.reader(file_obj)
+		sql = mysql.data_newsletter[code].format(dimension=dimension)
+		db = mySqlClient.get_db()
+		cursor = db.cursor()
+		cursor.execute('SET NAMES utf8;')
+		cursor.execute('SET CHARACTER SET utf8;')
+		cursor.execute('SET character_set_connection=utf8;')
+		for row in spamreader:
+			row[3] = datetime.strptime(row[3], '%m/%d/%Y %H:%M')
+			row[13] = float(row[13].replace('%', 0)) / 100
+			row[16] = float(row[16].replace('%', 0)) / 100
+			cursor.execute(sql, row)
+		db.commit()
+		cursor.close()
+		db.close()

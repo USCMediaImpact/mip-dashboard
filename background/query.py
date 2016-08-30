@@ -35,3 +35,10 @@ class mysql:
 			''' ON DUPLICATE KEY UPDATE '''
 			'''`GA_Users` = %s, `MIP_Users` = %s, `I_inDatabaseCameToSite` = %s, `K_inDatabaseCameToSite` = %s, `I_notInDatabaseCameToSite` = %s, `K_notInDatabaseCameToSite` = %s, `I_newSubscriberCameThroughEmail` = %s, `K_newSubscriberCameThroughEmail` = %s, `I_SubscribersThisWeek` = %s, `K_SubscribersThisWeek` = %s, `I_NewSubscribers` = %s, `K_NewSubscribers` = %s, `I_TotalDatabaseSubscribers` = %s, `K_TotalDatabaseSubscribers` = %s, `K_PercentDatabaseSubscribersWhoCame` = %s, `EmailNewsletterClicks` = %s, `I_databaseDonorsWhoVisited` = %s, `K_databaseDonorsWhoVisited` = %s, `I_donatedOnSiteForFirstTime` = %s, `K_donatedOnSiteForFirstTime` = %s, `I_totalDonorsOnSiteThisWeek` = %s, `K_totalDonorsOnSiteThisWeek` = %s, `I_totalDonorsInDatabase` = %s, `K_totalDonorsInDatabase` = %s, `K_percentDatabaseDonorsWhoCame` = %s, `K_individualsWhoCameThisWeek` = %s, `K_individualsInDatabase` = %s, `K_percentDatabaseIndividualsWhoCame` = %s, `Total_Identified_Donors_This_Week` = %s, `I_databaseMembersWhoVisited` = %s, `K_databaseMembersWhoVisited` = %s, `I_loggedInOnSiteForFirstTime` = %s, `K_loggedInOnSiteForFirstTime` = %s, `I_totalMembersOnSiteThisWeek` = %s, `K_totalMembersOnSiteThisWeek` = %s, `I_totalMembersInDatabase` = %s, `K_totalMembersInDatabase` = %s, `K_percentDatabaseMembersWhoCame` = %s''')
 	}
+	data_newsletter = {
+		'TT' : ('''INSERT INTO `TT_data_newsletter_{dimension}`( '''
+			'''`id`, `date`, `Title`, `Subject`, `List`, `Send_Date`, `Send_Weekday`, `Total_Recipients`, `Successful_Deliveries`, `Soft_Bounces`, '''
+			'''`Hard_Bounces`, `Total_Bounces`, `Times_Forwarded`, `Forwarded_Opens`, `Unique_Opens`, `Open_Rate`, `Total_Opens`, `Unique_Clicks`,'''
+			'''`Click_Rate`, `Total_Clicks`, `Unsubscribes`, `Abuse_Complaints`, `Times_Liked_on_Facebook`)'''
+			'''VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''')
+	}
