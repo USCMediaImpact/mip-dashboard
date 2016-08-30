@@ -192,7 +192,7 @@ def _run_data_quality(client_id, code, setting, min_date, max_date, dimension):
 
 def _run_data_newsletter(file_name, code, date):
 	logging.debug('run newsletter csv import for file: %s' % (file_name,))
-	import os
+	import os, csv
 	try:
 		os.remove('./tmp.csv')
 	except OSError:
