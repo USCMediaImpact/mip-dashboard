@@ -118,3 +118,7 @@ def run_history():
 	# 	max_month = add_months(min_month, 1) - timedelta(1)
 
 	logging.info('run history job finished')
+
+#---------newsletter csv task ---------#
+def run_newsletter():
+	job._run_data_newsletter('Jul_28_2016_texas_tribune_mailchimp_stats.csv', 'TT', 'weekly')
