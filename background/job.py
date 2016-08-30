@@ -213,8 +213,8 @@ def _run_data_newsletter(file_name, code, dimension):
 		spamreader.next()
 		for row in spamreader:
 			date = datetime.strptime(row[3], '%m/%d/%Y %H:%M')
-			row[13] = float(row[13].replace('%', 0)) / 100
-			row[16] = float(row[16].replace('%', 0)) / 100
+			row[13] = float(row[13].replace('%', '')) / 100
+			row[16] = float(row[16].replace('%', '')) / 100
 			row.insert(0, date)
 			cursor.execute(sql, row)
 		db.commit()
