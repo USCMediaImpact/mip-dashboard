@@ -210,6 +210,7 @@ def _run_data_newsletter(file_name, code, dimension):
 		cursor.execute('SET NAMES utf8;')
 		cursor.execute('SET CHARACTER SET utf8;')
 		cursor.execute('SET character_set_connection=utf8;')
+		spamreader.next()
 		for row in spamreader:
 			date = datetime.strptime(row[3], '%m/%d/%Y %H:%M')
 			row[13] = float(row[13].replace('%', 0)) / 100
