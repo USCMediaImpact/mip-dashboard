@@ -216,7 +216,7 @@ def _run_data_newsletter(file_name, code, dimension):
 			row[13] = float(row[13].replace('%', '')) / 100
 			row[16] = float(row[16].replace('%', '')) / 100
 			row.insert(0, date)
-			cursor.execute(sql, row)
+			cursor.execute(sql, row[0:22])
 		db.commit()
 		cursor.close()
 		db.close()

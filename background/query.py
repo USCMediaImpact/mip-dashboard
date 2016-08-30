@@ -40,5 +40,5 @@ class mysql:
 			'''`date`, `Title`, `Subject`, `List`, `Send_Date`, `Send_Weekday`, `Total_Recipients`, `Successful_Deliveries`, `Soft_Bounces`, '''
 			'''`Hard_Bounces`, `Total_Bounces`, `Times_Forwarded`, `Forwarded_Opens`, `Unique_Opens`, `Open_Rate`, `Total_Opens`, `Unique_Clicks`,'''
 			'''`Click_Rate`, `Total_Clicks`, `Unsubscribes`, `Abuse_Complaints`, `Times_Liked_on_Facebook`)'''
-				'''VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''')
+			'''VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''')
 	}
