@@ -10,6 +10,7 @@ from query import mysql
 import json
 import hashlib
 from cloudStorage import download
+import dateparser
 
 DIMESIONS = {
 	'daily': 'ga:date',
@@ -212,7 +213,7 @@ def _run_data_newsletter(file_name, code, dimension):
 		cursor.execute('SET character_set_connection=utf8;')
 		spamreader.next()
 		for row in spamreader:
-			date = datetime.strptime(row[3], '%m/%d/%Y %H:%M')
+			date = dateparser.parse(row[3]).strftime('%Y-%m-%d %H:%M:%S')
 			row[13] = float(row[13].replace('%', '')) / 100
 			row[16] = float(row[16].replace('%', '')) / 100
 			row.insert(0, date)
