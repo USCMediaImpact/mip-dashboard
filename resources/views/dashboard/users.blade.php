@@ -28,9 +28,9 @@
                             
                         </div>
                     </div>
-                    <div class="row small-up-2 medium-up-4 board">
+                    <div class="row small-up-2 medium-up-4 board" data-equalizer>
                         <div class="column align-self-middle text-center">
-                            <div class="box">
+                            <div class="box" data-equalizer-watch>
                                 <div class="box-content">
                                     <label class="number has-tip top" data-tooltip aria-haspopup="true"  title="Email Subscribers or Donors on Site">
                                         {{number_format($dataBox1To4[0]->Unduplicated_TotalUsersKPI)}}
@@ -43,7 +43,7 @@
                             </div>
                         </div>
                         <div class="column align-self-middle text-center">
-                            <div class="box">
+                            <div class="box" data-equalizer-watch>
                                 <div class="box-content">
                                     <label class="number has-tip top" data-tooltip aria-haspopup="true"  title="Email Subscribers or Donors in Database">
                                         {{number_format($dataBox1To4[0]->Unduplicated_Database_TotalUsersKPI)}}
@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         <div class="column align-self-middle text-center">
-                            <div class="box">
+                            <div class="box" data-equalizer-watch>
                                 <div class="box-content">
                                     <label class="number has-tip top" data-tooltip aria-haspopup="true"  title="Email Subscribers or Donors in Database that Visited the Site">
                                         {{$formatter->showAsPercent($dataBox1To4[0]->Loyal_Users_On_Site)}}
@@ -70,7 +70,8 @@
                             </div>                         
                         </div>
                         <div class="column align-self-middle">
-                            <div class="box">
+                            <div class="box" data-equalizer-watch>
+                                <div class="title text-center">Loyal Users</div>
                                 <div id="box4" class="chart"></div>
                             </div>
                         </div>

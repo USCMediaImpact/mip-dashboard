@@ -133,6 +133,7 @@ z-index: 2; opacity: 0; cursor: pointer; }
 @media (min-width:1900px) {
 	.card-columns { -webkit-column-count: 5; -moz-column-count: 5; column-count: 5; }
 }
+.box .title { display: block; }
 .card-columns .card { display: inline-block; width: 100%; position: relative; margin-bottom: 0.75rem; }
 .data-exception .box { border: solid 1px #ddd; box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.1); padding: 10px; position: relative; margin: 10px 0; }
 .data-exception .box:hover, .data-exception .box:active, .data-exception .box.active { border-color: #A6B8C6; }
