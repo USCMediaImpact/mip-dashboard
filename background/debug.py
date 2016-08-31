@@ -121,4 +121,4 @@ def run_history():
 
 #---------newsletter csv task ---------#
 def run_newsletter():
-	job._run_data_newsletter('Jul_28_2016_texas_tribune_mailchimp_stats.csv', 'TT', 'weekly')
+	job._run_data_newsletter('Aug_30_2016_texas_tribune_mailchimp_stats.csv', 'TT', 'weekly')
