@@ -214,6 +214,7 @@ def _run_data_newsletter(file_name, code, dimension):
 		spamreader.next()
 		for row in spamreader:
 			date = dateparser.parse(row[3]).strftime('%Y-%m-%d %H:%M:%S')
+			row[3] = date
 			row[13] = float(row[13].replace('%', '')) / 100
 			row[16] = float(row[16].replace('%', '')) / 100
 			row.insert(0, date)
