@@ -1,24 +1,29 @@
 @extends('layouts.main')
 
 @section('content')
-    <form action="">
     <div class="row">
         <div class="small-12 column">
-            <div class="table-wrapper">
-                <div class="table-toolbar">
-                    <button class="button btnNew">
-                        <i class="fa fa-user-plus margin-right-sm"></i>
-                        <span>Add Client</span>
-                    </button>    
+            <div class="panel client-info">
+                <div class="top-bar">
+                    <div class="top-bar-left">
+                        Clients
+                    </div>
+                    <div class="top-bar-right">
+                        <button class="button btnNew small">
+                            <i class="fa fa-user-plus margin-right-sm"></i>
+                            <span>Add Client</span>
+                        </button>  
+                    </div>
                 </div>
-                <table class="dataTable accountTable">
+            
+                <table class="clientTable report">
                     <thead>
                         <tr>
-                            <td>Name</td>
-                            <td>Code</td>
-                            <td>WebSite</td>
-                            <td>Create Date</td>
-                            <td>Action</td>
+                            <th>Name</th>
+                            <th>Code</th>
+                            <th>WebSite</th>
+                            <th>Create Date</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,9 +74,10 @@
         /**
          * init account datatable
          */
-        var dataTable = $('.dataTable').DataTable({
+        var dataTable = $('.clientTable').DataTable({
             'processing': true,
             'serverSide': true,
+            'searching': false,
             'ajax': '/admin/client/all',
             'dom': 'Bfrtip',
             'columns': [{
@@ -114,7 +120,7 @@
         $(document).on('click', '.btnEdit, .btnNew', function () {
             var clientId = $(this).attr('clientId'),
                 dialog = $('#editModal'),
-                form = dialog.find('form');
+                form = $('form', dialog);
             if (clientId) {
                 $.getJSON('/admin/client/' + clientId).done(function (result) {
                     form[0].reset();
@@ -131,6 +137,7 @@
                 dialog.find('.title').text('New Client');
                 dialog.foundation('open');
             }
+            return false;
         });
 
         /**

@@ -67,7 +67,7 @@
                         Users
                     </div>
                     <div class="top-bar-right">
-                        <button class="button" data-open="inviteUserModal">
+                        <button class="button small" data-open="inviteUserModal">
                             <i class="fa fa-user-plus margin-right-sm"></i>
                             <span>Invite User</span>
                         </button>  

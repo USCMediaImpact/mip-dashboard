@@ -34,21 +34,27 @@
                             <div class="row">
                                 <div class="small-12 columns date">{{date('m/d/Y h:i A', strtotime($item->created_at))}}</div>
                                 <div class="small-12 columns title">
-                                    {{$item->title}}
+                                    {{$item->title ?: 'N/A'}}
                                 </div>
                                 <div class="small-12 columns">
                                     <label>DATA IMPACT
-                                        <div class="input">{{$item->data_impact}}</div>
+                                        <div class="input">{{$item->data_impact ?: 'N/A'}}</div>
                                     </label>
                                 </div>
                                 <div class="small-12 columns">
                                     <label>RESOLUTION
-                                        <div class="input">{{$item->resolution}}</div>
+                                        <div class="input">{{$item->resolution ?: 'N/A'}}</div>
                                     </label>
                                 </div>
                                 <div class="small-12 columns">
                                     <label>IMPACTED DATES
-                                        <div class="input">{{date('m/d/Y', strtotime($item->begin_date))}} to {{date('m/d/Y', strtotime($item->end_date))}}</div>
+                                        @if($item->begin_date && $item->end_date)
+                                            <div class="input">
+                                                {{date('m/d/Y', strtotime($item->begin_date))}} to {{date('m/d/Y', strtotime($item->end_date))}}
+                                            </div>
+                                        @else
+                                            <div class="input">N/A</div>
+                                        @endif
                                     </label>
                                 </div>
                                 <div class="small-12 columns">
@@ -107,7 +113,8 @@
             </div>
             <div class="small-12 column">
                 <div class="button-group float-right">
-                    <button class="button success btnNewSave">Save</button>
+                    <button class="button success btnAddSave">Save</button>
+                    <button class="button success btnNewSave">Save &amp; New</button>
                     <button class="button alert closeModal">Cancel</button>
                 </div>
             </div>
@@ -201,14 +208,14 @@
             $('#newModal').foundation('open');
             return false;
         });
-        $(document).on('click', '.btnNewSave', function(){
+        $(document).on('click', '.btnAddSave', function(){
             var dialog = $(this).parents('.reveal'),
                 title = $('[name="title"]', dialog).val(),
                 dataImpact = $('[name="data_impact"]', dialog).val(),
                 resolution = $('[name="resolution"]', dialog).val(),
                 dateRange = $('.no_event_date_range', dialog).daterangepicker('getRange'),
-                beginDate = moment(dateRange.start).format('YYYY-MM-DD'),
-                endDate = moment(dateRange.end).format('YYYY-MM-DD');
+                beginDate = dateRange ? moment(dateRange.start).format('YYYY-MM-DD') : null,
+                endDate = dateRange ? moment(dateRange.end).format('YYYY-MM-DD') : null;
             $.ajax({
                 'url': '/management/data-exception/new',
                 'method': 'POST',
@@ -222,6 +229,35 @@
                 }
             }).done(function(result){
                 window.location = '/management/data-exception';
+            });
+            return false;
+        });
+        $(document).on('click', '.btnNewSave', function(){
+            var dialog = $(this).parents('.reveal'),
+                title = $('[name="title"]', dialog).val(),
+                dataImpact = $('[name="data_impact"]', dialog).val(),
+                resolution = $('[name="resolution"]', dialog).val(),
+                dateRange = $('.no_event_date_range', dialog).daterangepicker('getRange'),
+                beginDate = dateRange ? moment(dateRange.start).format('YYYY-MM-DD') : null,
+                endDate = dateRange ? moment(dateRange.end).format('YYYY-MM-DD') : null;
+            $.ajax({
+                'url': '/management/data-exception/new',
+                'method': 'POST',
+                'data': {
+                    '_token': '{!! csrf_token() !!}',
+                    'title': title,
+                    'data_impact': dataImpact,
+                    'resolution': resolution,
+                    'begin_date': beginDate,
+                    'end_date': endDate
+                }
+            }).done(function(result){
+                $('[name="title"]', dialog).val('');
+                $('[name="data_impact"]', dialog).val('');
+                $('[name="resolution"]', dialog).val('');
+                $('.closeModal', dialog).off('click').one('click', function(event) {
+                    window.location = '/management/data-exception';
+                });
             });
             return false;
         });
@@ -253,8 +289,8 @@
                 dataImpact = $('[name="data_impact"]', dialog).val(),
                 resolution = $('[name="resolution"]', dialog).val(),
                 dateRange = $('.no_event_date_range', dialog).daterangepicker('getRange'),
-                beginDate = moment(dateRange.start).format('YYYY-MM-DD'),
-                endDate = moment(dateRange.end).format('YYYY-MM-DD'),
+                beginDate = dateRange ? moment(dateRange.start).format('YYYY-MM-DD') : null,
+                endDate = dateRange ? moment(dateRange.end).format('YYYY-MM-DD') : null,
                 resolved = $('[name="resolved"]', dialog).prop('checked') == true ? 1 : 0;
             $.ajax({
                 'url': '/management/data-exception/edit',
@@ -310,7 +346,6 @@
             downloadForm.remove();
             return false;
         });
-
         $(document).on('daterange_change', '.panel', function(){
             $('#dateChangeForm').submit();
         });

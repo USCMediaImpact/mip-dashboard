@@ -52,8 +52,8 @@ class DataExceptionController extends AuthenticatedBaseController
             'title' => $request['title'],
             'data_impact' => $request['data_impact'],
             'resolution' => $request['resolution'],
-            'begin_date' => $request['begin_date'],
-            'end_date' => $request['end_date']
+            'begin_date' => $request['begin_date'] ?: null,
+            'end_date' => $request['end_date'] ?: null
         ]);
     }
 
@@ -71,8 +71,8 @@ class DataExceptionController extends AuthenticatedBaseController
                 'title' => $request['title'],
                 'data_impact' => $request['data_impact'],
                 'resolution' => $request['resolution'],
-                'begin_date' => $request['begin_date'],
-                'end_date' => $request['end_date'],
+                'begin_date' => $request['begin_date'] ?: null,
+                'end_date' => $request['end_date'] ?: null,
                 'resolved' => $request['resolved'] == 'true' ? true : false
             ]);
             return [

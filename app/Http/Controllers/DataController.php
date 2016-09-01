@@ -400,8 +400,8 @@ class DataController extends AuthenticatedBaseController{
             'have_data' => $count > 0,
             'min_date' => $min_date,
             'max_date' => $max_date,
-            'date_range_min' => $date_range_min,
-            'date_range_max' => $date_range_max,
+            'date_range_min' => date('Y-m-d', $date_range_min),
+            'date_range_max' => date('Y-m-d', $date_range_max),
             'group' => $group,
             'displayGroupName' => self::$groupDisplay[$group]
         ]);

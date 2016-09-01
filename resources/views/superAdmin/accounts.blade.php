@@ -13,7 +13,6 @@
                     </div>
                 </div>
                 <div class="row">
-                    
                     <div class="small-12 columns">
                         <table class="report">
                             <thead>
@@ -70,16 +69,16 @@
                         </button>  
                     </div>
                 </div>
-                <table class="dataTable">
+                <table class="accountTable report">
                     <thead>
                         <tr>
-                            <td>Client</td>
-                            <td>Email</td>
-                            <td>Name</td>
-                            <td>Roles</td>
-                            <td>Created</td>
+                            <th>Client</th>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Roles</th>
+                            <th>Created</th>
                             <th>Last Active</th>
-                            <td>Action</td>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -234,7 +233,7 @@
         /**
          * init account datatable
          */
-        var dataTable = $('.dataTable').DataTable({
+        var dataTable = $('.accountTable').DataTable({
             'processing': true,
             'serverSide': true,
             'searching': false,
