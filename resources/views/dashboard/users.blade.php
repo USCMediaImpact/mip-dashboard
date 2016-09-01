@@ -117,8 +117,8 @@
                 showOtherMonths: true,
                 selectOtherMonths: true,
                 onSelect: function (date, el) {
-                    var form = $('#dateRangeDashboard').parents('form');
-                    min_date = moment(date, 'MM/DD/YYYY').day(0),
+                    var form = $('#dateRangeDashboard').parents('form'),
+                        min_date = moment(date, 'MM/DD/YYYY').day(0),
                         max_date = moment(date, 'MM/DD/YYYY').day(6);
                     $('#dateRangeDashboard').daterangepicker('setRange', {
                         start: min_date.toDate(),
@@ -126,11 +126,20 @@
                     });
                     $('#dateRangeDashboard').daterangepicker('close');
                     $('input[name="min_date"]', form).val(min_date.format('YYYY-MM-DD'));
-                    $('input[name="max_date"]', form).val(min_date.format('YYYY-MM-DD'));
+                    $('input[name="max_date"]', form).val(max_date.format('YYYY-MM-DD'));
                     form.submit();
                 }
             }
         });
+        /**
+         * set default range
+         */
+        if(!$('#dateRangeDashboard').daterangepicker('getRange')){
+            $('#dateRangeDashboard').daterangepicker('setRange', {
+                start: moment('{{date('Y-m-d', $min_date)}}').toDate(),
+                end: moment('{{date('Y-m-d', $max_date)}}').toDate()
+            });
+        }
         AmCharts.makeChart('box4', {
             type: 'pie',
             theme: 'light',
@@ -201,8 +210,41 @@
                 "gridAlpha": 0,
                 "position": "right",
             }],
+            chartCursor: {
+                oneBalloonOnly: true
+            },
             graphs: [{
-                balloonText: '[[title]]<br />[[category]]:[[value]]',
+                balloonFunction: function(item, graph){
+                    var html = '<div class="text-left">';
+                    html += 'Came To Site Through Email: ';
+                    html += AmCharts.formatNumber(item.dataContext.CameToSiteThroughEmail, {
+                        precision: 2, 
+                        decimalSeparator: '.', 
+                        thousandsSeparator: ','
+                    }, 0);
+                    html += '<br />';
+                    html += 'Total Donors This Week: ';
+                    html += AmCharts.formatNumber(item.dataContext.TotalDonorsThisWeek, {
+                        precision: 2, 
+                        decimalSeparator: '.', 
+                        thousandsSeparator: ','
+                    }, 0);
+                    html += '<br />';
+                    html += 'Loyal Users for Week of <br />';
+                    html += moment(item.dataContext.LastYearDate).format('MMM D, YYYY');
+                    html += ': ';
+                    if(item.dataContext.LastYearTotal){
+                        html += AmCharts.formatNumber(item.dataContext.LastYearTotal, {
+                            precision: 2, 
+                            decimalSeparator: '.', 
+                            thousandsSeparator: ','
+                        }, 0);
+                    }else{
+                        html += 'N/A';
+                    }
+                    html += '</div>'
+                    return html;
+                },
                 fillAlphas: 0.8,
                 labelText: '[[value]]',
                 lineAlpha: 0.3,
@@ -213,6 +255,7 @@
                 valueField: 'CameToSiteThroughEmail'
             }, {
                 balloonText: '[[title]]<br />[[category]]:[[value]]',
+                showBalloon: false,
                 fillAlphas: 0.8,
                 labelText: '[[value]]',
                 lineAlpha: 0.3,
@@ -223,6 +266,7 @@
                 valueField: 'TotalDonorsThisWeek'
             }, {
                 balloonText: '[[title]] for Week of <br />[[category]]:<b>[[value]]</b>',
+                showBalloon: false,
                 bullet: 'round',
                 lineThickness: 3,
                 bulletSize: 7,
@@ -284,6 +328,9 @@
                 axisAlpha: 0.3,
                 gridAlpha: 0
             }],
+            chartCursor: {
+                oneBalloonOnly: true
+            },
             graphs: [{
                 balloonText: '[[title]]:[[value]]',
                 bullet: 'round',

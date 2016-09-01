@@ -169,7 +169,8 @@ class DashboardController extends AuthenticatedBaseController{
                 'date' => $range[$i],
                 'TotalDonorsThisWeek' => array_key_exists($rangeKey, $dataBox5KV) ? $dataBox5KV[$rangeKey]['TotalDonorsThisWeek'] : null,
                 'CameToSiteThroughEmail' => array_key_exists($rangeKey, $dataBox5KV) ? $dataBox5KV[$rangeKey]['CameToSiteThroughEmail'] : null,
-                'LastYearTotal' => array_key_exists($compareKey, $dataBox5CompareKV) ? $dataBox5CompareKV[$compareKey] : null
+                'LastYearTotal' => array_key_exists($compareKey, $dataBox5CompareKV) ? $dataBox5CompareKV[$compareKey] : null,
+                'LastYearDate' => $compareKey
             ];
 
             $changes = null;
