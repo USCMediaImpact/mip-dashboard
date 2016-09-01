@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Client;
 use App\Http\Controllers\AuthenticatedBaseController;
+use Ramsey\Uuid\Uuid;
 
 class AccountController extends AuthenticatedBaseController
 {
