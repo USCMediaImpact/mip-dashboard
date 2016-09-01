@@ -207,17 +207,17 @@
             }, {
                 'targets': 2,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 3,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 4,
                 'render': function (data, type, row) {
-                	return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
+                	return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             } ]
         });
@@ -279,72 +279,72 @@
             }, {
                 'targets': 1,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 2,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 3,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 4,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 5,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 6,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 7,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 8,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 9,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 10,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 11,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 12,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 13,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 14,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }]
         });
@@ -396,47 +396,47 @@
             }, {
                 'targets': 1,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 2,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 3,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 4,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 5,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 6,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 7,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 8,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 9,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }]
         });
@@ -475,17 +475,17 @@
             }, {
                 'targets': 1,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 2,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 3,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
+                    return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             } ]
         });
@@ -536,47 +536,47 @@
             }, {
                 'targets': 1,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 2,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 3,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
+                    return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 4,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 5,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 6,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 7,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 8,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 9,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }]
         });

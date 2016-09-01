@@ -279,70 +279,70 @@
                 'targets': 1,
                 'width': 60,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data);
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 2,
                 'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
-                        return new Intl.NumberFormat().format(data);
+                        return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                     }
-                    return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
+                    return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 3,
                 'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
-                        return new Intl.NumberFormat().format(data);
+                        return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                     }
-                    return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
+                    return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 4,
                 'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
-                        return new Intl.NumberFormat().format(data);
+                        return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                     }
-                    return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
+                    return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 5,
                 'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
-                        return new Intl.NumberFormat().format(data);
+                        return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                     }
-                	return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
+                	return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 6,
                 'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
-                        return new Intl.NumberFormat().format(data);
+                        return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                     }
-                    return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
+                    return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 7,
                 'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
-                        return new Intl.NumberFormat().format(data);
+                        return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                     }
-                    return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
+                    return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 8,
                 
                 'render': function (data, type, row) {
                     if($('#dataStoriesScrollDepth').attr('mode') == 'count'){
-                        return new Intl.NumberFormat().format(data);
+                        return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                     }
-                    return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
+                    return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             } ]
         });
@@ -403,54 +403,54 @@
                 'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesTimeOnArticle').attr('mode') == 'count'){
-                        return new Intl.NumberFormat().format(data);
+                        return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                     }
-                	return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
+                	return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 3,
                 'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesTimeOnArticle').attr('mode') == 'count'){
-                        return new Intl.NumberFormat().format(data);
+                        return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                     }
-                	return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
+                	return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 4,
                 'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesTimeOnArticle').attr('mode') == 'count'){
-                        return new Intl.NumberFormat().format(data);
+                        return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                     }
-                	return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
+                	return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 5,
                 'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesTimeOnArticle').attr('mode') == 'count'){
-                        return new Intl.NumberFormat().format(data);
+                        return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                     }
-                	return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
+                	return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 6,
                 'width': 60,
                 'render': function (data, type, row) {
                     if($('#dataStoriesTimeOnArticle').attr('mode') == 'count'){
-                        return new Intl.NumberFormat().format(data);
+                        return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                     }
-                	return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
+                	return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 7,
                 
                 'render': function (data, type, row) {
                     if($('#dataStoriesTimeOnArticle').attr('mode') == 'count'){
-                        return new Intl.NumberFormat().format(data);
+                        return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                     }
-                	return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
+                	return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             }]
         });
@@ -553,7 +553,7 @@
                 'targets': 8,
                 'width': 60,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
+                    return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 9,
@@ -577,7 +577,7 @@
                 'targets': 12,
                 
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
+                    return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             }]
         });

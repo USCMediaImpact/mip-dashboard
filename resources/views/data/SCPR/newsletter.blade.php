@@ -2,51 +2,51 @@
 @extends('layouts.main')
 
 @section('content')
-	@if ($have_data)
-		<div class="row expanded">
-			<div class="column small-9">
-				<h4 class="title">Email Newsletters</h4>
+    @if ($have_data)
+        <div class="row expanded">
+            <div class="column small-9">
+                <h4 class="title">Email Newsletters</h4>
                 {{-- <h5 class="sub-title">with Data from MailChimp</h5> --}}
-			</div>
-		</div>
-		<div class="row expanded">
-			<div class="column small-12">
-				<div class="panel">
-					<div class="top-bar">
-						<div class="top-bar-left">
-							Email Newsletter Performance
-						</div>
-						<div class="top-bar-right">
+            </div>
+        </div>
+        <div class="row expanded">
+            <div class="column small-12">
+                <div class="panel">
+                    <div class="top-bar">
+                        <div class="top-bar-left">
+                            Email Newsletter Performance
+                        </div>
+                        <div class="top-bar-right">
                             @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-							<button class="button small btnDownload" action='/data/newsletter/csv'>Download</button>
-						</div>
-					</div>
-					<table id="dataNewsLetter" class="report tiny hover">
-			            <thead>
-			                <tr>
-			                	<th>Newsletter</th>
-			                    <th>Frequency</th>
-			                    <th>Deliveries</th>
-			                    <th>Opens</th>
-			   					<th>Unique Opens</th>
-			   					<th>Clicks</th>
+                            <button class="button small btnDownload" action='/data/newsletter/csv'>Download</button>
+                        </div>
+                    </div>
+                    <table id="dataNewsLetter" class="report tiny hover">
+                        <thead>
+                            <tr>
+                                <th>Newsletter</th>
+                                <th>Frequency</th>
+                                <th>Deliveries</th>
+                                <th>Opens</th>
+                                <th>Unique Opens</th>
+                                <th>Clicks</th>
                                 <th>Open Rate</th>
                                 <th>Click to Delivery Rate</th>
-                                <th>Average Total Clicks Per Unique Open</th>
-			                </tr>
-			            </thead>
-			            <tbody>
-
-			            </tbody>
-			        </table>
-		        </div>
-			</div>
-		</div>
+                                <th>Avg Total Clicks per Unique Opens</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     @else
-		<div class="small-12 column">
-	        <div>Email Newsletter Coming soon.</div>
-	    </div>
-	@endif
+        <div class="small-12 column">
+            <div>Data Users Coming soon.</div>
+        </div>
+    @endif
 @endsection
 
 @section('script')
@@ -58,90 +58,91 @@
         }
     };
     ReportDataTable = {};
-	$(function(){
-		ReportDataTable['dataNewsLetter'] = $('#dataNewsLetter').DataTable({
+    $(function(){
+        ReportDataTable['dataNewsLetter'] = $('#dataNewsLetter').DataTable({
             'processing': true,
             'serverSide': true,
             'searching': false,
             "order": [[ 0, "desc" ]],
             'ajax': {
-	            'url': '/data/newsletter',
-	            'type': 'POST',
-	            'data': function(data){
+                'url': '/data/newsletter',
+                'type': 'POST',
+                'data': function(data){
                     var panel = $('#dataNewsLetter').parents('.panel');
-	            	return $.extend({
-	            		'min_date': $('[name="min_date"]', panel).val(),
-						'max_date': $('[name="max_date"]', panel).val(),
-	            	}, data);
-	            }
-	        },
+                    return $.extend({
+                        'min_date': $('[name="min_date"]', panel).val(),
+                        'max_date': $('[name="max_date"]', panel).val(),
+                    }, data);
+                }
+            },
             'dom': 'Bfrtip',
             'columns': [{
-                'data': 'date'
+                'data': 'List'
             }, {
-                'data': ''
+                'data': 'Total_Recipients'
             }, {
-                'data': ''
+                'data': 'Successful_Deliveries'
             }, {
-                'data': ''
+                'data': 'Total_Opens'
             }, {
-                'data': ''
+                'data': 'Unique_Opens'
             }, {
-                'data': ''
+                'data': 'Total_Clicks'
             }, {
-                'data': ''
+                'data': 'Open_Rate'
             }, {
-                'data': ''
+                'data': 'Cick_To_Delivery_Rate'
             }, {
-                'data': ''
+                'data': 'Average_Total_Clicks_Per_Unique_Open'
             }],
             'columnDefs': [{
                 'targets': 0,
+                'width': 320,
                 'render': function (data, type, row) {
                     return data;
                 }
             }, {
                 'targets': 1,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 2,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 3,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 4,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 5,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 6,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 7,
                 'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
+                    return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             }, {
                 'targets': 8,
                 'render': function (data, type, row) {
-                	return new Intl.NumberFormat('en-US', {style: 'percent', minimumFractionDigits: 0}).format(data);
+                    return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             } ]
         });
-	});
+    });
 </script>
 @endsection
