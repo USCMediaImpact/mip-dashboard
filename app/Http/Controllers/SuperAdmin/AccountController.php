@@ -14,6 +14,8 @@ use Ramsey\Uuid\Uuid;
 
 class AccountController extends AuthenticatedBaseController
 {
+    static $bucket = 'mip-dashboard-upload';
+    
     public function __construct()
     {
         parent::__construct();
