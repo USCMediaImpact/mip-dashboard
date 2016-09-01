@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 import logging
 from datetime import datetime
 from datetime import date
@@ -9,6 +12,8 @@ import mySqlClient
 from query import mysql
 import json
 import hashlib
+from cloudStorage import download
+import dateparser
 
 DIMESIONS = {
 	'daily': 'ga:date',
@@ -49,7 +54,6 @@ def run(min_date, max_date, dimension):
 	client_settings = mySqlClient.query_client_settings()
 	
 	for client in client_settings:
-		
 		clientId = client[0]
 		code = client[1]
 		setting = json.loads(client[2])
@@ -190,6 +194,34 @@ def _run_data_quality(client_id, code, setting, min_date, max_date, dimension):
 
 	mySqlClient.insert_mysql(sql, [sql_data])
 
-def _run_data_newsletter(client_id, code, date):
-	file_name = '%s_%s_mailchimp_stats.csv' % (date, code, )
-	logging.debug('run newsletter csv import for file: ' % (file_name,))
+def _run_data_newsletter(file_name, code, dimension):
+	logging.debug('run newsletter csv import for file: %s' % (file_name,))
+	import os, csv
+	try:
+		os.remove('./tmp.csv')
+	except OSError:
+		pass
+
+	with open('./tmp.csv', 'wb') as file_obj:
+		download(bucket_name='mip-newsletter-data', 
+			path=file_name,
+			file_obj=file_obj)
+	with open('./tmp.csv', 'rb') as file_obj:
+		spamreader = csv.reader(file_obj)
+		sql = mysql.data_newsletter[code].format(dimension=dimension)
+		db = mySqlClient.get_db()
+		cursor = db.cursor()
+		cursor.execute('SET NAMES utf8;')
+		cursor.execute('SET CHARACTER SET utf8;')
+		cursor.execute('SET character_set_connection=utf8;')
+		spamreader.next()
+		for row in spamreader:
+			date = dateparser.parse(row[3]).strftime('%Y-%m-%d %H:%M:%S')
+			row[3] = date
+			row[13] = float(row[13].replace('%', '')) / 100
+			row[16] = float(row[16].replace('%', '')) / 100
+			row.insert(0, date)
+			cursor.execute(sql, row[0:22])
+		db.commit()
+		cursor.close()
+		db.close()
