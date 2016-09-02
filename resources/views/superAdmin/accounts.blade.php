@@ -53,7 +53,7 @@
                                 <tr>
                                     <td>{{$detail->name}}</td>
                                     <td>Logo File</td>
-                                    <td><a href="/storage/{{$detail->code}}/logo" target="_blank;"></a></td>
+                                    <td><a href="/storage/{{$detail->code}}/logo" target="_blank;">{{$detail->logo}}</a></td>
                                     <td></td>
                                 </tr>
                                 @endif
