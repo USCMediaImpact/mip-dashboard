@@ -60,6 +60,9 @@ Route::post('auth/detail', 'Auth\AccountController@saveClientInfo');
 // Demo routes...
 Route::match(['get', 'post'], '/', 'DashboardController@show');
 
+//google storage static routes no need login
+Route::get('/storage/{client_code}/logo', 'StorageController@showLogo');
+
 // Main routes...
 Route::match(['get', 'post'], '/reports/content', 'ReportsController@showContent');
 Route::match(['get', 'post'], '/reports/users', 'ReportsController@showUsers');

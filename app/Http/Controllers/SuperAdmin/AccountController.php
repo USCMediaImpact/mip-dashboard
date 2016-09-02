@@ -11,11 +11,12 @@ use App\Models\Role;
 use App\Models\Client;
 use App\Http\Controllers\AuthenticatedBaseController;
 use Ramsey\Uuid\Uuid;
+use Google\Cloud\Storage\StorageClient;
 
 class AccountController extends AuthenticatedBaseController
 {
     static $bucket = 'mip-dashboard-upload';
-    
+
     public function __construct()
     {
         parent::__construct();
@@ -78,6 +79,12 @@ class AccountController extends AuthenticatedBaseController
                 'ga' => $request['ga'],
             ]);
             if($_FILES['logo']['tmp_name']){
+                $storage = new StorageClient([
+                    'projectId' => 'mip-dashboard'
+                ]);
+                $bucket = $storage->bucket($this::$bucket);
+
+
                 $name = $_FILES['logo']['name'];
                 $extension = pathinfo($name)['extension'];
                 $uploadFile = $_FILES['logo']['tmp_name'];

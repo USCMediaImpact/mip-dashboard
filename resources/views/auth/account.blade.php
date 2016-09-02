@@ -15,7 +15,11 @@
                 </div>
                 <div class="row">
                     <div class="small-12 columns">
-                        <i class="fa fa-flag-star"></i>
+                        @if($detail->logo)
+                            <img src="/storage/{{$detail->code}}/logo" style="max-height: 64px" />
+                        @else
+                            <i class="fa fa-flag-star"></i>
+                        @endif
                         <span class="title">{{$detail->name}}</h3>
                     </div>
                     <div class="small-12 columns">

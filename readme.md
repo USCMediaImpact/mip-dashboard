@@ -90,4 +90,10 @@ For safe used these variable better check before use it in view
 ###Other Tools###
 Google Analytics Query Tools [https://ga-dev-tools.appspot.com/query-explorer/](https://ga-dev-tools.appspot.com/query-explorer/)
 
+###GCloud Library###
+there was 2 kind of google libaray. one is gogole api libaray another is this. for now seem this library is not good enough but we have more options. keep eyes on these.
+https://googlecloudplatform.github.io
+(PHP)[https://googlecloudplatform.github.io/google-cloud-php/#/]
+(Python)[https://googlecloudplatform.github.io/gcloud-python/#/]
+
 ###COMMIT TEST###
