@@ -92,6 +92,9 @@ class AccountController extends AuthenticatedBaseController
                 $bucket = $this::$bucket;
                 $path = "gs://${bucket}/${client_code}/${guid}.${extension}";
                 move_uploaded_file($uploadFile, $path);
+                $client->update([
+                    'logo' => $path
+                ]);
             }
         }
         return redirect(action('SuperAdmin\AccountController@showPage'));

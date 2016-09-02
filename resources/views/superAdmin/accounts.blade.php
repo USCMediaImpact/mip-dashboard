@@ -49,6 +49,14 @@
                                     <td>{{$detail->ga}}</td>
                                 </tr>
                                 @endif
+                                @if($detail->logo)
+                                <tr>
+                                    <td>{{$detail->name}}</td>
+                                    <td>Logo File</td>
+                                    <td><a href="/storage/{{$detail->code}}/logo" target="_blank;"></a></td>
+                                    <td></td>
+                                </tr>
+                                @endif
                                 @endforeach
                             </tbody>
                         </table>
