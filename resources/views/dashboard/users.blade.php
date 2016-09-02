@@ -154,7 +154,7 @@
             labelsEnabled: false,
             radius: '42%',
             innerRadius: '60%',
-            balloonText: '[[title]] ([[value]] | [[percents]]%)',
+            balloonText: '[[title]]<br />([[value]] | [[percents]]%)',
             export: {
                 enabled: true
             }
