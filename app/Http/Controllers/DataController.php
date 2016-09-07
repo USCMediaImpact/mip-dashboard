@@ -372,12 +372,6 @@ class DataController extends AuthenticatedBaseController{
         'TT' => ['Newsletter', 'Frequency', 'Deliveries', 'Opens', 'Unique Opens', 'Clicks', 'Open Rate', 'Click to Delivery Rate', 'Avg Total Clicks per Unique Opens']
     ];
 
-    public static function getFirstDayOfWeek($date){
-        $weekOfNumber = date('w', $date);
-        return strtotime("-${weekOfNumber} days", $date);
-
-    }
-
     public function showNewsLetter(Request $request){
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];

@@ -46,6 +46,8 @@ Route::post('admin/client/setting', 'SuperAdmin\SettingController@save');
 Route::get('admin/detail', 'SuperAdmin\AccountController@loadClientInfo');
 Route::post('admin/detail', 'SuperAdmin\AccountController@saveClientInfo');
 
+Route::get('admin/maintain', 'SuperAdmin\MaintainController@showPage');
+
 // Admin management routes...
 Route::get('auth/account/management', 'Auth\AccountController@showAccount');
 Route::get('auth/account/all', 'Auth\AccountController@loadAccount');

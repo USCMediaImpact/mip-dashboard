@@ -20,6 +20,12 @@ class AuthenticatedBaseController extends Controller
         $this->middleware('clientInfo');
     }
 
+    protected static function getFirstDayOfWeek($date){
+        $weekOfNumber = date('w', $date);
+        return strtotime("-${weekOfNumber} days", $date);
+
+    }
+
     protected static $groupDisplay = [
         'daily' => 'By Date',
         'weekly' => 'By Week',
