@@ -52,8 +52,8 @@ class DataController extends AuthenticatedBaseController{
         $query = DB::table($client_code. '_data_users_' . $group);
 
         $count = $query->count();
-        $date_range_min = strtotime($query->min('date'));
-        $date_range_max = strtotime($query->max('date'));
+        $date_range_min = strtotime($query->where('ready', true)->min('date'));
+        $date_range_max = strtotime($query->where('ready', true)->max('date'));
         $date_range_max = strtotime('6 days', $date_range_max);
         $max_date = $date_range_max;
         $min_date = strtotime('-27 days', $max_date);
@@ -174,8 +174,8 @@ class DataController extends AuthenticatedBaseController{
         $query = DB::table($client_code. '_data_donations_' . $group);
 
         $count = $query->count();
-        $date_range_min = $query->min('date');
-        $date_range_max = $query->max('date');
+        $date_range_min = $query->where('ready', true)->min('date');
+        $date_range_max = $query->where('ready', true)->max('date');
 
         return view('data.' . $client_code . '.users', [
             'have_data' => $count > 0,
@@ -249,8 +249,8 @@ class DataController extends AuthenticatedBaseController{
         $query = DB::table($client_code. '_data_stories_' . $group);
         $count = $query->count();
 
-        $date_range_min = $query->min('date');
-        $last_week_begin = strtotime($query->max('date'));
+        $date_range_min = $query->where('ready', true)->min('date');
+        $last_week_begin = strtotime($query->where('ready', true)->max('date'));
         $last_week_end = strtotime('6 days', $last_week_begin);
         $date_range_max = date('Y-m-d', $last_week_end);
 
@@ -386,8 +386,8 @@ class DataController extends AuthenticatedBaseController{
         $query = DB::table($client_code. '_data_newsletter_' . $group);
         $count = $query->count();
 
-        $date_range_min = $query->min('date');
-        $date_range_max = $query->max('date');
+        $date_range_min = $query->where('ready', true)->min('date');
+        $date_range_max = $query->where('ready', true)->max('date');
 
         $date_range_min = $this::getFirstDayOfWeek(strtotime($date_range_min));
         $date_range_max_begin = $this::getFirstDayOfWeek(strtotime($date_range_max));
@@ -468,8 +468,8 @@ class DataController extends AuthenticatedBaseController{
         $query = DB::table($client_code. '_data_quality_' . $group);
 
         $count = $query->count();
-        $date_range_min = strtotime($query->min('date'));
-        $date_range_max = strtotime($query->max('date'));
+        $date_range_min = strtotime($query->where('ready', true)->min('date'));
+        $date_range_max = strtotime($query->where('ready', true)->max('date'));
         $date_range_max = strtotime('6 days', $date_range_max);
         $max_date = $date_range_max;
         $min_date = strtotime('-27 days', $max_date);

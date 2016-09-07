@@ -37,9 +37,11 @@ class AuthenticatedBaseController extends Controller
         if($callback){
             $query = $callback($query);
         }
-
-        $query = $query->where('date', '<=', $max_date['year'] . '-' . $max_date['month'] . '-' . $max_date['day'])
-            ->where('date', '>=', $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day']);
+        $max_date = $max_date['year'] . '-' . $max_date['month'] . '-' . $max_date['day'];
+        $min_date = $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day'];
+        $query = $query->where('date', '<=', $max_date)
+            ->where('date', '>=', $min_date)
+            -where('ready', true);
 
         $orderByIndex = $request['order'][0]['column'];
         $orderBy = $request['columns'][$orderByIndex]['data'] ?: 'date';
@@ -78,7 +80,9 @@ class AuthenticatedBaseController extends Controller
         }
 
         $query = $query->where('date', '<=', $max_date)
-            ->where('date', '>=', $min_date);
+            ->where('date', '>=', $min_date)
+            ->where('ready', true);
+
         $bucket = 'dashboard-php-storage';
         $fileName = md5(uniqid()) . '.csv';
         $fullName = "download/${fileName}";
