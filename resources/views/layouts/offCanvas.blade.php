@@ -41,6 +41,11 @@
                 <i class="fa fa-server"></i>Client Management
             </a>
         </li>
+        <li>
+            <a {{$controller == 'SuperAdmin\MaintainController' ? 'class=active' : ''}} href="/admin/maintain">
+                <i class="fa fa-server"></i>Data Sync Management
+            </a>
+        </li>
     @elseif(Auth::user()->can('Admin'))
         <li>
             <a {{$controller == 'Auth\AccountController' ? 'class=active' : ''}} href="/auth/account/management"><i class="fa fa-settings"></i>Settings</a>
