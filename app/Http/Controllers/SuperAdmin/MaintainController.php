@@ -24,7 +24,8 @@ class MaintainController extends AuthenticatedBaseController
         $result = [];
         foreach($clients as $client){
             $report = [
-                'client' => $client->name
+                'client' => $client->name,
+                'code' => $client->code
             ];
             $db_quality = DB::table($client->code . '_data_quality_weekly')
                 ->select('date', 'ready')
@@ -75,6 +76,18 @@ class MaintainController extends AuthenticatedBaseController
             'result' => $result,
             'weeks' => $weeks
         ]);
+    }
+
+    public function setDateReady(Request $request){
+        $code = $request['code'];
+        $table = $request['table'];
+        $date = $request['date'];
+
+        DB::table("${code}_${table}_weekly")
+            ->where('date', $date)
+            ->update(['ready' => true]);
+
+        return ['success'=>true];
     }
 
 }
