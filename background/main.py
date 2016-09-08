@@ -31,6 +31,15 @@ class WeeklyTaskHandler(webapp2.RequestHandler):
 
 		self.response.out.write('ok')
 
+class WeeklyCustomDateTaskHandler(webapp2.RequestHandler):
+	def get(self):
+		min_date = self.request.get('min_date')
+		max_date = self.request.get('max_date')
+
+		job.run(min_date, max_date, 'weekly')
+
+		self.response.out.write('ok')
+
 class MonthlyTaskHandler(webapp2.RequestHandler):
 	def get(self):
 		today = date.today()
@@ -97,4 +106,5 @@ app = webapp2.WSGIApplication([
 	('/etl/weekly', WeeklyTaskHandler),
 	# ('/etl/monthly', MonthlyTaskHandler),
 	#('/etl/history', HistoryTaskHandler),
+	('/etl/weekly/custom', WeeklyCustomDateTaskHandler),
 ], debug=True)
