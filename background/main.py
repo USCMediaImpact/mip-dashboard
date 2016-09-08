@@ -8,6 +8,7 @@ from datetime import date
 from datetime import timedelta
 import calendar
 import job
+import config
 
 class DailyTaskHandler(webapp2.RequestHandler):
 	def get(self):
@@ -96,5 +97,5 @@ app = webapp2.WSGIApplication([
 	# ('/etl/daily', DailyTaskHandler),
 	('/etl/weekly', WeeklyTaskHandler),
 	# ('/etl/monthly', MonthlyTaskHandler),
-	('/etl/history', HistoryTaskHandler),
+	#('/etl/history', HistoryTaskHandler),
 ], debug=True)
