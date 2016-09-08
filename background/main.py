@@ -8,7 +8,6 @@ from datetime import date
 from datetime import timedelta
 import calendar
 import job
-import config
 
 class DailyTaskHandler(webapp2.RequestHandler):
 	def get(self):
