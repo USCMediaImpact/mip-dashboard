@@ -72,7 +72,7 @@
                                     @endforeach
                                     <td>
                                         @if(!$is_sync)
-                                        <button class="button tiny btnSync">Sync</button>
+                                        <button class="button tiny btnSync" min_date="{{$thisDate}}">Sync</button>
                                         @endif
                                     </td>
                                 </tr>
@@ -101,6 +101,25 @@
                     <div class="button-group float-right">
                         <button class="button success btnConfirm">Yes</button>
                         <button class="button alert closeModal">No</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="syncMessageModal" class="small reveal" data-reveal>
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h5>Message</h5>
+        <label class="callout alert hide"></label>
+        <form>
+            <div class="row">
+                <fieldset class="small-12 column">
+                    <legend>You must login the google account and the background sync job will take a some time. plz refresh this page later to check the result</legend>
+                </fieldset>
+                <div class="small-12 column">
+                    <div class="button-group float-right">
+                        <button class="button alert closeModal">OK</button>
                     </div>
                 </div>
             </div>
@@ -139,6 +158,19 @@
                 button.replaceWith('Ready');
                 $('#confirmModal').foundation('close'); 
             });
+            return false;
+        });
+        $(document).on('click', '.btnSync', function(){
+            var min_date = $(this).attr('min_date'),
+                max_date = moment(min_date).add(6, 'days').format('Y-MM-DD');
+            console.log(min_date, max_date);
+            if (window.location.host.startsWith('stage')){
+                $.post('https://stage-cron-dot-mip-dashboard.appspot.com/etl/weekly/custom', {
+                    max_date: max_date,
+                    min_date: min_date
+                });
+            }
+            $('#syncMessageModal').foundation('open');
             return false;
         });
     });
