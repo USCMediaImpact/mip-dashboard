@@ -1,5 +1,4 @@
 gcloud==0.18.1
 google-api-python-client==1.5.1
 pyOpenSSL==0.15.1
-dateparser==0.4.0
 cryptography==1.4
