@@ -30,7 +30,8 @@ Create a pip config file `~/.pydistutils.cfg` with these content
 [install]
 prefix=
 ```
-Then run the pip install command `pip install -t ./ -r requirements.txt`
+Then run the pip install command `pip install -t lib -r requirements.txt`
+See more [here](https://cloud.google.com/appengine/docs/python/tools/using-libraries-python-27)
 
 ####How to run history####
 3. use the newest sql to create the local mysql database in the folder `init_sql`
