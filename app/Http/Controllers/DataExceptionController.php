@@ -16,6 +16,7 @@ class DataExceptionController extends AuthenticatedBaseController
         $query = DataException::with('reporter')
             ->where('client_id', $client_id)
             ->orderby('created_at', 'desc');
+//        $default_min_date = DB::table('')
         $default_date_range = null;
         if($max_date && $min_date){
             $query = $query->where('begin_date', '<=', date('Y-m-d', $max_date))

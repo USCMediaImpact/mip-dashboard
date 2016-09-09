@@ -74,7 +74,7 @@
                 @else
                     <div class="row">
                         <div class="small-12 column">
-                            <h5 class="text-center">NO DATA EXCEPTIONS</h5>
+                            <h5 class="text-center">No data exceptions for this week.</h5>
                         </div>
                     </div>
                 @endif

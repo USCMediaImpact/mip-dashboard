@@ -47,7 +47,7 @@ class AuthenticatedBaseController extends Controller
         $min_date = $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day'];
         $query = $query->where('date', '<=', $max_date)
             ->where('date', '>=', $min_date)
-            -where('ready', true);
+            ->where('ready', true);
 
         $orderByIndex = $request['order'][0]['column'];
         $orderBy = $request['columns'][$orderByIndex]['data'] ?: 'date';
