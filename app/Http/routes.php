@@ -58,7 +58,7 @@ Route::post('auth/account', 'Auth\AccountController@editAccount');
 Route::delete('auth/account/{id}', 'Auth\AccountController@removeAccount');
 
 Route::get('auth/detail', 'Auth\AccountController@loadClientInfo');
-Route::post('auth/detail', 'Auth\AccountController@saveClientInfo');
+//Route::post('auth/detail', 'Auth\AccountController@saveClientInfo');
 
 // Demo routes...
 Route::match(['get', 'post'], '/', 'DashboardController@show');

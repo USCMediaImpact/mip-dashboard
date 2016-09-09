@@ -10,7 +10,7 @@
                         Details
                     </div>
                     <div class="top-bar-right">
-                        <button class="button small btnEditDetail">Edit</button>
+                        
                     </div>
                 </div>
                 <div class="row">
