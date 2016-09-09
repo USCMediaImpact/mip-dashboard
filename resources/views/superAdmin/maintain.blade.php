@@ -115,7 +115,12 @@
         <form>
             <div class="row">
                 <fieldset class="small-12 column">
-                    <legend>You must login the google account and the background sync job will take a some time. plz refresh this page later to check the result</legend>
+                    <legend>
+                        <p>Please check dataflow and bigquery for any data errors for this week. </p>
+                        <p>To manually start the sync process for the week of "<span id="dateTrigger"></span>"</p>
+                        <p>Please login to the Google Cloud Admin account, then visit the following link: <p>
+                        <a id="jobTrigger" target="_blank;">trigger url</a>    
+                    </legend>
                 </fieldset>
                 <div class="small-12 column">
                     <div class="button-group float-right">
@@ -163,14 +168,19 @@
         $(document).on('click', '.btnSync', function(){
             var min_date = $(this).attr('min_date'),
                 max_date = moment(min_date).add(6, 'days').format('Y-MM-DD');
-            console.log(min_date, max_date);
+            $('#dateTrigger').html(min_date);
             if (window.location.host.startsWith('stage')){
-                $.get('https://stage-cron-dot-mip-dashboard.appspot.com/etl/weekly/custom', {
-                    max_date: max_date,
-                    min_date: min_date
-                });
+                var url = 'https://stage-cron-dot-mip-dashboard.appspot.com/etl/weekly/custom?max_date=' + max_date + '&min_date=' + min_date;
             }
+            $('#jobTrigger').attr('href', url).html(url);
             $('#syncMessageModal').foundation('open');
+            return false;
+        });
+        /**
+         * register close modal button click event
+         */
+        $(document).on('click', '.closeModal', function(){
+            $(this).parents('.reveal').foundation('close');
             return false;
         });
     });
