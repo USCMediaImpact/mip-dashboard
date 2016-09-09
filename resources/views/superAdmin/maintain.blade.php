@@ -165,7 +165,7 @@
                 max_date = moment(min_date).add(6, 'days').format('Y-MM-DD');
             console.log(min_date, max_date);
             if (window.location.host.startsWith('stage')){
-                $.post('https://stage-cron-dot-mip-dashboard.appspot.com/etl/weekly/custom', {
+                $.get('https://stage-cron-dot-mip-dashboard.appspot.com/etl/weekly/custom', {
                     max_date: max_date,
                     min_date: min_date
                 });
