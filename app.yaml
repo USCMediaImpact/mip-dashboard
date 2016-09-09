@@ -60,6 +60,7 @@ skip_files:
   - ^\.env.production$
   - ^\.env.local$
   - vendor/symfony/finder/Tests/.*
+  - ^(bootstrap/cache/.*)
 
 env_variables:
   GAE_SKIP_GCS_INIT: false

@@ -2,7 +2,7 @@ application: mip-dashboard
 runtime: python27
 api_version: 1
 threadsafe: true
-module: stage-cron
+module: cron-job
 version: stage
 
 manual_scaling:

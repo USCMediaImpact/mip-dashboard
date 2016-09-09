@@ -37,7 +37,7 @@
                                     </label>
                                     <div class="desc">Loyal Users on Site</div>
                                     {{-- */$d1 = count($dataBox1To4) == 2 ? ($dataBox1To4[0]->Unduplicated_TotalUsersKPI - $dataBox1To4[1]->Unduplicated_TotalUsersKPI ) / $dataBox1To4[1]->Unduplicated_TotalUsersKPI : '';/* --}}
-                                    <div class="values" style="{{ $d1 ? 'color:#ec4f43;' : 'color:#7cc066;' }}">{{$formatter->showAsPercent($d1)}} from previous week</div>
+                                    <div class="values" style="{{ !is_numeric($d1) || round($d1, 2) == 0 ? '' : ($d1 > 0 ? 'color:#7cc066;' : 'color:#ec4f43;') }}">{{$formatter->showAsPercent($d1)}} from previous week</div>
                                     
                                 </div>
                             </div>
@@ -50,7 +50,7 @@
                                     </label>
                                     <div class="desc">Loyal Users in Database</div>
                                     {{-- */$d2 = count($dataBox1To4) == 2 ? ($dataBox1To4[0]->Unduplicated_Database_TotalUsersKPI - $dataBox1To4[1]->Unduplicated_Database_TotalUsersKPI ) / $dataBox1To4[1]->Unduplicated_Database_TotalUsersKPI : '';/* --}}
-                                    <div class="values" style="{{ $d2 ? 'color:#ec4f43;' : 'color:#7cc066;' }}">{{$formatter->showAsPercent($d2)}} from previous week</div>
+                                    <div class="values" style="{{ !is_numeric($d2) || round($d2, 2) == 0 ? '' : ($d2 > 0 ? 'color:#7cc066;' : 'color:#ec4f43;') }}">{{$formatter->showAsPercent($d2)}} from previous week</div>
                                     
                                 </div>
                             </div>
@@ -64,8 +64,7 @@
                                     <div class="desc">Percent of Loyal Users on Site</div>
                                     {{-- */$d3 = count($dataBox1To4) == 2 ? ($dataBox1To4[0]->Loyal_Users_On_Site - $dataBox1To4[1]->Loyal_Users_On_Site ) / $dataBox1To4[1]->Loyal_Users_On_Site : '';/* --}}
                                     {{-- */$d4 = count($dataBox1To4) == 2 ? $dataBox1To4[0]->Loyal_Users_On_Site - $dataBox1To4[1]->Loyal_Users_On_Site : '';/* --}}
-                                    <div class="values" style="{{ $d3 ? 'color:#ec4f43;' : 'color:#7cc066;' }}">{{$formatter->showAsPercent($d2)}} change from previous week</div>
-                                    
+                                    <div class="values" style="{{ !is_numeric($d3) || round($d3, 2) == 0 ? '' : ($d3 > 0 ? 'color:#7cc066;' : 'color:#ec4f43;') }}">{{$formatter->showAsPercent($d3)}} change from previous week</div>
                                 </div>
                             </div>                         
                         </div>
@@ -155,7 +154,7 @@
             labelsEnabled: false,
             radius: '42%',
             innerRadius: '60%',
-            balloonText: '[[title]] ([[value]] | [[percents]]%)',
+            balloonText: '[[title]]<br />([[value]] | [[percents]]%)',
             export: {
                 enabled: true
             }
