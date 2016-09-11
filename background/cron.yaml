@@ -1,7 +1,7 @@
 cron:
 - description: weekly etl job
-  url: /etl/weekly
-  target: etl
+  url: /stage/etl/weekly
+  target: cron-job/stage
   schedule: every sunday 04:30
   timezone: America/Los_Angeles
   retry_parameters:

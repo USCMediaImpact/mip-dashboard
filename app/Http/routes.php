@@ -46,6 +46,9 @@ Route::post('admin/client/setting', 'SuperAdmin\SettingController@save');
 Route::get('admin/detail', 'SuperAdmin\AccountController@loadClientInfo');
 Route::post('admin/detail', 'SuperAdmin\AccountController@saveClientInfo');
 
+Route::get('admin/maintain', 'SuperAdmin\MaintainController@showPage');
+Route::post('admin/maintain', 'SuperAdmin\MaintainController@setDateReady');
+
 // Admin management routes...
 Route::get('auth/account/management', 'Auth\AccountController@showAccount');
 Route::get('auth/account/all', 'Auth\AccountController@loadAccount');
@@ -55,7 +58,7 @@ Route::post('auth/account', 'Auth\AccountController@editAccount');
 Route::delete('auth/account/{id}', 'Auth\AccountController@removeAccount');
 
 Route::get('auth/detail', 'Auth\AccountController@loadClientInfo');
-Route::post('auth/detail', 'Auth\AccountController@saveClientInfo');
+//Route::post('auth/detail', 'Auth\AccountController@saveClientInfo');
 
 // Demo routes...
 Route::match(['get', 'post'], '/', 'DashboardController@show');

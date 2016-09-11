@@ -2,15 +2,17 @@
 import argparse
 import os
 import MySQLdb
+import config
 
 def get_db():
 	env = os.getenv('SERVER_SOFTWARE')
   	if (env and env.startswith('Google App Engine/')):
 		# Connecting from App Engine
 		db = MySQLdb.connect(
-			unix_socket='/cloudsql/mip-dashboard:mip-dashboard-prd',
+			unix_socket=config.UNIX_SOCKET,
 			db='media_impact',
-			user='root')
+			user='root',
+			passwd=config.DATABASE_PASSWORD)
 	else:
 		# Connecting from an external network.
 		# Make sure your network is whitelisted
