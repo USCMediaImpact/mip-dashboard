@@ -171,6 +171,8 @@
             $('#dateTrigger').html(min_date);
             if (window.location.host.startsWith('stage')){
                 var url = 'https://stage-cron-dot-mip-dashboard.appspot.com/etl/weekly/custom?max_date=' + max_date + '&min_date=' + min_date;
+            }else{
+                var url = 'https://live-cron-dot-mip-dashboard.appspot.com/etl/weekly/custom?max_date=' + max_date + '&min_date=' + min_date;
             }
             $('#jobTrigger').attr('href', url).html(url);
             $('#syncMessageModal').foundation('open');
