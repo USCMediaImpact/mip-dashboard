@@ -13,7 +13,9 @@ from query import mysql
 import json
 import hashlib
 from cloudStorage import download
+from cloudStorage import upload
 from dateutil.parser import parse
+import cloudstorage
 
 DIMESIONS = {
 	'daily': 'ga:date',
@@ -150,15 +152,30 @@ def _run_data_stories(client_id, code, setting, min_date, max_date, dimension):
 		sql = mysql.data_stories[code].format(dimension=dimension)
 		sql_data = []
 		md5 = hashlib.md5()
+		csv_data = []
+		limit = 100
+		index = 0
 		for row in bq_data:
 			md5.update((row[0] or '' + '_:_' + row[1] or '').encode("utf-8"))
 			path_md5 = md5.hexdigest()
-			sql_data.append((min_date, path_md5,) + row + row)
+			if index < limit :
+				sql_data.append((min_date, path_md5,) + row + row)
+			csv_data.append(row)
+			index += 1
 
 		logging.debug('excute sql: %s' % (sql,))
 		logging.debug('insert mysql data: %s' % (sql_data[0],))
 
 		mySqlClient.insert_mysql(sql, sql_data)
+		_run_data_stories_csv(min_date, csv_data)
+
+def _run_data_stories_csv(min_date, data):
+	logging.debug('save to csv')
+	import csv
+	with cloudstorage.open('/mip-stories-data/%s.csv' % min_date, 'w') as file_obj:
+		writer = csv.writer(file_obj)
+		for row in data:
+    		writer.writerows(row)
 
 def _run_data_quality(client_id, code, setting, min_date, max_date, dimension):
 	logging.debug('run ga with %s for client %s' % (client_id, setting['ga_id']))
@@ -225,3 +242,6 @@ def _run_data_newsletter(file_name, code, dimension):
 		db.commit()
 		cursor.close()
 		db.close()
+
+
+
