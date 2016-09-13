@@ -172,7 +172,8 @@ def _run_data_stories(client_id, code, setting, min_date, max_date, dimension):
 def _run_data_stories_csv(code, min_date, data):
 	logging.debug('save to csv')
 	import csv
-	with cloudstorage.open('/mip-stories-data/%s/%s.csv' % (code, min_date, ), 'w') as file_obj:
+	import config
+	with cloudstorage.open('/%s/%s/%s.csv' % (config.CSV_BUCKET, code, min_date, ), 'w') as file_obj:
 		writer = csv.writer(file_obj)
 		for row in data:
     		writer.writerows(row)
