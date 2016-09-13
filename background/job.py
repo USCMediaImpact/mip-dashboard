@@ -169,10 +169,10 @@ def _run_data_stories(client_id, code, setting, min_date, max_date, dimension):
 		mySqlClient.insert_mysql(sql, sql_data)
 		_run_data_stories_csv(min_date, csv_data)
 
-def _run_data_stories_csv(min_date, data):
+def _run_data_stories_csv(code, min_date, data):
 	logging.debug('save to csv')
 	import csv
-	with cloudstorage.open('/mip-stories-data/%s.csv' % min_date, 'w') as file_obj:
+	with cloudstorage.open('/mip-stories-data/%s/%s.csv' % (code, min_date, ), 'w') as file_obj:
 		writer = csv.writer(file_obj)
 		for row in data:
     		writer.writerows(row)
