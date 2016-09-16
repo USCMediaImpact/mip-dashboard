@@ -15,6 +15,7 @@ import hashlib
 from cloudStorage import download
 from cloudStorage import upload
 from dateutil.parser import parse
+import StringIO
 
 DIMESIONS = {
 	'daily': 'ga:date',
