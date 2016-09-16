@@ -48,8 +48,12 @@ class DataController extends AuthenticatedBaseController{
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
-
-        $query = DB::table($client_code. '_data_users_' . $group)->where('ready', 1);
+        $isSuperAdmin = $request['isSuperAdmin'];
+        if($isSuperAdmin){
+            $query = DB::table($client_code . '_data_users_' . $group);
+        }else {
+            $query = DB::table($client_code . '_data_users_' . $group)->where('ready', 1);
+        }
 
         $count = $query->count();
         $date_range_min = strtotime($query->min('date'));
@@ -167,11 +171,14 @@ class DataController extends AuthenticatedBaseController{
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
-
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
-
-        $query = DB::table($client_code. '_data_donations_' . $group)->where('ready', 1);
+        $isSuperAdmin = $request['isSuperAdmin'];
+        if($isSuperAdmin){
+            $query = DB::table($client_code . '_data_donations_' . $group);
+        }else {
+            $query = DB::table($client_code . '_data_donations_' . $group)->where('ready', 1);
+        }
 
         $count = $query->count();
         $date_range_min = $query->min('date');
@@ -245,8 +252,13 @@ class DataController extends AuthenticatedBaseController{
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
+        $isSuperAdmin = $request['isSuperAdmin'];
+        if($isSuperAdmin){
+            $query = DB::table($client_code . '_data_stories_' . $group);
+        }else {
+            $query = DB::table($client_code . '_data_stories_' . $group)->where('ready', 1);
+        }
 
-        $query = DB::table($client_code. '_data_stories_' . $group)->where('ready', 1);
         $count = $query->count();
         $date_range_min = $query->min('date');
         $last_week_begin = strtotime($query->max('date'));
@@ -375,8 +387,13 @@ class DataController extends AuthenticatedBaseController{
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
+        $isSuperAdmin = $request['isSuperAdmin'];
+        if($isSuperAdmin){
+            $query = DB::table($client_code . '_data_newsletter_' . $group);
+        }else {
+            $query = DB::table($client_code . '_data_newsletter_' . $group)->where('ready', 1);
+        }
 
-        $query = DB::table($client_code. '_data_newsletter_' . $group)->where('ready', 1);
         $count = $query->count();
 
         $date_range_min = $query->min('date');
@@ -457,8 +474,12 @@ class DataController extends AuthenticatedBaseController{
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
-
-        $query = DB::table($client_code. '_data_quality_' . $group)->where('ready', 1);
+        $isSuperAdmin = $request['isSuperAdmin'];
+        if($isSuperAdmin){
+            $query = DB::table($client_code . '_data_quality_' . $group);
+        }else {
+            $query = DB::table($client_code . '_data_quality_' . $group)->where('ready', 1);
+        }
 
         $count = $query->count();
         $date_range_min = strtotime($query->min('date'));

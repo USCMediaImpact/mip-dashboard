@@ -37,6 +37,7 @@ class AuthenticatedBaseController extends Controller
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
         $client_id = $request['client']['id'];
+        $isSuperAdmin = $request['isSuperAdmin'];
         $query = DB::table($tableName . $group)
             ->select(DB::raw($select));
 
@@ -46,8 +47,10 @@ class AuthenticatedBaseController extends Controller
         $max_date = $max_date['year'] . '-' . $max_date['month'] . '-' . $max_date['day'];
         $min_date = $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day'];
         $query = $query->where('date', '<=', $max_date)
-            ->where('date', '>=', $min_date)
-            ->where('ready', true);
+            ->where('date', '>=', $min_date);
+        if(!$isSuperAdmin){
+            $query = $query->where('ready', 1);
+        }
 
         $orderByIndex = $request['order'][0]['column'];
         $orderBy = $request['columns'][$orderByIndex]['data'] ?: 'date';
@@ -73,7 +76,7 @@ class AuthenticatedBaseController extends Controller
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
         $client_id = $request['client']['id'];
-
+        $isSuperAdmin = $request['isSuperAdmin'];
         $max_date = $max_date['year'] . '-' . $max_date['month'] . '-' . $max_date['day'];
         $min_date = $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day'];
 
@@ -86,8 +89,11 @@ class AuthenticatedBaseController extends Controller
         }
 
         $query = $query->where('date', '<=', $max_date)
-            ->where('date', '>=', $min_date)
-            ->where('ready', 1);
+            ->where('date', '>=', $min_date);
+
+        if(!$isSuperAdmin){
+            $query = $query->where('ready', 1);
+        }
 
         $bucket = 'dashboard-php-storage';
         $fileName = md5(uniqid()) . '.csv';
