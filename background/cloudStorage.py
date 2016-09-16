@@ -13,5 +13,4 @@ def upload(bucket_name, path, file_obj):
 	blob = Blob(path, bucket)
 	if blob.exists() :
 		blob.delete();
-	
 	blob.upload_from_file(file_obj, rewind = True)
