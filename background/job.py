@@ -55,10 +55,10 @@ def run(min_date, max_date, dimension):
 	client_settings = mySqlClient.query_client_settings()
 
 	for client in client_settings:
-		logging.info('----------Begin Run %s----------' % (code, ))
 		clientId = client[0]
 		code = client[1]
 		setting = json.loads(client[2])
+		logging.info('----------Begin Run %s----------' % (code, ))
 
 		notTotallySuccess = False
 		logging.info('----------Begin Run %s Prepare----------' % (code, ))
