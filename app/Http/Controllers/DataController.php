@@ -51,7 +51,7 @@ class DataController extends AuthenticatedBaseController{
 
         $query = DB::table($client_code. '_data_users_' . $group);
 
-        $count = $query->count();
+        $count = $query->where('ready', true)->take(1)->count();
         $date_range_min = strtotime($query->where('ready', true)->min('date'));
         $date_range_max = strtotime($query->where('ready', true)->max('date'));
         $date_range_max = strtotime('6 days', $date_range_max);
@@ -173,7 +173,7 @@ class DataController extends AuthenticatedBaseController{
 
         $query = DB::table($client_code. '_data_donations_' . $group);
 
-        $count = $query->count();
+        $count = $query->where('ready', true)->take(1)->count();
         $date_range_min = $query->where('ready', true)->min('date');
         $date_range_max = $query->where('ready', true)->max('date');
 
@@ -247,7 +247,7 @@ class DataController extends AuthenticatedBaseController{
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
 
         $query = DB::table($client_code. '_data_stories_' . $group);
-        $count = $query->count();
+        $count = $query->where('ready', true)->take(1)->count();
 
         $date_range_min = $query->where('ready', true)->min('date');
         $last_week_begin = strtotime($query->where('ready', true)->max('date'));
@@ -378,7 +378,7 @@ class DataController extends AuthenticatedBaseController{
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
 
         $query = DB::table($client_code. '_data_newsletter_' . $group);
-        $count = $query->count();
+        $count = $query->where('ready', true)->take(1)->count();
 
         $date_range_min = $query->where('ready', true)->min('date');
         $date_range_max = $query->where('ready', true)->max('date');
@@ -461,7 +461,7 @@ class DataController extends AuthenticatedBaseController{
 
         $query = DB::table($client_code. '_data_quality_' . $group);
 
-        $count = $query->count();
+        $count = $query->where('ready', true)->take(1)->count();
         $date_range_min = strtotime($query->where('ready', true)->min('date'));
         $date_range_max = strtotime($query->where('ready', true)->max('date'));
         $date_range_max = strtotime('6 days', $date_range_max);
