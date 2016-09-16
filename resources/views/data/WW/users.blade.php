@@ -84,30 +84,6 @@
 			            </tbody>
 			        </table>
 		        </div>
-                <div class="panel">
-                    <div class="top-bar">
-                        <div class="top-bar-left">
-                            Members
-                        </div>
-                        <div class="top-bar-right">
-                            @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-                            <button class="button small btnDownload" action="/data/users/members/csv">Download</button>
-                        </div>
-                    </div>
-                    <table id="dataUsersMembers" class="report tiny hover">
-                        <thead>
-                            <tr>
-                                <th>Week of</th>
-                                <th>Known members on the site this week</th>
-                                <th>Known: Total known members in the MIP database</th>
-                                <th>Known: Percent of members in the MIP database who logged in this week</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
-                </div>
 			</div>
 		</div>
     @else
@@ -273,55 +249,6 @@
                 'data': 'KPI_TotalDonorsKnownToMIP'
             }, {
                 'data': 'Donors_In_MIP'
-            }],
-            'columnDefs': [{
-                'targets': 0,
-                'width': 60,
-                'render': function (data, type, row) {
-                    return moment(data).format('MM/DD/YY')
-                }
-            }, {
-                'targets': 1,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
-                }
-            }, {
-                'targets': 2,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
-                }
-            }, {
-                'targets': 3,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
-                }
-            }]
-        });
-        ReportDataTable['dataUsersMembers'] = $('#dataUsersMembers').DataTable({
-            'processing': true,
-            'serverSide': true,
-            'searching': false,
-            "order": [[ 0, "desc" ]],
-            'ajax': {
-                'url': '/data/users/members',
-                'type': 'POST',
-                'data': function(data){
-                    var panel = $('#dataUsersMembers').parents('.panel');
-                    return $.extend({
-                        'min_date': $('[name="min_date"]', panel).val(),
-                        'max_date': $('[name="max_date"]', panel).val(),
-                    }, data);
-                }
-            },
-            'dom': 'Bfrtip',
-            'columns': [{
-                'data': 'date'
-            }, {
-                'data': 'TotalMembersThisWeek'
-            }, {
-                'data': 'KPI_TotalMembersKnownToMIP'
-            }, {
-                'data': 'Members_In_MIP'
             }],
             'columnDefs': [{
                 'targets': 0,

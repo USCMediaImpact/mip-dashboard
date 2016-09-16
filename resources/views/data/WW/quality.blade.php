@@ -120,35 +120,6 @@
 			            </tbody>
 			        </table>
 		        </div>
-                <div class="panel">
-                    <div class="top-bar">
-                        <div class="top-bar-left">
-                            Members
-                        </div>
-                        <div class="top-bar-right">
-                            @include('widgets.daterange', ['min_date' => $min_date, 'max_date' => $max_date])
-                            <button class="button small btnDownload" action="/data/quality/members/csv">Download</button>
-                        </div>
-                    </div>
-                    <table id="dataQualityMembers" class="report tiny hover">
-                        <thead>
-                            <tr>
-                                <th>Week of</th>
-                                <th>Identified: Members already in MIP database who came to the site this week</th>
-                                <th>Known: Members already in MIP database who came to the site this week</th>
-                                <th>Identified: Users who logged in on the site for the first time since MIP started collecting data</th>
-                                <th>Known: Users who logged in on the site for the first time since MIP started collecting data</th>
-                                <th>Identified members on the site THIS WEEK</th>
-                                <th>Known members on the site THIS WEEK</th>
-                                <th>Identified: Total identified members in the MIP database</th>
-                                <th>Known: Total known members in the MIP database</th>
-                                <th>Known: Percent of members in the MIP database who logged in this week</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
 			</div>
 		</div>
     @else
@@ -488,97 +459,6 @@
                     return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
                 }
             } ]
-        });
-        ReportDataTable['dataQualityMembers'] = $('#dataQualityMembers').DataTable({
-            'processing': true,
-            'serverSide': true,
-            'searching': false,
-            "order": [[ 0, "desc" ]],
-            'ajax': {
-                'url': '/data/quality/members',
-                'type': 'POST',
-                'data': function(data){
-                    var panel = $('#dataQualityTotalKnownUsers').parents('.panel');
-                    return $.extend({
-                        'min_date': $('[name="min_date"]', panel).val(),
-                        'max_date': $('[name="max_date"]', panel).val(),
-                    }, data);
-                }
-            },
-            'dom': 'Bfrtip',
-            'columns': [{
-                'data': 'date'
-            }, {
-                'data': 'I_databaseMembersWhoVisited'
-            }, {
-                'data': 'K_databaseMembersWhoVisited'
-            }, {
-                'data': 'I_loggedInOnSiteForFirstTime'
-            }, {
-                'data': 'K_loggedInOnSiteForFirstTime'
-            }, {
-                'data': 'I_totalMembersOnSiteThisWeek'
-            }, {
-                'data': 'K_totalMembersOnSiteThisWeek'
-            }, {
-                'data': 'I_totalMembersInDatabase'
-            }, {
-                'data': 'K_totalMembersInDatabase'
-            }, {
-                'data': 'K_percentDatabaseMembersWhoCame'
-            }],
-            'columnDefs': [{
-                'targets': 0,
-                'width': 60,
-                'render': function (data, type, row) {
-                    return moment(data).format('MM/DD/YY')
-                }
-            }, {
-                'targets': 1,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
-                }
-            }, {
-                'targets': 2,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
-                }
-            }, {
-                'targets': 3,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
-                }
-            }, {
-                'targets': 4,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
-                }
-            }, {
-                'targets': 5,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
-                }
-            }, {
-                'targets': 6,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
-                }
-            }, {
-                'targets': 7,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
-                }
-            }, {
-                'targets': 8,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
-                }
-            }, {
-                'targets': 9,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(data);
-                }
-            }]
         });
 	});
 </script>

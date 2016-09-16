@@ -83,42 +83,6 @@
 				        </table>
 					</div>
 		        </div>
-		        <div class="panel">
-					<div class="top-bar">
-						<div class="top-bar-left">
-							User Interactions
-						</div>
-						<div class="top-bar-right">
-                            <input id="dateRangeUserInteractions" name="date_range" />
-                            <input type="hidden" name="min_date" value="{{ date('Y-m-d', $min_date) }}" />
-                            <input type="hidden" name="max_date" value="{{ date('Y-m-d', $max_date) }}" />
-							<button class="button btnDownload small" action="/data/stories/user_interactions/csv/all">Download Full Report</button>
-						</div>
-					</div>
-					<div class="table-scroll">
-						<table id="dataStoriesUserInteractions" class="report tiny hover expanded">
-				            <thead>
-				                <tr>
-				                	<th>Article Title</th>
-				                	<th>Total Page Views</th>
-				                    <th>Comments</th>
-                                    <th>Republish</th>
-				                    <th>Email Shares</th>
-				                    <th>Tweets</th>
-				                    <th>FB Shares</th>
-				                    <th>Total Shares</th>
-				                    <th>Share Rate</th>
-                                    <th>Tribpedia Clicks</th>
-				                    <th>Related Content Clicks</th>
-                                    <th>Total Related Clicks</th>
-				                    <th>Click Through Rate</th>
-				                </tr>
-				            </thead>
-				            <tbody>
-				            </tbody>
-				        </table>
-			        </div>
-		        </div>
 			</div>
 		</div>
     @else
@@ -182,30 +146,6 @@
                 }
             }
         });
-        $('#dateRangeUserInteractions').daterangepicker({
-            dateFormat: 'M d, yy',
-            presetRanges: [],
-            datepickerOptions: {
-                minDate: moment('{{$date_range_min}}').toDate(),
-                maxDate: moment('{{$date_range_max}}').toDate(),
-                numberOfMonths: 1,
-                showOtherMonths: true,
-                selectOtherMonths: true,
-                onSelect: function(date, el){
-                    var panel = $('#dateRangeUserInteractions').parents('.panel');
-                        min_date = moment(date, 'MM/DD/YYYY').day(0),
-                        max_date = moment(date, 'MM/DD/YYYY').day(6);
-                    $('#dateRangeUserInteractions').daterangepicker('setRange', {
-                        start: min_date.toDate(),
-                        end: max_date.toDate()
-                    });
-                    $('#dateRangeUserInteractions').daterangepicker('close');
-                    $('input[name="min_date"]', panel).val(min_date.format('YYYY-MM-DD'));
-                    $('input[name="max_date"]', panel).val(min_date.format('YYYY-MM-DD'));
-                    panel.trigger('change.daterange');
-                }
-            }
-        });
         /**
          * set default range
          */
@@ -217,12 +157,6 @@
         }
         if(!$('#dateRangeTimeOnArticle').daterangepicker('getRange')){
             $('#dateRangeTimeOnArticle').daterangepicker('setRange', {
-                start: moment('{{date('Y-m-d', $min_date)}}').toDate(),
-                end: moment('{{date('Y-m-d', $max_date)}}').toDate()
-            });
-        }
-        if(!$('#dateRangeUserInteractions').daterangepicker('getRange')){
-            $('#dateRangeUserInteractions').daterangepicker('setRange', {
                 start: moment('{{date('Y-m-d', $min_date)}}').toDate(),
                 end: moment('{{date('Y-m-d', $max_date)}}').toDate()
             });
@@ -454,135 +388,8 @@
                 }
             }]
         });
-        ReportDataTable['dataStoriesUserInteractions'] = $('#dataStoriesUserInteractions').DataTable({
-            'processing': true,
-            'serverSide': true,
-            'searching': false,
-            "scrollX": true,
-            "order": [[ 1, "desc" ]],
-            'ajax': {
-	            'url': '/data/stories/user_interactions',
-	            'type': 'POST',
-	            'data': function(data){
-                    var panel = $('#dataStoriesUserInteractions').parents('.panel');
-	            	return $.extend({
-	            		'min_date': $('[name="min_date"]', panel).val(),
-						'max_date': $('[name="max_date"]', panel).val(),
-	            	}, data);
-	            }
-	        },
-            'dom': 'Bfrtip',
-            'columns': [{
-                
-            }, {
-                'data': 'Pageviews'
-            }, {
-                'data': 'Comments'
-            }, {
-                'data': 'Republish'
-            }, {
-                'data': 'Emails'
-            }, {
-                'data': 'Tweets'
-            }, {
-                'data': 'Facebook_Recommendations'
-            }, {
-                'data': 'TotalShares'
-            }, {
-                'data': 'SahreRate'
-            }, {
-                'data': 'Tribpedia_Related_Clicks'
-            }, {
-                'data': 'Related_Clicks'
-            }, {
-                'data': 'Total_Related_Clicks'
-            }, {
-                'data': 'ClickThroughRate'
-            }],
-            'columnDefs': [{
-                'targets': 0,
-                'width': 320,
-                'render': function(data, type, row){
-                    var url = '{{$client['website']}}' + row.Combo_URL;
-                    var displayText = row.Article ? row.Article : url;
-                    return '<a href="' + url + '" title="' + url + '" target="_blank;" data-tooltip aria-haspopup="true" data-template-classes="url_tooltip" class="has-tip top">' + displayText + '</a>';
-                }
-            }, {
-                'targets': 1,
-                'width': 60,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
-                }
-            }, {
-                'targets': 2,
-                'width': 60,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
-                }
-            }, {
-                'targets': 3,
-                'width': 60,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
-                }
-            }, {
-                'targets': 4,
-                'width': 60,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
-                }
-            }, {
-                'targets': 5,
-                'width': 60,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
-                }
-            }, {
-                'targets': 6,
-                'width': 60,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
-                }
-            }, {
-                'targets': 7,
-                'width': 60,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
-                }
-            }, {
-                'targets': 8,
-                'width': 60,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
-                }
-            }, {
-                'targets': 9,
-                'width': 60,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
-                }
-            }, {
-                'targets': 10,
-                'width': 60,
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
-                }
-            }, {
-                'targets': 11,
-                
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat().format(data)
-                }
-            }, {
-                'targets': 12,
-                
-                'render': function (data, type, row) {
-                    return new Intl.NumberFormat('en-US', {style: 'percent', maximumFractionDigits: 0}).format(data);
-                }
-            }]
-        });
 
-        $('#dataStoriesScrollDepth, #dataStoriesTimeOnArticle, #dataStoriesUserInteractions').on('draw.dt', function(){
+        $('#dataStoriesScrollDepth, #dataStoriesTimeOnArticle').on('draw.dt', function(){
         	$(document).foundation();
         });
 
