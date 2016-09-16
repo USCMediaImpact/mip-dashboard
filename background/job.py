@@ -181,7 +181,7 @@ def _run_data_stories_csv(code, min_date, data):
 	import config
 
 	# with cloudstorage.open('/%s/%s/%s.csv' % (config.CSV_BUCKET, code, min_date, ), 'w') as file_obj:
-	file_obj = StringIO.StringIO():
+	file_obj = StringIO.StringIO()
 	writer = csv.writer(file_obj)
 	for row in data:
 		writer.writerows(row)
