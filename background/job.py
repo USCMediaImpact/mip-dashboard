@@ -172,7 +172,7 @@ def _run_data_stories(client_id, code, setting, min_date, max_date, dimension):
 		logging.debug('insert mysql data: %s' % (sql_data[0],))
 
 		mySqlClient.insert_mysql(sql, sql_data)
-		_run_data_stories_csv(min_date, csv_data)
+		_run_data_stories_csv(code, min_date, csv_data)
 
 def _run_data_stories_csv(code, min_date, data):
 	logging.debug('save to csv')
