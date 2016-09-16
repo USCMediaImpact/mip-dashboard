@@ -12,10 +12,16 @@ class DataExceptionController extends AuthenticatedBaseController
     public function show(Request $request){
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
+        $isSuperAdmin = $request['isSuperAdmin'];
+        if($isSuperAdmin) {
+            $default_min_date = DB::table("${client_code}_data_users_weekly")
+                ->max('date');
+        } else {
+            $default_min_date = DB::table("${client_code}_data_users_weekly")
+                ->where('ready', 1)
+                ->max('date');
+        }
 
-        $default_min_date = DB::table("${client_code}_data_users_weekly")
-            ->where('ready', true)
-            ->max('date');
         $default_min_date = strtotime($default_min_date);
         $default_max_date = strtotime('+6 days', $default_min_date);
 

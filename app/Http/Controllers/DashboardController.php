@@ -84,8 +84,13 @@ class DashboardController extends AuthenticatedBaseController{
         $client_id = $request['client']['id'];
         $client_code = $request['client']['code'];
         $group = array_key_exists($request['group'], parent::$groupDisplay) ? $request['group'] : 'weekly';
+        $isSuperAdmin = $request['isSuperAdmin'];
+        if($isSuperAdmin){
+            $query = DB::table("${client_code}_data_users_${group}");
+        }else{
+            $query = DB::table("${client_code}_data_users_${group}")->where('ready', 1);
+        }
 
-        $query = DB::table("${client_code}_data_users_${group}");
         $date_range_min = strtotime($query->min('date'));
         $date_range_max = strtotime($query->max('date'));
         $default_min_date = $date_range_max;
@@ -98,15 +103,23 @@ class DashboardController extends AuthenticatedBaseController{
         $compareRange = self::caculateLastYearSameWeek($range);
 
         $thisWeekEnd = date('Y-m-d', $max_date);
-
-        $dataBox1To4 = DB::table("${client_code}_data_users_${group}")
+        if($isSuperAdmin){
+            $dataSourceBox1To4 = DB::table("${client_code}_data_users_${group}");
+        }else{
+            $dataSourceBox1To4 = DB::table("${client_code}_data_users_${group}")->where('ready', 1);
+        }
+        $dataBox1To4 = $dataSourceBox1To4
             ->select(DB::raw('Unduplicated_TotalUsersKPI, Unduplicated_Database_TotalUsersKPI, IFNULL(Unduplicated_TotalUsersKPI, 0) / IFNULL(Unduplicated_Database_TotalUsersKPI, 0) as Loyal_Users_On_Site, KPI_TotalEmailSubscribersKnownToMIP, KPI_TotalDonorsKnownToMIP'))
             ->where('date', '<=', $thisWeekEnd)
             ->where('date', '>=', date('Y-m-d', strtotime('-7 days', $min_date)))
             ->orderBy('date', 'desc')
             ->get();
-
-        $dataBox5 = DB::table("${client_code}_data_users_${group}")
+        if($isSuperAdmin){
+            $dataSourceBox5 = DB::table("${client_code}_data_users_${group}");
+        }else{
+            $dataSourceBox5 = DB::table("${client_code}_data_users_${group}")->where('ready', 1);
+        }
+        $dataBox5 = $dataSourceBox5
             ->select(DB::raw('date, TotalDonorsThisWeek, CameToSiteThroughEmail'))
             ->where('date', '>=', reset($range))
             ->where('date', '<=', end($range))
@@ -121,8 +134,12 @@ class DashboardController extends AuthenticatedBaseController{
             ];
         }
 
-
-        $dataBox5Compare = DB::table("${client_code}_data_users_${group}")
+        if($isSuperAdmin){
+            $dataSourceBox5Compare = DB::table("${client_code}_data_users_${group}");
+        }else{
+            $dataSourceBox5Compare = DB::table("${client_code}_data_users_${group}")->where('ready', 1);
+        }
+        $dataBox5Compare = $dataSourceBox5Compare
             ->select(DB::raw('date, IFNULL(TotalDonorsThisWeek, 0) + IFNULL(CameToSiteThroughEmail, 0) as lastYearTotal'))
             ->where('date', '>=', reset($compareRange))
             ->where('date', '<=', end($compareRange))
@@ -134,7 +151,12 @@ class DashboardController extends AuthenticatedBaseController{
             $dataBox5CompareKV[$item->date] = $item->lastYearTotal;
         }
 
-        $dataBox6 = DB::table("${client_code}_data_users_${group}")
+        if($isSuperAdmin){
+            $dataSourceBox6 = DB::table("${client_code}_data_users_${group}");
+        }else{
+            $dataSourceBox6 = DB::table("${client_code}_data_users_${group}")->where('ready', 1);
+        }
+        $dataBox6 = $dataSourceBox6
             ->select(DB::raw('date, IFNULL(Unduplicated_Database_TotalUsersKPI, 0) as Unduplicated_Database_TotalUsersKPI'))
             ->where('date', '>=', reset($range))
             ->where('date', '<=', end($range))
@@ -146,7 +168,13 @@ class DashboardController extends AuthenticatedBaseController{
             $dataBox6KV[$item->date] = $item->Unduplicated_Database_TotalUsersKPI;
         }
 
-        $dataBox6Compare = DB::table("${client_code}_data_users_${group}")
+        if($isSuperAdmin){
+            $dataSourcebox6Compare = DB::table("${client_code}_data_users_${group}");
+        }else{
+            $dataSourcebox6Compare = DB::table("${client_code}_data_users_${group}")->where('ready', 1);
+        }
+
+        $dataBox6Compare = $dataSourcebox6Compare
             ->select(DB::raw('date, IFNULL(Unduplicated_Database_TotalUsersKPI, 0) as Unduplicated_Database_TotalUsersKPI'))
             ->where('date', '>=', reset($compareRange))
             ->where('date', '<=', end($compareRange))

@@ -29,6 +29,7 @@ class InjectClientInfo
          * others used current user client id
          */
         if ($user->roles()->where('name', 'SuperAdmin')->count() > 0) {
+            $request->merge(['isSuperAdmin' => true]);
             $clientId = $request->cookie('client-id');
             if (!$clientId) {
                 $client = Client::first()
