@@ -87,7 +87,7 @@ class AuthenticatedBaseController extends Controller
 
         $query = $query->where('date', '<=', $max_date)
             ->where('date', '>=', $min_date)
-            ->where('ready', true);
+            ->where('ready', 1);
 
         $bucket = 'dashboard-php-storage';
         $fileName = md5(uniqid()) . '.csv';
@@ -97,7 +97,7 @@ class AuthenticatedBaseController extends Controller
 
         $stmt = $pdo->prepare($query->toSql());
 
-        $stmt->execute([$max_date, $min_date]);
+        $stmt->execute([$max_date, $min_date, 1]);
 
         $fp = fopen("gs://${bucket}/${fullName}", 'w');
         fprintf($fp, chr(0xEF).chr(0xBB).chr(0xBF));
