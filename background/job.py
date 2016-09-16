@@ -54,7 +54,7 @@ def format_hive(sql, min_date, max_date, dimension):
 def run(min_date, max_date, dimension):
 	logging.debug(dimension + ' corn job is running at ' + unicode(datetime.now()) + ' from ' + min_date + ' to ' + max_date)
 	client_settings = mySqlClient.query_client_settings()
-	
+
 	for client in client_settings:
 		clientId = client[0]
 		code = client[1]
@@ -114,7 +114,7 @@ def _run_prepare(client_id, setting, min_date, max_date, dimension):
 
 def _run_data_users(client_id, code, setting, min_date, max_date, dimension):
 	logging.debug('run %s data user job' % code)
-	
+
 	hql = format_hive(setting['bq_data_users'], min_date, max_date, dimension)
 
 	logging.debug('big query: %s', hql)
@@ -139,7 +139,7 @@ def _run_data_users(client_id, code, setting, min_date, max_date, dimension):
 
 def _run_data_stories(client_id, code, setting, min_date, max_date, dimension):
 	logging.debug(setting['bq_data_stories'])
-	
+
 	hql = format_hive(setting['bq_data_stories'], min_date, max_date, dimension)
 
 	logging.debug('big query: %s', hql)
@@ -167,7 +167,10 @@ def _run_data_stories(client_id, code, setting, min_date, max_date, dimension):
 		logging.debug('insert mysql data: %s' % (sql_data[0],))
 
 		mySqlClient.insert_mysql(sql, sql_data)
-		_run_data_stories_csv(min_date, csv_data)
+		try:
+			_run_data_stories_csv(min_date, csv_data)
+		except Exception:
+			logging.error('if you saw this error. maybe is run on your local to call cloudstorage method faild.')
 
 def _run_data_stories_csv(code, min_date, data):
 	logging.debug('save to csv')
@@ -176,14 +179,14 @@ def _run_data_stories_csv(code, min_date, data):
 	with cloudstorage.open('/%s/%s/%s.csv' % (config.CSV_BUCKET, code, min_date, ), 'w') as file_obj:
 		writer = csv.writer(file_obj)
 		for row in data:
-    		writer.writerows(row)
+			writer.writerows(row)
 
 def _run_data_quality(client_id, code, setting, min_date, max_date, dimension):
 	logging.debug('run ga with %s for client %s' % (client_id, setting['ga_id']))
 	ga_data = analyticsClient.get_ga_result(
-		setting['ga_id'], 
-		min_date, 
-		max_date, 
+		setting['ga_id'],
+		min_date,
+		max_date,
 		'ga:users',
 		DIMESIONS[dimension])
 
@@ -206,7 +209,7 @@ def _run_data_quality(client_id, code, setting, min_date, max_date, dimension):
 
 	sql = mysql.data_quality[code].format(dimension=dimension)
 	sql_data = (min_date, ga_data) + bq_data + (ga_data, ) + bq_data
-	
+
 	logging.debug('excute sql: %s' % sql)
 	logging.debug('insert mysql data: %s' % (sql_data,))
 
@@ -221,7 +224,7 @@ def _run_data_newsletter(file_name, code, dimension):
 		pass
 
 	with open('./tmp.csv', 'wb') as file_obj:
-		download(bucket_name='mip-newsletter-data', 
+		download(bucket_name='mip-newsletter-data',
 			path=file_name,
 			file_obj=file_obj)
 	with open('./tmp.csv', 'rb') as file_obj:
