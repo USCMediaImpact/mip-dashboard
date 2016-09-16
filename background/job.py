@@ -55,12 +55,13 @@ def run(min_date, max_date, dimension):
 	client_settings = mySqlClient.query_client_settings()
 
 	for client in client_settings:
+		logging.info('----------Begin Run %s----------' % (code, ))
 		clientId = client[0]
 		code = client[1]
 		setting = json.loads(client[2])
 
 		notTotallySuccess = False
-
+		logging.info('----------Begin Run %s Prepare----------' % (code, ))
 		try:
 			logging.info('run %s prepare' % code)
 			_run_prepare(clientId, setting, min_date, max_date, dimension)
@@ -69,6 +70,7 @@ def run(min_date, max_date, dimension):
 			notTotallySuccess = True
 
 		#query for data_users
+		logging.info('----------Begin Run %s Data Users----------' % (code, ))
 		try:
 			logging.info('run %s data users' % code)
 			logging.debug(setting['data_users_dimension'])
@@ -79,6 +81,7 @@ def run(min_date, max_date, dimension):
 			notTotallySuccess = True
 
 		#query for data_stories
+		logging.info('----------Begin Run %s Data Stories----------' % (code, ))
 		try:
 			logging.info('run %s data stories' % code)
 			logging.debug(setting['data_users_dimension'])
@@ -89,6 +92,7 @@ def run(min_date, max_date, dimension):
 			notTotallySuccess = True
 
 		#query for data_quality
+		logging.info('----------Begin Run %s Data Quality----------' % (code, ))
 		try:
 			logging.info('run %s data quality' % code)
 			if dimension in setting['data_quality_dimension']:
@@ -96,6 +100,8 @@ def run(min_date, max_date, dimension):
 		except Exception:
 			logging.error('run %s data quality failed' % code, exc_info=True)
 			notTotallySuccess = True
+
+		logging.info('----------End Run %s----------' % (code, ))
 
 	if notTotallySuccess :
 		raise Exception('missing failed!')
