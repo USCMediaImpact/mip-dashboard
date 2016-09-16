@@ -183,8 +183,7 @@ def _run_data_stories_csv(code, min_date, data):
 	# with cloudstorage.open('/%s/%s/%s.csv' % (config.CSV_BUCKET, code, min_date, ), 'w') as file_obj:
 	file_obj = StringIO.StringIO()
 	writer = csv.writer(file_obj)
-	for row in data:
-		writer.writerows(row)
+	writer.writerows(data)
 	file_obj.seek(0)
 	upload(config.CSV_BUCKET, '/%s/%s.csv' % (code, min_date, ), file_obj)
 
