@@ -8,6 +8,7 @@ from datetime import date
 from datetime import timedelta
 import calendar
 import job
+from dateutil.parser import parse
 
 class DailyTaskHandler(webapp2.RequestHandler):
 	def get(self):
@@ -54,8 +55,9 @@ class MonthlyTaskHandler(webapp2.RequestHandler):
 
 class HistoryTaskHandler(webapp2.RequestHandler):
 	def get(self):
-		min_date = self.request.get('min_date')
-		max_date = self.request.get('max_date')
+		min_date = parse(self.request.get('min_date'))
+		max_date = parse(self.request.get('max_date'))
+
 		#every day history
 		day_count = (max_date - min_date).days
 		for single_date in (min_date + timedelta(n) for n in range(day_count)):
