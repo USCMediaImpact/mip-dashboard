@@ -186,7 +186,7 @@ def _run_data_stories_csv(code, min_date, data):
 	for row in data:
 		writer.writerow([unicode(s).encode("utf-8") for s in row])
 	file_obj.seek(0)
-	upload(config.CSV_BUCKET, '/%s/%s.csv' % (code, min_date, ), file_obj)
+	upload(config.CSV_BUCKET, '%s/%s.csv' % (code, min_date, ), file_obj)
 
 def _run_data_quality(client_id, code, setting, min_date, max_date, dimension):
 	logging.debug('run ga with %s for client %s' % (client_id, setting['ga_id']))
