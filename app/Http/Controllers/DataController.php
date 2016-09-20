@@ -394,7 +394,6 @@ class DataController extends AuthenticatedBaseController{
                 fprintf($ftarget, chr(0xEF) . chr(0xBB) . chr(0xBF));
                 fputcsv($ftarget, $columns);
                 while (($s = fgetcsv($fsource, 1000, ',')) !== FALSE) {
-                    dd($s);
                     if(count($s) == 1 && $s[0] == null){
                         continue;
                     }
