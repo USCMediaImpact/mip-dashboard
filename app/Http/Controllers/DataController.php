@@ -389,7 +389,7 @@ class DataController extends AuthenticatedBaseController{
         $csvPath = "gs://${bucket}/${client_code}/${min_date}.csv";
 
         if (file_exists($csvPath)) {
-            return $this->responseFile(function ($ftarget) use ($request, $client_code, $min_date, $columns) {
+            return $this->responseFile(function ($ftarget) use ($request, $csvPath, $client_code, $min_date, $columns) {
                 $fsource = fopen($csvPath, 'r');
                 fprintf($ftarget, chr(0xEF) . chr(0xBB) . chr(0xBF));
                 fputcsv($ftarget, $columns);
