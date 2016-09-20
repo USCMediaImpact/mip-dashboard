@@ -399,12 +399,25 @@ class DataController extends AuthenticatedBaseController{
         $client_code = $request['client']['code'];
         $index = 6;
         $mode = 'count';
-        return $this->exportCSV($request,
-            $client_code.'_data_stories_',
-            $this::$DataStoriesExportField[$client_code][$index],
-            $this::$DataStoriesColumn[$client_code][3],
-            "stories_full_report",
-            'Pageviews');
+        $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
+        $min_date = $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day'];
+        $columns = $this::$DataStoriesColumn[$client_code][3];
+
+        return $this->responseFile(function($ftarget) use($request, $client_code, $min_date, $columns){
+            $bucket = 'mip-stories-stage';
+            $fsource = fopen("gs://${bucket}/${client_code}/${min_date}.csv", 'r');
+            fprintf($ftarget, chr(0xEF).chr(0xBB).chr(0xBF));
+            fputcsv($ftarget, $columns);
+            while(($source = fgetcsv($fsource, 1, ',') !== FALSE)){
+                fputcsv($ftarget, $source);
+            }
+        }, "stories_full_report_test.csv");
+//        return $this->exportCSV($request,
+//            $client_code.'_data_stories_',
+//            $this::$DataStoriesExportField[$client_code][$index],
+//            $this::$DataStoriesColumn[$client_code][3],
+//            "stories_full_report",
+//            'Pageviews');
     }
 
     private static $DataNewsLetterField = [
