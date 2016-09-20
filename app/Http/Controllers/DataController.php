@@ -335,16 +335,7 @@ class DataController extends AuthenticatedBaseController{
             'Pageviews');
     }
 
-    public function download_All_Stories_Scroll_Depth(Request $request, $mode){
-        $client_code = $request['client']['code'];
-        $index = $mode == 'count' ? 6 : 5;
-        return $this->exportCSV($request,
-            $client_code.'_data_stories_',
-            $this::$DataStoriesExportField[$client_code][$index],
-            $this::$DataStoriesColumn[$client_code][3],
-            "stories_full_report",
-            'Pageviews');
-    }
+
 
     public function get_Stories_Time_On_Article(Request $request, $mode)
     {
@@ -366,16 +357,7 @@ class DataController extends AuthenticatedBaseController{
             'Pageviews');
     }
 
-    public function download_All_Stories_Time_On_Article(Request $request, $mode){
-        $client_code = $request['client']['code'];
-        $index = $mode == 'count' ? 6 : 5;
-        return $this->exportCSV($request,
-            $client_code.'_data_stories_',
-            $this::$DataStoriesExportField[$client_code][$index],
-            $this::$DataStoriesColumn[$client_code][3],
-            "stories_full_report",
-            'Pageviews');
-    }
+
 
     public function get_Stories_User_Interactions(Request $request)
     {
@@ -395,7 +377,7 @@ class DataController extends AuthenticatedBaseController{
             'Pageviews');
     }
 
-    public function download_All_Stories_User_Interactions(Request $request){
+    public function download_All_Stories(Request $request){
         $client_code = $request['client']['code'];
         $index = 6;
         $mode = 'count';
