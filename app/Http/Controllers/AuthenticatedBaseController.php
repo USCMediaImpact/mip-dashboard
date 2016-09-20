@@ -71,6 +71,26 @@ class AuthenticatedBaseController extends Controller
         ];
     }
 
+    protected function download($fputcsv, $fileName){
+        $bucket = 'dashboard-php-storage';
+        $fileName = md5(uniqid()) . '.csv';
+        $fullName = "download/${fileName}";
+
+        $fp = fopen("gs://${bucket}/${fullName}", 'w');
+        fprintf($fp, chr(0xEF).chr(0xBB).chr(0xBF));
+
+        if($fputcsv!= null){
+            $fputcsv($fp);
+        }
+
+        fclose($fp);
+
+        return response()->download(
+            "gs://${bucket}/${fullName}",
+            $fileName, [
+            'Content-type' => 'text/csv'
+        ]);
+    }
     protected function exportCSV(Request $request, $tableName, $select, $columns, $downloadName, $sort = 'date', $callback = null){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
@@ -95,9 +115,9 @@ class AuthenticatedBaseController extends Controller
             $query = $query->where('ready', 1);
         }
 
-        $bucket = 'dashboard-php-storage';
-        $fileName = md5(uniqid()) . '.csv';
-        $fullName = "download/${fileName}";
+//        $bucket = 'dashboard-php-storage';
+//        $fileName = md5(uniqid()) . '.csv';
+//        $fullName = "download/${fileName}";
 
         $pdo = DB::connection(env('DB_CONNECTION'))->getPdo();
 
@@ -105,19 +125,22 @@ class AuthenticatedBaseController extends Controller
 
         $stmt->execute([$max_date, $min_date, 1]);
 
-        $fp = fopen("gs://${bucket}/${fullName}", 'w');
-        fprintf($fp, chr(0xEF).chr(0xBB).chr(0xBF));
-        fputcsv($fp, $columns);
+//        $fp = fopen("gs://${bucket}/${fullName}", 'w');
+//        fprintf($fp, chr(0xEF).chr(0xBB).chr(0xBF));
+//        fputcsv($fp, $columns);
 
-        while($row = $stmt->fetch(PDO::FETCH_OBJ)){
-            fputcsv($fp, array_values(get_object_vars($row)));
-        }
-        fclose($fp);
+        return download(function($fp) use($stmt){
+            while($row = $stmt->fetch(PDO::FETCH_OBJ)){
+                fputcsv($fp, array_values(get_object_vars($row)));
+            }
+        }, "${min_date}_${max_date}_${downloadName}.csv");
 
-        return response()->download(
-            "gs://${bucket}/${fullName}",
-            "${min_date}_${max_date}_${downloadName}.csv", [
-            'Content-type' => 'text/csv'
-        ]);
+//        fclose($fp);
+//
+//        return response()->download(
+//            "gs://${bucket}/${fullName}",
+//            "${min_date}_${max_date}_${downloadName}.csv", [
+//            'Content-type' => 'text/csv'
+//        ]);
     }
 }
