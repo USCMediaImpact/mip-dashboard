@@ -394,6 +394,9 @@ class DataController extends AuthenticatedBaseController{
                 fprintf($ftarget, chr(0xEF) . chr(0xBB) . chr(0xBF));
                 fputcsv($ftarget, $columns);
                 while (($s = fgetcsv($fsource, 1, ',')) !== FALSE) {
+                    if(count($s) == 1 && $s[0] == null){
+                        continue;
+                    }
                     //'IFNULL(Article, Combo_URL) AS Article, Combo_URL, Pageviews, Scroll_Start as StartedScrolling, Scroll_25 as Scroll25, Scroll_50 as Scroll50, Scroll_75 as Scroll75, Scroll_100 as Scroll100, Scroll_Supplemental as RelatedContent, Scroll_End as EndOfPage, Time_15 as Time15, Time_30 as Time30, Time_45 as Time45, Time_60 as Time60, Time_75 as Time75, Time_90 as Time90, Comments, Republish, Emails, Tweets, Facebook_Recommendations, IFNULL(Comments, 0) + IFNULL(Republish, 0) + IFNULL(Emails, 0) + IFNULL(Tweets, 0) + IFNULL(Facebook_Recommendations, 0) as TotalShares, (IFNULL(Comments, 0) + IFNULL(Republish, 0) + IFNULL(Emails, 0) + IFNULL(Tweets, 0) + IFNULL(Facebook_Recommendations, 0)) / IFNULL(Pageviews, 0) as SahreRate, Tribpedia_Related_Clicks, Related_Clicks, IFNULL(Related_Clicks, 0) + IFNULL(Tribpedia_Related_Clicks, 0) as Total_Related_Clicks, (IFNULL(Related_Clicks, 0) + IFNULL(Tribpedia_Related_Clicks, 0)) / IFNULL(Scroll_Supplemental, 0) as ClickThroughRate'
                     $row = array_merge([$s[1] ? $s[1] : $s[0], $s[0]],
                         array_slice($s, 2, 19),
