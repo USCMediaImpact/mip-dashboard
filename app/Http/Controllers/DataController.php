@@ -381,10 +381,10 @@ class DataController extends AuthenticatedBaseController{
         $client_code = $request['client']['code'];
         $index = 6;
         $mode = 'count';
-        $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
+        $min_date = strtotime($request['min_date'] ?: date('Y-m-1', time()));
         $min_date = date('Y-m-d', $min_date);
         $columns = $this::$DataStoriesColumn[$client_code][3];
-
+        
         return $this->responseFile(function($ftarget) use($request, $client_code, $min_date, $columns){
             $bucket = 'mip-stories-stage';
             $fsource = fopen("gs://${bucket}/${client_code}/${min_date}.csv", 'r');
