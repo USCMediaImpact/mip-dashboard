@@ -71,13 +71,13 @@ class AuthenticatedBaseController extends Controller
         ];
     }
 
-    protected function download($fputcsv, $fileName){
+    protected function responseFile($fputcsv, $fileName){
         $bucket = 'dashboard-php-storage';
         $fileName = md5(uniqid()) . '.csv';
         $fullName = "download/${fileName}";
 
         $fp = fopen("gs://${bucket}/${fullName}", 'w');
-        fprintf($fp, chr(0xEF).chr(0xBB).chr(0xBF));
+
 
         if($fputcsv!= null){
             $fputcsv($fp);
@@ -129,7 +129,9 @@ class AuthenticatedBaseController extends Controller
 //        fprintf($fp, chr(0xEF).chr(0xBB).chr(0xBF));
 //        fputcsv($fp, $columns);
 
-        return download(function($fp) use($stmt){
+        return $this->responseFile(function($fp) use($stmt, $columns){
+            fprintf($fp, chr(0xEF).chr(0xBB).chr(0xBF));
+            fputcsv($fp, $columns);
             while($row = $stmt->fetch(PDO::FETCH_OBJ)){
                 fputcsv($fp, array_values(get_object_vars($row)));
             }
