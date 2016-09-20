@@ -382,7 +382,7 @@ class DataController extends AuthenticatedBaseController{
         $index = 6;
         $mode = 'count';
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
-        $min_date = $min_date['year'] . '-' . $min_date['month'] . '-' . $min_date['day'];
+        $min_date = date('Y-m-d', $min_date);
         $columns = $this::$DataStoriesColumn[$client_code][3];
 
         return $this->responseFile(function($ftarget) use($request, $client_code, $min_date, $columns){
