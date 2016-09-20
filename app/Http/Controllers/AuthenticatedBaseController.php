@@ -71,23 +71,23 @@ class AuthenticatedBaseController extends Controller
         ];
     }
 
-    protected function responseFile($fputcsv, $fileName){
+    protected function responseFile($fputCsv, $displayName)
+    {
         $bucket = 'dashboard-php-storage';
         $fileName = md5(uniqid()) . '.csv';
         $fullName = "download/${fileName}";
 
         $fp = fopen("gs://${bucket}/${fullName}", 'w');
 
-
-        if($fputcsv!= null){
-            $fputcsv($fp);
+        if ($fputCsv != null) {
+            $fputCsv($fp);
         }
 
         fclose($fp);
 
         return response()->download(
             "gs://${bucket}/${fullName}",
-            $fileName, [
+            $displayName, [
             'Content-type' => 'text/csv'
         ]);
     }
@@ -119,17 +119,16 @@ class AuthenticatedBaseController extends Controller
 //        $fileName = md5(uniqid()) . '.csv';
 //        $fullName = "download/${fileName}";
 
-        $pdo = DB::connection(env('DB_CONNECTION'))->getPdo();
 
-        $stmt = $pdo->prepare($query->toSql());
-
-        $stmt->execute([$max_date, $min_date, 1]);
 
 //        $fp = fopen("gs://${bucket}/${fullName}", 'w');
 //        fprintf($fp, chr(0xEF).chr(0xBB).chr(0xBF));
 //        fputcsv($fp, $columns);
 
-        return $this->responseFile(function($fp) use($stmt, $columns){
+        return $this->responseFile(function($fp) use($query, $max_date, $min_date, $columns){
+            $pdo = DB::connection(env('DB_CONNECTION'))->getPdo();
+            $stmt = $pdo->prepare($query->toSql());
+            $stmt->execute([$max_date, $min_date, 1]);
             fprintf($fp, chr(0xEF).chr(0xBB).chr(0xBF));
             fputcsv($fp, $columns);
             while($row = $stmt->fetch(PDO::FETCH_OBJ)){
