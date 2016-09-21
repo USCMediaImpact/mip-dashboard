@@ -184,12 +184,12 @@ def _run_data_stories_csv(code, min_date, data):
 	file_obj = StringIO.StringIO()
 	writer = csv.writer(file_obj)
 	for row in data:
-        row_data = []
-        for field in row:
-            if field is not None :
-                row_data.append(unicode(field).encode('utf-8'))
-            else :
-                row_data.append('')
+		row_data = []
+		for field in row:
+			if field is not None :
+				row_data.append(unicode(field).encode('utf-8'))
+			else :
+				row_data.append('')
 		writer.writerow(row_data)
 	file_obj.seek(0)
 	upload(config.CSV_BUCKET, '%s/%s.csv' % (code, min_date, ), file_obj)
