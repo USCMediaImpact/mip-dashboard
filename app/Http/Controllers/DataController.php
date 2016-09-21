@@ -377,41 +377,99 @@ class DataController extends AuthenticatedBaseController{
             'Pageviews');
     }
 
+    private function prepare_scpr_stories($ftarget, $csvPath, $columns){
+        $fsource = fopen($csvPath, 'r');
+        fprintf($ftarget, chr(0xEF) . chr(0xBB) . chr(0xBF));
+        fputcsv($ftarget, $columns);
+        while (($s = fgetcsv($fsource, 1000, ',')) !== FALSE) {
+            if(count($s) == 1 && $s[0] == null) {
+                continue;
+            }
+            $row = array_merge(
+                array($s[1] ?: $s[0]),
+                array($s[0]),
+                array_slice($s, 2, 19),
+                array($s[16] + $s[17] + $s[18] + $s[19]),
+                array($s[2] ? ($s[16] + $s[17] + $s[18] + $s[19]) / $s[2] : ''),
+                array($s[20]),
+                array($s[8] ? $s[20] / $s[8] : '')
+            );
+
+            fputcsv($ftarget, $row);
+        }
+    }
+
+    private function prepare_tt_stories($ftarget, $csvPath, $columns){
+        $fsource = fopen($csvPath, 'r');
+        fprintf($ftarget, chr(0xEF) . chr(0xBB) . chr(0xBF));
+        fputcsv($ftarget, $columns);
+        while (($s = fgetcsv($fsource, 1000, ',')) !== FALSE) {
+            if(count($s) == 1 && $s[0] == null) {
+                continue;
+            }
+            $row = array_merge(
+                array($s[1] ?: $s[0]),
+                array($s[0]),
+                array_slice($s, 2, 19),
+                array($s[16] + $s[17] + $s[18] + $s[19] + $s[20]),
+                array($s[2] ? ($s[16] + $s[17] + $s[18] + $s[19] + $s[20]) / $s[2] : ''),
+                [$s[21], $s[22]],
+                array($s[21] + $s[22]),
+                array($s[8] ? ($s[21] + $s[22]) / $s[8] : '')
+            );
+
+            fputcsv($ftarget, $row);
+        }
+    }
+
+    private function prepare_ww_stories($ftarget, $csvPath, $columns){
+        $fsource = fopen($csvPath, 'r');
+        fprintf($ftarget, chr(0xEF) . chr(0xBB) . chr(0xBF));
+        fputcsv($ftarget, $columns);
+        while (($s = fgetcsv($fsource, 1000, ',')) !== FALSE) {
+            if(count($s) == 1 && $s[0] == null) {
+                continue;
+            }
+            $row = array_merge(
+                array($s[1] ?: $s[0]),
+                array($s[0]),
+                array_slice($s, 2, 19),
+                array($s[16] + $s[17] + $s[18] + $s[19] + $s[20]),
+                array($s[2] ? ($s[16] + $s[17] + $s[18] + $s[19] + $s[20]) / $s[2] : ''),
+                [$s[21], $s[22]],
+                array($s[21] + $s[22]),
+                array($s[8] ? ($s[21] + $s[22]) / $s[8] : '')
+            );
+
+            fputcsv($ftarget, $row);
+        }
+    }
+
     public function download_All_Stories(Request $request)
     {
         $client_code = $request['client']['code'];
         $index = 6;
         $mode = 'count';
-        $min_date = strtotime($request['min_date'] ?: date('Y-m-1', time()));
+        $min_date = strtotime($request['min_date']);
+        $max_date = strtotime($request['max_date']);
         $min_date = date('Y-m-d', $min_date);
+        $max_date = date('Y-m-d', $max_date);
         $columns = $this::$DataStoriesColumn[$client_code][3];
         $bucket = 'mip-stories-stage';
         $csvPath = "gs://${bucket}/${client_code}/${min_date}.csv";
 
         if (file_exists($csvPath)) {
-            return $this->responseFile(function ($ftarget) use ($request, $csvPath, $client_code, $min_date, $columns) {
-                $fsource = fopen($csvPath, 'r');
-                fprintf($ftarget, chr(0xEF) . chr(0xBB) . chr(0xBF));
-                fputcsv($ftarget, $columns);
-                while (($s = fgetcsv($fsource, 1000, ',')) !== FALSE) {
-                    if(count($s) == 1 && $s[0] == null){
-                        continue;
-                    }
-                    //'IFNULL(Article, Combo_URL) AS Article, Combo_URL, Pageviews, Scroll_Start as StartedScrolling, Scroll_25 as Scroll25, Scroll_50 as Scroll50, Scroll_75 as Scroll75, Scroll_100 as Scroll100, Scroll_Supplemental as RelatedContent, Scroll_End as EndOfPage, Time_15 as Time15, Time_30 as Time30, Time_45 as Time45, Time_60 as Time60, Time_75 as Time75, Time_90 as Time90, Comments, Republish, Emails, Tweets, Facebook_Recommendations, IFNULL(Comments, 0) + IFNULL(Republish, 0) + IFNULL(Emails, 0) + IFNULL(Tweets, 0) + IFNULL(Facebook_Recommendations, 0) as TotalShares, (IFNULL(Comments, 0) + IFNULL(Republish, 0) + IFNULL(Emails, 0) + IFNULL(Tweets, 0) + IFNULL(Facebook_Recommendations, 0)) / IFNULL(Pageviews, 0) as SahreRate, Tribpedia_Related_Clicks, Related_Clicks, IFNULL(Related_Clicks, 0) + IFNULL(Tribpedia_Related_Clicks, 0) as Total_Related_Clicks, (IFNULL(Related_Clicks, 0) + IFNULL(Tribpedia_Related_Clicks, 0)) / IFNULL(Scroll_Supplemental, 0) as ClickThroughRate'
-                    $row = array_merge(
-                        array($s[1] ?: $s[0]),
-                        array($s[0]),
-                        array_slice($s, 2, 19),
-                        array($s[16] + $s[17] + $s[18] + $s[19] + $s[20]),
-                        array($s[2] ? ($s[16] + $s[17] + $s[18] + $s[19] + $s[20]) / $s[2] : ''),
-                        [$s[21], $s[22]],
-                        array($s[21] + $s[22]),
-                        array($s[8] ? ($s[21] + $s[22]) / $s[8] : '')
-                    );
-
-                    fputcsv($ftarget, $row);
+            return $this->responseFile(function ($ftarget) use ($csvPath, $columns, $client_code) {
+                switch ($client_code){
+                    case 'SCPR':
+                        $this->prepare_scpr_stories($ftarget, $csvPath, $columns);
+                        break;
+                    case 'TT':
+                        $this->prepare_tt_stories($ftarget, $csvPath, $columns);
+                    case 'WW':
+                        $this->prepare_ww_stories($ftarget, $csvPath, $columns);
                 }
-            }, "stories_full_report_test.csv");
+            }, "${min_date}_${max_date}_stories_full_report_test.csv");
         } else {
             return $this->exportCSV($request,
                 $client_code . '_data_stories_',
