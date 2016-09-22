@@ -288,9 +288,9 @@ class DataController extends AuthenticatedBaseController{
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $isSuperAdmin = $request['isSuperAdmin'];
         if($isSuperAdmin){
-            $query = DB::table($client_code . '_data_stories_' . $group);
+            $query = DB::table($client_code . '_data_stories_top100_' . $group);
         }else {
-            $query = DB::table($client_code . '_data_stories_' . $group)->where('ready', 1);
+            $query = DB::table($client_code . '_data_stories_top100_' . $group)->where('ready', 1);
         }
 
         $count = $query->count();
@@ -320,61 +320,25 @@ class DataController extends AuthenticatedBaseController{
         $client_code = $request['client']['code'];
         $index = $mode == 'count' ? 1 : 0;
         return $this->dataTableQuery($request,
-            $client_code.'_data_stories_',
+            $client_code.'_data_stories_top100_',
             $this::$DataStoriesField[$client_code][$index]);
     }
-
-    public function download_Stories_Scroll_Depth(Request $request, $mode){
-        $client_code = $request['client']['code'];
-        $index = $mode == 'count' ? 1 : 0;
-        return $this->exportCSV($request,
-            $client_code.'_data_stories_',
-            $this::$DataStoriesExportField[$client_code][$index],
-            $this::$DataStoriesColumn[$client_code][0],
-            'Scroll Depth',
-            'Pageviews');
-    }
-
-
 
     public function get_Stories_Time_On_Article(Request $request, $mode)
     {
         $client_code = $request['client']['code'];
         $index = $mode == 'count' ? 3 : 2;
         return $this->dataTableQuery($request,
-            $client_code.'_data_stories_',
+            $client_code.'_data_stories_top100_',
             $this::$DataStoriesField[$client_code][$index]);
     }
-
-    public function download_Stories_Time_On_Article(Request $request, $mode){
-        $client_code = $request['client']['code'];
-        $index = $mode == 'count' ? 3 : 2;
-        return $this->exportCSV($request,
-            $client_code.'_data_stories_',
-            $this::$DataStoriesExportField[$client_code][$index],
-            $this::$DataStoriesColumn[$client_code][1],
-            'Time On Article.csv',
-            'Pageviews');
-    }
-
-
 
     public function get_Stories_User_Interactions(Request $request)
     {
         $client_code = $request['client']['code'];
         return $this->dataTableQuery($request,
-            $client_code.'_data_stories_',
+            $client_code.'_data_stories_top100_',
             $this::$DataStoriesField[$client_code][4]);
-    }
-
-    public function download_Stories_User_Interactions(Request $request){
-        $client_code = $request['client']['code'];
-        return $this->exportCSV($request,
-            $client_code.'_data_stories_',
-            $this::$DataStoriesExportField[$client_code][4],
-            $this::$DataStoriesColumn[$client_code][2],
-            'User Interactions.csv',
-            'Pageviews');
     }
 
     private function prepare_scpr_stories($ftarget, $csvPath, $columns){

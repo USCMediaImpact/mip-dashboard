@@ -38,6 +38,7 @@ class AuthenticatedBaseController extends Controller
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
         $client_id = $request['client']['id'];
         $isSuperAdmin = $request['isSuperAdmin'];
+
         $query = DB::table($tableName . $group)
             ->select(DB::raw($select));
 
