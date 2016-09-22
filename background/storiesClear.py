@@ -9,7 +9,7 @@ def reduce_stories(code) :
 	cursor.execute('SET NAMES utf8;')
 	cursor.execute('SET CHARACTER SET utf8;')
 	cursor.execute('SET character_set_connection=utf8;')
-	query = cursor.execute('select date from %s_data_stories_weekly' % (code,))
+	query = cursor.execute('select date from %s_data_stories_weekly group by date' % (code,))
 	all_date = cursor.fetchmany(query)
 	for date in all_date:
 		logging.info('clear up %s date' % date[0])
