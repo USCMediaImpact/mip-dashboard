@@ -19,5 +19,3 @@ def reduce_stories(code) :
 		except:
 			db.rollback()
 	db.close()
-
-reduce_stories('SCPR')

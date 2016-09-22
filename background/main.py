@@ -103,10 +103,19 @@ class HistoryTaskHandler(webapp2.RequestHandler):
 		logging.info('run history job finished')
 		self.response.out.write('ok')
 
+class CearStoriesTaskHandler(webapp2.RequestHandler):
+	def get(self):
+		import storiesClear
+		code = self.request.get('code')
+		self.response.out.write(code)
+		storiesClear.reduce_stories(code)
+		self.response.out.write('done')
+
 app = webapp2.WSGIApplication([
 	# ('/etl/daily', DailyTaskHandler),
 	('/etl/weekly', WeeklyTaskHandler),
 	# ('/etl/monthly', MonthlyTaskHandler),
 	('/etl/history', HistoryTaskHandler),
 	('/etl/weekly/custom', WeeklyCustomDateTaskHandler),
+	('/etl/clear/stories', CearStoriesTaskHandler),
 ], debug=True)
