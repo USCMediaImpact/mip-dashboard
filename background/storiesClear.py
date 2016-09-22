@@ -14,7 +14,7 @@ def reduce_stories(code) :
 	for date in all_date:
 		logging.info('clear up %s date' % date[0])
 		try:
-			sql = "INSERT INTO %s_data_stories_weekly_top100 SELECT * FROM SCPR_data_stories_weekly WHERE date = '%s' ORDER BY Pageviews DESC LIMIT 100" % (code, date[0])
+			sql = "INSERT INTO %s_data_stories_weekly_top100 SELECT * FROM %s_data_stories_weekly WHERE date = '%s' ORDER BY Pageviews DESC LIMIT 100" % (code, code, date[0])
 			logging.info('execute sql %s' % (sql, ))
 			cursor.execute(sql)
 			db.commit()
