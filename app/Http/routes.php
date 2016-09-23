@@ -98,13 +98,13 @@ Route::match(['get', 'post'], '/data/donations', 'DataController@showDonations')
 Route::get('/data/stories', 'DataController@showStories');
 Route::post('/data/stories/scroll_depth/{mode}', 'DataController@get_Stories_Scroll_Depth');
 Route::post('/data/stories/scroll_depth/{mode}/csv', 'DataController@download_Stories_Scroll_Depth');
-Route::post('/data/stories/scroll_depth/{mode}/csv/all', 'DataController@download_All_Stories_Scroll_Depth');
+Route::post('/data/stories/scroll_depth/{mode}/csv/all', 'DataController@download_All_Stories');
 Route::post('/data/stories/time_on_article/{mode}', 'DataController@get_Stories_Time_On_Article');
 Route::post('/data/stories/time_on_article/{mode}/csv', 'DataController@download_Stories_Time_On_Article');
-Route::post('/data/stories/time_on_article/{mode}/csv/all', 'DataController@download_All_Stories_Time_On_Article');
+Route::post('/data/stories/time_on_article/{mode}/csv/all', 'DataController@download_All_Stories');
 Route::post('/data/stories/user_interactions', 'DataController@get_Stories_User_Interactions');
 Route::post('/data/stories/user_interactions/csv', 'DataController@download_Stories_User_Interactions');
-Route::post('/data/stories/user_interactions/csv/all', 'DataController@download_All_Stories_User_Interactions');
+Route::post('/data/stories/user_interactions/csv/all', 'DataController@download_All_Stories');
 
 Route::get('/data/newsletter', 'DataController@showNewsLetter');
 Route::post('/data/newsletter', 'DataController@get_NewsLetter');

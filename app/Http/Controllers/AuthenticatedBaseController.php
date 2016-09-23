@@ -38,6 +38,7 @@ class AuthenticatedBaseController extends Controller
         $min_date = date_parse($request['min_date'] ?: date('Y-m-1', time()));
         $client_id = $request['client']['id'];
         $isSuperAdmin = $request['isSuperAdmin'];
+
         $query = DB::table($tableName . $group)
             ->select(DB::raw($select));
 
@@ -71,6 +72,26 @@ class AuthenticatedBaseController extends Controller
         ];
     }
 
+    protected function responseFile($fileCallback, $displayName)
+    {
+        $bucket = 'dashboard-php-storage';
+        $fileName = md5(uniqid()) . '.csv';
+        $fullName = "download/${fileName}";
+
+        $fp = fopen("gs://${bucket}/${fullName}", 'w');
+
+        if ($fileCallback != null) {
+            $fileCallback($fp);
+        }
+
+        fclose($fp);
+
+        return response()->download(
+            "gs://${bucket}/${fullName}",
+            $displayName, [
+            'Content-type' => 'text/csv'
+        ]);
+    }
     protected function exportCSV(Request $request, $tableName, $select, $columns, $downloadName, $sort = 'date', $callback = null){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
@@ -90,34 +111,21 @@ class AuthenticatedBaseController extends Controller
 
         $query = $query->where('date', '<=', $max_date)
             ->where('date', '>=', $min_date);
-
+        $queryParams = [$max_date, $min_date];
         if(!$isSuperAdmin){
             $query = $query->where('ready', 1);
+            $queryParams = [$max_date, $min_date, 1];
         }
 
-        $bucket = 'dashboard-php-storage';
-        $fileName = md5(uniqid()) . '.csv';
-        $fullName = "download/${fileName}";
-
-        $pdo = DB::connection(env('DB_CONNECTION'))->getPdo();
-
-        $stmt = $pdo->prepare($query->toSql());
-
-        $stmt->execute([$max_date, $min_date, 1]);
-
-        $fp = fopen("gs://${bucket}/${fullName}", 'w');
-        fprintf($fp, chr(0xEF).chr(0xBB).chr(0xBF));
-        fputcsv($fp, $columns);
-
-        while($row = $stmt->fetch(PDO::FETCH_OBJ)){
-            fputcsv($fp, array_values(get_object_vars($row)));
-        }
-        fclose($fp);
-
-        return response()->download(
-            "gs://${bucket}/${fullName}",
-            "${min_date}_${max_date}_${downloadName}.csv", [
-            'Content-type' => 'text/csv'
-        ]);
+        return $this->responseFile(function($fp) use($query, $queryParams, $max_date, $min_date, $columns){
+            $pdo = DB::connection(env('DB_CONNECTION'))->getPdo();
+            $stmt = $pdo->prepare($query->toSql());
+            $stmt->execute($queryParams);
+            fprintf($fp, chr(0xEF).chr(0xBB).chr(0xBF));
+            fputcsv($fp, $columns);
+            while($row = $stmt->fetch(PDO::FETCH_OBJ)){
+                fputcsv($fp, array_values(get_object_vars($row)));
+            }
+        }, "${min_date}_${max_date}_${downloadName}.csv");
     }
 }

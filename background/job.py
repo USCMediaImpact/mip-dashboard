@@ -15,7 +15,7 @@ import hashlib
 from cloudStorage import download
 from cloudStorage import upload
 from dateutil.parser import parse
-import cloudstorage
+import StringIO
 
 DIMESIONS = {
 	'daily': 'ga:date',
@@ -54,14 +54,15 @@ def format_hive(sql, min_date, max_date, dimension):
 def run(min_date, max_date, dimension):
 	logging.debug(dimension + ' corn job is running at ' + unicode(datetime.now()) + ' from ' + min_date + ' to ' + max_date)
 	client_settings = mySqlClient.query_client_settings()
-	
+
 	for client in client_settings:
 		clientId = client[0]
 		code = client[1]
 		setting = json.loads(client[2])
+		logging.info('----------Begin Run %s----------' % (code, ))
 
 		notTotallySuccess = False
-
+		logging.info('----------Begin Run %s Prepare----------' % (code, ))
 		try:
 			logging.info('run %s prepare' % code)
 			_run_prepare(clientId, setting, min_date, max_date, dimension)
@@ -70,6 +71,7 @@ def run(min_date, max_date, dimension):
 			notTotallySuccess = True
 
 		#query for data_users
+		logging.info('----------Begin Run %s Data Users----------' % (code, ))
 		try:
 			logging.info('run %s data users' % code)
 			logging.debug(setting['data_users_dimension'])
@@ -80,6 +82,7 @@ def run(min_date, max_date, dimension):
 			notTotallySuccess = True
 
 		#query for data_stories
+		logging.info('----------Begin Run %s Data Stories----------' % (code, ))
 		try:
 			logging.info('run %s data stories' % code)
 			logging.debug(setting['data_users_dimension'])
@@ -90,6 +93,7 @@ def run(min_date, max_date, dimension):
 			notTotallySuccess = True
 
 		#query for data_quality
+		logging.info('----------Begin Run %s Data Quality----------' % (code, ))
 		try:
 			logging.info('run %s data quality' % code)
 			if dimension in setting['data_quality_dimension']:
@@ -97,6 +101,8 @@ def run(min_date, max_date, dimension):
 		except Exception:
 			logging.error('run %s data quality failed' % code, exc_info=True)
 			notTotallySuccess = True
+
+		logging.info('----------End Run %s----------' % (code, ))
 
 	if notTotallySuccess :
 		raise Exception('missing failed!')
@@ -114,7 +120,7 @@ def _run_prepare(client_id, setting, min_date, max_date, dimension):
 
 def _run_data_users(client_id, code, setting, min_date, max_date, dimension):
 	logging.debug('run %s data user job' % code)
-	
+
 	hql = format_hive(setting['bq_data_users'], min_date, max_date, dimension)
 
 	logging.debug('big query: %s', hql)
@@ -139,7 +145,7 @@ def _run_data_users(client_id, code, setting, min_date, max_date, dimension):
 
 def _run_data_stories(client_id, code, setting, min_date, max_date, dimension):
 	logging.debug(setting['bq_data_stories'])
-	
+
 	hql = format_hive(setting['bq_data_stories'], min_date, max_date, dimension)
 
 	logging.debug('big query: %s', hql)
@@ -167,23 +173,33 @@ def _run_data_stories(client_id, code, setting, min_date, max_date, dimension):
 		logging.debug('insert mysql data: %s' % (sql_data[0],))
 
 		mySqlClient.insert_mysql(sql, sql_data)
-		_run_data_stories_csv(min_date, csv_data)
+		_run_data_stories_csv(code, min_date, csv_data)
 
 def _run_data_stories_csv(code, min_date, data):
 	logging.debug('save to csv')
 	import csv
 	import config
-	with cloudstorage.open('/%s/%s/%s.csv' % (config.CSV_BUCKET, code, min_date, ), 'w') as file_obj:
-		writer = csv.writer(file_obj)
-		for row in data:
-    		writer.writerows(row)
+
+	# with cloudstorage.open('/%s/%s/%s.csv' % (config.CSV_BUCKET, code, min_date, ), 'w') as file_obj:
+	file_obj = StringIO.StringIO()
+	writer = csv.writer(file_obj)
+	for row in data:
+		row_data = []
+		for field in row:
+			if field is not None :
+				row_data.append(unicode(field).encode('utf-8'))
+			else :
+				row_data.append('')
+		writer.writerow(row_data)
+	file_obj.seek(0)
+	upload(config.CSV_BUCKET, '%s/%s.csv' % (code, min_date, ), file_obj)
 
 def _run_data_quality(client_id, code, setting, min_date, max_date, dimension):
 	logging.debug('run ga with %s for client %s' % (client_id, setting['ga_id']))
 	ga_data = analyticsClient.get_ga_result(
-		setting['ga_id'], 
-		min_date, 
-		max_date, 
+		setting['ga_id'],
+		min_date,
+		max_date,
 		'ga:users',
 		DIMESIONS[dimension])
 
@@ -206,43 +222,39 @@ def _run_data_quality(client_id, code, setting, min_date, max_date, dimension):
 
 	sql = mysql.data_quality[code].format(dimension=dimension)
 	sql_data = (min_date, ga_data) + bq_data + (ga_data, ) + bq_data
-	
+
 	logging.debug('excute sql: %s' % sql)
 	logging.debug('insert mysql data: %s' % (sql_data,))
 
 	mySqlClient.insert_mysql(sql, [sql_data])
 
-def _run_data_newsletter(file_name, code, dimension):
+def _run_data_newsletter(file_name, code, dimension='weekly'):
 	logging.debug('run newsletter csv import for file: %s' % (file_name,))
 	import os, csv
-	try:
-		os.remove('./tmp.csv')
-	except OSError:
-		pass
+	file_obj = StringIO.StringIO()
+	download(bucket_name='mip-newsletter-data',
+		path=file_name,
+		file_obj=file_obj)
+	file_obj.seek(0, os.SEEK_SET)
 
-	with open('./tmp.csv', 'wb') as file_obj:
-		download(bucket_name='mip-newsletter-data', 
-			path=file_name,
-			file_obj=file_obj)
-	with open('./tmp.csv', 'rb') as file_obj:
-		spamreader = csv.reader(file_obj)
-		sql = mysql.data_newsletter[code].format(dimension=dimension)
-		db = mySqlClient.get_db()
-		cursor = db.cursor()
-		cursor.execute('SET NAMES utf8;')
-		cursor.execute('SET CHARACTER SET utf8;')
-		cursor.execute('SET character_set_connection=utf8;')
-		spamreader.next()
-		for row in spamreader:
-			date = parse(row[3]).strftime('%Y-%m-%d %H:%M:%S')
-			row[3] = date
-			row[13] = float(row[13].replace('%', '')) / 100
-			row[16] = float(row[16].replace('%', '')) / 100
-			row.insert(0, date)
-			cursor.execute(sql, row[0:22])
-		db.commit()
-		cursor.close()
-		db.close()
+	spamreader = csv.reader(file_obj)
+	sql = mysql.data_newsletter[code].format(dimension=dimension)
+	db = mySqlClient.get_db()
+	cursor = db.cursor()
+	cursor.execute('SET NAMES utf8;')
+	cursor.execute('SET CHARACTER SET utf8;')
+	cursor.execute('SET character_set_connection=utf8;')
+	spamreader.next()
+	for row in spamreader:
+		date = parse(row[3]).strftime('%Y-%m-%d %H:%M:%S')
+		row[3] = date
+		row[13] = float(row[13].replace('%', '')) / 100
+		row[16] = float(row[16].replace('%', '')) / 100
+		row.insert(0, date)
+		cursor.execute(sql, row[0:22])
+	db.commit()
+	cursor.close()
+	db.close()
 
 
 

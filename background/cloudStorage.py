@@ -11,7 +11,4 @@ def upload(bucket_name, path, file_obj):
 	client = storage.Client()
 	bucket = client.get_bucket(bucket_name)
 	blob = Blob(path, bucket)
-	if blob.exists() :
-		blob.delete();
-	
-	blob.upload_from_file(file_obj, rewind = True)
+	blob.upload_from_file(file_obj, rewind = True, size = 1024)
