@@ -105,9 +105,11 @@ class HistoryTaskHandler(webapp2.RequestHandler):
 
 class NewsletterTaskHandler(webapp2.RequestHandler):
 	def get(self):
-		file_name = parse(self.request.get('filename'))
+		file_name = self.request.get('filename')
 		code = parse(self.request.get('code'))
+		self.response.out.write('begin %s %s' %(code, file_name, ))
 		job._run_data_newsletter(file_name, code)
+		self.response.out.write('done')
 
 class CearStoriesTaskHandler(webapp2.RequestHandler):
 	def get(self):
