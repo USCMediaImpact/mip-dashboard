@@ -38,7 +38,7 @@ class MaintainController extends AuthenticatedBaseController
                 $quality[$item->date] = $item->ready;
             }
             $report['quality'] = $quality;
-            $db_stories = DB::table($client->code . '_data_stories_weekly')
+            $db_stories = DB::table($client->code . '_data_stories_top100_weekly')
                 ->select('date', 'ready')
                 ->groupBy('date')
                 ->orderBy('date', 'desc')
