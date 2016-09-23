@@ -231,34 +231,30 @@ def _run_data_quality(client_id, code, setting, min_date, max_date, dimension):
 def _run_data_newsletter(file_name, code, dimension='Weekly'):
 	logging.debug('run newsletter csv import for file: %s' % (file_name,))
 	import os, csv
-	try:
-		os.remove('./tmp.csv')
-	except OSError:
-		pass
+	file_obj = StringIO.StringIO()
+	download(bucket_name='mip-newsletter-data',
+		path=file_name,
+		file_obj=file_obj)
+	file_obj.seek(0, os.SEEK_SET)
 
-	with open('./tmp.csv', 'wb') as file_obj:
-		download(bucket_name='mip-newsletter-data',
-			path=file_name,
-			file_obj=file_obj)
-	with open('./tmp.csv', 'rb') as file_obj:
-		spamreader = csv.reader(file_obj)
-		sql = mysql.data_newsletter[code].format(dimension=dimension)
-		db = mySqlClient.get_db()
-		cursor = db.cursor()
-		cursor.execute('SET NAMES utf8;')
-		cursor.execute('SET CHARACTER SET utf8;')
-		cursor.execute('SET character_set_connection=utf8;')
-		spamreader.next()
-		for row in spamreader:
-			date = parse(row[3]).strftime('%Y-%m-%d %H:%M:%S')
-			row[3] = date
-			row[13] = float(row[13].replace('%', '')) / 100
-			row[16] = float(row[16].replace('%', '')) / 100
-			row.insert(0, date)
-			cursor.execute(sql, row[0:22])
-		db.commit()
-		cursor.close()
-		db.close()
+	spamreader = csv.reader(file_obj)
+	sql = mysql.data_newsletter[code].format(dimension=dimension)
+	db = mySqlClient.get_db()
+	cursor = db.cursor()
+	cursor.execute('SET NAMES utf8;')
+	cursor.execute('SET CHARACTER SET utf8;')
+	cursor.execute('SET character_set_connection=utf8;')
+	spamreader.next()
+	for row in spamreader:
+		date = parse(row[3]).strftime('%Y-%m-%d %H:%M:%S')
+		row[3] = date
+		row[13] = float(row[13].replace('%', '')) / 100
+		row[16] = float(row[16].replace('%', '')) / 100
+		row.insert(0, date)
+		cursor.execute(sql, row[0:22])
+	db.commit()
+	cursor.close()
+	db.close()
 
 
 
