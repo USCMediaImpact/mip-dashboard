@@ -5,9 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.3/foundation.min.css">
     <!-- build:css css/style.css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/foundation.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui.structure.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui.theme.css') }}">
@@ -43,13 +43,13 @@
         @yield('reveal')
     </div>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/foundation/6.2.3/foundation.min.js"></script>
     <!-- build:js scripts/vendor.js -->
-    <script src="{{ asset('scripts/vendor/jquery.min.js') }}"></script>
     <script src="{{ asset('scripts/vendor/moment.min.js') }}"></script>
     <script src="{{ asset('scripts/vendor/sprintf.min.js') }}"></script>
     <script src="{{ asset('scripts/vendor/cookie.js') }}"></script>
     <script src="{{ asset('scripts/vendor/what-input.min.js') }}"></script>
-    <script src="{{ asset('scripts/vendor/foundation.min.js') }}"></script>
     <script src="{{ asset('scripts/vendor/jquery-ui.js') }}"></script>
     <script src="{{ asset('scripts/vendor/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('scripts/vendor/dataTables.foundation.js') }}"></script>
