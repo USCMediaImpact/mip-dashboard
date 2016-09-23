@@ -103,6 +103,12 @@ class HistoryTaskHandler(webapp2.RequestHandler):
 		logging.info('run history job finished')
 		self.response.out.write('ok')
 
+class NewsletterTaskHandler(webapp2.RequestHandler):
+	def get(self):
+		file_name = parse(self.request.get('filename'))
+		code = parse(self.request.get('code'))
+		job._run_data_newsletter(file_name, code)
+
 class CearStoriesTaskHandler(webapp2.RequestHandler):
 	def get(self):
 		import storiesClear
@@ -117,5 +123,6 @@ app = webapp2.WSGIApplication([
 	# ('/etl/monthly', MonthlyTaskHandler),
 	('/etl/history', HistoryTaskHandler),
 	('/etl/weekly/custom', WeeklyCustomDateTaskHandler),
+	('/etl/weekly/newsletter', NewsletterTaskHandler),
 	('/etl/clear/stories', CearStoriesTaskHandler),
 ], debug=True)

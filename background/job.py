@@ -228,7 +228,7 @@ def _run_data_quality(client_id, code, setting, min_date, max_date, dimension):
 
 	mySqlClient.insert_mysql(sql, [sql_data])
 
-def _run_data_newsletter(file_name, code, dimension):
+def _run_data_newsletter(file_name, code, dimension='Weekly'):
 	logging.debug('run newsletter csv import for file: %s' % (file_name,))
 	import os, csv
 	try:
