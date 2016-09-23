@@ -17,17 +17,17 @@ class mysql:
 			''' `TotalMembersThisWeek` = %s, `KPI_TotalMembersKnownToMIP` = %s, `CameToSiteThroughEmail` = %s, `KPI_TotalEmailSubscribersKnownToMIP` = %s, `KPI_PercentKnownSubsWhoCame` = %s, `KPI_NewEmailSubscribers` = %s, `TotalDonorsThisWeek` = %s, `KPI_TotalDonorsKnownToMIP` = %s, `Duplicated_MembersPlusCameThroughEmailPlusDonors` = %s, `Unduplicated_TotalUsersKPI` = %s, `Duplicated_Database_MembersPlusCameThroughEmailPlusDonors` = %s, `Unduplicated_Database_TotalUsersKPI` = %s''')
 	}
 	data_stories = {
-		'SCPR' : ('''INSERT INTO `SCPR_data_stories_{dimension}`( '''
+		'SCPR' : ('''INSERT INTO `SCPR_data_stories_top100_{dimension}`( '''
 			'''`date`, `path_article_md5`, `Page_Path`, `Article`, `Pageviews`, `Scroll_Start`, `Scroll_25`, `Scroll_50`, `Scroll_75`, `Scroll_100`, `Scroll_Supplemental`, `Scroll_End`, `Time_15`, `Time_30`, `Time_45`, `Time_60`, `Time_75`, `Time_90`, `Comments`, `Republish`, `Emails`, `Tweets`, `Facebook_Recommendations`, `Tribpedia_Related_Clicks`, `Related_Clicks`'''
 			''') VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
 			''' ON DUPLICATE KEY UPDATE '''
 			'''`Page_Path` = %s, `Article` = %s, `Pageviews` = %s, `Scroll_Start` = %s, `Scroll_25` = %s, `Scroll_50` = %s, `Scroll_75` = %s, `Scroll_100` = %s, `Scroll_Supplemental` = %s, `Scroll_End` = %s, `Time_15` = %s, `Time_30` = %s, `Time_45` = %s, `Time_60` = %s, `Time_75` = %s, `Time_90` = %s, `Comments` = %s, `Republish` = %s, `Emails` = %s, `Tweets` = %s, `Facebook_Recommendations` = %s, `Tribpedia_Related_Clicks` = %s, `Related_Clicks` = %s'''),
-		'TT' : ('''INSERT INTO `TT_data_stories_{dimension}`( '''
+		'TT' : ('''INSERT INTO `TT_data_stories_top100_{dimension}`( '''
 			'''`date`, `path_article_md5`, `Combo_URL`, `Article`, `Pageviews`, `Scroll_Start`, `Scroll_25`, `Scroll_50`, `Scroll_75`, `Scroll_100`, `Scroll_Supplemental`, `Scroll_End`, `Time_15`, `Time_30`, `Time_45`, `Time_60`, `Time_75`, `Time_90`, `Comments`, `Republish`, `Emails`, `Tweets`, `Facebook_Recommendations`, `Tribpedia_Related_Clicks`, `Related_Clicks`'''
 			''') VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
 			''' ON DUPLICATE KEY UPDATE '''
 			'''`Combo_URL` = %s, `Article` = %s, `Pageviews` = %s, `Scroll_Start` = %s, `Scroll_25` = %s, `Scroll_50` = %s, `Scroll_75` = %s, `Scroll_100` = %s, `Scroll_Supplemental` = %s, `Scroll_End` = %s, `Time_15` = %s, `Time_30` = %s, `Time_45` = %s, `Time_60` = %s, `Time_75` = %s, `Time_90` = %s, `Comments` = %s, `Republish` = %s, `Emails` = %s, `Tweets` = %s, `Facebook_Recommendations` = %s, `Tribpedia_Related_Clicks` = %s, `Related_Clicks` = %s'''),
-		'WW' : ('''INSERT INTO `WW_data_stories_{dimension}`( '''
+		'WW' : ('''INSERT INTO `WW_data_stories_top100_{dimension}`( '''
 			'''`date`, `path_article_md5`, `Combo_URL`, `Article`, `Pageviews`, `Scroll_Start`, `Scroll_25`, `Scroll_50`, `Scroll_75`, `Scroll_100`, `Scroll_Supplemental`, `Scroll_End`, `Time_15`, `Time_30`, `Time_45`, `Time_60`, `Time_75`, `Time_90`, `Comments`, `Republish`, `Emails`, `Tweets`, `Facebook_Recommendations`, `Tribpedia_Related_Clicks`, `Related_Clicks`'''
 			''') VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
 			''' ON DUPLICATE KEY UPDATE '''

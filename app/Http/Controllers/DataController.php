@@ -436,7 +436,7 @@ class DataController extends AuthenticatedBaseController{
             }, "${min_date}_${max_date}_stories_full_report_test.csv");
         } else {
             return $this->exportCSV($request,
-                $client_code . '_data_stories_',
+                $client_code . '_data_stories_top100_',
                 $this::$DataStoriesExportField[$client_code][$index],
                 $this::$DataStoriesColumn[$client_code][3],
                 "stories_full_report",
