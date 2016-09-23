@@ -43,7 +43,9 @@
         @yield('reveal')
     </div>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"></script>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/foundation/6.2.3/foundation.min.js"></script>
     <!-- build:js scripts/vendor.js -->
     <script src="{{ asset('scripts/vendor/moment.min.js') }}"></script>
