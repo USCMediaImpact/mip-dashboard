@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.3/foundation.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/foundation/6.2.3/foundation.min.css">
     <!-- build:css css/style.css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery-ui.css') }}">
@@ -42,11 +42,11 @@
     <div class="hide">
         @yield('reveal')
     </div>
-    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"></script>
-    <script src="http://code.jquery.com/jquery-2.2.4.min.js"
+    <script src="//cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"></script>
+    <script src="//code.jquery.com/jquery-2.2.4.min.js"
             integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
             crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/foundation/6.2.3/foundation.min.js"></script>
+    <script src="//cdn.jsdelivr.net/foundation/6.2.3/foundation.min.js"></script>
     <!-- build:js scripts/vendor.js -->
     <script src="{{ asset('scripts/vendor/moment.min.js') }}"></script>
     <script src="{{ asset('scripts/vendor/sprintf.min.js') }}"></script>
