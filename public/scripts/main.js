@@ -91,7 +91,7 @@ $(function () {
 	var dateRangeChangeTimeout = null;
 	$(document).on('change.daterange', '.panel', function () {
 		window.clearTimeout(dateRangeChangeTimeout);
-		var tableId = $(this).find('table').attr('id');
+		var tableId = $(this).find('table[id]').attr('id');
 		dateRangeChangeTimeout = window.setTimeout(function () {
 			typeof ReportDataTable !== 'undefined' && ReportDataTable[tableId] && ReportDataTable[tableId].ajax.reload();
 		}, 500);
