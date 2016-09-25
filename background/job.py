@@ -81,6 +81,16 @@ def run(min_date, max_date, dimension):
 			logging.error('run %s data users failed' % code, exc_info=True)
 			notTotallySuccess = True
 
+		#query for data_quality
+		logging.info('----------Begin Run %s Data Quality----------' % (code, ))
+		try:
+			logging.info('run %s data quality' % code)
+			if dimension in setting['data_quality_dimension']:
+				_run_data_quality(clientId, code, setting, min_date, max_date, dimension)
+		except Exception:
+			logging.error('run %s data quality failed' % code, exc_info=True)
+			notTotallySuccess = True
+
 		#query for data_stories
 		logging.info('----------Begin Run %s Data Stories----------' % (code, ))
 		try:
@@ -90,16 +100,6 @@ def run(min_date, max_date, dimension):
 				_run_data_stories(clientId, code, setting, min_date, max_date, dimension)
 		except Exception:
 			logging.error('run %s data stories failed' % code, exc_info=True)
-			notTotallySuccess = True
-
-		#query for data_quality
-		logging.info('----------Begin Run %s Data Quality----------' % (code, ))
-		try:
-			logging.info('run %s data quality' % code)
-			if dimension in setting['data_quality_dimension']:
-				_run_data_quality(clientId, code, setting, min_date, max_date, dimension)
-		except Exception:
-			logging.error('run %s data quality failed' % code, exc_info=True)
 			notTotallySuccess = True
 
 		logging.info('----------End Run %s----------' % (code, ))
