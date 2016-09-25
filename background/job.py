@@ -179,9 +179,14 @@ def _run_data_stories_csv(code, min_date, data):
 	logging.debug('save to csv')
 	import csv
 	import config
+	import os
 
-	# with cloudstorage.open('/%s/%s/%s.csv' % (config.CSV_BUCKET, code, min_date, ), 'w') as file_obj:
-	file_obj = StringIO.StringIO()
+	env = os.getenv('SERVER_SOFTWARE')
+  	if (env and env.startswith('Google App Engine/')):
+		file_obj = StringIO.StringIO()
+	else:
+		file_obj = open('%s/%s.csv' % (code, min_date, ), 'wb')
+
 	writer = csv.writer(file_obj)
 	for row in data:
 		row_data = []
@@ -191,8 +196,12 @@ def _run_data_stories_csv(code, min_date, data):
 			else :
 				row_data.append('')
 		writer.writerow(row_data)
-	file_obj.seek(0)
-	upload(config.CSV_BUCKET, '%s/%s.csv' % (code, min_date, ), file_obj)
+
+	if (env and env.startswith('Google App Engine/')):
+		file_obj.seek(0)
+		upload(config.CSV_BUCKET, '%s/%s.csv' % (code, min_date, ), file_obj)
+	else:
+		file_obj.close()
 
 def _run_data_quality(client_id, code, setting, min_date, max_date, dimension):
 	logging.debug('run ga with %s for client %s' % (client_id, setting['ga_id']))
