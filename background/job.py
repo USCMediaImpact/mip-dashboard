@@ -184,7 +184,7 @@ def _run_data_stories_csv(code, min_date, data):
 
 	# file_obj = StringIO.StringIO()
 	file_obj = gcs.open('/%s/%s/%s.csv' % (config.CSV_BUCKET, code, min_date), 'w')
-
+	index = 1
 	writer = csv.writer(file_obj)
 	for row in data:
 		row_data = []
@@ -194,6 +194,10 @@ def _run_data_stories_csv(code, min_date, data):
 			else :
 				row_data.append('')
 		writer.writerow(row_data)
+		index += 1
+		if index % 1000 == 0:
+			file_obj.flush()
+
 	file_obj.close()
 	# file_obj.seek(0)
 	# upload(config.CSV_BUCKET, '%s/%s.csv' % (code, min_date, ), file_obj)
