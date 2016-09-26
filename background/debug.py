@@ -141,6 +141,27 @@ def run_ww_history():
 
 	logging.info('run history job finished')
 
+def run_scpr_history():
+	min_date = date(2015, 7, 19)
+	max_date = datetime.now().date()
+
+	#every week history
+	min_week = min_date - timedelta(min_date.weekday() + 1)
+	max_week = min_week + timedelta(6)
+	while True:
+		try:
+			logging.info('run weekly history from %s to %s', min_week.strftime('%Y-%m-%d'), max_week.strftime('%Y-%m-%d'))
+			job.run(min_week.strftime('%Y-%m-%d'), max_week.strftime('%Y-%m-%d'), 'weekly')
+			logging.info('success')
+		except:
+			logging.error('faild')
+
+		if max_week + timedelta(7) > max_date :
+			break
+		min_week += timedelta(7)
+		max_week += timedelta(7)
+
+	logging.info('run history job finished')
 #---------newsletter csv task ---------#
 def run_newsletter():
 	job._run_data_newsletter('Aug_30_2016_texas_tribune_mailchimp_stats.csv', 'TT', 'weekly')
