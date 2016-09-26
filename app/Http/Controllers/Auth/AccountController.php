@@ -11,6 +11,7 @@ use App\Models\Role;
 use App\Models\Client;
 use App\Http\Controllers\AuthenticatedBaseController;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AccountController extends AuthenticatedBaseController
 {
@@ -82,30 +83,31 @@ class AccountController extends AuthenticatedBaseController
     }
 
     public function saveClientInfo(Request $request){
-        $client_id = $request['client']['id'];
-        $client_code = $request['client']['code'];
-        $client = Client::where('id', $client_id)->first();
-        if($client !== null){
-            $client->update([
-                'name' => $request['name'],
-                'gtm' => $request['gtm'],
-                'email_newsletter' => $request['email_newsletter'],
-                'ga' => $request['ga'],
-            ]);
-            if($_FILES['logo']['tmp_name']){
-                $name = $_FILES['logo']['name'];
-                $extension = pathinfo($name)['extension'];
-                $uploadFile = $_FILES['logo']['tmp_name'];
-                $guid = Uuid::uuid4()->toString();
-                $bucket = $this::$bucket;
-                $path = "gs://${bucket}/${client_code}/${guid}.${extension}";
-                move_uploaded_file($uploadFile, $path);
-                $client->update([
-                    'logo' => $path
-                ]);
-            }
-        }
-        return redirect(action('Auth\AccountController@showAccount'));
+        return response()->make(null, 404);
+//        $client_id = $request['client']['id'];
+//        $client_code = $request['client']['code'];
+//        $client = Client::where('id', $client_id)->first();
+//        if($client !== null){
+//            $client->update([
+//                'name' => $request['name'],
+//                'gtm' => $request['gtm'],
+//                'email_newsletter' => $request['email_newsletter'],
+//                'ga' => $request['ga'],
+//            ]);
+//            if($_FILES['logo']['tmp_name']){
+//                $name = $_FILES['logo']['name'];
+//                $extension = pathinfo($name)['extension'];
+//                $uploadFile = $_FILES['logo']['tmp_name'];
+//                $guid = Uuid::uuid4()->toString();
+//                $bucket = $this::$bucket;
+//                $path = "gs://${bucket}/${client_code}/${guid}.${extension}";
+//                move_uploaded_file($uploadFile, $path);
+//                $client->update([
+//                    'logo' => $path
+//                ]);
+//            }
+//        }
+//        return redirect(action('Auth\AccountController@showAccount'));
     }
 
     public function invite(Request $request){
