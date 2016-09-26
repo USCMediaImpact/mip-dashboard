@@ -6,7 +6,7 @@ import config
 
 def get_db():
 	env = os.getenv('SERVER_SOFTWARE')
-  	if (env and env.startswith('Google App Engine/')):
+	if (env and env.startswith('Google App Engine/')):
 		# Connecting from App Engine
 		db = MySQLdb.connect(
 			unix_socket=config.UNIX_SOCKET,
