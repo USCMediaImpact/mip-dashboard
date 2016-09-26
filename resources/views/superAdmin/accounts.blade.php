@@ -111,6 +111,7 @@
                 <fieldset class="small-12 column">
                     <legend>Client:</legend>
                     <select style="width: 100%;" name="client_id">
+                        <option value="">--Select--</option>
                         @foreach($clients as $row)
                         <option value="{{ $row['id'] }}">{{ $row['name'] }}</option>
                         @endforeach
@@ -123,6 +124,10 @@
                 <fieldset class="small-12 column">
                     <legend>Email:</legend>
                     <input type="email" name="email" id="" placeholder="email address" />
+                </fieldset>
+                <fieldset class="small-12 column">
+                    <legend>Password:</legend>
+                    <input type="password" name="password" placeholder="password" />
                 </fieldset>
                 <fieldset class="small-12 column">
                     <legend>Admin Roles for User:</legend>
@@ -394,9 +399,12 @@
          */
         $(document).on('click', '#btnSubmitInvite', function () {
             var form = $(this).parents('form'),
-                dialog = form.parents('.reveal');
+                dialog = form.parents('.reveal'),
+                withPassword = $('[name="password"]', form).val().length > 0,
+                url = withPassword ? '/admin/account/create' : '/admin/account/invite';
+
             $.ajax({
-                url: '/admin/account/invite',
+                url: url,
                 method: 'POST',
                 data: form.serialize()
             }).done(function (result) {

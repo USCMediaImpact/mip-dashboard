@@ -30,6 +30,7 @@ Route::post('auth/register', 'Auth\AuthController@postRegister');
 Route::get('admin/account/management', 'SuperAdmin\AccountController@showPage');
 Route::get('admin/account/all', 'SuperAdmin\AccountController@loadAccount');
 Route::post('admin/account/invite', 'SuperAdmin\AccountController@invite');
+Route::post('admin/account/create', 'SuperAdmin\AccountController@createAccount');
 Route::get('admin/account/{id}', 'SuperAdmin\AccountController@getAccount');
 Route::post('admin/account', 'SuperAdmin\AccountController@saveAccount');
 Route::delete('admin/account/{id}', 'SuperAdmin\AccountController@removeAccount');

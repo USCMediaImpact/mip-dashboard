@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Mail;
 use Config;
 use DB;
+use Hash;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Client;
@@ -134,6 +135,36 @@ class AccountController extends AuthenticatedBaseController
             $message->to($newUser->email);
             $message->subject('You have been invited!');
         });
+
+        return array('success'=>true);
+    }
+
+    public function createAccount(Request $request){
+        $dbUser = User::where('email', $request['email'])->first();
+        if($dbUser){
+            return array('success'=>false, 'message'=>sprintf('email %s already been invited!', $dbUser->email));
+        }
+
+        $client = Client::where('id', $request['client_id'])
+            ->select(['id'])
+            ->first();
+
+        $newUser = User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'client_id' => $client['id'] ?: null,
+            'password' => Hash::make($request['password'])
+        ]);
+
+
+        $requestRoles = $request->input('role') ?: [];
+        foreach($requestRoles as $role){
+            $dbRoleId = Role::where('id', $role)->value('id');
+            if($dbRoleId !== null){
+                $newUser->roles()->attach($dbRoleId);
+            }
+        }
+        $newUser->save();
 
         return array('success'=>true);
     }
