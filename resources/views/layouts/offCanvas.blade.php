@@ -43,7 +43,7 @@
         </li>
         <li>
             <a {{$controller == 'SuperAdmin\MaintainController' ? 'class=active' : ''}} href="/admin/maintain">
-                <i class="fa fa-server"></i>Data Sync Management
+                <i class="fa fa-refresh"></i>Data Sync Management
             </a>
         </li>
     @elseif(Auth::user()->can('Admin'))

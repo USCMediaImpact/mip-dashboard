@@ -17,8 +17,8 @@ form { display: inline; }
 .main-content { margin-top: 15px; padding: 10px 30px }
 .side-menu a.active { color: #fff; background-color: #335678; }
 .side-menu i.fa:before { display: none; }
-.side-menu i.fa.fa-sign-out, .side-menu i.fa.fa-server { background: none !important; }
-.side-menu i.fa.fa-sign-out:before, .side-menu i.fa.fa-server:before { display: inherit; }
+.side-menu i.fa.fa-sign-out, .side-menu i.fa.fa-server, .side-menu i.fa.fa-refresh { background: none !important; }
+.side-menu i.fa.fa-sign-out:before, .side-menu i.fa.fa-server:before, .side-menu i.fa.fa-refresh:before { display: inherit; }
 .side-menu i.fa { background-image: url('/images/sprite-gray.png'); background-repeat: no-repeat; width: 24px; height: 24px; }
 .side-menu a:hover i.fa, .side-menu a:active i.fa, .side-menu a.active i.fa { background-image: url('/images/sprite.png'); }
 .side-menu i.fa-dashboard { background-position: 0 0; }
