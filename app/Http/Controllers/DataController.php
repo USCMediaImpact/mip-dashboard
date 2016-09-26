@@ -433,7 +433,7 @@ class DataController extends AuthenticatedBaseController{
                     case 'WW':
                         $this->prepare_ww_stories($ftarget, $csvPath, $columns);
                 }
-            }, "${min_date}_${max_date}_stories_full_report_test.csv");
+            }, "${min_date}_${max_date}_stories_full_report.csv");
         } else {
             return $this->exportCSV($request,
                 $client_code . '_data_stories_top100_',
