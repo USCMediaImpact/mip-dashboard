@@ -514,7 +514,7 @@ class DataController extends AuthenticatedBaseController{
             'newsletter',
             'date',
             function($query){
-                return $query->group('List');
+                return $query->groupby('List');
             });
     }
 
