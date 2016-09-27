@@ -7,6 +7,7 @@ use App\Helpers\FormatterHelper;
 use Illuminate\Http\Request;
 use DB;
 use PDO;
+use Auth;
 use Google_Client;
 use Google_Service_Storage;
 use Google_Service_Storage_ObjectAccessControl;
@@ -127,5 +128,14 @@ class AuthenticatedBaseController extends Controller
                 fputcsv($fp, array_values(get_object_vars($row)));
             }
         }, "${min_date}_${max_date}_${downloadName}.csv");
+    }
+
+    public function tracking(Request $request){
+        $user = Auth::user();
+        if($user) {
+            $user->last_login_date = date('Y-m-d H:i:s', time());
+            $user->save();
+        }
+        return response()->make('ok', 200);
     }
 }

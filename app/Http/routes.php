@@ -10,7 +10,6 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
 // Authentication routes...
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
@@ -142,3 +141,6 @@ Route::post('/management/data-exception/new', 'DataExceptionController@create');
 Route::post('/management/data-exception/edit', 'DataExceptionController@edit');
 Route::post('/management/data-exception/delete', 'DataExceptionController@delete');
 Route::post('/management/data-exception/download', 'DataExceptionController@download');
+
+//Others
+Route::get('auth/tracking', 'AuthenticatedBaseController@tracking');

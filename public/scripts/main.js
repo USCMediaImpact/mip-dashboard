@@ -116,5 +116,9 @@ $(function () {
 	$('body').on('click', 'button.disabled, .button.disabled', function (evt) {
 		evt.stopPropagation();
 		evt.preventDefault();
-	})
+	});
+
+	$(document).on('click', '.tracking', function(){
+		$.get('/auth/tracking');
+	});
 });
