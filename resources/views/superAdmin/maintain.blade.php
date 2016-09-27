@@ -52,7 +52,7 @@
                                         @if($item['stories'][$thisDate]) 
                                             Ready
                                         @else
-                                            <button class="button tiny btnReady" code="{{$item['code']}}" date="{{$thisDate}}" table="data_stories">mark as ready</button>
+                                            <button class="button tiny btnReady" code="{{$item['code']}}" date="{{$thisDate}}" table="data_stories_top100">mark as ready</button>
                                         @endif
                                     </td>
                                     @else
