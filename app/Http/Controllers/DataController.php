@@ -502,7 +502,7 @@ class DataController extends AuthenticatedBaseController{
 
     public function download_NewsLetter(Request $request){
         $client_code = $request['client']['code'];
-        return $this->dataTableQuery($request,
+        return $this->exportCSV($request,
             $client_code.'_data_newsletter_',
             $this::$DataNewsLetterField[$client_code],
             $this::$DataNewsLetterColumn[$client_code],
