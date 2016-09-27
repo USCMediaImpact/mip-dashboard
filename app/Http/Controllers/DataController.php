@@ -118,7 +118,8 @@ class DataController extends AuthenticatedBaseController{
 
     public function download_Users_Email_Newsletter_Subscribers(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_users_',
+        return $this->exportCSV($request,
+            $client_code.'_data_users_',
             $this::$DataUsersField[$client_code][1],
             $this::$DataUsersColumn[$client_code][1],
             'Email Newsletter Subscribers');
@@ -126,7 +127,8 @@ class DataController extends AuthenticatedBaseController{
 
     public function download_All_Users_Email_Newsletter_Subscribers(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_users_',
+        return $this->exportCSV($request,
+            $client_code.'_data_users_',
             $this::$DataUsersField[$client_code][1],
             $this::$DataUsersColumn[$client_code][1],
             'Email Newsletter Subscribers');
@@ -141,7 +143,8 @@ class DataController extends AuthenticatedBaseController{
 
     public function download_Users_Donors(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_users_',
+        return $this->exportCSV($request,
+            $client_code.'_data_users_',
             $this::$DataUsersField[$client_code][2],
             $this::$DataUsersColumn[$client_code][2],
             'Donors');
@@ -149,7 +152,8 @@ class DataController extends AuthenticatedBaseController{
 
     public function download_All_Users_Donors(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_users_',
+        return $this->exportCSV($request,
+            $client_code.'_data_users_',
             $this::$DataUsersField[$client_code][2],
             $this::$DataUsersColumn[$client_code][2],
             'Donors');
@@ -164,7 +168,8 @@ class DataController extends AuthenticatedBaseController{
 
     public function download_Users_Members(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_users_',
+        return $this->exportCSV($request,
+            $client_code.'_data_users_',
             $this::$DataUsersField[$client_code][3],
             $this::$DataUsersColumn[$client_code][3],
             'Members');
@@ -172,12 +177,12 @@ class DataController extends AuthenticatedBaseController{
 
     public function download_All_Users_Members(Request $request){
         $client_code = $request['client']['code'];
-        return $this->exportCSV($request, $client_code.'_data_users_',
+        return $this->exportCSV($request,
+            $client_code.'_data_users_',
             $this::$DataUsersField[$client_code][3],
             $this::$DataUsersColumn[$client_code][3],
             'Members');
     }
-
 
     public function showDonations(Request $request){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
@@ -506,6 +511,8 @@ class DataController extends AuthenticatedBaseController{
             $client_code.'_data_newsletter_',
             $this::$DataNewsLetterField[$client_code],
             $this::$DataNewsLetterColumn[$client_code],
+            'newsletter',
+            'date',
             function($query){
                 return $query->group('List');
             });

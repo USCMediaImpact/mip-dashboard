@@ -93,6 +93,7 @@ class AuthenticatedBaseController extends Controller
             'Content-type' => 'text/csv'
         ]);
     }
+
     protected function exportCSV(Request $request, $tableName, $select, $columns, $downloadName, $sort = 'date', $callback = null){
         $group = array_key_exists($request['group'], self::$groupDisplay) ? $request['group'] : 'weekly';
         $max_date = date_parse($request['max_date'] ?: date('Y-m-d', time()));
