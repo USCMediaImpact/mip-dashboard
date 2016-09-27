@@ -181,7 +181,6 @@ def _run_data_stories_csv(code, min_date, data):
 	import config
 	import os
 	import cloudstorage as gcs
-	import env
 
 	env = os.getenv('SERVER_SOFTWARE')
 	if (env and env.startswith('Google App Engine/')):
