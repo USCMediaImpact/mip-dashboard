@@ -41,7 +41,7 @@ The Background Services deployed to Google App Engine are use corn for python. T
 3. Add the mip-analytics.p12 file to the background folder
 4. Run ‘gcloud.cmd auth login’ to generate the necessary files for using the google cloud services & api
 
-Run the background debug to install/test/check for dependencies
+####Run the background debug to install/test/check for dependencies####
 1. open the python interpreter
 2. run the command 'Import debug'
 3. run the command 'debug.run_last_week()'
