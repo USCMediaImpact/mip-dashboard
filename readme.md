@@ -126,4 +126,23 @@ https://googlecloudplatform.github.io
 (PHP)[https://googlecloudplatform.github.io/google-cloud-php/#/]
 (Python)[https://googlecloudplatform.github.io/gcloud-python/#/]
 
-###COMMIT TEST###
+###Deploying to Google Cloud ###
+
+This application currently runs on the Google Cloud Platform. If you wish to run this on a different platform, you will need to make adjustments accordingly.
+
+Google Cloud Platform Setup
+1. Create a project. 
+2. Make sure you have enabled billing for this project.
+3. Enable all necessary APIs.
+4. create and save your .p12/json key for project. NOTE: Do not commit your keys.
+5. create an SQL database for the project. set the root password. 
+
+Before Deploying
+1. Adjust SQL and BigQuery settings  (stage, live, dev, etc.)
+2. Adjust yaml settings for deployment (stage, live, dev, etc.). NOTE: remember that version names can only have one dash in them. stick to version names without dashes for ease of use.
+3. run the command to deploy the project 'appcfg.py -A project-name update ./'
+
+
+### State of Project ###
+The MIP Dashboard is freely available for use under the Apache 2.0 open source license. ​The Media Impact Project is a division of the Norman Lear Center at the USC Annenberg School for Communication and Journalism. It is funded by a grant from the Bill & Melinda Gates Foundation, with additional funding from the John S. and James L. Knight Foundation and the Open Society Foundations.
+The MIP Dashboard is currently not in active development as of December 2016. 
