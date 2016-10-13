@@ -1,37 +1,66 @@
-###Prepare Env###
-1. Install PHP5.x Composer
-2. Create new .env file base .env.local for your local development env. you need modify some settings speical database settings. e.g. DB_HOST DB_DATABASE DB_USERNAME DB_PASSWORD
-3. For you fist run our project. you need run `php artisan migrate` to init database. and add your user account into /database/seeds/DatabaseSeeder.php
+### Media Impact Project Dashboard ###
+The Media Impact Project (MIP) Dashboard is an open-source dashboard used together with the MIP Data Repository as part of the Media Impact Project's Media Impact Measurement System.  
+
+The MIP Dashboard and the following documentation were created for use on the Google Cloud Platform. Some additional work may be required to run the MIP Dashboard on other platforms. 
+
+### Overview ###
+
+The MIP Dashboard application is a PHP based application that runs on Google App Engine using the popular Laravel Framework for modular, agile feature development. The MIP Dashboard uses a Google Cloud based MYSQL database for application performance and cost reasons. The Dashboard includes automated ETL processes that run queries to extract the necessary data from the data source and enter it into the MYSQL database to be available for the Dashboard to display. Currently, there the dashboard has connectors for pulling data from BigQuery and Google Analytics into MYSQL and displaying on the Dashboard. 
+
+
+
+###Prepare Environment###
+1. Install PHP5.x, python, gcloud sdk, git, ssh, etc. 
+2. Install Composer (https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx )
+3. Run command 'composer install'
+4. Create new .env file base .env.local for your local development env. you need modify some settings speical database settings. e.g. DB_HOST DB_DATABASE DB_USERNAME DB_PASSWORD
+5. For you fist run our project. you need run `php artisan migrate` to init database. and add your user account into /database/seeds/DatabaseSeeder.php
 e.g.
 ```php
 DB::table('users')->insert([
-    'name' => 'steve.yin',
-    'email' => 'steve.yin@mediaimpactproject.org',
+    'name' => 'john.admin',
+    'email' => 'john.admin@mediaimpactproject.org',
     'password' => bcrypt('admin123!@#'),
 ]);
 
-$user = App\Models\User::where('email', '=', 'steve.yin@mediaimpactproject.org')->first();
+$user = App\Models\User::where('email', '=', 'john.admin@mediaimpactproject.org')->first();
 $role = App\Models\Role::where('name', '=', 'SuperUser')->first();
 $user->roles()->attach($role);
 $user->save();
 ```
 then run `php artisan db:seed` to add you account and role
-4. Create .env file base .env.local and change to you need settings. BTW you can use `MAIL_DRIVER=log` for debug emails. do not need real email smtp service. you can check the log file in path `/storage/logs/laravel.log` to see what you send content in email.
-5. Install library `composer install`
-6. We used PHP intl see need run `brew install php55-intl` to install this extensions. need restart php-fpm or just restart you computer.BTW in project folder php.ini for google engine already add this extensions.
+6. Create .env file base .env.local and change to you need settings. BTW you can use `MAIL_DRIVER=log` for debug emails. do not need real email smtp service. you can check the log file in path `/storage/logs/laravel.log` to see what you send content in email.
+7. Install library `composer install`
+8. We used PHP intl see need run `brew install php55-intl` to install this extensions. need restart php-fpm or just restart you computer.BTW in project folder php.ini for google engine already add this extensions.
 
 ###Background Services###
 The Background Services deployed to Google App Engine are use corn for python. The sourcecode are in the folder `background`
-You need splited deploy these code to App Engine.
-Cause we used some 3rd library need install these library into folder `lib`
-for Mac. there have a issue for Homebrew [see more here](http://stackoverflow.com/questions/24257803/distutilsoptionerror-must-supply-either-home-or-prefix-exec-prefix-not-both)
+
+1. Edit mysqlClient.py for your local mysql passwd setting
+2.  Add:  passwd='passwordgoeshere')  to  mysqlClient.py file in the Background folder  
+3. Add the mip-analytics.p12 file to the background folder
+4. Run ‘gcloud.cmd auth login’ to generate the necessary files for using the google cloud services & api
+
+Run the background debug to install/test/check for dependencies
+1. open the python interpreter
+2. run the command 'Import debug'
+3. run the command 'debug.run_last_week()'
+
+
+The background folder is a separate Google App Engine Application that you will need to deploy separately to App Engine.
+
+Because we used some third party libraries, you will need to install these libraries into folder `lib`
+for Mac. There have a issue for Homebrew [see more here](http://stackoverflow.com/questions/24257803/distutilsoptionerror-must-supply-either-home-or-prefix-exec-prefix-not-both)
+
 Create a pip config file `~/.pydistutils.cfg` with these content
 ```
 [install]
 prefix=
 ```
 Then run the pip install command `pip install -t lib -r requirements.txt`
+
 See more [here](https://cloud.google.com/appengine/docs/python/tools/using-libraries-python-27)
+
 
 ####How to run history####
 3. use the newest sql to create the local mysql database in the folder `init_sql`
