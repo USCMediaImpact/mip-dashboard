@@ -130,14 +130,14 @@ https://googlecloudplatform.github.io
 
 This application currently runs on the Google Cloud Platform. If you wish to run this on a different platform, you will need to make adjustments accordingly.
 
-Google Cloud Platform Setup
+####Google Cloud Platform Setup####
 1. Create a project. 
 2. Make sure you have enabled billing for this project.
 3. Enable all necessary APIs.
 4. create and save your .p12/json key for project. NOTE: Do not commit your keys.
 5. create an SQL database for the project. set the root password. 
 
-Before Deploying
+####Before Deploying####
 1. Adjust SQL and BigQuery settings  (stage, live, dev, etc.)
 2. Adjust yaml settings for deployment (stage, live, dev, etc.). NOTE: remember that version names can only have one dash in them. stick to version names without dashes for ease of use.
 3. run the command to deploy the project 'appcfg.py -A project-name update ./'
