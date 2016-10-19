@@ -1,12 +1,14 @@
+###Additional Developer Details###
+
 ###Prepare local dev env###
 
-1.  change .env file by you local database
-2.  restore database
+1.  change .env file to match your local database
+2.  restore database from a live verion when possible.
 3.  install php version 5.x
 4.  install composer
-5.  use composer to install dependencies `composer install`
+5.  use composer to install dependencies via `composer install`
 
-###Prepare local corn job env###
+###Prepare local cron job env###
 1.  install python 2.7
 2.  use pip to install dependencies `pip install -t -r requirements.txt`
 
@@ -56,192 +58,66 @@ app > Helpers > FormatterHelper.php
 > <script src="//cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"></script>
 > This script will check brower have support Intl and add fallbacks
 
-│   ├── Http
-│   │   ├── Controllers
-│   │   │   ├── AnalysesController.php
-│   │   │   ├── Auth << for Admin user
-│   │   │   │   ├── AccountController.php
-│   │   │   │   ├── AuthController.php
-│   │   │   │   └── PasswordController.php
-│   │   │   ├── AuthenticatedBaseController.php
-│   │   │   ├── Controller.php
-│   │   │   ├── DashboardController.php
-│   │   │   ├── DataController.php 
+app > Http > Controllers > DataController.php 
+
 > This controller is our most important controller. One area of improvement would be to split to multiple controllers for each of the data-tabs: data-users data-stories data-newsletter data-quality controller
 
-│   │   │   ├── DataExceptionController.php
-│   │   │   ├── MetricsController.php
-│   │   │   ├── ReportsController.php
-│   │   │   ├── StorageController.php
-│   │   │   └── SuperAdmin << for SuperAdmin user
-│   │   │       ├── AccountController.php
-│   │   │       ├── ClientController.php
-│   │   │       ├── MaintainController.php
-│   │   │       └── SettingController.php
-│   │   ├── Middleware
-│   │   │   ├── InjectClientInfo.php
+app > Http > Middleware > InjectClientInfo.php
 > We use this to add current user client info to $request
 
-│   │   │   ├── ParseCurrentControllerAndAction.php
+app > Http > Middleware > ParseCurrentControllerAndAction.php
 > This is used in the side menu to get active menu
 
-│   │   ├── Requests
-│   │   │   └── Request.php
-│   │   └── routes.php
-│   ├── Models
+app > Models
 > These are Eloquent Model, an ORM solution [see more here](https://laravel.com/docs/5.1/eloquent)
 
-│   │   ├── Analyses.php
-│   │   ├── Client.php
-│   │   ├── DataException.php
-│   │   ├── Role.php
-│   │   ├── Setting.php
-│   │   └── User.php
-│   └── Providers
-│       ├── AuthServiceProvider.php 
+App > Providers > AuthServiceProvider.php 
 > Register Admin Role and SuperAdmin Role here
 
-├── background
+background
 > These are Python background cron jobs and related code.
 
-│   ├── analyticsClient.py
+background >  analyticsClient.py
 > This calls GA data helper function
 
-│   ├── app.yaml
-│   ├── appengine_config.py
-│   ├── bigQueryClient.py
+background > bigQueryClient.py
 > This calls big query helper function. One area to improve is where the weekly stories data has too many records for the cron job. e.g. SCPR data stories. some week have 50000+ records. might make the cron job crash, so this should be refactored.
 
-│   ├── cloudStorage.py
+background > cloudStorage.py
 > access google cloud storage helper functions
 
-│   ├── config.py
-│   ├── cron.yaml
-│   ├── debug.py
-│   ├── history.py
-│   ├── job.py
-> cron job main functions
 
-│   ├── logging_config.py
-│   ├── main.py
+background > job.py
+> cron job main functions are in this file
+
+background > main.py
 > cron job web access entry
 
-│   ├── mySqlClient.py
+background > mySqlClient.py
 > mysql database access helper function
 
-│   ├── query.py
+background >  query.py
 > mysql sql config e.g. insert into mysql sql for clients
 
-│   ├── requirements.txt
-│   ├── storiesClear.py
-│   └── storiesClear.pyc
-├── config
-│   ├── app.php
-│   ├── auth.php
-│   ├── broadcasting.php
-│   ├── cache.php
-│   ├── compile.php
-│   ├── database.php
-│   ├── filesystems.php
-│   ├── mail.php
-│   ├── menu.php
-│   ├── queue.php
-│   ├── services.php
-│   ├── session.php
-│   ├── view.php
-├── database
-├── public
-│   ├── css
-│   ├── fonts
-│   ├── images
-│   └── scripts
-│   │   ├── main.js
+public > scripts > main.js 
 > Most of the common javascript is here. The rest is in the View
 
-│   │   └── vendor
+vendor
 > 3rd party javascript libraries are here
 
-├── resources
-|   └── views
-|       ├── analyses
-|       │   └── index.blade.php
-|       ├── auth
-|       │   ├── account.blade.php
-|       │   ├── login.blade.php
-|       │   ├── password.blade.php
-|       │   └── reset.blade.php
-|       ├── chart.blade.php
-|       ├── dashboard
-|       │   └── users.blade.php
-|       ├── dashboard.blade.php
-|       ├── data
+resources > views > data 
 > We split these views by clients. To add a new client, add a new folder and views. One area of improvement would be to add a default view and check if a special view exists otherwise use standard view. This logic improvement would need be upgraded within DataController.php
 
-|       │   ├── SCPR
-|       │   │   ├── content.blade.php
-|       │   │   ├── donations.blade.php
-|       │   │   ├── newsletter.blade.php
-|       │   │   ├── quality.blade.php
-|       │   │   ├── stories.blade.php
-|       │   │   └── users.blade.php
-|       │   ├── TT
-|       │   │   ├── content.blade.php
-|       │   │   ├── donations.blade.php
-|       │   │   ├── newsletter.blade.php
-|       │   │   ├── quality.blade.php
-|       │   │   ├── stories.blade.php
-|       │   │   └── users.blade.php
-|       │   └── WW
-|       │       ├── content.blade.php
-|       │       ├── donations.blade.php
-|       │       ├── newsletter.blade.php
-|       │       ├── quality.blade.php
-|       │       ├── stories.blade.php
-|       │       └── users.blade.php
-|       ├── dataException
-|       │   └── index.blade.php
-|       ├── debug.blade.php
-|       ├── emails
-|       │   ├── password.blade.php
-|       │   └── welcome.blade.php
-|       ├── errors
-|       │   └── 503.blade.php
+resources > views > errors
 > we can add more error pages here e.g. not authed error page. 404 not found page etc.
 
-|       ├── layouts
-|       │   ├── checkbox.blade.php
-|       │   ├── footer.blade.php
-|       │   ├── frame.blade.php
-|       │   ├── header.blade.php
-|       │   ├── main.blade.php
+resources > views > layouts > main.blade.php
 > This is our main template. like index.html. All the rest of the css and js files are here.
 > This is where we could add a GA tracking code.
 
-|       │   ├── menu.blade.php
-|       │   └── offCanvas.blade.php
+resources > views > layouts >  offCanvas.blade.php
 > This is where the side menu is.
 
-|       ├── metrics
-|       │   ├── content.blade.php
-|       │   ├── donations.blade.php
-|       │   └── users.blade.php
-|       ├── reports
-|       │   ├── content.blade.php
-|       │   ├── donations.blade.php
-|       │   └── users.blade.php
-|       ├── superAdmin
-|       │   ├── accounts.blade.php
-|       │   ├── clients.blade.php
-|       │   ├── maintain.blade.php
-|       │   └── settings.blade.php
-|       └── widgets
-|           ├── datafrom.blade.php
-|           ├── daterange.blade.php
-|           ├── dropdownbutton.blade.php
-|           └── resultGroup.blade.php
-├── storage
-├── tests
-└── vendor
 
 ###Others###
 ####for controller####
