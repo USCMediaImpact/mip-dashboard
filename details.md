@@ -42,20 +42,20 @@ About Larvel See more [here](https://laravel.com/docs/5.1)
 >   REDIS_PASSWORD=
 >   REDIS_PORT=6379
 
-APP_KEY are very important. user password are base this
-APP_HOST_DOMAIN are used in email template. change this will make the reset password email and invite email links changed
-DB_SOCKET or DB_HOST are database address. for google engine are used DB_SOCKET for local dev most time are used DB_HOST
+APP_KEY is very important as the user password is based on this. 
+APP_HOST_DOMAIN is used in email template. Change this in order to set the reset password email and invite email links to have the correct domain.
+DB_SOCKET or DB_HOST are database address. For Google App Engine use DB_SOCKET. For local dev, you will likely use DB_HOST.
 
 
 ***Folder Structure***
 ├── app
 │   ├── Helpers
 │   │   └── FormatterHelper.php
-> We can used this helper in View need this in view
+> We can use this helper in View. We need the following line in the view
 > @inject('formatter', 'App\Helpers\FormatterHelper')
-> for now most page are used ajax to get data. To format date we used moment.js. To format number we used new Intl ECMAScript Internationalization API, safari not support. so we add shim script 
+> for now, most page use ajax to get data. To format dates, we used moment.js. To format numbers, we use new Intl ECMAScript Internationalization API, which Safari does not support. So we add shim script 
 > <script src="//cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"></script>
-> this script will check brower have support Intl and add fallbacks
+> This script will check brower have support Intl and add fallbacks
 
 │   ├── Http
 │   │   ├── Controllers
@@ -68,7 +68,7 @@ DB_SOCKET or DB_HOST are database address. for google engine are used DB_SOCKET 
 │   │   │   ├── Controller.php
 │   │   │   ├── DashboardController.php
 │   │   │   ├── DataController.php 
-> This controller is our best important controller but have too many functions. Can splite to data-users data-stories data-newsletter data-quality controller
+> This controller is our most important controller. One area of improvement would be to split to multiple controllers for each of the data-tabs: data-users data-stories data-newsletter data-quality controller
 
 │   │   │   ├── DataExceptionController.php
 │   │   │   ├── MetricsController.php
@@ -81,16 +81,16 @@ DB_SOCKET or DB_HOST are database address. for google engine are used DB_SOCKET 
 │   │   │       └── SettingController.php
 │   │   ├── Middleware
 │   │   │   ├── InjectClientInfo.php
-> We used this to add current user client info to $request
+> We use this to add current user client info to $request
 
 │   │   │   ├── ParseCurrentControllerAndAction.php
-> used in side menu to get active menu
+> This is used in the side menu to get active menu
 
 │   │   ├── Requests
 │   │   │   └── Request.php
 │   │   └── routes.php
 │   ├── Models
-> these are Eloquent Model an ORM solution [see more here](https://laravel.com/docs/5.1/eloquent)
+> These are Eloquent Model, an ORM solution [see more here](https://laravel.com/docs/5.1/eloquent)
 
 │   │   ├── Analyses.php
 │   │   ├── Client.php
@@ -100,18 +100,18 @@ DB_SOCKET or DB_HOST are database address. for google engine are used DB_SOCKET 
 │   │   └── User.php
 │   └── Providers
 │       ├── AuthServiceProvider.php 
-> Regist Admin Role and SuperAdmin Role here
+> Register Admin Role and SuperAdmin Role here
 
 ├── background
-> these are Python backgournd corn job code
+> These are Python background cron jobs and related code.
 
 │   ├── analyticsClient.py
-> get GA data helper function
+> This calls GA data helper function
 
 │   ├── app.yaml
 │   ├── appengine_config.py
 │   ├── bigQueryClient.py
-> get big query helper function now have issue for get too many result. e.g. SCPR data stories. some week have 50000+ records. will make corn job crash.
+> This calls big query helper function. One area to improve is where the weekly stories data has too many records for the cron job. e.g. SCPR data stories. some week have 50000+ records. might make the cron job crash, so this should be refactored.
 
 │   ├── cloudStorage.py
 > access google cloud storage helper functions
@@ -146,8 +146,6 @@ DB_SOCKET or DB_HOST are database address. for google engine are used DB_SOCKET 
 │   ├── filesystems.php
 │   ├── mail.php
 │   ├── menu.php
-> Maybe set data menu here is bad idea
-
 │   ├── queue.php
 │   ├── services.php
 │   ├── session.php
@@ -159,10 +157,10 @@ DB_SOCKET or DB_HOST are database address. for google engine are used DB_SOCKET 
 │   ├── images
 │   └── scripts
 │   │   ├── main.js
-> we placed most of common javascript here. others are in view
+> Most of the common javascript is here. The rest is in the View
 
 │   │   └── vendor
-> 3rd javascript library are here
+> 3rd party javascript libraries are here
 
 ├── resources
 |   └── views
@@ -178,7 +176,7 @@ DB_SOCKET or DB_HOST are database address. for google engine are used DB_SOCKET 
 |       │   └── users.blade.php
 |       ├── dashboard.blade.php
 |       ├── data
-> we splite these views by clients. need add new folder and views when add new client. Maybe we can add default views for normal client. try to check special view is exists otherwise used default views. this logical need add to DataController.php
+> We split these views by clients. To add a new client, add a new folder and views. One area of improvement would be to add a default view and check if a special view exists otherwise use standard view. This logic improvement would need be upgraded within DataController.php
 
 |       │   ├── SCPR
 |       │   │   ├── content.blade.php
@@ -217,12 +215,12 @@ DB_SOCKET or DB_HOST are database address. for google engine are used DB_SOCKET 
 |       │   ├── frame.blade.php
 |       │   ├── header.blade.php
 |       │   ├── main.blade.php
-> this is our main template. like index.html. all used css js files are here.
-> Can add GA code here
+> This is our main template. like index.html. All the rest of the css and js files are here.
+> This is where we could add a GA tracking code.
 
 |       │   ├── menu.blade.php
 |       │   └── offCanvas.blade.php
-> our side menu are here
+> This is where the side menu is.
 
 |       ├── metrics
 |       │   ├── content.blade.php
@@ -248,7 +246,7 @@ DB_SOCKET or DB_HOST are database address. for google engine are used DB_SOCKET 
 
 ***Others***
 ****for controller****
-you can easy inherit AuthenticatedBaseController this base controller already added user check
+You can easy inherit AuthenticatedBaseController this base controller already added user check
 ```php
 public function __construct()
 {
@@ -257,18 +255,18 @@ public function __construct()
 
 }
 ```
-or you can add this middleware by you self
+or you can add this middleware by yourself
 other useful middleware are
 ```php
     $this->middleware('routeInfo');
     $this->middleware('clientInfo');
 ```
-these middleware are all locationed at path app/Http/Middleware/
-1. routeInfo are used for menu get current active menu
-2. clientInfo are used get current user client info from $request
+These middleware are all locationed at path app/Http/Middleware/
+1. routeInfo are used by the menu to get current active menu
+2. clientInfo are used to get current user client info from $request
 
 ****for views****
-we have 2 sections
+We have 2 sections
 @section('content') put html dom node here
 @section('script') put this page javascript code here
 
@@ -278,7 +276,7 @@ speical for section script. we already add main.js in public/scripts/ for some c
 + download button event
 + tracking
 
-For datetable reload. we used event to trigger this common javascript event. so for data page(users stories newsletter) we need add current page datatable instance to global windows variable `ReportDataTable` the property name is the table id. you can see this code
+For datetable reload. we used an event to trigger this common javascript event. For data page(users stories newsletter) we needed add current page datatable instance to global windows variable `ReportDataTable` the property name is the table id. you can see it in this code
 ```html
 <div class="panel">
     <div class="top-bar">
@@ -287,23 +285,22 @@ For datetable reload. we used event to trigger this common javascript event. so 
     <table id="dataNewsLetter" class="report tiny hover">
     </table>
 ```
-the main.js already add datepicker change event (means client changed display date) will trigger parent panel custom envet `change.daterange` and there have code to handle this event in main.js
+The main.js already adds the datepicker change event (meaning, the client changed displayed date), this will trigger parent panel custom event `change.daterange` and there is code to handle this event in main.js
 ```javascript
 $(document).on('change.daterange', '.panel', function () {...});
 ```
 this code is to get the table id and try to get datatable instance in gloabl variable `ReportDataTable` and try to reload data
 
-For datepicker to set init date range. 
-the main.js will check the hidden input name = 'defaultDateRange' html element value. you can used template widgets.daterange to render these html or add by your self. see more resources/views/widgets/daterange.blade.php
+For datepicker to set init date range, the main.js will check the hidden input name = 'defaultDateRange' html element value. you can use template widgets.daterange to render these html or add by yourself. See more: resources/views/widgets/daterange.blade.php
 *****Notice*****
-for stories are more speical requirment. only allow client selected one week so we do not used common daterange.
+For stories, we only allow the client to select one week so we do not use a common daterange.
 
 ****for cron job****
 + we get big query hive sql from mysql table settings. 
-+ the insert big query result to mysql sql are saved in query.py
++ the insert big query result to mysql sql is saved in query.py
 + for performance issue we only saved top 100 stories in mysql others are saved as csv file on google storage. the storage path in config.py that means for stage and production you must changed this value before deploy
 + history.py are quick code for run job.py history method
-+ storiesClear.py seem no need used any more. this is quick code for get top 100 stories and saved to another table.
++ storiesClear.py this is a quick script code for get top 100 stories and save to another table.
 
 
 

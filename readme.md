@@ -5,7 +5,7 @@ The MIP Dashboard and the following documentation were created for use on the Go
 
 ### Overview ###
 
-The MIP Dashboard application is a PHP based application that runs on Google App Engine using the popular Laravel Framework for modular, agile feature development. The MIP Dashboard uses a Google Cloud based MYSQL database for application performance and cost reasons. The Dashboard includes automated ETL processes that run queries to extract the necessary data from the data source and enter it into the MYSQL database to be available for the Dashboard to display. Currently, there the dashboard has connectors for pulling data from BigQuery and Google Analytics into MYSQL and displaying on the Dashboard. 
+The MIP Dashboard application is a PHP based application that runs on Google App Engine using the popular Laravel Framework for modular, agile feature development. The MIP Dashboard uses a Google Cloud based MYSQL database for application performance and cost reasons. The Dashboard includes automated ETL processes that run queries to extract the necessary data from the data source and enter it into the MYSQL database to be available for the Dashboard to display. Currently, there the dashboard has connectors for pulling data from Google BigQuery and Google Analytics into MYSQL and displaying on the Dashboard. 
 
 
 
