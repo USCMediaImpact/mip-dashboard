@@ -1,16 +1,17 @@
-***Prepare local dev env***
-1. change .env file by you local database
-2. restore database
-3. install php version 5.x
-4. install composer
-5. use composer to install dependencies `composer install`
+###Prepare local dev env###
 
-***Prepare local corn job env***
-1. install python 2.7
-2. use pip to install dependencies `pip install -t -r requirements.txt`
+1.  change .env file by you local database
+2.  restore database
+3.  install php version 5.x
+4.  install composer
+5.  use composer to install dependencies `composer install`
+
+###Prepare local corn job env###
+1.  install python 2.7
+2.  use pip to install dependencies `pip install -t -r requirements.txt`
 
 
-***PHP Larvel***
+###PHP Larvel###
 About Larvel See more [here](https://laravel.com/docs/5.1)
 .env file for production
 >   APP_ENV=production
@@ -47,10 +48,8 @@ APP_HOST_DOMAIN is used in email template. Change this in order to set the reset
 DB_SOCKET or DB_HOST are database address. For Google App Engine use DB_SOCKET. For local dev, you will likely use DB_HOST.
 
 
-***Folder Structure***
-├── app
-│   ├── Helpers
-│   │   └── FormatterHelper.php
+###Folder Structure###
+app > Helpers > FormatterHelper.php
 > We can use this helper in View. We need the following line in the view
 > @inject('formatter', 'App\Helpers\FormatterHelper')
 > for now, most page use ajax to get data. To format dates, we used moment.js. To format numbers, we use new Intl ECMAScript Internationalization API, which Safari does not support. So we add shim script 
@@ -244,8 +243,8 @@ DB_SOCKET or DB_HOST are database address. For Google App Engine use DB_SOCKET. 
 ├── tests
 └── vendor
 
-***Others***
-****for controller****
+###Others###
+####for controller####
 You can easy inherit AuthenticatedBaseController this base controller already added user check
 ```php
 public function __construct()
@@ -265,7 +264,7 @@ These middleware are all locationed at path app/Http/Middleware/
 1. routeInfo are used by the menu to get current active menu
 2. clientInfo are used to get current user client info from $request
 
-****for views****
+####for views####
 We have 2 sections
 @section('content') put html dom node here
 @section('script') put this page javascript code here
@@ -295,7 +294,7 @@ For datepicker to set init date range, the main.js will check the hidden input n
 *****Notice*****
 For stories, we only allow the client to select one week so we do not use a common daterange.
 
-****for cron job****
+####for cron job####
 + we get big query hive sql from mysql table settings. 
 + the insert big query result to mysql sql is saved in query.py
 + for performance issue we only saved top 100 stories in mysql others are saved as csv file on google storage. the storage path in config.py that means for stage and production you must changed this value before deploy
