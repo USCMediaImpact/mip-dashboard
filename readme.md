@@ -318,7 +318,8 @@ For datepicker to set init date range, the main.js will check the hidden input n
 For stories, we only allow the client to select one week so we do not use a common daterange.
 
 
-###State of Project### 
+### State of Project ### 
+
 The MIP Dashboard is freely available for use under the Apache 2.0 open source license. ​The Media Impact Project is a division of the Norman Lear Center at the USC Annenberg School for Communication and Journalism. It is funded by a grant from the Bill & Melinda Gates Foundation, with additional funding from the John S. and James L. Knight Foundation and the Open Society Foundations.
 
 
