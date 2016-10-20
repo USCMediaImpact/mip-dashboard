@@ -201,71 +201,71 @@ https://googlecloudplatform.github.io
 
 ###A Quick Walk Through Files in the Application### 
 app > Helpers > FormatterHelper.php
- We can use this helper in View. We need the following line in the view
++ We can use this helper in View. We need the following line in the view
 > @inject('formatter', 'App\Helpers\FormatterHelper')
-for now, most page use ajax to get data. To format dates, we used moment.js. To format numbers, we use new Intl ECMAScript Internationalization API, which Safari does not support. So we added a shim script 
++ for now, most page use ajax to get data. To format dates, we used moment.js. To format numbers, we use new Intl ECMAScript Internationalization API, which Safari does not support. So we added a shim script 
  <script src="//cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"></script>
  This script will check brower have support Intl and add fallbacks.
 
 app > Http > Controllers > DataController.php 
-This controller is our most important controller. One area of improvement would be to split to multiple controllers for each of the data-tabs: data-users data-stories data-newsletter data-quality controller
++ This controller is our most important controller. One area of improvement would be to split to multiple controllers for each of the data-tabs: data-users data-stories data-newsletter data-quality controller
 
 app > Http > Middleware > InjectClientInfo.php
-We use this to add current user client info to $request
++ We use this to add current user client info to $request
 
 app > Http > Middleware > ParseCurrentControllerAndAction.php
-This is used in the side menu to get active menu
++ This is used in the side menu to get active menu
 
 app > Models
-These are Eloquent Model, an ORM solution [see more here](https://laravel.com/docs/5.1/eloquent)
++ These are Eloquent Model, an ORM solution [see more here](https://laravel.com/docs/5.1/eloquent)
 
 App > Providers > AuthServiceProvider.php 
- Register Admin Role and SuperAdmin Role here
++ Register Admin Role and SuperAdmin Role here
 
 background
- These are Python background cron jobs and related code.
++ These are Python background cron jobs and related code.
 
 background >  analyticsClient.py
- This calls GA data helper function
++ This calls GA data helper function
 
 background > bigQueryClient.py
- This calls big query helper function. One area to improve is where the weekly stories data has too many records for the cron job. e.g. SCPR data stories. some week have 50000+ records. might make the cron job crash, so this should be refactored.
++ This calls big query helper function. One area to improve is where the weekly stories data has too many records for the cron job. e.g. SCPR data stories. some week have 50000+ records. might make the cron job crash, so this should be refactored.
 
 background > cloudStorage.py
- access google cloud storage helper functions
++ access google cloud storage helper functions
 
 
 background > job.py
- cron job main functions are in this folder
++ cron job main functions are in this folder
 
 background > main.py
-cron job web access entry
++ cron job web access entry
 
 background > mySqlClient.py
-mysql database access helper function
++ mysql database access helper function
 
 background >  query.py
-mysql sql config e.g. insert into mysql sql for clients
-
++ mysql sql config e.g. insert into mysql sql for clients
+ 
 public > scripts > main.js 
-Most of the common javascript is here. The rest is in the View
++ Most of the common javascript is here. The rest is in the View
 
 vendor
-3rd party javascript libraries are here
++ 3rd party javascript libraries are here
 
 resources > views > data 
-We split these views by clients. To add a new client, add a new folder and views. One area of improvement would be to add a default view and check if a special view exists otherwise use standard view. This logic improvement would need be upgraded within DataController.php
++ We split these views by clients. To add a new client, add a new folder and views. One area of improvement would be to add a default view and check if a special view exists otherwise use standard view. This logic improvement would need be upgraded within DataController.php
 
 resources > views > errors
-We can add more error pages here e.g. not authed error page. 404 not found page etc.
++ We can add more error pages here e.g. not authed error page. 404 not found page etc.
 
 resources > views > layouts > main.blade.php
-This is our main template. like index.html. All the rest of the css and js files are here.
++This is our main template. like index.html. All the rest of the css and js files are here.
 This is where we could add a GA tracking code.
 
 resources > views > layouts >  offCanvas.blade.php
-This is where the side menu is.
-
++ This is where the side menu is.
+ 
 
 
 ###A Note on Controllers###
