@@ -8,7 +8,7 @@ The MIP Dashboard and the following documentation were created for use on the Go
 The MIP Dashboard application is a PHP based application that runs on Google App Engine using the popular Laravel Framework for modular, agile feature development. The MIP Dashboard uses a Google Cloud based MYSQL database for application performance and cost reasons. The Dashboard includes automated ETL processes that run queries to extract the necessary data from the data source and enter it into the MYSQL database to be available for the Dashboard to display. Currently, there the dashboard has connectors for pulling data from Google BigQuery and Google Analytics into MYSQL and displaying on the Dashboard. 
 
 
-### State of Project ### 
+###State of Project
 
 The MIP Dashboard is freely available for use under the Apache 2.0 open source license. ​The Media Impact Project is a division of the Norman Lear Center at the USC Annenberg School for Communication and Journalism. It is funded by a grant from the Bill & Melinda Gates Foundation, with additional funding from the John S. and James L. Knight Foundation and the Open Society Foundations.
 
